@@ -1,1 +1,1 @@
-export const init = "init"
+export * from "src"
