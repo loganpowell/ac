@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>
+      Home - Documentation
+  </title>
+
+  <link href="https://www.braintreepayments.com/images/favicon-ccda0b14.png" rel="icon" type="image/png">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+  <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+  <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+  
+  <link type="text/css" rel="stylesheet" href="styles/collapse.css">
+  
+
+  
+
+  <!-- start Mixpanel -->
+  <script type="text/javascript">(function(e,a){if(!a.__SV){var b=window;try{var c,l,i,j=b.location,g=j.hash;c=function(a,b){return(l=a.match(RegExp(b+"=([^&]*)")))?l[1]:null};g&&c(g,"state")&&(i=JSON.parse(decodeURIComponent(c(g,"state"))),"mpeditor"===i.action&&(b.sessionStorage.setItem("_mpcehash",g),history.replaceState(i.desiredHash||"",e.title,j.pathname+j.search)))}catch(m){}var k,h;window.mixpanel=a;a._i=[];a.init=function(b,c,f){function e(b,a){var c=a.split(".");2==c.length&&(b=b[c[0]],a=c[1]);b[a]=function(){b.push([a].concat(Array.prototype.slice.call(arguments,
+  0)))}}var d=a;"undefined"!==typeof f?d=a[f]=[]:f="mixpanel";d.people=d.people||[];d.toString=function(b){var a="mixpanel";"mixpanel"!==f&&(a+="."+f);b||(a+=" (stub)");return a};d.people.toString=function(){return d.toString(1)+".people (stub)"};k="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config reset people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+  for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElement("script");b.type="text/javascript";b.async=!0;b.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";c=e.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c)}})(document,window.mixpanel||[]);
+  mixpanel.init("1919205b2da72e4da3b9b6639b444d59");</script>
+  <!-- end Mixpanel -->
+</head>
+
+<body>
+  <svg style="display: none;">
+    <defs>
+      <symbol id="linkIcon" fill="#706d77" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 0h24v24H0z" fill="none"/>
+          <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+  <label for="nav-trigger" class="navicon-button x">
+    <div class="navicon"></div>
+  </label>
+
+  <label for="nav-trigger" class="overlay"></label>
+
+  <div class="top-nav-wrapper">
+    <ul>
+      <li  class="active" >
+        <a href="index.html">
+          
+          
+            <svg fill="#0095dd" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+              <path d="M0 0h24v24H0z" fill="none"/>
+            </svg>
+          
+        </a>
+      </li>
+
+      
+
+    </ul>
+  </div>
+
+  <nav>
+    <h3 class="reference-title">
+      reduce.ac Documentation
+    </h3>
+
+    
+      <h3>
+        Resources
+      </h3>
+      
+        <a href="http://thi.ng/umbrella">@thi.ng/umbrella</a>
+      
+    
+
+    <h3>Modules</h3><ul><li id="Dispatcher-nav"><a href="module-Dispatcher.html">Dispatcher</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#parse_href">parse_href</a></li></ul>
+  </nav>
+
+  <div id="main">
+    
+
+    
+      
+
+
+
+    
+
+      
+
+
+  <section class="readme">
+    <article>
+      <h1>reduce.ac: A framework over <a href="http://thi.ng/umbrella">@thi.ng/umbrella</a></h1>
+<p>Framework components:</p>
+<ul>
+<li>An event-stream based (translucent) web app framework covering architectural needs such as:
+<ul>
+<li>universal (browser/server) routing</li>
+<li></li>
+</ul>
+</li>
+</ul>
+<h2>Design Goals</h2>
+<ul>
+<li>uses pattern matching for routing</li>
+<li>agnostic to where the user enters the app</li>
+<li>deeplinks are supported via &quot;intelligent hydration&quot;</li>
+<li>Not coupled to rendering/view, it's &quot;just data&quot; (mostly)</li>
+</ul>
+<h3>Pattern Matching</h3>
+<ul>
+<li>Uses <code>@thi.ng/associative</code> <code>EquivMap</code> for pattern matching</li>
+</ul>
+<h4>Examples</h4>
+<p>Simple path:
+paths are represented as an ordered list (Array)</p>
+<pre class="prettyprint source"><code>URL: https://example.com/parent/child
+
+parses to:
+{ path: [parent, child] }
+</code></pre>
+<p>Path with params:
+params are represented as an EquivMap (key, value pairs)</p>
+<pre class="prettyprint source"><code>URL: https://example.com/parent/child?query=just+for+looks
+
+parses to:
+{ path: [parent, child], params: {query: &quot;just for looks&quot;} }
+</code></pre>
+<h3>Intelligent Hydration</h3>
+<p>There are a number of ways a user may enter a web app:</p>
+<ol>
+<li>from the home page (e.g., <code>/</code>)</li>
+<li>from a deeplink (e.g., <code>/parent/child</code>): via shared link or bookmark</li>
+<li>through a link from another page within the same app (e.g., <code>./child</code>)</li>
+</ol>
+<p><code>hurl</code> intercepts both direct links and click events on link elements and runs through this decision-tree:</p>
+<ol>
+<li>if it's a relative link (from within the app) it concats a lens from the current path with the relative one</li>
+<li>if it's a direct link from outside (e.g., a shared link), it requests the state needed to build the page (See &quot;Hydration Strategy&quot;)</li>
+<li>if it's an absolute link from within the app, it diffs the current path with the new one to only request the needed (additional) state</li>
+</ol>
+<h4>Examples:</h4>
+<p>Basic dispatch on pattern:</p>
+<pre class="prettyprint source lang-js"><code>import { EquivMap } from &quot;@thi.ng/associative&quot;
+import * as P from &quot;@thi.ng/paths&quot;
+import { Home, Parent, Child, Four0Four } from &quot;./specs&quot; // cursor+spec components
+
+let route_match = args => {
+  let { path, params } = parse_URL(args) // TDB
+  return new EquivMap([
+    [{path: [&quot;&quot;]}, Home],
+    [{path: [&quot;parent&quot;], params }, Parent()(params)],
+    [{path: [&quot;parent&quot;, &quot;child&quot;], params }, Parent(Child)(params)],
+  ]).get(parse_URL(args) || Four0Four(path, params)
+}
+// browser
+history.addListener(&quot;popState&quot;, (a, b, c) => TBD(a, b)(route_match(c)))
+
+</code></pre>
+<h4>Hydration Strategy</h4>
+<p><code>hurl</code> follows the principle of &quot;view as a function of state&quot;, but gives you the means by which to construct your view from the URL</p>
+<p>There are a few elements that come into play here:</p>
+<ol>
+<li>At the root of the app a URL listener is registered</li>
+<li>This is a bi-directional listener, i.e., changes/entries into the URL trigger events and events can trigger changes/entries to the URL</li>
+<li>The URL is the &quot;command center&quot; for all lower-level logic (the logic hub)</li>
+<li>Pattern matching is used to determine what logic is deployed based on the path and params</li>
+<li>Patterns are associated with functions that are completely naive (and probably composed of) from de-coupled/independent functionality</li>
+<li>Each path is associated with a lens into a global App state</li>
+</ol>
+<h3>Global App State</h3>
+<p>The global application state is a <code>@thi.ng/atom</code>, which has a number of useful features we'll need to implement the intelligent hydration</p>
+<ol>
+<li>Atom can be immutably manipulated via lensed &quot;cursors&quot; (paths) into the data structure</li>
+<li>Any changes made to the Atom can trigger events (bi-directionality functionality) to subscribers/consumers of the Atom</li>
+<li>Derived views can be made on top of the atom, which provide a read-only view of the data. This will be where we instrument our views/rendering functionality</li>
+</ol>
+<p>In order to implement the intelligent hydration, the app state needs to be able to make remote resource requests for data in order to fullfil any views, which require such data.</p>
+<p>Say the user gets a shared link from one of her friends to: https://example.com/parent/child. Here's what happens:</p>
+<ol>
+<li>The URL listener gets the path: [parent, child]</li>
+<li>a dispatcher looks for data within the global Atom associated with that path</li>
+<li>if the data is not empty or <code>null</code> (non falsy), that data is presented (i.e., the state is already hydrated, probably from earlier navigation/service worker cache)</li>
+<li>if the data is falsy, the pattern associated with that path can make the necessary resource requests to hydrate the atom to fulfill the view</li>
+</ol>
+<p>Hence, the Pattern matching functionality here is the hub of the logic, implementing:</p>
+<ol>
+<li>route matches</li>
+<li>resource requirements and fetching arguments (which might also be contained in the URL as params) for the route</li>
+<li>any view that is associated with that path</li>
+</ol>
+<h2>Views</h2>
+<p>It's up to the dev to decide what to do with the data. This is completely agnostic.</p>
+<p>The way this could be implemented with <code>@thi.ng/hdom</code> is as follows:</p>
+<ul>
+<li>use <code>deeptransform</code> transducer, which takes an <code>hdom</code> &quot;spec&quot; and applies it to the data</li>
+</ul>
+<h2>Route/View Transitions</h2>
+<p>The router can also be stateful. Consider a user which transitions between two routes with significantly different layouts/views. It would be nice if these transitions would be animated to make them less &quot;janky&quot;. I.e., we can keep track of the rendering of the views and record the location of the previous components. Once a user initiates a transition, the diff between the previous and new views can be used to instrument a FLIP transition animation between components/elements that exist on both states and a disolve/fade transition can be applied to the elements leaving/entering between frames.</p>
+<p>Instead of applying this transducer to the actual view (hdom), we would only record the actual rendered position of the last frame (lazily) and attach it to the state/Atom of the previous state, then use that state to calculate the styles for the next view and attach it as styles to the new view. Each state treated as a single element within a collection of TBD state (frame) items. This should be done either via <code>id</code> or a <code>class</code> that specifies such tracking should be &quot;turned on&quot; to instrument the animation calculation efficiently (i.e., not on every element naively)</p>
+<p>This can be implemented by dynamically adorning the deeptransform <code>spec</code>s with the needed styles to be deployed on an ad-hoc basis (dynamic render spec formulation/instrumentation)</p>
+<p>This the components of this part are as follows:</p>
+<ol start="0">
+<li>router as a dynamic dispatch function based on pattern recognition</li>
+<li>page states as elements of a collection of routing states</li>
+<li>stateful transducer that formulates the next view 'spec' based on a static/config spec and some dynamic FLIP calcuations (consider <code>@thi.ng/transducers-fsm</code>)</li>
+<li>spec application to page state (data separated from view)</li>
+<li>view rendering and animation via specs</li>
+</ol>
+<h2>API-first Design</h2>
+<p>With this design, the web app could be instrumented so that by &quot;flipping a switch&quot; (e.g., via prepending <code>api</code> -&gt; https://api.example.com/parent/child), the raw/JSON data view could be shown instead of the rendered markup.</p>
+<p>The pattern matching for this could be as easy as creating one pattern matching function that responds to routes after the base URL and then - a super ordinate - pattern match that (depending on whether or not <code>api</code> is prepended) renders either the hdom components or just returns JSON data (without specs applied)</p>
+<h2>Benefits and Trade-offs</h2>
+<h3>Trade-offs</h3>
+<ol>
+<li>This design requires more forethought in design of an application as the rendered view is the last step in the process, whereas - in a conventional web app design - you may start &quot;with the end in mind&quot; (i.e., views) and work your way up to the logic</li>
+<li>This design is more difficult than an ad-hoc design pipeline and may lend itself less to a conventional design -&gt; implementation workflow (with the respective division of labor between them). I.e., the rendered view needs to be intimately &quot;aware&quot; of the data structure (not the other way around).</li>
+</ol>
+<h3>Benefits</h3>
+<ol>
+<li>This is a de-coupled approach to web app architecture; it avails itself as both a purely data-oriented approach (and thus agnostic to whether or not the data is precalculated from remote servers or dynamically accumulated via user-initiated client-side event streams</li>
+<li>Since the view is rather superficially applied to the state/data, it can be imagined that one might target alternative rendering targets (via alternative &quot;specs&quot;) with the same routing/data-hydration architecture (e.g., web, mobile-native, smart-watch, IOT, etc.)</li>
+</ol>
+<h4><a href="https://loganpowell.github.io/hurl/hurl/0.1.0/">Documentation Site</a></h4>
+<p>Documentation generated from markdown comments in source powered by <a href="https://www.npmjs.com/package/jsdoc"><code>jsdoc</code></a>  with jsdoc's <code>&quot;plugins/markdown&quot;</code></p>
+<p>Template from <a href="https://braintree.github.io/">Braintree</a>'s <a href="https://github.com/braintree/jsdoc-template"><code>jsdoc-template</code></a></p>
+<p>Setup can be a bit confusing, so I create a <a href="https://gist.github.com/loganpowell/62b8e06a8a6b38540e6268fc2048f5ee">gist</a> as a sort of note to self, but you may also find it useful if you like the docs of this site.</p>
+    </article>
+  </section>
+
+
+    
+
+
+  </div>
+
+  <br class="clear">
+
+  <footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a>
+  </footer>
+
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/pagelocation.js"></script>
+
+  
+
+</body>
+</html>
