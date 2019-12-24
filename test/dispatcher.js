@@ -1,8 +1,8 @@
 import fetch from "node-fetch"
 import { stream, trace } from "@thi.ng/rstream"
-import { command$ } from "../streams"
-import { dispatcher } from "../dispatcher"
-import { trace_stream, parse_href } from "../utils"
+import { command$ } from "../src/streams"
+import { dispatcher } from "../src/dispatcher"
+import { trace_stream, parse_href } from "../src/utils"
 
 //
 //    d8                      d8
@@ -14,7 +14,7 @@ import { trace_stream, parse_href } from "../utils"
 //
 //
 
-let test_stream$ = stream().subscribe(trace("WHY? ->"))
+let test_stream$ = stream().subscribe(trace("log ->"))
 
 let testicular = [
   {
