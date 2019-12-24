@@ -9,11 +9,10 @@ import qs from "querystring"
  *
  * ## Examples:
  *
+ * Ex1:
  * ```js
  * parse_href("http://localhost:1234/about?get=some#today")
  * ```
- *
- * Result:
  *
  *
  * ```js
@@ -27,11 +26,10 @@ import qs from "querystring"
  * }
  * ```
  *
+ * Ex2:
  * ```js
  * parse_href("https://github.com/thi-ng/umbrella/#blog-posts")
  * ```
- *
- * Result:
  *
  * ```js
  * {
@@ -44,11 +42,10 @@ import qs from "querystring"
  * }
  * ```
  *
+ * Ex3:
  * ```js
  * parse_href("https://very-long-sub.dom.cloud.eu/site/my/happy/")
  * ```
- *
- * Result:
  *
  * ```js
  * {
@@ -61,11 +58,10 @@ import qs from "querystring"
  * }
  * ```
  *
+ * Ex4:
  * ```js
  * parse_href("https://api.census.gov/data?get=NAME&in=state:01&in=county:*")
  * ```
- *
- * Result:
  *
  * ```js
  * {
@@ -78,11 +74,10 @@ import qs from "querystring"
  * }
  * ```
  *
+ * Ex5:
  * ```js
  * parse_href("/data?get=NAME&in=state#indeed")
  * ```
- *
- * Result:
  *
  * ```js
  * {

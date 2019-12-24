@@ -183,9 +183,9 @@
 components to be used for instrumentation of various
 high-level event handling.</p>
 <h2>Examples:</h2>
+<p>Ex1:</p>
 <pre class="prettyprint source lang-js"><code>parse_href(&quot;http://localhost:1234/about?get=some#today&quot;)
 </code></pre>
-<p>Result:</p>
 <pre class="prettyprint source lang-js"><code>{
   URL: &quot;http://localhost:1234/about?get=some#today&quot;,
   subdomain: [],
@@ -195,9 +195,9 @@ high-level event handling.</p>
   hash: &quot;today&quot;
 }
 </code></pre>
+<p>Ex2:</p>
 <pre class="prettyprint source lang-js"><code>parse_href(&quot;https://github.com/thi-ng/umbrella/#blog-posts&quot;)
 </code></pre>
-<p>Result:</p>
 <pre class="prettyprint source lang-js"><code>{
   URL: 'https://github.com/thi-ng/umbrella/#blog-posts',
   subdomain: [],
@@ -207,9 +207,9 @@ high-level event handling.</p>
   hash: &quot;blog-posts&quot;
 }
 </code></pre>
+<p>Ex3:</p>
 <pre class="prettyprint source lang-js"><code>parse_href(&quot;https://very-long-sub.dom.cloud.eu/site/my/happy/&quot;)
 </code></pre>
-<p>Result:</p>
 <pre class="prettyprint source lang-js"><code>{
   URL: 'https://very-long-sub.dom.cloud.eu/site/my/happy/',
   subdomain: [&quot;very-long-sub&quot;, &quot;dom&quot;],
@@ -219,9 +219,9 @@ high-level event handling.</p>
   hash: &quot;&quot;
 }
 </code></pre>
+<p>Ex4:</p>
 <pre class="prettyprint source lang-js"><code>parse_href(&quot;https://api.census.gov/data?get=NAME&in=state:01&in=county:*&quot;)
 </code></pre>
-<p>Result:</p>
 <pre class="prettyprint source lang-js"><code>{
   URL: &quot;https://api.census.gov/data?get=NAME&in=state:01&in=county:*&quot;,
   subdomain: [&quot;api&quot;],
@@ -231,9 +231,9 @@ high-level event handling.</p>
   hash: &quot;&quot;
 }
 </code></pre>
+<p>Ex5:</p>
 <pre class="prettyprint source lang-js"><code>parse_href(&quot;/data?get=NAME&in=state#indeed&quot;)
 </code></pre>
-<p>Result:</p>
 <pre class="prettyprint source lang-js"><code>{
   URL: &quot;/data?get=NAME&in=state#indeed&quot;,
   subdomain: [],
@@ -279,7 +279,7 @@ high-level event handling.</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="utils_parse_href.js.html">utils/parse_href.js</a>, <a href="utils_parse_href.js.html#line101">line 101</a>
+          <a href="utils_parse_href.js.html">utils/parse_href.js</a>, <a href="utils_parse_href.js.html#line96">line 96</a>
         </li>
       </ul>
     </dd>
