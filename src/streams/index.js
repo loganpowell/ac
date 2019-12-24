@@ -1,6 +1,3 @@
-/**
- @module Streams
-*/
 import { pubsub } from "@thi.ng/rstream"
 
 /**
@@ -63,6 +60,7 @@ import { pubsub } from "@thi.ng/rstream"
  * one-off Commands `next`ed into this stream are sent to
  * the `command$` stream. Arrays of Commands (Tasks) are
  * sent to the `task$` stream.
+ *
  * */
 export const run$ = pubsub({ topic: x => x.length === 0, id: "run_stream" })
 
