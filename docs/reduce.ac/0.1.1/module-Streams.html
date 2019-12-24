@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>
-      utils/parse_href.js - Documentation
+      Streams - Documentation
   </title>
 
   <link href="https://www.braintreepayments.com/images/favicon-ccda0b14.png" rel="icon" type="image/png">
@@ -90,156 +88,241 @@
   <div id="main">
     
       <h1 class="page-title">
-        utils/parse_href.js
+        Streams
       </h1>
     
 
     
-      
 
 <section>
-  <article>
-    <pre class="prettyprint source linenums"><code>import qs from "querystring"
+  <header>
+    
+      
+  </header>
 
-/**
- * # HREF/URL Parser
- *
- * Takes an href (full or relative) and pulls out the various
- * components to be used for instrumentation of various
- * high-level event handling.
- *
- * ## Examples:
- *
- * ```js
- * parse_href("http://localhost:1234/about?get=some#today")
- * ```
- *
- * Result:
- *
- *
- * ```js
- * {
- *   URL: "http://localhost:1234/about?get=some#today",
- *   subdomain: [],
- *   domain: ["localhost:1234"],
- *   path: ["about"],
- *   query: { get: "some" },
- *   hash: "today"
- * }
- * ```
- *
- * ```js
- * parse_href("https://github.com/thi-ng/umbrella/#blog-posts")
- * ```
- *
- * Result:
- *
- * ```js
- * {
- *   URL: 'https://github.com/thi-ng/umbrella/#blog-posts',
- *   subdomain: [],
- *   domain: ["github", "com"],
- *   path: ["thi-ng", "umbrella"],
- *   query: {},
- *   hash: "blog-posts"
- * }
- * ```
- *
- * ```js
- * parse_href("https://very-long-sub.dom.cloud.eu/site/my/happy/")
- * ```
- *
- * Result:
- *
- * ```js
- * {
- *   URL: 'https://very-long-sub.dom.cloud.eu/site/my/happy/',
- *   subdomain: ["very-long-sub", "dom"],
- *   domain: ["cloud", "eu"],
- *   path: ["site", "my", "happy"],
- *   query: {},
- *   hash: ""
- * }
- * ```
- *
- * ```js
- * parse_href("https://api.census.gov/data?get=NAME&amp;in=state:01&amp;in=county:*")
- * ```
- *
- * Result:
- *
- * ```js
- * {
- *   URL: "https://api.census.gov/data?get=NAME&amp;in=state:01&amp;in=county:*",
- *   subdomain: ["api"],
- *   domain: ["census", "gov"],
- *   path: ["data"],
- *   query: { get: "NAME", in: ["state:01", "county:*"] },
- *   hash: ""
- * }
- * ```
- *
- * ```js
- * parse_href("/data?get=NAME&amp;in=state#indeed")
- * ```
- *
- * Result:
- *
- * ```js
- * {
- *   URL: "/data?get=NAME&amp;in=state#indeed",
- *   subdomain: [],
- *   domain: [],
- *   path: ["data"],
- *   query: { get: "NAME", in: "state" },
- *   hash: "indeed"
- * }
- * ```
- *
- * @param {string} URL - full or partial URL/href
- *
- * */
-export const parse_href = URL => {
-  let subdomain = []
-  let domain = []
-  let path = []
-  // split the path on any `?` and/or `#` chars (1-3 parts)
-  const parts = URL.split(/(?=\?)|(?=#)/g) //?
-  // take the first component of split: the core URL
-  const path_str = parts[0]
-  // split the path_str further into individual members and
-  // remove the empty string between any adjacent slashes `//`
-  const full_path = path_str.split("/").filter(x => x !== "") //?
-  if (/http/i.test(URL)) {
-    // if the input URL is HTTP(S), partition into sub components
-    // domain is the last two members of the 2nd component
-    domain = full_path[1].split(".").slice(-2)
-    // subdomain is anything before the domain
-    // see https://stackoverflow.com/a/56921347
-    // for mocking subdomain on localhost
-    subdomain = full_path[1].split(".").slice(0, -2)
-    // path is the last component in the
-    path = full_path.slice(2)
-  } else {
-    // in the case of a relative URL `&lt;a href="/about">
-    // the relative path is the full path
-    path = full_path
-  }
-  // pull out the query component as a string
-  const query_str = parts.filter(part => part.slice(0, 1) === "?")[0] || ""
-  // pull out the hash component as a string
-  const hash_str = parts.filter(part => part.slice(0, 1) === "#")[0] || ""
-  // parse the query string into conventional parts using qs
-  const query = qs.parse(query_str.slice(1))
-  // remove the actual `#` hash character from the string
-  const hash = hash_str.slice(1)
-  return { URL, subdomain, domain, path, query, hash }
-}
+  <article>
+    <div class="container-overview">
+      
+        
+
+        
+      
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+
+<h4 class="name" id=".run$">
+  <span class="type-signature">(static, constant) </span>run$<span class="type-signature"></span>
+</h4>
+
+
+
+
+  <div class="description">
+    <h1>Stream Architecture:</h1>
+<p><code>run$</code> is the primary event stream exposed to the user
+via the <code>ctx</code> object injected into every <code>hdom</code> component
+the command stream is the only way the user changes
+anything in <code>hurl</code></p>
+<h2>Marble Diagram</h2>
+<pre class="prettyprint source"><code>0>- |------c---------c--[ a, b, a ]-a----c-> : run$
+1>- |ps|---1---------1------------0-1----1-> : pubsub
+3>- ---|tp|------*-*-*----------*---*----*-> : command$
+2>- ---|tp|xf|---^-^------------^-?--------> : task$
+4>- ------|ps|--|a-b-c----------a---a----c-> : pubsub
+Handlers
+a>- ---------|tp|*--------------*---*------>
+b>- ---------|tp|--*----------------------->
+c>- ---------|tp|----*-------------------*->
 </code></pre>
+<h2>Streams</h2>
+<ul>
+<li><code>0&gt;-</code>: <code>ctx.run$.next(x)</code> userland dispatch stream</li>
+<li><code>1&gt;-</code>: <code>pubsub({ topic: x =&gt; x.length === 0 })</code></li>
+<li><code>2&gt;-</code>: pubsub = <code>false</code> ? -&gt; <code>task$</code>: Task Dispatcher</li>
+<li><code>3&gt;-</code>: pubsub = <code>true</code> ? -&gt; <code>command$</code>: Commands stream</li>
+<li><code>4&gt;-</code>: <code>pubsub({ topic: x =&gt; x.sub$ })</code>: userland
+handlers</li>
+</ul>
+<h2>Handlers</h2>
+<p><code>4&gt;-</code> this is the stream to which the user (and
+framework) attaches handlers. Handlers receive events
+they subscribe to as topics based on a <code>sub$</code> key in a
+Command object.</p>
+<h3>Handlers (framework provided):</h3>
+<ul>
+<li>&quot;state&quot;: Global state mutations</li>
+<li>&quot;route&quot;: Routing</li>
+<li>&quot;FLIP&quot; :
+<a href="https://aerotwist.com/blog/flip-your-animations/">F.L.I.P.</a>
+animations</li>
+</ul>
+<p>TODO:</p>
+<ul>
+<li>add <strong>Examples</strong></li>
+<li>add <code>beforeunload</code> event handler within #4 (orphan):
+SEE https://youtu.be/QQukWZcIptM</li>
+<li>enable ctx.run.cancel() via external or internal events
+(e.g., popstate / { sub$:  &quot;cancel&quot; })</li>
+</ul>
+<h2><code>run$</code></h2>
+<p>User-land event dispatch stream</p>
+<p>This stream is directly exposed to users via <code>ctx</code> Any
+one-off Commands <code>next</code>ed into this stream are sent to
+the <code>command$</code> stream. Arrays of Commands (Tasks) are
+sent to the <code>task$</code> stream.</p>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="streams_index.js.html">streams/index.js</a>, <a href="streams_index.js.html#line72">line 72</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id=".command$">
+  <span class="type-signature">(static, constant) </span>command$<span class="type-signature"></span>
+</h4>
+
+
+
+
+  <div class="description">
+    <h2><code>command$</code></h2>
+<p>Primary read stream All user-defined handlers are
+attached to a <code>pubsub</code> stemming from this stream. The
+<code>topic</code> function used to alert downstream handlers is a
+simple lookup of the <code>sub$</code> key of the command</p>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="streams_index.js.html">streams/index.js</a>, <a href="streams_index.js.html#line83">line 83</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+    
+
+    
+
+    
+
+    
   </article>
 </section>
 
-    
+
 
 
   </div>

@@ -1,7 +1,14 @@
+/**
+ @module Streams
+*/
 import { pubsub } from "@thi.ng/rstream"
 
+let fix_jsdoc
+
 /**
+ *
  * # Stream Architecture:
+ *
  *
  * `run$` is the primary event stream exposed to the user
  * via the `ctx` object injected into every `hdom` component
@@ -61,7 +68,7 @@ import { pubsub } from "@thi.ng/rstream"
  * the `command$` stream. Arrays of Commands (Tasks) are
  * sent to the `task$` stream.
  *
- * */
+ */
 export const run$ = pubsub({ topic: x => x.length === 0, id: "run_stream" })
 
 /**

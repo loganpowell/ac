@@ -39,6 +39,7 @@ const unknown_key = (c, i, unknown) => {
 }
 
 /**
+ * @description
  * ## `dispatcher`
  *
  * Async `reduce` function, that passes an _object_ as a
