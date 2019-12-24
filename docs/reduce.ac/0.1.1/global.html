@@ -82,7 +82,7 @@
       
     
 
-    <h3>Modules</h3><ul><li id="Dispatcher-nav"><a href="module-Dispatcher.html">Dispatcher</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#parse_href">parse_href</a></li></ul>
+    <h3>Modules</h3><ul><li id="Dispatcher-nav"><a href="module-Dispatcher.html">Dispatcher</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li><li id="Utilities-nav"><a href="module-Utilities.html">Utilities</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#parse_href">parse_href</a></li></ul>
   </nav>
 
   <div id="main">
@@ -194,9 +194,8 @@ high-level event handling.</p>
   query: { get: &quot;some&quot; },
   hash: &quot;today&quot;
 }
-
-```js
-parse_href(&quot;https://github.com/thi-ng/umbrella/#blog-posts&quot;)
+</code></pre>
+<pre class="prettyprint source lang-js"><code>parse_href(&quot;https://github.com/thi-ng/umbrella/#blog-posts&quot;)
 </code></pre>
 <p>Result:</p>
 <pre class="prettyprint source lang-js"><code>{
@@ -207,9 +206,8 @@ parse_href(&quot;https://github.com/thi-ng/umbrella/#blog-posts&quot;)
   query: {},
   hash: &quot;blog-posts&quot;
 }
-
-```js
-parse_href(&quot;https://very-long-sub.dom.cloud.eu/site/my/happy/&quot;)
+</code></pre>
+<pre class="prettyprint source lang-js"><code>parse_href(&quot;https://very-long-sub.dom.cloud.eu/site/my/happy/&quot;)
 </code></pre>
 <p>Result:</p>
 <pre class="prettyprint source lang-js"><code>{
@@ -220,9 +218,8 @@ parse_href(&quot;https://very-long-sub.dom.cloud.eu/site/my/happy/&quot;)
   query: {},
   hash: &quot;&quot;
 }
-
-```js
-parse_href(&quot;https://api.census.gov/data?get=NAME&in=state:01&in=county:*&quot;)
+</code></pre>
+<pre class="prettyprint source lang-js"><code>parse_href(&quot;https://api.census.gov/data?get=NAME&in=state:01&in=county:*&quot;)
 </code></pre>
 <p>Result:</p>
 <pre class="prettyprint source lang-js"><code>{
@@ -233,9 +230,8 @@ parse_href(&quot;https://api.census.gov/data?get=NAME&in=state:01&in=county:*&qu
   query: { get: &quot;NAME&quot;, in: [&quot;state:01&quot;, &quot;county:*&quot;] },
   hash: &quot;&quot;
 }
-
-```js
-parse_href(&quot;/data?get=NAME&in=state#indeed&quot;)
+</code></pre>
+<pre class="prettyprint source lang-js"><code>parse_href(&quot;/data?get=NAME&in=state#indeed&quot;)
 </code></pre>
 <p>Result:</p>
 <pre class="prettyprint source lang-js"><code>{
@@ -283,7 +279,7 @@ parse_href(&quot;/data?get=NAME&in=state#indeed&quot;)
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="utils_parse_href.js.html">utils/parse_href.js</a>, <a href="utils_parse_href.js.html#line85">line 85</a>
+          <a href="utils_parse_href.js.html">utils/parse_href.js</a>, <a href="utils_parse_href.js.html#line101">line 101</a>
         </li>
       </ul>
     </dd>

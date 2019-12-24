@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>
-      Global - Documentation
+      utils/index.js - Documentation
   </title>
 
   <link href="https://www.braintreepayments.com/images/favicon-ccda0b14.png" rel="icon" type="image/png">
@@ -82,238 +84,32 @@
       
     
 
-    <h3>Modules</h3><ul><li id="Dispatcher-nav"><a href="module-Dispatcher.html">Dispatcher</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#parse_href">parse_href</a></li></ul>
+    <h3>Modules</h3><ul><li id="Dispatcher-nav"><a href="module-Dispatcher.html">Dispatcher</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li><li id="Utilities-nav"><a href="module-Utilities.html">Utilities</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#parse_href">parse_href</a></li></ul>
   </nav>
 
   <div id="main">
     
       <h1 class="page-title">
-        Global
+        utils/index.js
       </h1>
     
 
     
+      
 
 <section>
-  <header>
-    
-      <h2>
-        
-        
-        
-      </h2>
-
-      
-    
-  </header>
-
   <article>
-    <div class="container-overview">
-      
-        
-
-        
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-        
-      
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-        <h3 class="subsection-title">Members</h3>
-
-        
-            
-
-<h4 class="name" id="parse_href">
-  <span class="type-signature">(constant) </span>parse_href<span class="type-signature"></span>
-</h4>
-
-
-
-
-  <div class="description">
-    <h1>HREF/URL Parser</h1>
-<p>Takes an href (full or relative) and pulls out the various
-components to be used for instrumentation of various
-high-level event handling.</p>
-<h2>Examples:</h2>
-<pre class="prettyprint source lang-js"><code>parse_href(&quot;http://localhost:1234/about?get=some#today&quot;)
+    <pre class="prettyprint source linenums"><code>/**
+ @module Utilities
+*/
+export * from "./parse_href"
+export * from "./type_str"
+export * from "./trace_stream"
 </code></pre>
-<p>Result:</p>
-<pre class="prettyprint source lang-js"><code>{
-  URL: &quot;http://localhost:1234/about?get=some#today&quot;,
-  subdomain: [],
-  domain: [&quot;localhost:1234&quot;],
-  path: [&quot;about&quot;],
-  query: { get: &quot;some&quot; },
-  hash: &quot;today&quot;
-}
-
-```js
-parse_href(&quot;https://github.com/thi-ng/umbrella/#blog-posts&quot;)
-</code></pre>
-<p>Result:</p>
-<pre class="prettyprint source lang-js"><code>{
-  URL: 'https://github.com/thi-ng/umbrella/#blog-posts',
-  subdomain: [],
-  domain: [&quot;github&quot;, &quot;com&quot;],
-  path: [&quot;thi-ng&quot;, &quot;umbrella&quot;],
-  query: {},
-  hash: &quot;blog-posts&quot;
-}
-
-```js
-parse_href(&quot;https://very-long-sub.dom.cloud.eu/site/my/happy/&quot;)
-</code></pre>
-<p>Result:</p>
-<pre class="prettyprint source lang-js"><code>{
-  URL: 'https://very-long-sub.dom.cloud.eu/site/my/happy/',
-  subdomain: [&quot;very-long-sub&quot;, &quot;dom&quot;],
-  domain: [&quot;cloud&quot;, &quot;eu&quot;],
-  path: [&quot;site&quot;, &quot;my&quot;, &quot;happy&quot;],
-  query: {},
-  hash: &quot;&quot;
-}
-
-```js
-parse_href(&quot;https://api.census.gov/data?get=NAME&in=state:01&in=county:*&quot;)
-</code></pre>
-<p>Result:</p>
-<pre class="prettyprint source lang-js"><code>{
-  URL: &quot;https://api.census.gov/data?get=NAME&in=state:01&in=county:*&quot;,
-  subdomain: [&quot;api&quot;],
-  domain: [&quot;census&quot;, &quot;gov&quot;],
-  path: [&quot;data&quot;],
-  query: { get: &quot;NAME&quot;, in: [&quot;state:01&quot;, &quot;county:*&quot;] },
-  hash: &quot;&quot;
-}
-
-```js
-parse_href(&quot;/data?get=NAME&in=state#indeed&quot;)
-</code></pre>
-<p>Result:</p>
-<pre class="prettyprint source lang-js"><code>{
-  URL: &quot;/data?get=NAME&in=state#indeed&quot;,
-  subdomain: [],
-  domain: [],
-  path: [&quot;data&quot;],
-  query: { get: &quot;NAME&quot;, in: &quot;state&quot; },
-  hash: &quot;indeed&quot;
-}
-</code></pre>
-  </div>
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="utils_parse_href.js.html">utils/parse_href.js</a>, <a href="utils_parse_href.js.html#line85">line 85</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-          
-        
-    
-
-    
-
-    
-
-    
   </article>
 </section>
 
-
+    
 
 
   </div>

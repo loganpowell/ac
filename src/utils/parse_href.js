@@ -12,7 +12,10 @@ import qs from "querystring"
  * ```js
  * parse_href("http://localhost:1234/about?get=some#today")
  * ```
+ *
  * Result:
+ *
+ *
  * ```js
  * {
  *   URL: "http://localhost:1234/about?get=some#today",
@@ -22,11 +25,14 @@ import qs from "querystring"
  *   query: { get: "some" },
  *   hash: "today"
  * }
+ * ```
  *
  * ```js
  * parse_href("https://github.com/thi-ng/umbrella/#blog-posts")
  * ```
+ *
  * Result:
+ *
  * ```js
  * {
  *   URL: 'https://github.com/thi-ng/umbrella/#blog-posts',
@@ -36,11 +42,14 @@ import qs from "querystring"
  *   query: {},
  *   hash: "blog-posts"
  * }
+ * ```
  *
  * ```js
  * parse_href("https://very-long-sub.dom.cloud.eu/site/my/happy/")
  * ```
+ *
  * Result:
+ *
  * ```js
  * {
  *   URL: 'https://very-long-sub.dom.cloud.eu/site/my/happy/',
@@ -50,11 +59,14 @@ import qs from "querystring"
  *   query: {},
  *   hash: ""
  * }
+ * ```
  *
  * ```js
  * parse_href("https://api.census.gov/data?get=NAME&in=state:01&in=county:*")
  * ```
+ *
  * Result:
+ *
  * ```js
  * {
  *   URL: "https://api.census.gov/data?get=NAME&in=state:01&in=county:*",
@@ -64,11 +76,14 @@ import qs from "querystring"
  *   query: { get: "NAME", in: ["state:01", "county:*"] },
  *   hash: ""
  * }
+ * ```
  *
  * ```js
  * parse_href("/data?get=NAME&in=state#indeed")
  * ```
+ *
  * Result:
+ *
  * ```js
  * {
  *   URL: "/data?get=NAME&in=state#indeed",
@@ -79,6 +94,7 @@ import qs from "querystring"
  *   hash: "indeed"
  * }
  * ```
+ *
  * @param {string} URL - full or partial URL/href
  *
  * */

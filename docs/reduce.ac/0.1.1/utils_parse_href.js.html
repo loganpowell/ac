@@ -84,7 +84,7 @@
       
     
 
-    <h3>Modules</h3><ul><li id="Dispatcher-nav"><a href="module-Dispatcher.html">Dispatcher</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#parse_href">parse_href</a></li></ul>
+    <h3>Modules</h3><ul><li id="Dispatcher-nav"><a href="module-Dispatcher.html">Dispatcher</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li><li id="Utilities-nav"><a href="module-Utilities.html">Utilities</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#parse_href">parse_href</a></li></ul>
   </nav>
 
   <div id="main">
@@ -113,7 +113,10 @@
  * ```js
  * parse_href("http://localhost:1234/about?get=some#today")
  * ```
+ *
  * Result:
+ *
+ *
  * ```js
  * {
  *   URL: "http://localhost:1234/about?get=some#today",
@@ -123,11 +126,14 @@
  *   query: { get: "some" },
  *   hash: "today"
  * }
+ * ```
  *
  * ```js
  * parse_href("https://github.com/thi-ng/umbrella/#blog-posts")
  * ```
+ *
  * Result:
+ *
  * ```js
  * {
  *   URL: 'https://github.com/thi-ng/umbrella/#blog-posts',
@@ -137,11 +143,14 @@
  *   query: {},
  *   hash: "blog-posts"
  * }
+ * ```
  *
  * ```js
  * parse_href("https://very-long-sub.dom.cloud.eu/site/my/happy/")
  * ```
+ *
  * Result:
+ *
  * ```js
  * {
  *   URL: 'https://very-long-sub.dom.cloud.eu/site/my/happy/',
@@ -151,11 +160,14 @@
  *   query: {},
  *   hash: ""
  * }
+ * ```
  *
  * ```js
  * parse_href("https://api.census.gov/data?get=NAME&amp;in=state:01&amp;in=county:*")
  * ```
+ *
  * Result:
+ *
  * ```js
  * {
  *   URL: "https://api.census.gov/data?get=NAME&amp;in=state:01&amp;in=county:*",
@@ -165,11 +177,14 @@
  *   query: { get: "NAME", in: ["state:01", "county:*"] },
  *   hash: ""
  * }
+ * ```
  *
  * ```js
  * parse_href("/data?get=NAME&amp;in=state#indeed")
  * ```
+ *
  * Result:
+ *
  * ```js
  * {
  *   URL: "/data?get=NAME&amp;in=state#indeed",
@@ -180,6 +195,7 @@
  *   hash: "indeed"
  * }
  * ```
+ *
  * @param {string} URL - full or partial URL/href
  *
  * */

@@ -12,6 +12,7 @@ import { pubsub } from "@thi.ng/rstream"
  * anything in `hurl`
  *
  * ## Marble Diagram
+ *
  * ```
  * 0>- |------c---------c--[ a, b, a ]-a----c-> : run$
  * 1>- |ps|---1---------1------------0-1----1-> : pubsub
@@ -23,7 +24,9 @@ import { pubsub } from "@thi.ng/rstream"
  * b>- ---------|tp|--*----------------------->
  * c>- ---------|tp|----*-------------------*->
  * ```
+ *
  * ## Streams
+ *
  * - `0>-`: `ctx.run$.next(x)` userland dispatch stream
  * - `1>-`: `pubsub({ topic: x => x.length === 0 })`
  * - `2>-`: pubsub = `false` ? -> `task$`: Task Dispatcher
@@ -32,6 +35,7 @@ import { pubsub } from "@thi.ng/rstream"
  *   handlers
  *
  * ## Handlers
+ *
  * `4>-` this is the stream to which the user (and
  * framework) attaches handlers. Handlers receive events
  * they subscribe to as topics based on a `sub$` key in a
