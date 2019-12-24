@@ -44,7 +44,7 @@ import { pubsub } from "@thi.ng/rstream"
  *   [F.L.I.P.](https://aerotwist.com/blog/flip-your-animations/)
  *   animations
  *
- * 📌 TODO:
+ * TODO:
  * - add __Examples__
  * - add `beforeunload` event handler within #4 (orphan):
  *    SEE https://youtu.be/QQukWZcIptM
