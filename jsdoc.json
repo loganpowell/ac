@@ -6,13 +6,13 @@
   "source": {
     "include": ["src", "package.json", "README.md"],
     "includePattern": ".js$",
-    "excludePattern": "(node_modules/|docs)"
+    "excludePattern": "(node_modules/|test/|docs)"
   },
   "plugins": [
     "plugins/markdown"
   ],
   "templates": {
-    "referenceTitle": "reduce.ac Documentation",
+    "referenceTitle": "reduce.ac Docs",
     "disableSort": true,
     "collapse": true,
     "resources": {

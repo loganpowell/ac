@@ -4,6 +4,11 @@
 import { pubsub } from "@thi.ng/rstream"
 
 /**
+ * # Stream Architecture
+ * /
+
+
+/**
  * # Stream Architecture:
  *
  * `run$` is the primary event stream exposed to the user
