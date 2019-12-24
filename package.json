@@ -1,6 +1,6 @@
 {
   "name": "reduce.ac",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "AC is a framework for leveraging `@thi.ng/umbrella` for web apps",
   "main": "index.js",
   "scripts": {
