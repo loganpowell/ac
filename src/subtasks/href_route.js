@@ -1,4 +1,4 @@
-import { parse_href } from "../../utils"
+import { parse_href } from "../utils"
 
 const default_meta = {
   meta_image: "https://picsum.photos/1000/600.jpg",

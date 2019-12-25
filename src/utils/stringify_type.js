@@ -18,7 +18,7 @@ import {
  * powered by [@thi.ng/checks](http://thi.ng/checks)
  *
  */
-export const type_str = x => {
+export const stringify_type = x => {
   if (isArray(x))                       return "ARRAY"
   if (isFunction(x) && x.length === 0)  return "THUNK"
   if (isFunction(x) && x.length > 0)    return "FUNCTION"

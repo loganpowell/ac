@@ -9,5 +9,5 @@ import { trace } from "@thi.ng/rstream"
  *                  stream
  * @param {stream}
  * */
-export const trace_stream = (log_prefix, stream) =>
+export const traceStream = (log_prefix, stream) =>
   stream.subscribe(trace(log_prefix))

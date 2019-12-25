@@ -2,7 +2,7 @@ import fetch from "node-fetch"
 import { stream, trace } from "@thi.ng/rstream"
 import { command$ } from "../src/streams"
 import { dispatcher } from "../src/dispatcher"
-import { trace_stream, parse_href } from "../src/utils"
+import { traceStream, parse_href } from "../src/utils"
 
 //
 //    d8                      d8
@@ -121,6 +121,6 @@ let route = state => [
 //  \_88P   "88_/  "88_-888 888     "88_/
 //
 //
-trace_stream("comm ->", command$)
+traceStream("comm ->", command$)
 
 dispatcher(testicular) //?

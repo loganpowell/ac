@@ -3,6 +3,7 @@
   "version": "0.1.2",
   "description": "AC is a framework for leveraging `@thi.ng/umbrella` for web apps",
   "main": "index.js",
+  "repository": "https://github.com/loganpowell/ac",
   "scripts": {
     "clean": "rm -rf .cache dist dist",
     "prep": "npm run clean && mkdir dist && cp -r up.json dist",
