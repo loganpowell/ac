@@ -82,7 +82,7 @@
       
     
 
-    <h3>Modules</h3><ul><li id="Dispatcher-nav"><a href="module-Dispatcher.html">Dispatcher</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#hurl_dispatch">hurl_dispatch</a></li><li><a href="global.html#hurl_router">hurl_router</a></li><li><a href="global.html#register_router_BOM">register_router_BOM</a></li><li><a href="global.html#href_pushState_O">href_pushState_O</a></li><li><a href="global.html#register_command">register_command</a></li><li><a href="global.html#parse_href">parse_href</a></li></ul>
+    <h3>Modules</h3><ul><li id="Dispatcher-nav"><a href="module-Dispatcher.html">Dispatcher</a></li><li id="Registers-nav"><a href="module-Registers.html">Registers</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#hurl_dispatch">hurl_dispatch</a></li><li><a href="global.html#hurl_router">hurl_router</a></li><li><a href="global.html#register_router_BOM">register_router_BOM</a></li><li><a href="global.html#href_pushState">href_pushState</a></li><li><a href="global.html#parse_href">parse_href</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
   </nav>
 
   <div id="main">
@@ -122,6 +122,124 @@
     
         <h3 class="subsection-title">Members</h3>
 
+        
+            
+
+<h4 class="name" id=".run$">
+  <span class="type-signature">(static, constant) </span>run$<span class="type-signature"></span>
+</h4>
+
+
+
+
+  <div class="description">
+    <h1>Stream Architecture:</h1>
+<p><code>run$</code> is the primary event stream exposed to the user
+via the <code>ctx</code> object injected into every <code>hdom</code> component
+the command stream is the only way the user changes
+anything in <code>hurl</code></p>
+<h2>Marble Diagram</h2>
+<pre class="prettyprint source"><code>0>- |------c---------c--[ a, b, a ]-a----c-> : run$
+1>- |ps|---1---------1------------0-1----1-> : pubsub
+3>- ---|tp|------*-*-*----------*---*----*-> : command$
+2>- ---|tp|xf|---^-^------------^-?--------> : task$
+4>- ------|ps|--|a-b-c----------a---a----c-> : pubsub
+Handlers
+a>- ---------|tp|*--------------*---*------>
+b>- ---------|tp|--*----------------------->
+c>- ---------|tp|----*-------------------*->
+</code></pre>
+<h2>Streams</h2>
+<ul>
+<li><code>0&gt;-</code>: <code>ctx.run$.next(x)</code> userland dispatch stream</li>
+<li><code>1&gt;-</code>: <code>pubsub({ topic: x =&gt; x.length === 0 })</code></li>
+<li><code>2&gt;-</code>: pubsub = <code>false</code> ? -&gt; <code>task$</code>: Task Dispatcher</li>
+<li><code>3&gt;-</code>: pubsub = <code>true</code> ? -&gt; <code>command$</code>: Commands stream</li>
+<li><code>4&gt;-</code>: <code>pubsub({ topic: x =&gt; x.sub$ })</code>: userland
+handlers</li>
+</ul>
+<h2>Handlers</h2>
+<p><code>4&gt;-</code> this is the stream to which the user (and
+framework) attaches handlers. Handlers receive events
+they subscribe to as topics based on a <code>sub$</code> key in a
+Command object.</p>
+<h3>Handlers (framework provided):</h3>
+<ul>
+<li>&quot;state&quot;: Global state mutations</li>
+<li>&quot;route&quot;: Routing</li>
+<li>&quot;FLIP&quot; :
+<a href="https://aerotwist.com/blog/flip-your-animations/">F.L.I.P.</a>
+animations</li>
+</ul>
+<p>TODO:</p>
+<ul>
+<li>add <strong>Examples</strong></li>
+<li>add <code>beforeunload</code> event handler within #4 (orphan):
+SEE https://youtu.be/QQukWZcIptM</li>
+<li>enable ctx.run.cancel() via external or internal events
+(e.g., popstate / { sub$:  &quot;cancel&quot; })</li>
+</ul>
+<h2><code>run$</code></h2>
+<p>User-land event dispatch stream</p>
+<p>This stream is directly exposed to users via <code>ctx</code> Any
+one-off Commands <code>next</code>ed into this stream are sent to
+the <code>command$</code> stream. Arrays of Commands (Tasks) are
+sent to the <code>task$</code> stream.</p>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="streams_index.js.html">streams/index.js</a>, <a href="streams_index.js.html#line71">line 71</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
         
             
 
@@ -174,7 +292,7 @@ simple lookup of the <code>sub$</code> key of the command</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="streams_index.js.html">streams/index.js</a>, <a href="streams_index.js.html#line80">line 80</a>
+          <a href="streams_index.js.html">streams/index.js</a>, <a href="streams_index.js.html#line82">line 82</a>
         </li>
       </ul>
     </dd>
@@ -244,7 +362,7 @@ array of Commands (including subtask functions)</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="streams_index.js.html">streams/index.js</a>, <a href="streams_index.js.html#line94">line 94</a>
+          <a href="streams_index.js.html">streams/index.js</a>, <a href="streams_index.js.html#line96">line 96</a>
         </li>
       </ul>
     </dd>
@@ -313,7 +431,7 @@ for responding to emmitted Commands</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="streams_index.js.html">streams/index.js</a>, <a href="streams_index.js.html#line103">line 103</a>
+          <a href="streams_index.js.html">streams/index.js</a>, <a href="streams_index.js.html#line105">line 105</a>
         </li>
       </ul>
     </dd>

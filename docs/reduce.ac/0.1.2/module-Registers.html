@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>
-      streams/index.js - Documentation
+      Registers - Documentation
   </title>
 
   <link href="https://www.braintreepayments.com/images/favicon-ccda0b14.png" rel="icon" type="image/png">
@@ -90,125 +88,207 @@
   <div id="main">
     
       <h1 class="page-title">
-        streams/index.js
+        Registers
       </h1>
     
 
     
-      
 
 <section>
+  <header>
+    
+      
+  </header>
+
   <article>
-    <pre class="prettyprint source linenums"><code>/**
- @module Streams
-*/
-import { stream, pubsub } from "@thi.ng/rstream"
-import { comp, map } from "@thi.ng/transducers"
+    <div class="container-overview">
+      
+        
 
-let fix_jsdoc
+        
+      
+    </div>
 
-/**
- * # Stream Architecture:
- *
- * `run$` is the primary event stream exposed to the user
- * via the `ctx` object injected into every `hdom` component
- * the command stream is the only way the user changes
- * anything in `hurl`
- *
- * ## Marble Diagram
- *
- * ```
- * 0>- |------c---------c--[ a, b, a ]-a----c-> : run$
- * 1>- |ps|---1---------1------------0-1----1-> : pubsub
- * 3>- ---|tp|------*-*-*----------*---*----*-> : command$
- * 2>- ---|tp|xf|---^-^------------^-?--------> : task$
- * 4>- ------|ps|--|a-b-c----------a---a----c-> : pubsub
- * Handlers
- * a>- ---------|tp|*--------------*---*------>
- * b>- ---------|tp|--*----------------------->
- * c>- ---------|tp|----*-------------------*->
- * ```
- *
- * ## Streams
- *
- * - `0>-`: `ctx.run$.next(x)` userland dispatch stream
- * - `1>-`: `pubsub({ topic: x => x.length === 0 })`
- * - `2>-`: pubsub = `false` ? -> `task$`: Task Dispatcher
- * - `3>-`: pubsub = `true` ? -> `command$`: Commands stream
- * - `4>-`: `pubsub({ topic: x => x.sub$ })`: userland
- *   handlers
- *
- * ## Handlers
- *
- * `4>-` this is the stream to which the user (and
- * framework) attaches handlers. Handlers receive events
- * they subscribe to as topics based on a `sub$` key in a
- * Command object.
- *
- * ### Handlers (framework provided):
- * - "state": Global state mutations
- * - "route": Routing
- * - "FLIP" :
- *   [F.L.I.P.](https://aerotwist.com/blog/flip-your-animations/)
- *   animations
- *
- * TODO:
- * - add __Examples__
- * - add `beforeunload` event handler within #4 (orphan):
- *    SEE https://youtu.be/QQukWZcIptM
- * - enable ctx.run.cancel() via external or internal events
- *    (e.g., popstate / { sub$:  "cancel" })
- *
- * ## `run$`
- *
- * User-land event dispatch stream
- *
- * This stream is directly exposed to users via `ctx` Any
- * one-off Commands `next`ed into this stream are sent to
- * the `command$` stream. Arrays of Commands (Tasks) are
- * sent to the `task$` stream.
- *
- */
-export const run$ = pubsub({ topic: x => x.length === 0, id: "run_stream" })
+    
 
-/**
- * ## `command$`
- *
- * Primary fork/bisect stream for indivual commands.
- * attached to a `pubsub` stemming from this stream. The
- * `topic` function used to alert downstream handlers is a
- * simple lookup of the `sub$` key of the command
- *
- */
-export const command$ = run$.subscribeTopic(
-  true,
-  map(x => out$.next(x))
-)
+    
 
-/**
- * ## `task$`
- *
- * Batch processing stream, listens for Tasks sent as an
- * array of Commands (including subtask functions)
- *
- * stream (if array of event objects)
- *
- */
-export const task$ = run$.subscribeTopic(false)
+    
 
-/**
- * ## `out$`
- *
- * Primary user-land _READ_ stream. For attaching handlers
- * for responding to emmitted Commands
- *
- */
-export const out$ = stream()
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+
+<h4 class="name" id=".registerStream$">
+  <span class="type-signature">(static, constant) </span>registerStream$<span class="type-signature"></span>
+</h4>
+
+
+
+
+  <div class="description">
+    <h2><code>registerStream$</code></h2>
+<p>Provides a way to register ad-hoc upstream producers into
+the command$ stream</p>
+<p>registers injection stream w/either command$ or task$
+stream</p>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="registers_index.js.html">registers/index.js</a>, <a href="registers_index.js.html#line27">line 27</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id=".register_command">
+  <span class="type-signature">(static, constant) </span>register_command<span class="type-signature"></span>
+</h4>
+
+
+
+
+  <div class="description">
+    <p><code>register_command</code></p>
+<p>Takes a Command object with some additional information
+and returns a Command usable in a Task or as-is. This also
+serves the additional benefit of giving the user a constant
+to use instead of making any typos in keys and</p>
+<h3>Example</h3>
+<pre class="prettyprint source lang-js"><code>import { route } from &quot;./my_little_router&quot;
+
+const href_route = O_defHandler$({
+ sub$: &quot;ROUTE&quot;,
+ args: ({ href }) => ({ href }),
+ handler: ({ href }) => route(href)
+})
 </code></pre>
+<p>returns:</p>
+<pre class="prettyprint source lang-js"><code>console.log(href_route)
+//-> { sub$: &quot;ROUTE&quot;, args: ({ href }) => ({ href }) }
+</code></pre>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="registers_index.js.html">registers/index.js</a>, <a href="registers_index.js.html#line81">line 81</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+    
+
+    
+
+    
+
+    
   </article>
 </section>
 
-    
+
 
 
   </div>

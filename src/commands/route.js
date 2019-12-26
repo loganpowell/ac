@@ -16,10 +16,7 @@ export const I_pushState_href = {
  * export const I_pushState_href = {
  *  sub$: "pushstate",
  *  args: ({ href }) => ({ href }) // <- implied/unnecessary?
- *  handler: ({ href }) => {
- *    history.pushState(parse_href(href), null, href)
- *    document.dispatchEvent(new Event("page-ready"))
- *  }
+ *  handler: ({ href }) => href_pushState(href)
  * }
  * ````
  * And then the actual defHandler takes that and just gives
@@ -27,7 +24,7 @@ export const I_pushState_href = {
  */
 
 // handler
-export const href_pushState_O = href => {
+export const href_pushState = href => {
   history.pushState(parse_href(href), null, href)
   document.dispatchEvent(new Event("page-ready")) //👀 for prerenderer,
 }

@@ -7,6 +7,9 @@ import {
   isNull,
   isBoolean
 } from "@thi.ng/checks"
+
+let fix_jsdoc
+
 // prettier-ignore
 /**
  * ### `type_str`

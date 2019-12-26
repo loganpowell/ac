@@ -1,3 +1,12 @@
+let fix_jsdoc
+
+/**
+ *
+ * `uknown_key_ERR`
+ *
+ * Just a handy little error for people defining commands
+ * that makes sure their keys don't contain typos
+ */
 export const unknown_key_ERR = (c, unknown, sub$, i) => {
   const idx_dict0 = Array.from(Array(19).keys()).reduce(
     (a, idx) => ({ ...a, [idx]: `_${idx + 1}th_` }),

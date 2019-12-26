@@ -6,6 +6,8 @@ import { map } from "@thi.ng/transducers"
 import { stringify_type, unknown_key_ERR } from "../utils"
 import { command$, task$ } from "../streams"
 
+let fix_jsdoc
+
 /**
  * @description
  * ## `dispatcher`

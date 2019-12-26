@@ -84,7 +84,7 @@
       
     
 
-    <h3>Modules</h3><ul><li id="Dispatcher-nav"><a href="module-Dispatcher.html">Dispatcher</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#hurl_dispatch">hurl_dispatch</a></li><li><a href="global.html#hurl_router">hurl_router</a></li><li><a href="global.html#register_router_BOM">register_router_BOM</a></li><li><a href="global.html#href_pushState_O">href_pushState_O</a></li><li><a href="global.html#register_command">register_command</a></li><li><a href="global.html#parse_href">parse_href</a></li></ul>
+    <h3>Modules</h3><ul><li id="Dispatcher-nav"><a href="module-Dispatcher.html">Dispatcher</a></li><li id="Registers-nav"><a href="module-Registers.html">Registers</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#hurl_dispatch">hurl_dispatch</a></li><li><a href="global.html#hurl_router">hurl_router</a></li><li><a href="global.html#register_router_BOM">register_router_BOM</a></li><li><a href="global.html#href_pushState">href_pushState</a></li><li><a href="global.html#parse_href">parse_href</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
   </nav>
 
   <div id="main">
@@ -117,10 +117,7 @@ export const I_pushState_href = {
  * export const I_pushState_href = {
  *  sub$: "pushstate",
  *  args: ({ href }) => ({ href }) // &lt;- implied/unnecessary?
- *  handler: ({ href }) => {
- *    history.pushState(parse_href(href), null, href)
- *    document.dispatchEvent(new Event("page-ready"))
- *  }
+ *  handler: ({ href }) => href_pushState(href)
  * }
  * ````
  * And then the actual defHandler takes that and just gives
@@ -128,7 +125,7 @@ export const I_pushState_href = {
  */
 
 // handler
-export const href_pushState_O = href => {
+export const href_pushState = href => {
   history.pushState(parse_href(href), null, href)
   document.dispatchEvent(new Event("page-ready")) //👀 for prerenderer,
 }

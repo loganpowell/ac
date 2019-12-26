@@ -4,6 +4,8 @@
 import { stream, pubsub } from "@thi.ng/rstream"
 import { comp, map } from "@thi.ng/transducers"
 
+let fix_jsdoc
+
 /**
  * # Stream Architecture:
  *

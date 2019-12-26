@@ -1,5 +1,7 @@
 import qs from "querystring"
 
+let fix_jsdoc
+
 /**
  * # HREF/URL Parser
  *
@@ -30,7 +32,6 @@ import qs from "querystring"
  * ```js
  * parse_href("https://github.com/thi-ng/umbrella/#blog-posts")
  * ```
- *
  * ```js
  * {
  *   URL: 'https://github.com/thi-ng/umbrella/#blog-posts',
@@ -46,7 +47,6 @@ import qs from "querystring"
  * ```js
  * parse_href("https://very-long-sub.dom.cloud.eu/site/my/happy/")
  * ```
- *
  * ```js
  * {
  *   URL: 'https://very-long-sub.dom.cloud.eu/site/my/happy/',
@@ -62,7 +62,6 @@ import qs from "querystring"
  * ```js
  * parse_href("https://api.census.gov/data?get=NAME&in=state:01&in=county:*")
  * ```
- *
  * ```js
  * {
  *   URL: "https://api.census.gov/data?get=NAME&in=state:01&in=county:*",
@@ -78,7 +77,6 @@ import qs from "querystring"
  * ```js
  * parse_href("/data?get=NAME&in=state#indeed")
  * ```
- *
  * ```js
  * {
  *   URL: "/data?get=NAME&in=state#indeed",

@@ -1,6 +1,12 @@
+/**
+ * @module Registers
+ */
 import { command$, task$ } from "../streams"
 import { map, comp, pluck } from "@thi.ng/transducers"
 import { unknown_key_ERR } from "../utils"
+
+let fix_jsdoc
+
 /**
  *
  * ## `registerStream$`

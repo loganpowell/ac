@@ -12,6 +12,7 @@ import {
 import { command$ } from "../streams"
 
 export const hurl_data_stream = stream()
+
 /**
  * preconfigured dispatch from hurl_data_stream
  * this is an event handler that subscribes to the

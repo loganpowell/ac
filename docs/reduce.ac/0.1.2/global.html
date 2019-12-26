@@ -82,7 +82,7 @@
       
     
 
-    <h3>Modules</h3><ul><li id="Dispatcher-nav"><a href="module-Dispatcher.html">Dispatcher</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#hurl_dispatch">hurl_dispatch</a></li><li><a href="global.html#hurl_router">hurl_router</a></li><li><a href="global.html#register_router_BOM">register_router_BOM</a></li><li><a href="global.html#href_pushState_O">href_pushState_O</a></li><li><a href="global.html#register_command">register_command</a></li><li><a href="global.html#parse_href">parse_href</a></li></ul>
+    <h3>Modules</h3><ul><li id="Dispatcher-nav"><a href="module-Dispatcher.html">Dispatcher</a></li><li id="Registers-nav"><a href="module-Registers.html">Registers</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#hurl_dispatch">hurl_dispatch</a></li><li><a href="global.html#hurl_router">hurl_router</a></li><li><a href="global.html#register_router_BOM">register_router_BOM</a></li><li><a href="global.html#href_pushState">href_pushState</a></li><li><a href="global.html#parse_href">parse_href</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
   </nav>
 
   <div id="main">
@@ -218,7 +218,7 @@ to every emission of data from the stream</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="commands_route-proto.js.html">commands/route-proto.js</a>, <a href="commands_route-proto.js.html#line21">line 21</a>
+          <a href="commands_route-proto.js.html">commands/route-proto.js</a>, <a href="commands_route-proto.js.html#line22">line 22</a>
         </li>
       </ul>
     </dd>
@@ -288,7 +288,7 @@ completion stream to actually triggers a change in the browser router</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="commands_route-proto.js.html">commands/route-proto.js</a>, <a href="commands_route-proto.js.html#line57">line 57</a>
+          <a href="commands_route-proto.js.html">commands/route-proto.js</a>, <a href="commands_route-proto.js.html#line58">line 58</a>
         </li>
       </ul>
     </dd>
@@ -358,7 +358,7 @@ emitted as per her router configuration and deploy some function thereupon</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="commands_route-proto.js.html">commands/route-proto.js</a>, <a href="commands_route-proto.js.html#line113">line 113</a>
+          <a href="commands_route-proto.js.html">commands/route-proto.js</a>, <a href="commands_route-proto.js.html#line114">line 114</a>
         </li>
       </ul>
     </dd>
@@ -380,8 +380,8 @@ emitted as per her router configuration and deploy some function thereupon</p>
         
             
 
-<h4 class="name" id="href_pushState_O">
-  <span class="type-signature">(constant) </span>href_pushState_O<span class="type-signature"></span>
+<h4 class="name" id="href_pushState">
+  <span class="type-signature">(constant) </span>href_pushState<span class="type-signature"></span>
 </h4>
 
 
@@ -393,10 +393,7 @@ Command and destructured out like this:</p>
 <pre class="prettyprint source lang-js"><code>export const I_pushState_href = {
  sub$: &quot;pushstate&quot;,
  args: ({ href }) => ({ href }) // &lt;- implied/unnecessary?
- handler: ({ href }) => {
-   history.pushState(parse_href(href), null, href)
-   document.dispatchEvent(new Event(&quot;page-ready&quot;))
- }
+ handler: ({ href }) => href_pushState(href)
 }
 </code></pre>
 <p>And then the actual defHandler takes that and just gives
@@ -437,91 +434,7 @@ back the Command without the handler!?</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="commands_route.js.html">commands/route.js</a>, <a href="commands_route.js.html#line30">line 30</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-          
-        
-            
-
-<h4 class="name" id="register_command">
-  <span class="type-signature">(constant) </span>register_command<span class="type-signature"></span>
-</h4>
-
-
-
-
-  <div class="description">
-    <p><code>register_command</code></p>
-<p>Takes a Command object with some additional information
-and returns a Command usable in a Task or as-is. This also
-serves the additional benefit of giving the user a constant
-to use instead of making any typos in keys and</p>
-<h3>Example</h3>
-<pre class="prettyprint source lang-js"><code>import { route } from &quot;./my_little_router&quot;
-
-const href_route = O_defHandler$({
- sub$: &quot;ROUTE&quot;,
- args: ({ href }) => ({ href }),
- handler: ({ href }) => route(href)
-})
-</code></pre>
-<p>returns:</p>
-<pre class="prettyprint source lang-js"><code>console.log(href_route)
-//-> { sub$: &quot;ROUTE&quot;, args: ({ href }) => ({ href }) }
-</code></pre>
-  </div>
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="registers_index.js.html">registers/index.js</a>, <a href="registers_index.js.html#line75">line 75</a>
+          <a href="commands_route.js.html">commands/route.js</a>, <a href="commands_route.js.html#line27">line 27</a>
         </li>
       </ul>
     </dd>
@@ -652,7 +565,215 @@ high-level event handling.</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="utils_parse_href.js.html">utils/parse_href.js</a>, <a href="utils_parse_href.js.html#line96">line 96</a>
+          <a href="utils_parse_href.js.html">utils/parse_href.js</a>, <a href="utils_parse_href.js.html#line94">line 94</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id="stringify_type">
+  <span class="type-signature">(constant) </span>stringify_type<span class="type-signature"></span>
+</h4>
+
+
+
+
+  <div class="description">
+    <h3><code>type_str</code></h3>
+<p>just a little convenience function
+takes some value and returns a string representation of its type
+this makes it easier to create a switch statement using types</p>
+<p>powered by <a href="http://thi.ng/checks">@thi.ng/checks</a></p>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="utils_stringify_type.js.html">utils/stringify_type.js</a>, <a href="utils_stringify_type.js.html#line24">line 24</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id="traceStream">
+  <span class="type-signature">(constant) </span>traceStream<span class="type-signature"></span>
+</h4>
+
+
+
+
+  <div class="description">
+    <h2><code>trace_stream</code></h2>
+<p>simple ad-hoc tracer to log one of the streams emmissions</p>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="utils_traceStream.js.html">utils/traceStream.js</a>, <a href="utils_traceStream.js.html#line14">line 14</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id="unknown_key_ERR">
+  <span class="type-signature">(constant) </span>unknown_key_ERR<span class="type-signature"></span>
+</h4>
+
+
+
+
+  <div class="description">
+    <p><code>uknown_key_ERR</code></p>
+<p>Just a handy little error for people defining commands
+that makes sure their keys don't contain typos</p>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="utils_unknown_key_ERR.js.html">utils/unknown_key_ERR.js</a>, <a href="utils_unknown_key_ERR.js.html#line10">line 10</a>
         </li>
       </ul>
     </dd>
