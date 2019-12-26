@@ -1,36 +1,51 @@
 import { stream } from "@thi.ng/rstream"
-import { registerStream$, register_command } from "../src/registers"
+import { registerStreamCMD, registerCMD } from "../src/registers"
 import { traceStream } from "../src/utils"
 import { command$, task$ } from "../src/streams"
 
-traceStream("command$ -> ", command$)
-traceStream("task$ -> ", task$)
+// traceStream("command$ -> ", command$)
+// traceStream("task$ -> ", task$)
 
 let test$ = stream()
 
 let test_command = {
+  src$: stream(),
   sub$: "TEST",
-  args: { data: "lots of data" }
+  args: { data: "lots of 💩" }
 }
 
-let test_command_fn = x => ({
+let test_command_fn = {
+  src$: test$,
   sub$: "COMMAND1",
-  args: { data: x }
-})
-
-registerStream$(test$, test_command)
-registerStream$(test$, test_command_fn)
-
-let test_handler = {
-  sub$: "COMMAND1",
-  args: ({ data }) => ({ data }),
-  handler: x => console.log("GOT SOME DATA:", x)
+  args: x => ({ data: x })
 }
 
-let data_log = register_command(test_handler)
+let inbound_stream = registerStreamCMD(test_command)
+let inbound_stream3 = registerStreamCMD(test_command_fn)
+registerStreamCMD(test_command_fn)
 
-test$.next("bloop")
-// test$.next("bloop")
-test$.next(data_log)
+let data_logger = {
+  sub$: "COMMAND1",
+  args: x => console.log("GOT SOME DATA:", x),
+  path: ["coca", "cola"]
+}
 
-console.log("done")
+// 📌 TODO: figure out a way to register a factory function
+let test_handler_fn = {
+  sub$: "TEST",
+  args: x => console.log("GOT A TEST:", x),
+  path: ["warren", "buffet"]
+}
+
+let data_log = registerCMD(data_logger)
+
+data_log //?
+
+let data_log_fn = registerCMD(test_handler_fn)
+
+test$.next("🍑")
+test$.next("😍")
+test$.next("💃")
+
+inbound_stream.next("hello")
+inbound_stream3.next("😱")

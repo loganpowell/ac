@@ -139,11 +139,11 @@ via the <code>ctx</code> object injected into every <code>hdom</code> component
 the command stream is the only way the user changes
 anything in <code>hurl</code></p>
 <h2>Marble Diagram</h2>
-<pre class="prettyprint source"><code>0>- |------c---------c--[ a, b, a ]-a----c-> : run$
-1>- |ps|---1---------1------------0-1----1-> : pubsub
-3>- ---|tp|------*-*-*----------*---*----*-> : command$
-2>- ---|tp|xf|---^-^------------^-?--------> : task$
-4>- ------|ps|--|a-b-c----------a---a----c-> : pubsub
+<pre class="prettyprint source"><code>0>- |------c---------c--[ a, b, a ]-a----c-> : calls
+1>- |ps|---1---------1------------0-1----1-> : run$
+2>- ---|tp|------*-*-*----------*---*----*-> : command$
+3>- ---|tp|xf|---^-^------------^-?--------> : task$
+4>- ------|ps|--|a-b-c----------a---a----c-> : out$
 Handlers
 a>- ---------|tp|*--------------*---*------>
 b>- ---------|tp|--*----------------------->
@@ -151,12 +151,13 @@ c>- ---------|tp|----*-------------------*->
 </code></pre>
 <h2>Streams</h2>
 <ul>
-<li><code>0&gt;-</code>: <code>ctx.run$.next(x)</code> userland dispatch stream</li>
-<li><code>1&gt;-</code>: <code>pubsub({ topic: x =&gt; x.length === 0 })</code></li>
-<li><code>2&gt;-</code>: pubsub = <code>false</code> ? -&gt; <code>task$</code>: Task Dispatcher</li>
-<li><code>3&gt;-</code>: pubsub = <code>true</code> ? -&gt; <code>command$</code>: Commands stream</li>
-<li><code>4&gt;-</code>: <code>pubsub({ topic: x =&gt; x.sub$ })</code>: userland
-handlers</li>
+<li><code>0&gt;-</code>: <code>ctx.run$.next(x)</code> userland dispatches</li>
+<li><code>1&gt;-</code>: <code>pubsub({ topic: x =&gt; x.length === 0 })</code> <code>run$</code>
+stream</li>
+<li><code>2&gt;-</code>: pubsub = <code>true</code> ? -&gt;<code>command$</code> stream</li>
+<li><code>3&gt;-</code>: pubsub = <code>false</code> ? -&gt; <code>task$</code> stream</li>
+<li><code>4&gt;-</code>: <code>pubsub({ topic: x =&gt; x.sub$ })</code>: <code>out$</code> stream
+-&gt; <code>register_command</code></li>
 </ul>
 <h2>Handlers</h2>
 <p><code>4&gt;-</code> this is the stream to which the user (and
@@ -221,7 +222,76 @@ sent to the <code>task$</code> stream.</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="streams_index.js.html">streams/index.js</a>, <a href="streams_index.js.html#line71">line 71</a>
+          <a href="streams_index.js.html">streams/index.js</a>, <a href="streams_index.js.html#line72">line 72</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id=".out$">
+  <span class="type-signature">(static, constant) </span>out$<span class="type-signature"></span>
+</h4>
+
+
+
+
+  <div class="description">
+    <h2><code>out$</code></h2>
+<p>Primary user-land <em>READ</em> stream. For attaching handlers
+for responding to emmitted Commands</p>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="streams_index.js.html">streams/index.js</a>, <a href="streams_index.js.html#line81">line 81</a>
         </li>
       </ul>
     </dd>
@@ -292,7 +362,7 @@ simple lookup of the <code>sub$</code> key of the command</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="streams_index.js.html">streams/index.js</a>, <a href="streams_index.js.html#line82">line 82</a>
+          <a href="streams_index.js.html">streams/index.js</a>, <a href="streams_index.js.html#line92">line 92</a>
         </li>
       </ul>
     </dd>
@@ -362,76 +432,7 @@ array of Commands (including subtask functions)</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="streams_index.js.html">streams/index.js</a>, <a href="streams_index.js.html#line96">line 96</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-          
-        
-            
-
-<h4 class="name" id=".out$">
-  <span class="type-signature">(static, constant) </span>out$<span class="type-signature"></span>
-</h4>
-
-
-
-
-  <div class="description">
-    <h2><code>out$</code></h2>
-<p>Primary user-land <em>READ</em> stream. For attaching handlers
-for responding to emmitted Commands</p>
-  </div>
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="streams_index.js.html">streams/index.js</a>, <a href="streams_index.js.html#line105">line 105</a>
+          <a href="streams_index.js.html">streams/index.js</a>, <a href="streams_index.js.html#line106">line 106</a>
         </li>
       </ul>
     </dd>

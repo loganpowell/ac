@@ -11,49 +11,103 @@ let fix_jsdoc
 
 /**
  *
- * ## `registerStream$`
+ * ## `registerStreamCMD`
  *
  * Provides a way to register ad-hoc upstream producers into
- * the command$ stream
+ * the `command$` stream
  *
- * Takes a stream and an optional transducer and returns a
- * transducer to be attached to another stream to chain the
- * emissions from one to the other
+ * Takes a `stream_command` and an optional transducer and
+ * returns a subscription attached to the `command$` stream
+ * to chain the emissions from one to the other
  *
- * registers injection stream w/either command$ or task$
- * stream
+ * @example
  *
- * @param {Stream} stream$ the upstream producer
- * @param {Task | Command} task_or_command Command or Task
- * to dispatch on event
+ * let test$ = stream()
+ *
+ * let src$_CMD_payload = {
+ *   src$: stream(),
+ *   sub$: "TEST",
+ *   args: { data: "lots of 💩" }
+ * }
+ *
+ * let src$_CMD_fn = {
+ *   src$: test$,
+ *   sub$: "COMMAND1",
+ *   args: x => ({ data: x })
+ * }
+ *
+ * let inbound_stream = registerStreamCMD(src$_CMD_payload)
+ * let inbound_stream3 = registerStreamCMD(src$_CMD_fn)
+ *
+ * @param {Command} stream_command Command to dispatch
+ * events from the included `src$` (the upstream producer)
+ * to downstream consumers/handlers registered to listen for
+ * the included `sub$`
  * @param {function} xform optional transducer to preprocess
- * streamed vals before dispatching Command or Task
- * downstream
+ * streamed vals before dispatching Commands downstream
  */
-export const registerStream$ = (stream$, task_or_command, xform) => {
-  let TOC = task_or_command
-  let is_fn = isFunction(TOC)
+export const registerStreamCMD = (stream_command, xform) => {
+  let is_fn = isFunction(args)
+  let { src$, sub$, args } = stream_command
   let feed = $ => {
     if (xform && is_fn) {
       return comp(
         xform,
-        map(x => $.next(TOC(x)))
+        map(x => $.next({ sub$, args: args(x) }))
       )
     } else if (xform && !is_fn) {
       return comp(
         xform,
-        map(() => $.next(TOC))
+        map(() => $.next({ sub$, args }))
       )
     } else if (is_fn) {
-      return map(x => $.next(TOC(x)))
-    } else return map(() => $.next(TOC))
+      return map(x => $.next({ sub$, args: args(x) }))
+    } else return map(() => $.next({ sub$, args }))
   }
   // looks for the `sub$` key to determine if its a command
-  return task_or_command.sub$ || task_or_command().sub$
-    ? stream$.subscribe(feed(command$))
-    : stream$.subscribe(feed(task$))
+  return src$.subscribe(feed(command$))
 }
 
+/**
+ *
+ * ## `registerStreamTask`
+ *
+ * Provides a way to register ad-hoc upstream producers into
+ * the task$ stream
+ *
+ * Takes a stream `src$` and an optional transducer and
+ * returns a subscription attached to the `task$` stream to
+ * chain the emissions from one to the other
+ *
+ * registers injection stream w/either command$ or task$
+ * stream
+ *
+ * @param {Command} stream_command Command to dispatch
+ * events from the included `src$` (the upstream producer)
+ * to downstream consumers/handlers registered to listen for
+ * the included `sub$`
+ * @param {function} xform optional transducer to preprocess
+ * streamed vals before dispatching Commands downstream
+ */
+export const registerStreamTask = (src$, task, xform) => {
+  let is_fn = isFunction(task)
+  let feed = $ => {
+    if (xform && is_fn) {
+      return comp(
+        xform,
+        map(x => $.next(task(x)))
+      )
+    } else if (xform && !is_fn) {
+      return comp(
+        xform,
+        map(() => $.next(task))
+      )
+    } else if (is_fn) {
+      return map(x => $.next(task(x)))
+    } else return map(() => $.next(task))
+  }
+  return src$.subscribe(feed(task$))
+}
 /**
  *
  * `register_command`
@@ -84,22 +138,23 @@ export const registerStream$ = (stream$, task_or_command, xform) => {
  * required keys (`sub$`, `args`, `handler`)
  *
  */
-export const register_command = command_w_handler => {
-  let { sub$, args, path, handler, erro, reso, ...unknown } = command_w_handler
+export const registerCMD = command_w_handler => {
+  // 📌 TODO: register factory function
+  let CMD = { ...command_w_handler }
+
+  let { sub$, args, path, ...unknown } = CMD
+
   /**
    * destructure the args component out of the emissions
    * to save the user from having to do that PITA everytime
    */
   if (Object.keys(unknown).length > 0)
     throw new Error(unknown_key_ERR(command_w_handler, unknown, sub$))
+
   out$
     .subscribeTopic(sub$)
-    .subscribe({ next: handler, error: console.warn }, pluck("args"))
-  let command = { sub$, args, path, reso, erro }
-  Object.keys(command).forEach(
-    key => command[key] === undefined && delete command[key]
-  )
-  // console.log("command:", command)
-  // console.log("command_w_handler:", command_w_handler)
-  return command
+    .subscribe({ next: args, error: console.warn }, pluck("args"))
+
+  delete CMD["args"]
+  return CMD
 }

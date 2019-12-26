@@ -17,11 +17,11 @@ let fix_jsdoc
  * ## Marble Diagram
  *
  * ```
- * 0>- |------c---------c--[ a, b, a ]-a----c-> : run$
- * 1>- |ps|---1---------1------------0-1----1-> : pubsub
- * 3>- ---|tp|------*-*-*----------*---*----*-> : command$
- * 2>- ---|tp|xf|---^-^------------^-?--------> : task$
- * 4>- ------|ps|--|a-b-c----------a---a----c-> : pubsub
+ * 0>- |------c---------c--[ a, b, a ]-a----c-> : calls
+ * 1>- |ps|---1---------1------------0-1----1-> : run$
+ * 2>- ---|tp|------*-*-*----------*---*----*-> : command$
+ * 3>- ---|tp|xf|---^-^------------^-?--------> : task$
+ * 4>- ------|ps|--|a-b-c----------a---a----c-> : out$
  * Handlers
  * a>- ---------|tp|*--------------*---*------>
  * b>- ---------|tp|--*----------------------->
@@ -30,12 +30,13 @@ let fix_jsdoc
  *
  * ## Streams
  *
- * - `0>-`: `ctx.run$.next(x)` userland dispatch stream
- * - `1>-`: `pubsub({ topic: x => x.length === 0 })`
- * - `2>-`: pubsub = `false` ? -> `task$`: Task Dispatcher
- * - `3>-`: pubsub = `true` ? -> `command$`: Commands stream
- * - `4>-`: `pubsub({ topic: x => x.sub$ })`: userland
- *   handlers
+ * - `0>-`: `ctx.run$.next(x)` userland dispatches
+ * - `1>-`: `pubsub({ topic: x => x.length === 0 })` `run$`
+ *   stream
+ * - `2>-`: pubsub = `true` ? ->`command$` stream
+ * - `3>-`: pubsub = `false` ? -> `task$` stream
+ * - `4>-`: `pubsub({ topic: x => x.sub$ })`: `out$` stream
+ *   -> `register_command`
  *
  * ## Handlers
  *

@@ -54,12 +54,12 @@ export const unknown_key_ERR = (c, unknown, sub$, i) => {
 
   ACCEPTABLE KEYS: 
   * sub$: a Topic key for for registering the event 
-  * args: arguments for the handler of the event
 ${
   i
-    ? `  ? reso: used for handling resolved Promise args
+    ? `  * args: arguments for the handler of the event  
+  ? reso: used for handling resolved Promise args
   ? erro: used for handling rejected Promise args`
-    : `  * handler: function for side effecting code`
+    : `  * args: handler (function or payload) of the event  `
 }
   ? path: an optional path/lens for targeted state evolution
   

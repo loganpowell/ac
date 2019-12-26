@@ -125,17 +125,99 @@
         
             
 
-<h4 class="name" id=".registerStream$">
-  <span class="type-signature">(static, constant) </span>registerStream$<span class="type-signature"></span>
+<h4 class="name" id=".registerStreamCMD">
+  <span class="type-signature">(static, constant) </span>registerStreamCMD<span class="type-signature"></span>
 </h4>
 
 
 
 
   <div class="description">
-    <h2><code>registerStream$</code></h2>
+    <h2><code>registerStreamCMD</code></h2>
 <p>Provides a way to register ad-hoc upstream producers into
-the command$ stream</p>
+the <code>command$</code> stream</p>
+<p>Takes a <code>stream_command</code> and an optional transducer and
+returns a subscription attached to the <code>command$</code> stream
+to chain the emissions from one to the other</p>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="registers_index.js.html">registers/index.js</a>, <a href="registers_index.js.html#line49">line 49</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+  <h5>Example</h5>
+  
+
+  <pre class="prettyprint"><code>let test$ = stream()let src$_CMD_payload = {  src$: stream(),  sub$: "TEST",  args: { data: "lots of 💩" }}let src$_CMD_fn = {  src$: test$,  sub$: "COMMAND1",  args: x => ({ data: x })}let inbound_stream = registerStreamCMD(src$_CMD_payload)let inbound_stream3 = registerStreamCMD(src$_CMD_fn)</code></pre>
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id=".registerStreamTask">
+  <span class="type-signature">(static, constant) </span>registerStreamTask<span class="type-signature"></span>
+</h4>
+
+
+
+
+  <div class="description">
+    <h2><code>registerStreamTask</code></h2>
+<p>Provides a way to register ad-hoc upstream producers into
+the task$ stream</p>
+<p>Takes a stream <code>src$</code> and an optional transducer and
+returns a subscription attached to the <code>task$</code> stream to
+chain the emissions from one to the other</p>
 <p>registers injection stream w/either command$ or task$
 stream</p>
   </div>
@@ -174,7 +256,7 @@ stream</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="registers_index.js.html">registers/index.js</a>, <a href="registers_index.js.html#line27">line 27</a>
+          <a href="registers_index.js.html">registers/index.js</a>, <a href="registers_index.js.html#line92">line 92</a>
         </li>
       </ul>
     </dd>
@@ -196,8 +278,8 @@ stream</p>
         
             
 
-<h4 class="name" id=".register_command">
-  <span class="type-signature">(static, constant) </span>register_command<span class="type-signature"></span>
+<h4 class="name" id=".registerCMD">
+  <span class="type-signature">(static, constant) </span>registerCMD<span class="type-signature"></span>
 </h4>
 
 
@@ -258,7 +340,7 @@ const href_route = O_defHandler$({
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="registers_index.js.html">registers/index.js</a>, <a href="registers_index.js.html#line81">line 81</a>
+          <a href="registers_index.js.html">registers/index.js</a>, <a href="registers_index.js.html#line141">line 141</a>
         </li>
       </ul>
     </dd>
