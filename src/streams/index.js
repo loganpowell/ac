@@ -1,9 +1,8 @@
 /**
  @module Streams
 */
-import { pubsub } from "@thi.ng/rstream"
-
-/* ... */
+import { stream, pubsub } from "@thi.ng/rstream"
+import { comp, map } from "@thi.ng/transducers"
 
 /**
  * # Stream Architecture:
@@ -72,13 +71,16 @@ export const run$ = pubsub({ topic: x => x.length === 0, id: "run_stream" })
 /**
  * ## `command$`
  *
- * Primary read stream All user-defined handlers are
+ * Primary fork/bisect stream for indivual commands.
  * attached to a `pubsub` stemming from this stream. The
  * `topic` function used to alert downstream handlers is a
  * simple lookup of the `sub$` key of the command
  *
  */
-export const command$ = run$.subscribeTopic(true)
+export const command$ = run$.subscribeTopic(
+  true,
+  map(x => out$.next(x))
+)
 
 /**
  * ## `task$`
@@ -90,3 +92,12 @@ export const command$ = run$.subscribeTopic(true)
  *
  */
 export const task$ = run$.subscribeTopic(false)
+
+/**
+ * ## `out$`
+ *
+ * Primary user-land _READ_ stream. For attaching handlers
+ * for responding to emmitted Commands
+ *
+ */
+export const out$ = stream()

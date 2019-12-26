@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>
-      streams/index.js - Documentation
+      registers/index.js - Documentation
   </title>
 
   <link href="https://www.braintreepayments.com/images/favicon-ccda0b14.png" rel="icon" type="image/png">
@@ -84,13 +84,13 @@
       
     
 
-    <h3>Modules</h3><ul><li id="Dispatcher-nav"><a href="module-Dispatcher.html">Dispatcher</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#parse_href">parse_href</a></li></ul>
+    <h3>Modules</h3><ul><li id="Dispatcher-nav"><a href="module-Dispatcher.html">Dispatcher</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#hurl_dispatch">hurl_dispatch</a></li><li><a href="global.html#hurl_router">hurl_router</a></li><li><a href="global.html#register_router_BOM">register_router_BOM</a></li><li><a href="global.html#href_pushState_O">href_pushState_O</a></li><li><a href="global.html#register_command">register_command</a></li><li><a href="global.html#parse_href">parse_href</a></li></ul>
   </nav>
 
   <div id="main">
     
       <h1 class="page-title">
-        streams/index.js
+        registers/index.js
       </h1>
     
 
@@ -99,89 +99,102 @@
 
 <section>
   <article>
-    <pre class="prettyprint source linenums"><code>/**
- @module Streams
-*/
-import { pubsub } from "@thi.ng/rstream"
-
-let fix_jsdoc
+    <pre class="prettyprint source linenums"><code>import { command$, task$ } from "../streams"
+import { map, comp, pluck } from "@thi.ng/transducers"
+import { unknown_key_ERR } from "../utils"
+/**
+ *
+ * ## `registerStream$`
+ *
+ * Provides a way to register ad-hoc upstream producers into
+ * the command$ stream
+ *
+ * registers injection stream w/either command$ or task$
+ * stream
+ *
+ * @param {Stream} stream$ the upstream producer
+ * @param {Task | Command} task_or_command Command or Task
+ * to dispatch on event
+ * @param {function} xform optional transducer to preprocess
+ * streamed vals before dispatching Command or Task
+ * downstream
+ */
+export const registerStream$ = (stream$, task_or_command, xform) => {
+  /**
+   *
+   * `stream_xform`
+   *
+   * Takes a stream and an optional transducer and returns a
+   * transducer to be attached to another stream to chain the
+   * emissions from one to the other
+   *
+   */
+  let xf = $ =>
+    xform
+      ? comp(
+          xform,
+          map(x => $.next(x))
+        )
+      : map(x => $.next(x))
+  // looks for the `sub$` key to determine if its a command
+  return task_or_command.sub$
+    ? stream$.subscribe(xf(command$))
+    : stream$.subscribe(xf(task$))
+}
 
 /**
  *
- * # Stream Architecture:
+ * `register_command`
  *
+ * Takes a Command object with some additional information
+ * and returns a Command usable in a Task or as-is. This also
+ * serves the additional benefit of giving the user a constant
+ * to use instead of making any typos in keys and
  *
- * `run$` is the primary event stream exposed to the user
- * via the `ctx` object injected into every `hdom` component
- * the command stream is the only way the user changes
- * anything in `hurl`
+ * ### Example
  *
- * ## Marble Diagram
+ * ```js
+ * import { route } from "./my_little_router"
  *
+ * const href_route = O_defHandler$({
+ *  sub$: "ROUTE",
+ *  args: ({ href }) => ({ href }),
+ *  handler: ({ href }) => route(href)
+ * })
  * ```
- * 0>- |------c---------c--[ a, b, a ]-a----c-> : run$
- * 1>- |ps|---1---------1------------0-1----1-> : pubsub
- * 3>- ---|tp|------*-*-*----------*---*----*-> : command$
- * 2>- ---|tp|xf|---^-^------------^-?--------> : task$
- * 4>- ------|ps|--|a-b-c----------a---a----c-> : pubsub
- * Handlers
- * a>- ---------|tp|*--------------*---*------>
- * b>- ---------|tp|--*----------------------->
- * c>- ---------|tp|----*-------------------*->
+ * returns:
+ * ```js
+ * console.log(href_route)
+ * //-> { sub$: "ROUTE", args: ({ href }) => ({ href }) }
  * ```
  *
- * ## Streams
- *
- * - `0>-`: `ctx.run$.next(x)` userland dispatch stream
- * - `1>-`: `pubsub({ topic: x => x.length === 0 })`
- * - `2>-`: pubsub = `false` ? -> `task$`: Task Dispatcher
- * - `3>-`: pubsub = `true` ? -> `command$`: Commands stream
- * - `4>-`: `pubsub({ topic: x => x.sub$ })`: userland
- *   handlers
- *
- * ## Handlers
- *
- * `4>-` this is the stream to which the user (and
- * framework) attaches handlers. Handlers receive events
- * they subscribe to as topics based on a `sub$` key in a
- * Command object.
- *
- * ### Handlers (framework provided):
- * - "state": Global state mutations
- * - "route": Routing
- * - "FLIP" :
- *   [F.L.I.P.](https://aerotwist.com/blog/flip-your-animations/)
- *   animations
- *
- * TODO:
- * - add __Examples__
- * - add `beforeunload` event handler within #4 (orphan):
- *    SEE https://youtu.be/QQukWZcIptM
- * - enable ctx.run.cancel() via external or internal events
- *    (e.g., popstate / { sub$:  "cancel" })
- *
- * ## `run$`
- *
- * User-land event dispatch stream
- *
- * This stream is directly exposed to users via `ctx` Any
- * one-off Commands `next`ed into this stream are sent to
- * the `command$` stream. Arrays of Commands (Tasks) are
- * sent to the `task$` stream.
+ * @param {Command} command_w_handler an object with three
+ * required keys (`sub$`, `args`, `handler`)
  *
  */
-export const run$ = pubsub({ topic: x => x.length === 0, id: "run_stream" })
-
-/**
- * ## `command$`
- *
- * Primary read stream All user-defined handlers are
- * attached to a `pubsub` stemming from this stream. The
- * `topic` function used to alert downstream handlers is a
- * simple lookup of the `sub$` key of the command
- *
- */
-export const command$ = run$.subscribeTopic(true)
+export const register_command = command_w_handler => {
+  let { sub$, args, path, handler, erro, reso, ...unknown } = command_w_handler
+  /**
+   * destructure the args component out of the emissions
+   * to save the user from having to do that PITA everytime
+   */
+  if (Object.keys(unknown).length > 0)
+    throw new Error(unknown_key_ERR(command_w_handler, unknown, sub$))
+  command$.subscribeTopic(
+    sub$,
+    comp(
+      pluck(args),
+      map(x => handler(x))
+    )
+  )
+  let command = { sub$, args, path, reso, erro }
+  Object.keys(command).forEach(
+    key => command[key] === undefined &amp;&amp; delete command[key]
+  )
+  // console.log("command:", command)
+  // console.log("command_w_handler:", command_w_handler)
+  return command
+}
 </code></pre>
   </article>
 </section>

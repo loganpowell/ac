@@ -82,7 +82,7 @@
       
     
 
-    <h3>Modules</h3><ul><li id="Dispatcher-nav"><a href="module-Dispatcher.html">Dispatcher</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#register_router_BOM">register_router_BOM</a></li><li><a href="global.html#hurl_dispatch">hurl_dispatch</a></li><li><a href="global.html#hurl_router">hurl_router</a></li><li><a href="global.html#parse_href">parse_href</a></li></ul>
+    <h3>Modules</h3><ul><li id="Dispatcher-nav"><a href="module-Dispatcher.html">Dispatcher</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#hurl_dispatch">hurl_dispatch</a></li><li><a href="global.html#hurl_router">hurl_router</a></li><li><a href="global.html#register_router_BOM">register_router_BOM</a></li><li><a href="global.html#href_pushState_O">href_pushState_O</a></li><li><a href="global.html#register_command">register_command</a></li><li><a href="global.html#parse_href">parse_href</a></li></ul>
   </nav>
 
   <div id="main">
@@ -170,76 +170,6 @@
         
             
 
-<h4 class="name" id="register_router_BOM">
-  <span class="type-signature">(constant) </span>register_router_BOM<span class="type-signature"></span>
-</h4>
-
-
-
-
-  <div class="description">
-    <p>takes a <code>hurl_router</code> (configured routing fn) and applies the router on
-every emission of the browser navigation stream (a stream of nav events)
-the returned dispatching function allows the user to hook into the data
-emitted as per her router configuration and deploy some function thereupon</p>
-  </div>
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="commands_route.js.html">commands/route.js</a>, <a href="commands_route.js.html#line61">line 61</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-          
-        
-            
-
 <h4 class="name" id="hurl_dispatch">
   <span class="type-signature">(constant) </span>hurl_dispatch<span class="type-signature"></span>
 </h4>
@@ -288,7 +218,7 @@ to every emission of data from the stream</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="commands_route.js.html">commands/route.js</a>, <a href="commands_route.js.html#line86">line 86</a>
+          <a href="commands_route-proto.js.html">commands/route-proto.js</a>, <a href="commands_route-proto.js.html#line21">line 21</a>
         </li>
       </ul>
     </dd>
@@ -358,7 +288,240 @@ completion stream to actually triggers a change in the browser router</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="commands_route.js.html">commands/route.js</a>, <a href="commands_route.js.html#line122">line 122</a>
+          <a href="commands_route-proto.js.html">commands/route-proto.js</a>, <a href="commands_route-proto.js.html#line57">line 57</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id="register_router_BOM">
+  <span class="type-signature">(constant) </span>register_router_BOM<span class="type-signature"></span>
+</h4>
+
+
+
+
+  <div class="description">
+    <p>takes a <code>hurl_router</code> (configured routing fn) and applies the router on
+every emission of the browser navigation stream (a stream of nav events)
+the returned dispatching function allows the user to hook into the data
+emitted as per her router configuration and deploy some function thereupon</p>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="commands_route-proto.js.html">commands/route-proto.js</a>, <a href="commands_route-proto.js.html#line113">line 113</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id="href_pushState_O">
+  <span class="type-signature">(constant) </span>href_pushState_O<span class="type-signature"></span>
+</h4>
+
+
+
+
+  <div class="description">
+    <p>or maybe the handler is defined as a part of the
+Command and destructured out like this:</p>
+<pre class="prettyprint source lang-js"><code>export const I_pushState_href = {
+ sub$: &quot;pushstate&quot;,
+ args: ({ href }) => ({ href }) // &lt;- implied/unnecessary?
+ handler: ({ href }) => {
+   history.pushState(parse_href(href), null, href)
+   document.dispatchEvent(new Event(&quot;page-ready&quot;))
+ }
+}
+</code></pre>
+<p>And then the actual defHandler takes that and just gives
+back the Command without the handler!?</p>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="commands_route.js.html">commands/route.js</a>, <a href="commands_route.js.html#line30">line 30</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id="register_command">
+  <span class="type-signature">(constant) </span>register_command<span class="type-signature"></span>
+</h4>
+
+
+
+
+  <div class="description">
+    <p><code>register_command</code></p>
+<p>Takes a Command object with some additional information
+and returns a Command usable in a Task or as-is. This also
+serves the additional benefit of giving the user a constant
+to use instead of making any typos in keys and</p>
+<h3>Example</h3>
+<pre class="prettyprint source lang-js"><code>import { route } from &quot;./my_little_router&quot;
+
+const href_route = O_defHandler$({
+ sub$: &quot;ROUTE&quot;,
+ args: ({ href }) => ({ href }),
+ handler: ({ href }) => route(href)
+})
+</code></pre>
+<p>returns:</p>
+<pre class="prettyprint source lang-js"><code>console.log(href_route)
+//-> { sub$: &quot;ROUTE&quot;, args: ({ href }) => ({ href }) }
+</code></pre>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="registers_index.js.html">registers/index.js</a>, <a href="registers_index.js.html#line74">line 74</a>
         </li>
       </ul>
     </dd>

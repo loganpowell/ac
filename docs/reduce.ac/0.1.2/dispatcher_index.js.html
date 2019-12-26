@@ -84,7 +84,7 @@
       
     
 
-    <h3>Modules</h3><ul><li id="Dispatcher-nav"><a href="module-Dispatcher.html">Dispatcher</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#register_router_BOM">register_router_BOM</a></li><li><a href="global.html#hurl_dispatch">hurl_dispatch</a></li><li><a href="global.html#hurl_router">hurl_router</a></li><li><a href="global.html#parse_href">parse_href</a></li></ul>
+    <h3>Modules</h3><ul><li id="Dispatcher-nav"><a href="module-Dispatcher.html">Dispatcher</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#hurl_dispatch">hurl_dispatch</a></li><li><a href="global.html#hurl_router">hurl_router</a></li><li><a href="global.html#register_router_BOM">register_router_BOM</a></li><li><a href="global.html#href_pushState_O">href_pushState_O</a></li><li><a href="global.html#register_command">register_command</a></li><li><a href="global.html#parse_href">parse_href</a></li></ul>
   </nav>
 
   <div id="main">
@@ -104,40 +104,8 @@
 */
 import { isFunction, isPromise } from "@thi.ng/checks"
 import { map } from "@thi.ng/transducers"
-import { stringify_type } from "../utils"
-import { command$, run$, task$ } from "../streams"
-
-const unknown_key = (c, i, unknown) => {
-  const idx_dict0 = Array.from(Array(19).keys()).reduce(
-    (a, idx) => ({ ...a, [idx]: `_${idx + 1}th_` }),
-    {}
-  )
-
-  const idx_dict = { ...idx_dict0, 0: "First", 1: "Second", 2: "Third" }
-  const idx_str = idx_dict[i]
-  const UFO = JSON.stringify(unknown)
-  return `
-  🔥 Found an unrecognized Command key...${
-    Object.keys(unknown)[0]
-      ? `
-  🔥 It was the _${idx_str}_ member of a Task or Subtask.
-  🔥 The entry -&lt; ${UFO.substring(1, UFO.length - 1)}`
-      : ""
-  } >- was found with:
-  🤔 ${JSON.stringify(c, null, 2)} 🤔
-
-  The acceptable are: 
-  - sub$: String
-  - args: Any
-  - path?: Array | String
-  - reso?: Function
-  - erro?: Function
-  
-  Hope that helps!
-
-  PS: I can't see entries w/function values.
-  `
-}
+import { stringify_type, unknown_key_ERR } from "../utils"
+import { command$, task$ } from "../streams"
 
 /**
  * @description
@@ -305,12 +273,15 @@ export const dispatcher = task_array =>
     const acc = await a
     // console.log("ACCUMULATOR =>", acc)
     if (isFunction(c)) {
-      let recur = c(acc) //?
+      let recur = c(acc)
+      // this makes passing full state/acc to Subtasks more
+      // ergonomic
+      recur.unshift({ args: acc })
       return dispatcher(recur)
     }
     const { sub$, args, path, reso, erro, ...unknown } = c //🤔 (sub$ = "")
     if (Object.keys(unknown).length > 0)
-      throw new Error(unknown_key(c, i, unknown))
+      throw new Error(unknown_key_ERR(c, unknown, sub$, i))
     let arg_type = stringify_type(args)
     let result = args
 
@@ -385,8 +356,7 @@ export const dispatcher = task_array =>
       // resolved promise with no sub$ key -> spread
       // resolved value into acc
       else if (!sub$) return { ...acc, ...resolved }
-      else command$.next({ sub$, args: resolved })
-      return { ...acc, ...resolved }
+      else result = resolved
     }
     // error, but no error handler
     if (result instanceof Error) {
@@ -394,6 +364,7 @@ export const dispatcher = task_array =>
       throw new Error(result)
     }
     // if the result has made it this far, send it along
+    // console.log(`${sub$} made it through`)
     command$.next({ sub$, args: result })
     return { ...acc, ...result }
   }, Promise.resolve({}))

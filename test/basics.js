@@ -254,6 +254,8 @@ ex_sync_close_false.deref() //=> { ex_sync1: 1, ex_sync3: 5 }
 
 // source: https://github.com/thi-ng/umbrella/blob/master/packages/rstream/test/pubsub.ts
 
+let streamy_butt = rs.stream()
+
 let ex_pub_01 = rs.pubsub({
   // topic = test decides what the topic is
   topic: x => Object.keys(x)[0],
@@ -342,3 +344,7 @@ ex_sidechain.next({ hi: "I was forth" })
 // => no trace... trigger (1) happened before forth and fifth
 ex_sidechain_trigger.next(2)
 // => ex_sidechain [ { hi: 'I was forth' } ]
+
+let testi = [1, 2, 3] //?
+let testi1 = testi.unshift(4)
+testi //?

@@ -1,9 +1,9 @@
 import fetch from "node-fetch"
 import { stream, trace } from "@thi.ng/rstream"
+// import { map, comp, pluck } from "@thi.ng/transducers"
 import { command$ } from "../src/streams"
 import { dispatcher } from "../src/dispatcher"
-import { traceStream, parse_href } from "../src/utils"
-
+import { traceStream, parse_href, unknown_key_ERR } from "../src/utils"
 //
 //    d8                      d8
 //  _d88__  e88~~8e   d88~\ _d88__
@@ -58,10 +58,7 @@ let testicular = [
   }
 ]
 // Lower Order Trigger (on triggers.next("route") )
-let route = state => [
-  {
-    args: state
-  },
+let route = ({ href, data }) => [
   {
     sub$: "FLIP",
     // options (1):
@@ -81,7 +78,7 @@ let route = state => [
       meta: {
         "og:description": "social media antisocial people",
         "og:type": "website",
-        "og:url": state.href,
+        "og:url": href,
         "og:image:width": 1000,
         "og:image:height": 1200
       }
@@ -90,7 +87,7 @@ let route = state => [
   {
     sub$: "state",
     path: ["body", "content"],
-    args: { data: state.data }
+    args: { data }
   },
   {
     sub$: "state",
@@ -124,3 +121,30 @@ let route = state => [
 traceStream("comm ->", command$)
 
 dispatcher(testicular) //?
+
+// export const register_command = command_w_handler => {
+//   let { sub$, args, path, handler, erro, reso, ...unknown } = command_w_handler
+//   /**
+//    * destructure the args component out of the emissions
+//    * to save the user from having to do that PITA everytime
+//    */
+//   if (Object.keys(unknown).length > 0)
+//     throw new Error(unknown_key(command_w_handler, unknown, sub$))
+//   let command = { sub$, args, path, reso, erro }
+//   Object.keys(command).forEach(
+//     key => command[key] === undefined && delete command[key]
+//   )
+//   console.log("command:", command)
+//   console.log("command_w_handler:", command_w_handler)
+//   return command
+// }
+
+// let test_obj = {
+//   sub$: "test",
+//   args: ({ something }) => ({ something: something + "1" }),
+//   handler: ({ data }) => `${data}: Yay!`,
+//   path: ["x", "y"]
+// }
+// let some_data = register_command(test_obj) //?
+
+// some_data.args({ something: "yeay" }) //?
