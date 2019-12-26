@@ -36,7 +36,7 @@ export const unknown_key_ERR = (c, unknown, sub$, i) => {
   return `
   🔥 Unrecognized Command Key(s)
   
-  FALTY sub$: "${sub$}" ${
+  FAULTY sub$: "${sub$}" ${
     Object.keys(unknown)[0]
       ? `
   ${

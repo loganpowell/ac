@@ -1,9 +1,11 @@
 /**
  * @module Registers
  */
-import { command$, task$ } from "../streams"
+import { command$, task$, out$ } from "../streams"
+import { isFunction } from "@thi.ng/checks"
 import { map, comp, pluck } from "@thi.ng/transducers"
 import { unknown_key_ERR } from "../utils"
+import { trace } from "@thi.ng/rstream"
 
 let fix_jsdoc
 
@@ -13,6 +15,10 @@ let fix_jsdoc
  *
  * Provides a way to register ad-hoc upstream producers into
  * the command$ stream
+ *
+ * Takes a stream and an optional transducer and returns a
+ * transducer to be attached to another stream to chain the
+ * emissions from one to the other
  *
  * registers injection stream w/either command$ or task$
  * stream
@@ -25,27 +31,27 @@ let fix_jsdoc
  * downstream
  */
 export const registerStream$ = (stream$, task_or_command, xform) => {
-  /**
-   *
-   * `stream_xform`
-   *
-   * Takes a stream and an optional transducer and returns a
-   * transducer to be attached to another stream to chain the
-   * emissions from one to the other
-   *
-   * 📌 TODO: emit task or command to downstream
-   */
-  let xf = $ =>
-    xform
-      ? comp(
-          xform,
-          map(x => $.next(x))
-        )
-      : map(x => $.next(x))
+  let TOC = task_or_command
+  let is_fn = isFunction(TOC)
+  let feed = $ => {
+    if (xform && is_fn) {
+      return comp(
+        xform,
+        map(x => $.next(TOC(x)))
+      )
+    } else if (xform && !is_fn) {
+      return comp(
+        xform,
+        map(() => $.next(TOC))
+      )
+    } else if (is_fn) {
+      return map(x => $.next(TOC(x)))
+    } else return map(() => $.next(TOC))
+  }
   // looks for the `sub$` key to determine if its a command
-  return task_or_command.sub$
-    ? stream$.subscribe(xf(command$))
-    : stream$.subscribe(xf(task$))
+  return task_or_command.sub$ || task_or_command().sub$
+    ? stream$.subscribe(feed(command$))
+    : stream$.subscribe(feed(task$))
 }
 
 /**
@@ -86,13 +92,9 @@ export const register_command = command_w_handler => {
    */
   if (Object.keys(unknown).length > 0)
     throw new Error(unknown_key_ERR(command_w_handler, unknown, sub$))
-  command$.subscribeTopic(
-    sub$,
-    comp(
-      pluck(args),
-      map(x => handler(x))
-    )
-  )
+  out$
+    .subscribeTopic(sub$)
+    .subscribe({ next: handler, error: console.warn }, pluck("args"))
   let command = { sub$, args, path, reso, erro }
   Object.keys(command).forEach(
     key => command[key] === undefined && delete command[key]

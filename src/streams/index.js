@@ -68,7 +68,16 @@ let fix_jsdoc
  * sent to the `task$` stream.
  *
  */
-export const run$ = pubsub({ topic: x => x.length === 0, id: "run_stream" })
+export const run$ = pubsub({ topic: x => x.length === 0, id: "run$_stream" })
+
+/**
+ * ## `out$`
+ *
+ * Primary user-land _READ_ stream. For attaching handlers
+ * for responding to emmitted Commands
+ *
+ */
+export const out$ = pubsub({ topic: x => x.sub$, id: "out$_stream" })
 
 /**
  * ## `command$`
@@ -79,10 +88,10 @@ export const run$ = pubsub({ topic: x => x.length === 0, id: "run_stream" })
  * simple lookup of the `sub$` key of the command
  *
  */
-export const command$ = run$.subscribeTopic(
-  true,
-  map(x => out$.next(x))
-)
+export const command$ = run$.subscribeTopic(true, {
+  next: x => out$.next(x),
+  error: console.warn
+})
 
 /**
  * ## `task$`
@@ -94,12 +103,3 @@ export const command$ = run$.subscribeTopic(
  *
  */
 export const task$ = run$.subscribeTopic(false)
-
-/**
- * ## `out$`
- *
- * Primary user-land _READ_ stream. For attaching handlers
- * for responding to emmitted Commands
- *
- */
-export const out$ = stream()

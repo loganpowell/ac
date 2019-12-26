@@ -9,7 +9,7 @@ import {
   sidechainNav$,
   route$
 } from "../browser"
-import { command$ } from "../streams"
+import { out$ } from "../streams"
 
 export const hurl_data_stream = stream()
 
@@ -104,6 +104,7 @@ export const hash_handler = hash => (location.hash = "#" + hash)
 // or
 // someDOMNode.scrollIntoView();
 export const trigger_async_route = arg => route$.next(arg)
+
 /**
  * takes a `hurl_router` (configured routing fn) and applies the router on
  * every emission of the browser navigation stream (a stream of nav events)
