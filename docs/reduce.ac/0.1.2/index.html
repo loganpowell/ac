@@ -235,6 +235,257 @@ history.addListener(&quot;popState&quot;, (a, b, c) => TBD(a, b)(route_match(c))
 <p>Documentation generated from markdown comments in source powered by <a href="https://www.npmjs.com/package/jsdoc"><code>jsdoc</code></a>  with jsdoc's <code>&quot;plugins/markdown&quot;</code></p>
 <p>Template from <a href="https://braintree.github.io/">Braintree</a>'s <a href="https://github.com/braintree/jsdoc-template"><code>jsdoc-template</code></a></p>
 <p>Setup can be a bit confusing, so I create a <a href="https://gist.github.com/loganpowell/62b8e06a8a6b38540e6268fc2048f5ee">gist</a> as a sort of note to self, but you may also find it useful if you like the docs of this site.</p>
+<pre class="prettyprint source"><code>
+ 888-~88e  e88~~8e  Y88b    e    / 
+ 888  888 d888  88b  Y88b  d8b  /  
+ 888  888 8888__888   Y888/Y88b/   
+ 888  888 Y888    ,    Y8/  Y8/    
+ 888  888  &quot;88___/      Y    Y     
+                                   
+</code></pre>
+<h1>Cascade</h1>
+<h2>Stated Cascade Unidirectional Rendering</h2>
+<p>Order of execution:</p>
+<ol>
+<li>Any async data gathering/transformation happens pre-state update</li>
+<li>All rendering/presentation-oriented feature is a function of state (direct or derived)</li>
+</ol>
+<p>Diagram:</p>
+<p>0: Setup -&gt; register cursors on global state for various components
+⬇
+1: Prep -&gt; any data gathering / xformation
+⬇
+2: State Update -&gt; manipulation of global state Atom
+⬇
+3: State Stream -&gt; downstream state updates to registered components
+⬇
+4: Render (RAF) sidechain -&gt; new view is rendered based on updated state</p>
+<hr>
+<h2>Lexing (Compile Time)</h2>
+<p>ARCH: (ctx) =&gt; (ctx.state_stream.deref(), ctx.trigger_stream.next({🤔}), )
+|- === === read === === -| |- === === write === === -|</p>
+<h3>Example components (powered downstream from state updates):</h3>
+<ul>
+<li>URL
+<ul>
+<li>state_stream</li>
+<li>state_stream.subscribeTopic([&quot;router&quot;]
+<ul>
+<li>render</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>DATA<head>
+- state_stream
+  - render
+<body>
+- state_stream
+  - render
+</li>
+</ul>
+<h3>Example triggers (powered upstream to state)</h3>
+<ul>
+<li><code>addeventlistener</code>s
+<ul>
+<li><code>popstate</code>
+<ul>
+<li>cursor_popstate = cursor([&quot;router], DB)</li>
+<li>trigger_stream.subscribe(&quot;route&quot;, x =&gt; cursor_popstate.reset(y =&gt; y = x))</li>
+</ul>
+</li>
+<li><code>DOMContentLoaded</code>
+<ul>
+<li>cursor_styles = cursor([&quot;styles&quot;], DB)</li>
+<li>trigger_stream.subscribe(&quot;styles&quot;, x =&gt; cursor_styles.reset(y =&gt; y = x))</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>UI interactions (dispatch)
+<ul>
+<li>trigger_stream.next({}) -&gt; inject event from <code>ctx</code></li>
+</ul>
+</li>
+</ul>
+<h4>0: Setup</h4>
+<p>Register UI components on global state Atom as cursors, which both provide a <code>deref</code>able view of global state and its registered components</p>
+<h3>Triggers are transducers that are composed on the fly (runtime)</h3>
+<p>Triggers that are composed into an array are invoked on a substream (using R.invoker?) one step at a time. This allows the user to cancel the entire stream via (e.g., during loading of the steps) <code>triggers.cancel()</code> to terminate the entire subprocess before it completes.</p>
+<p>An array of triggers spins up a <code>transducers-fsm</code> state machine, that controls the passing of values between triggers and emits values to the <code>triggers.next</code> stream with these conditions:</p>
+<ul>
+<li>if event contains <code>resolve</code> key: resolve promise then</li>
+<li>if <code>payload</code> type === &quot;function&quot;: use fsm state ({ state: &quot;pass&quot;, payload: [result of function]</li>
+</ul>
+<p>Canceling can either be explicitly injected with <code>triggers.cancel()</code> or can</p>
+<p>🌊 All pending state updates are batched and send in a single <code>transaction</code> at the end of the sequence</p>
+<h4>Signature:</h4>
+<pre class="prettyprint source lang-js"><code>// Higher Order Trigger (used in-situ)
+let prefetch_link = (ctx, ev) => {
+  ev.preventDefault()
+
+  if (window.location.href === ev.target.href) return // one way of handling noops
+  
+  // single event object just directly pushes to the triggers stream in the stream xf
+  // first set state.loading = true
+  ctx.run.next({
+    sub: &quot;state&quot;,
+    path: [&quot;body&quot;, &quot;loading&quot;]
+    payload: true
+  })
+
+  // an array triggers the fsm to pass data between events and batch state updates 
+  // run/batch up a sequence of events
+  ctx.run.next([
+    {
+      sub: &quot;init&quot;, // sets initial state of FSM
+      args: local_state => local_state[&quot;href&quot;] = ev.target.href
+    },
+    {
+      sub: &quot;filter&quot;, // another way to handle noops -> only emit if passes predicate 
+      args: ({ href }) => window.location.href !== href
+    },
+    {
+      // if the xf returns a promise, it is resolved before passing
+      sub: &quot;promise&quot;, 
+      args: ({ href }) => fetch(&quot;something&quot; + parse_hurl(href)[&quot;path&quot;]),
+      // splitting behavior
+      // dispatch to next (invoker .next triggers)
+      then: local_state => local_state[&quot;data&quot;] = r.json(),
+      // dispatched to alternative stream (invoker .next errors) and triggers.cancel()
+      catch: () => ({ sub: &quot;cancel&quot; args: e })
+      }
+    },
+    {
+      sub: &quot;refer&quot;,
+      args: ({ data }) => route(data, ev.target.href)
+    }
+  ]) 
+}
+
+// Lower Order Trigger (on triggers.next(&quot;route&quot;) )
+let route = (data, href) => [
+  {
+    sub: &quot;init&quot;,
+    args: local_state => local_state[&quot;init&quot;] = href
+  },
+  {
+    sub: &quot;FLIP&quot;, 
+    // options (1): https://github.com/davidkpiano/flipping#new-flippingoptions
+    // options (2): https://github.com/aholachek/react-flip-toolkit/tree/7382f9380200f5a85296621db852ea2513cc5eec/packages/flip-toolkit
+    args: &quot;start&quot; || { opts } // just use the default (empty) new Flipping() 
+  },
+  {
+    sub: &quot;state&quot;,
+    path: [&quot;head&quot;],
+    // 📌 have to create a function that generates/overwrites these defaults...
+    args: {
+      title: `Hyperlocals ${search && &quot;Search Results for: &quot; + search}`,
+      &quot;og:description&quot;: &quot;social media for people who hate social media&quot;,
+      &quot;og:type&quot;: &quot;website&quot;,
+      &quot;og:url&quot;: href,
+      &quot;og:image&quot;: pic,
+      &quot;og:image:width&quot;: 1200,
+      &quot;og:image:height&quot;: 1200
+    }
+  },
+  {
+    id: &quot;state&quot;,
+    path: [&quot;body&quot;, &quot;content&quot;],
+    args: data,
+  },
+  {
+    id: &quot;state&quot;,
+    path: [&quot;body&quot;, &quot;loading&quot;],
+    args: false
+  },
+  {
+    id: &quot;state&quot;,
+    path: [&quot;route&quot;]
+    args: { state: parse_URL(href), href }
+  },
+  {
+    id: &quot;pushstate&quot;,
+    args: { state: parse_URL(href), href }
+  },
+  {
+    id: &quot;FLIP&quot;,
+    args: &quot;end&quot;
+  }
+]
+</code></pre>
+<h2>PubSub Dispatcher</h2>
+<p>The dispatching function is an <code>thi.ng/rstream</code> <code>pubsub</code> instance, which is dispatched to with an asyncronous reduction:</p>
+<pre class="prettyprint source lang-js"><code>
+
+</code></pre>
+<h2>DOM listeners</h2>
+<p>DOM listeners are registered to the triggers stream as well and can be used to inject events into the stream.</p>
+<p>Examples:</p>
+<ul>
+<li>if navigation is executed during <code>[&quot;body&quot;, &quot;loading&quot;] === true</code>, user cancels any pending events in the stream with <code>triggers.cancel()</code>,</li>
+</ul>
+<h2>if any higher order triggers are aliases for lower-order triggers, the lower-order triggers are unwrapped and applied in place of their higher-order alias before emitting event through first higher-order trigger</h2>
+<h2>Parsing (Runtime)</h2>
+<h3>1: Prep</h3>
+<p>Any function that seeks to change the UI</p>
+<pre class="prettyprint source"><code>                                          
+  888-~88e-~88e  e88~-_  888-~\  e88~~8e  
+  888  888  888 d888   i 888    d888  88b 
+  888  888  888 8888   | 888    8888__888 
+  888  888  888 Y888   ' 888    Y888    , 
+  888  888  888  &quot;88_-~  888     &quot;88___/  
+                                          
+</code></pre>
+<p>inspired by the elm-architecture</p>
+<ul>
+<li>
+<p>messages / commands -&gt; (event stream) can contain:</p>
+<ul>
+<li>a single update command:
+{
+path: ['lens', 'to', 'junk'],
+payload: ...whatevs...,
+...tbd
+}</li>
+<li>a transaction command (<code>state_stream is written to as an</code>@thi.ng/Atom.transaction`):
+[
+{
+path: ['first', 'path'],
+payload: { first: 'payload'},
+},
+{
+path: ['second', 'path'],
+payload: { second: 'payload' }
+}
+]</li>
+<li>any functionality needed for async is done at call site (for deterministic state mgmt)
+<ul>
+<li>can be lifted into a util if concern is cross-cutting</li>
+<li>the command with the functions powering the state/path updates may also be encapsulated as modules and used across multiple components for even greater reuse with the advantage of organizing state (consider importing all such modules into the creation of initial Atom for path 'registration'</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>state -&gt; (atom) store for write/read intersection:</p>
+<ul>
+<li>central &quot;update&quot; dispatcher (from elm)</li>
+<li>subscribes to <code>event_stream</code> and allows immutable updates to state using the <code>path</code> and <code>payload</code> of the event.dispatching mech can be:
+<ul>
+<li>an <code>@thi.ng/EquivMap</code> if you want to use the raw (array-based) path</li>
+<li>take the array and turn it into a dot-string for matching on a regular es6 Map</li>
+<li>take the actual path and use it with <code>@thi.ng/paths</code> for immutable updates to the central store/Atom</li>
+</ul>
+</li>
+<li>dispatches events for view update on a separate <code>state_stream</code> (read only)</li>
+<li>state stream is subscribed to from all <code>view</code>s (can be derived views of the atom</li>
+</ul>
+</li>
+<li>
+<h2>view (hdom component/s)</h2>
+</li>
+</ul>
     </article>
   </section>
 

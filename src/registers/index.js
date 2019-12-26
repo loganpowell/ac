@@ -27,6 +27,7 @@ export const registerStream$ = (stream$, task_or_command, xform) => {
    * transducer to be attached to another stream to chain the
    * emissions from one to the other
    *
+   * 📌 TODO: emit task or command to downstream
    */
   let xf = $ =>
     xform

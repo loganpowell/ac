@@ -1,6 +1,6 @@
 import { parse_href } from "../utils"
-import { popstate$, navigated$ } from "../browser"
-import { register_stream } from "../registers"
+import { navigated$ } from "../browser"
+import { registerStream } from "../registers"
 import { map } from "@thi.ng/transducers"
 
 // first the command... then the handler
