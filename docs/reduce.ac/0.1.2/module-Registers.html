@@ -82,7 +82,7 @@
       
     
 
-    <h3>Modules</h3><ul><li id="Dispatcher-nav"><a href="module-Dispatcher.html">Dispatcher</a></li><li id="Registers-nav"><a href="module-Registers.html">Registers</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#hurl_dispatch">hurl_dispatch</a></li><li><a href="global.html#hurl_router">hurl_router</a></li><li><a href="global.html#register_router_BOM">register_router_BOM</a></li><li><a href="global.html#href_pushState">href_pushState</a></li><li><a href="global.html#parse_href">parse_href</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
+    <h3>Modules</h3><ul><li id="Task_Spooler-nav"><a href="module-Task_Spooler.html">Task_Spooler</a></li><li id="Registers-nav"><a href="module-Registers.html">Registers</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#hurl_dispatch">hurl_dispatch</a></li><li><a href="global.html#hurl_router">hurl_router</a></li><li><a href="global.html#register_router_BOM">register_router_BOM</a></li><li><a href="global.html#href_pushState">href_pushState</a></li><li><a href="global.html#route">route</a></li><li><a href="global.html#parse_href">parse_href</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
   </nav>
 
   <div id="main">
@@ -125,8 +125,8 @@
         
             
 
-<h4 class="name" id=".registerStreamCMD">
-  <span class="type-signature">(static, constant) </span>registerStreamCMD<span class="type-signature"></span>
+<h4 class="name" id=".streamCMD$">
+  <span class="type-signature">(static, constant) </span>streamCMD$<span class="type-signature"></span>
 </h4>
 
 
@@ -175,7 +175,7 @@ to chain the emissions from one to the other</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="registers_index.js.html">registers/index.js</a>, <a href="registers_index.js.html#line49">line 49</a>
+          <a href="registers_index.js.html">registers/index.js</a>, <a href="registers_index.js.html#line57">line 57</a>
         </li>
       </ul>
     </dd>
@@ -204,8 +204,8 @@ to chain the emissions from one to the other</p>
         
             
 
-<h4 class="name" id=".registerStreamTask">
-  <span class="type-signature">(static, constant) </span>registerStreamTask<span class="type-signature"></span>
+<h4 class="name" id=".streamTask$">
+  <span class="type-signature">(static, constant) </span>streamTask$<span class="type-signature"></span>
 </h4>
 
 
@@ -213,13 +213,12 @@ to chain the emissions from one to the other</p>
 
   <div class="description">
     <h2><code>registerStreamTask</code></h2>
-<p>Provides a way to register ad-hoc upstream producers into
-the task$ stream</p>
-<p>Takes a stream <code>src$</code> and an optional transducer and
-returns a subscription attached to the <code>task$</code> stream to
-chain the emissions from one to the other</p>
-<p>registers injection stream w/either command$ or task$
+<p>Register ad-hoc upstream producers into the <code>task$</code>
 stream</p>
+<p>Takes a stream <code>src$</code>, a <code>task</code> (or subtask) and an
+optional transducer and returns a subscription attached
+to the <code>task$</code> stream to chain the emissions from one to
+the other</p>
   </div>
 
 
@@ -256,7 +255,7 @@ stream</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="registers_index.js.html">registers/index.js</a>, <a href="registers_index.js.html#line92">line 92</a>
+          <a href="registers_index.js.html">registers/index.js</a>, <a href="registers_index.js.html#line100">line 100</a>
         </li>
       </ul>
     </dd>
@@ -340,7 +339,7 @@ const href_route = O_defHandler$({
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="registers_index.js.html">registers/index.js</a>, <a href="registers_index.js.html#line141">line 141</a>
+          <a href="registers_index.js.html">registers/index.js</a>, <a href="registers_index.js.html#line161">line 161</a>
         </li>
       </ul>
     </dd>

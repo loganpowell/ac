@@ -8,6 +8,24 @@ const default_meta = {
   title_NA: "Some Page"
 }
 
+/**
+ * Pseudo
+ *
+ * Subtask:
+ * - input         => { href }
+ * - href_query    => { path, query }  : parse_href
+ * - query_match   => { match }        : EquivMap
+ * - query_auth    => Promise { auth } : ? API
+ * - auth_data     => Promise { data } : ? API
+ * - FLIP          => 0                : side-effect
+ * - query_URL     => { route }        : side-effect
+ * - datapath_head => { path, data }   : Atom$ -> <head>
+ * - datapath_body => { path, data }   : Atom$ -> UI render!
+ * - FLIP          => 1                : side-effect
+ * -
+ * - output:
+ *
+ */
 export const route = ({ href, data }) => [
   {
     sub$: "FLIP",

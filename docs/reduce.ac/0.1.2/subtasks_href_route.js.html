@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>
-      registers/index.js - Documentation
+      subtasks/href_route.js - Documentation
   </title>
 
   <link href="https://www.braintreepayments.com/images/favicon-ccda0b14.png" rel="icon" type="image/png">
@@ -90,7 +90,7 @@
   <div id="main">
     
       <h1 class="page-title">
-        registers/index.js
+        subtasks/href_route.js
       </h1>
     
 
@@ -99,185 +99,81 @@
 
 <section>
   <article>
-    <pre class="prettyprint source linenums"><code>/**
- * @module Registers
- */
-import { command$, task$, out$ } from "../streams"
-import { isFunction } from "@thi.ng/checks"
-import { map, comp, pluck } from "@thi.ng/transducers"
-import { unknown_key_ERR } from "../utils"
-import { trace } from "@thi.ng/rstream"
+    <pre class="prettyprint source linenums"><code>import { parse_href } from "../utils"
 
-// abbreviated mult-use error checker for this scope
-let check4errors = (CMD, return_args) => {
-  let { sub$, args, path, ...unknown } = CMD
-
-  if (Object.keys(unknown).length > 0)
-    throw new Error(unknown_key_ERR(CMD, unknown, sub$))
-
-  return args
+const default_meta = {
+  meta_image: "https://picsum.photos/1000/600.jpg",
+  meta_description: "a website for something",
+  meta_title: "some page",
+  meta_url: "https://somewebsite.com/home",
+  title_NA: "Some Page"
 }
 
 /**
+ * Pseudo
  *
- * ## `registerStreamCMD`
- *
- * Provides a way to register ad-hoc upstream producers into
- * the `command$` stream
- *
- * Takes a `stream_command` and an optional transducer and
- * returns a subscription attached to the `command$` stream
- * to chain the emissions from one to the other
- *
- * @example
- *
- * let test$ = stream()
- *
- * let src$_CMD_payload = {
- *   src$: stream(),
- *   sub$: "TEST",
- *   args: { data: "lots of 💩" }
- * }
- *
- * let src$_CMD_fn = {
- *   src$: test$,
- *   sub$: "COMMAND1",
- *   args: x => ({ data: x })
- * }
- *
- * let inbound_stream = registerStreamCMD(src$_CMD_payload)
- * let inbound_stream3 = registerStreamCMD(src$_CMD_fn)
- *
- * @param {Command} stream_command Command to dispatch
- * events from the included `src$` (the upstream producer)
- * to downstream consumers/handlers registered to listen for
- * the included `sub$`
- * @param {function} xform optional transducer to preprocess
- * streamed vals before dispatching Commands downstream
- */
-export const streamCMD$ = (src$, command, xform) => {
-  // 📌 TODO: register factory function
-
-  let { sub$, args, path, ...unknown } = command
-
-  let is_fn = isFunction(args)
-
-  if (Object.keys(unknown).length > 0) {
-    throw new Error(unknown_key_ERR("`streamCMD$`", command, unknown, sub$))
-  }
-
-  let feed = $ => {
-    if (xform &amp;&amp; is_fn) {
-      return comp(
-        xform,
-        map(x => $.next({ sub$, args: args(x) }))
-      )
-    } else if (xform &amp;&amp; !is_fn) {
-      return comp(
-        xform,
-        map(() => $.next({ sub$, args }))
-      )
-    } else if (is_fn) {
-      return map(x => $.next({ sub$, args: args(x) }))
-    } else return map(() => $.next({ sub$, args }))
-  }
-  // looks for the `sub$` key to determine if its a command
-  return src$.subscribe(feed(command$))
-}
-
-/**
- *
- * ## `registerStreamTask`
- *
- * Register ad-hoc upstream producers into the `task$`
- * stream
- *
- * Takes a stream `src$`, a `task` (or subtask) and an
- * optional transducer and returns a subscription attached
- * to the `task$` stream to chain the emissions from one to
- * the other
+ * Subtask:
+ * - input         => { href }
+ * - href_query    => { path, query }  : parse_href
+ * - query_match   => { match }        : EquivMap
+ * - query_auth    => Promise { auth } : ? API
+ * - auth_data     => Promise { data } : ? API
+ * - FLIP          => 0                : side-effect
+ * - query_URL     => { route }        : side-effect
+ * - datapath_head => { path, data }   : Atom$ -> &lt;head>
+ * - datapath_body => { path, data }   : Atom$ -> UI render!
+ * - FLIP          => 1                : side-effect
+ * -
+ * - output:
  *
  */
-export const streamTask$ = (src$, task_or_subtask, xform) => {
-  let is_fn = isFunction(task_or_subtask)
-
-  let check = is_fn ? task_or_subtask() : task_or_subtask
-
-  check.foreach(CMD => {
-    let { sub$, args, path, ...unknown } = CMD
-
-    if (Object.keys(unknown).length > 0) {
-      throw new Error(unknown_key_ERR("`streamTask$`", CMD, unknown, sub$))
+export const route = ({ href, data }) => [
+  {
+    sub$: "FLIP",
+    // options (1): https://github.com/davidkpiano/flipping#new-flippingoptions
+    // options (2): https://github.com/aholachek/react-flip-toolkit/tree/7382f9380200f5a85296621db852ea2513cc5eec/packages/flip-toolkit
+    args: "start"
+  },
+  {
+    sub$: "state",
+    path: ["head"],
+    // 📌 have to create a function that generates/overwrites these defaults...
+    args: {
+      meta: {
+        // title: `Hyperlocals ${search &amp;&amp; "Search Results for: " + search}`,
+        "og:description": "social media for people who hate social media",
+        "og:type": "website",
+        "og:url": href,
+        // "og:image": pic,
+        "og:image:width": 1200,
+        "og:image:height": 1200
+      }
     }
-  })
-
-  let feed = $ => {
-    if (xform &amp;&amp; is_fn) {
-      return comp(
-        xform,
-        map(x => $.next(task_or_subtask(x)))
-      )
-    } else if (xform &amp;&amp; !is_fn) {
-      return comp(
-        xform,
-        map(() => $.next(task_or_subtask))
-      )
-    } else if (is_fn) {
-      return map(x => $.next(task_or_subtask(x)))
-    } else return map(() => $.next(task_or_subtask))
+  },
+  {
+    sub$: "state",
+    path: ["body", "content"],
+    args: { data }
+  },
+  {
+    sub$: "state",
+    path: ["body", "loading"],
+    args: false
+  },
+  {
+    sub$: "state",
+    path: ["route"],
+    args: { state: "parse_URL(href)" }
+  },
+  {
+    sub$: "pushstate",
+    args: { state: "route state overwritten 🔥" }
+  },
+  {
+    sub$: "FLIP",
+    args: "end"
   }
-  return src$.subscribe(feed(task$))
-}
-
-/**
- *
- * `register_command`
- *
- * Takes a Command object with some additional information
- * and returns a Command usable in a Task or as-is. This also
- * serves the additional benefit of giving the user a constant
- * to use instead of making any typos in keys and
- *
- * ### Example
- *
- * ```js
- * import { route } from "./my_little_router"
- *
- * const href_route = O_defHandler$({
- *  sub$: "ROUTE",
- *  args: ({ href }) => ({ href }),
- *  handler: ({ href }) => route(href)
- * })
- * ```
- * returns:
- * ```js
- * console.log(href_route)
- * //-> { sub$: "ROUTE", args: ({ href }) => ({ href }) }
- * ```
- *
- * @param {Command} command an object with three
- * required keys (`sub$`, `args`, `handler`)
- *
- */
-export const registerCMD = (command, handler) => {
-  // 📌 TODO: register factory function
-
-  let { sub$, args, path, ...unknown } = command
-
-  /**
-   * destructure the args component out of the emissions
-   * to save the user from having to do that PITA everytime
-   */
-  if (Object.keys(unknown).length > 0) {
-    throw new Error(unknown_key_ERR("`registerCMD`", command, unknown, sub$))
-  }
-
-  out$
-    .subscribeTopic(sub$)
-    .subscribe({ next: handler, error: console.warn }, pluck("args"))
-
-  return command
-}
+]
 </code></pre>
   </article>
 </section>

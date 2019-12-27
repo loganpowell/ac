@@ -82,7 +82,7 @@
       
     
 
-    <h3>Modules</h3><ul><li id="Dispatcher-nav"><a href="module-Dispatcher.html">Dispatcher</a></li><li id="Registers-nav"><a href="module-Registers.html">Registers</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#hurl_dispatch">hurl_dispatch</a></li><li><a href="global.html#hurl_router">hurl_router</a></li><li><a href="global.html#register_router_BOM">register_router_BOM</a></li><li><a href="global.html#href_pushState">href_pushState</a></li><li><a href="global.html#parse_href">parse_href</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
+    <h3>Modules</h3><ul><li id="Task_Spooler-nav"><a href="module-Task_Spooler.html">Task_Spooler</a></li><li id="Registers-nav"><a href="module-Registers.html">Registers</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#hurl_dispatch">hurl_dispatch</a></li><li><a href="global.html#hurl_router">hurl_router</a></li><li><a href="global.html#register_router_BOM">register_router_BOM</a></li><li><a href="global.html#href_pushState">href_pushState</a></li><li><a href="global.html#route">route</a></li><li><a href="global.html#parse_href">parse_href</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
   </nav>
 
   <div id="main">
@@ -435,6 +435,88 @@ back the Command without the handler!?</p>
       <ul class="dummy">
         <li>
           <a href="commands_route.js.html">commands/route.js</a>, <a href="commands_route.js.html#line27">line 27</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id="route">
+  <span class="type-signature">(constant) </span>route<span class="type-signature"></span>
+</h4>
+
+
+
+
+  <div class="description">
+    <p>Pseudo</p>
+<p>Subtask:</p>
+<ul>
+<li>input         =&gt; { href }</li>
+<li>href_query    =&gt; { path, query }  : parse_href</li>
+<li>query_match   =&gt; { match }        : EquivMap</li>
+<li>query_auth    =&gt; Promise { auth } : ? API</li>
+<li>auth_data     =&gt; Promise { data } : ? API</li>
+<li>FLIP          =&gt; 0                : side-effect</li>
+<li>query_URL     =&gt; { route }        : side-effect</li>
+<li>datapath_head =&gt; { path, data }   : Atom$ -&gt; <head></li>
+<li>datapath_body =&gt; { path, data }   : Atom$ -&gt; UI render!</li>
+<li>FLIP          =&gt; 1                : side-effect</li>
+<li></li>
+<li>output:</li>
+</ul>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="subtasks_href_route.js.html">subtasks/href_route.js</a>, <a href="subtasks_href_route.js.html#line29">line 29</a>
         </li>
       </ul>
     </dd>

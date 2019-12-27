@@ -1,5 +1,5 @@
 import { stream } from "@thi.ng/rstream"
-import { registerStreamCMD, registerCMD } from "../src/registers"
+import { streamCMD$, registerCMD } from "../src/registers"
 import { traceStream } from "../src/utils"
 import { command$, task$ } from "../src/streams"
 
@@ -8,44 +8,42 @@ import { command$, task$ } from "../src/streams"
 
 let test$ = stream()
 
-let test_command = {
-  src$: stream(),
-  sub$: "TEST",
-  args: { data: "lots of 💩" }
+let CMD_static_payload = {
+  sub$: "NOOP",
+  args: "where is the fruit?"
 }
 
-let test_command_fn = {
-  src$: test$,
-  sub$: "COMMAND1",
+let CMD_bundle_fn = {
+  sub$: "TEST",
   args: x => ({ data: x })
 }
 
-let inbound_stream = registerStreamCMD(test_command)
-let inbound_stream3 = registerStreamCMD(test_command_fn)
-registerStreamCMD(test_command_fn)
-
-let data_logger = {
-  sub$: "COMMAND1",
-  args: x => console.log("GOT SOME DATA:", x),
-  path: ["coca", "cola"]
-}
+let inbound_stream_PL = streamCMD$(test$, CMD_static_payload)
+let inbound_stream_FN = streamCMD$(test$, CMD_bundle_fn)
 
 // 📌 TODO: figure out a way to register a factory function
-let test_handler_fn = {
+let test_CMD = {
   sub$: "TEST",
-  args: x => console.log("GOT A TEST:", x),
   path: ["warren", "buffet"]
 }
 
-let data_log = registerCMD(data_logger)
+let test_FN = x => console.log("GOT A TEST:", x)
 
-data_log //?
-
-let data_log_fn = registerCMD(test_handler_fn)
-
-test$.next("🍑")
-test$.next("😍")
+// gives you back a constant that you can use in-situ
+// useful convention: input_output -> for command chaining
+let string_log = registerCMD(test_CMD, test_FN)
+// registered stream emmissions are now connected to
+// handlers
 test$.next("💃")
 
-inbound_stream.next("hello")
-inbound_stream3.next("😱")
+// this doesn't work... yet
+inbound_stream_PL.next("🍌")
+
+// but once we've registered
+let emit_log = registerCMD(CMD_static_payload, test_FN)
+
+inbound_stream_PL.next("🍑")
+
+// you can also use the returned stream from streamCMD$ to
+// inject emissions directly therein
+inbound_stream_FN.next("😍")

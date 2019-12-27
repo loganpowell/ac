@@ -1,5 +1,5 @@
 /**
- @module Dispatcher
+ @module Task_Spooler
 */
 import { isFunction, isPromise } from "@thi.ng/checks"
 import { map } from "@thi.ng/transducers"
@@ -182,7 +182,7 @@ export const dispatcher = task_array =>
     }
     const { sub$, args, path, reso, erro, ...unknown } = c //🤔 (sub$ = "")
     if (Object.keys(unknown).length > 0)
-      throw new Error(unknown_key_ERR(c, unknown, sub$, i))
+      throw new Error(unknown_key_ERR("Task Dispatcher", c, unknown, sub$, i))
     let arg_type = stringify_type(args)
     let result = args
 
@@ -215,6 +215,7 @@ export const dispatcher = task_array =>
      */
     if (arg_type === "THUNK") {
       result = args()
+      console.log("dispatching to custom stream")
       sub$.next(result) // 💃
       // if thunk, dispatch to ad-hoc stream, return acc as-is
       return acc
