@@ -12,6 +12,7 @@ const default_meta = {
  * Pseudo
  *
  * Subtask:
+ * ```
  * - input         => { href }
  * - href_query    => { path, query }  : parse_href
  * - query_match   => { match }        : EquivMap
@@ -22,8 +23,7 @@ const default_meta = {
  * - datapath_head => { path, data }   : Atom$ -> <head>
  * - datapath_body => { path, data }   : Atom$ -> UI render!
  * - FLIP          => 1                : side-effect
- * -
- * - output:
+ * ```
  *
  */
 export const route = ({ href, data }) => [

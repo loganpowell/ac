@@ -120,8 +120,8 @@ let fix_jsdoc
  * ```
  * 0>- |------c---------c--[ a, b, a ]-a----c-> : calls
  * 1>- |ps|---1---------1------------0-1----1-> : run$
- * 2>- ---|tp|------*-*-*----------*---*----*-> : command$
- * 3>- ---|tp|xf|---^-^------------^-?--------> : task$
+ * 2>- ---|tp|xf|---a-b------------a-?--------> : task$
+ * 3>- ---|tp|------*-*-c----------*---a----c-> : command$
  * 4>- ------|ps|--|a-b-c----------a---a----c-> : out$
  * Handlers
  * a>- ---------|tp|*--------------*---*------>
@@ -134,8 +134,8 @@ let fix_jsdoc
  * - `0>-`: `ctx.run$.next(x)` userland dispatches
  * - `1>-`: `pubsub({ topic: x => x.length === 0 })` `run$`
  *   stream
- * - `2>-`: pubsub = `true` ? ->`command$` stream
- * - `3>-`: pubsub = `false` ? -> `task$` stream
+ * - `2>-`: pubsub = `false` ? -> `task$` stream
+ * - `3>-`: pubsub = `true` ? ->`command$` stream
  * - `4>-`: `pubsub({ topic: x => x.sub$ })`: `out$` stream
  *   -> `register_command`
  *

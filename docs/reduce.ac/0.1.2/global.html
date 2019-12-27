@@ -466,20 +466,17 @@ back the Command without the handler!?</p>
   <div class="description">
     <p>Pseudo</p>
 <p>Subtask:</p>
-<ul>
-<li>input         =&gt; { href }</li>
-<li>href_query    =&gt; { path, query }  : parse_href</li>
-<li>query_match   =&gt; { match }        : EquivMap</li>
-<li>query_auth    =&gt; Promise { auth } : ? API</li>
-<li>auth_data     =&gt; Promise { data } : ? API</li>
-<li>FLIP          =&gt; 0                : side-effect</li>
-<li>query_URL     =&gt; { route }        : side-effect</li>
-<li>datapath_head =&gt; { path, data }   : Atom$ -&gt; <head></li>
-<li>datapath_body =&gt; { path, data }   : Atom$ -&gt; UI render!</li>
-<li>FLIP          =&gt; 1                : side-effect</li>
-<li></li>
-<li>output:</li>
-</ul>
+<pre class="prettyprint source"><code>- input         => { href }
+- href_query    => { path, query }  : parse_href
+- query_match   => { match }        : EquivMap
+- query_auth    => Promise { auth } : ? API
+- auth_data     => Promise { data } : ? API
+- FLIP          => 0                : side-effect
+- query_URL     => { route }        : side-effect
+- datapath_head => { path, data }   : Atom$ -> &lt;head>
+- datapath_body => { path, data }   : Atom$ -> UI render!
+- FLIP          => 1                : side-effect
+</code></pre>
   </div>
 
 

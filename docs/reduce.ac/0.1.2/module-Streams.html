@@ -141,8 +141,8 @@ anything in <code>hurl</code></p>
 <h2>Marble Diagram</h2>
 <pre class="prettyprint source"><code>0>- |------c---------c--[ a, b, a ]-a----c-> : calls
 1>- |ps|---1---------1------------0-1----1-> : run$
-2>- ---|tp|------*-*-*----------*---*----*-> : command$
-3>- ---|tp|xf|---^-^------------^-?--------> : task$
+2>- ---|tp|xf|---a-b------------a-?--------> : task$
+3>- ---|tp|------*-*-c----------*---a----c-> : command$
 4>- ------|ps|--|a-b-c----------a---a----c-> : out$
 Handlers
 a>- ---------|tp|*--------------*---*------>
@@ -154,8 +154,8 @@ c>- ---------|tp|----*-------------------*->
 <li><code>0&gt;-</code>: <code>ctx.run$.next(x)</code> userland dispatches</li>
 <li><code>1&gt;-</code>: <code>pubsub({ topic: x =&gt; x.length === 0 })</code> <code>run$</code>
 stream</li>
-<li><code>2&gt;-</code>: pubsub = <code>true</code> ? -&gt;<code>command$</code> stream</li>
-<li><code>3&gt;-</code>: pubsub = <code>false</code> ? -&gt; <code>task$</code> stream</li>
+<li><code>2&gt;-</code>: pubsub = <code>false</code> ? -&gt; <code>task$</code> stream</li>
+<li><code>3&gt;-</code>: pubsub = <code>true</code> ? -&gt;<code>command$</code> stream</li>
 <li><code>4&gt;-</code>: <code>pubsub({ topic: x =&gt; x.sub$ })</code>: <code>out$</code> stream
 -&gt; <code>register_command</code></li>
 </ul>

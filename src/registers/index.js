@@ -30,6 +30,7 @@ let check4errors = (CMD, return_args) => {
  *
  * @example
  *
+ * ```js
  * let test$ = stream()
  *
  * let src$_CMD_payload = {
@@ -47,6 +48,7 @@ let check4errors = (CMD, return_args) => {
  * let inbound_stream = registerStreamCMD(src$_CMD_payload)
  * let inbound_stream3 = registerStreamCMD(src$_CMD_fn)
  *
+ * ```
  * @param {Command} stream_command Command to dispatch
  * events from the included `src$` (the upstream producer)
  * to downstream consumers/handlers registered to listen for

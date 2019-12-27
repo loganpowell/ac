@@ -12,103 +12,107 @@ let fix_jsdoc
  * @description
  * ## `dispatcher`
  *
- * Async `reduce` function, that passes an _object_ as a
- * state container between Command invocations.
- *
  * ### TL;DR:
  *
- * Handles any state updates and/or other effects which
+ * Handles Collections (array) of Commands ("Tasks") which
  * require _ordered_ choreography and/or have a dependency
- * on some (a/sync) data produced by a user interaction.
+ * on some (a)sync data produced by a user interaction.
  *
  * ### Synopsis:
  *
- * - very simple async finite state machine.
+ * - Async `reduce` function, that passes an _object_ as a
+ *   local state (acc) container between Command
+ *   invocations.
  * - Commands are composed in-situ in userland (Ad hoc)
  * - spools a collection of Commands as a Task
  * - resolves any promises contained within a Command
- * - passes an accumulator (STATE) to subsequent Commands in
- *   a Task
+ * - passes an accumulator (acc) to subsequent Commands in a
+ *   Task
  *
  * ### Type checks on function signatures
  *
  * There are two valid forms for Task entries:
- * 1. a Unary function: alias/refer to sub Tasks
- * 2. A Command object: dispatch to Command stream
+ * 1. a Unary function returning an array of Commands:
+ *    referred to as "Subtasks"
+ * 2. A Command object: dispatch to registered handlers
  *
  * ## Recognized Keys
  *
  * There are 5 recognized keys for a Command object:
  *
- * > Required keys
- * 1. `sub$` key = primary identifier
- * - used for registering handlers hooked onto the Command
- *   stream.
+ * ### Primary keys
+ * 1. `sub$` key = Topic identifier: used for registering
+ *    handlers hooked onto the Command stream.
  *
- * 2. `args` key = __primary control structure__
- *  - non-function vals send the Command as-is
- *  - `(0)=>` nullary fns send the _args_ as a Command to
- *    the `sub$` stream of your choosing (see Ad-hoc Stream
- *    Injection below)
- *  - `(1)=>` unary fns are passed the STATE and called
+ * 2. `args` key = __primary control structure__ with three
+ *    recognized forms that do different things in the
+ *    context of a Task:
+ *  - non-function `args` (primitives, objects) send the
+ *    args as-is to the Command handler
+ *  - nullary fns (`(0)=>` ) send the _args_ as a Command to
+ *    a `sub$` _stream_ of your choosing (ADVANCED: see
+ *    Ad-hoc Stream Injection below)
+ *  - unary fns (`(1)=>`) are passed the inter-Task
+ *    accumulated value, called and the resulting value is
+ *    passed to registered Command handler
  *  - Promises (and those returned from `(1)=>`) are
- *    resolved
- *  - new vals are merged with STATE (dupe keys overwritten)
+ *    resolved and their values sent to the handler
+ *  - new vals (Objects) are merged with accumulated object
+ *    from preceding Task results(dupe keys overwritten)
  *
- * > Promise-specific keys -> binary (as in two parameter,
+ * ### Promise-specific keys -> binary (as in two parameter,
  *   not boolean) functions:
+ * 3. `reso` (resolving) function `(2)=>` = handle resolved
+ *    promises:  MUST be a binary fn `(acc, resolved
+ *    Promise) =>`
  *
- * 3. `reso` key = handle resolved promises: `(2)=>` MUST be
- *    a binary fn `(STATE, resolved Promise) =>`
+ * 4. `erro` key `(2)=>` = handle rejected promises : MUST
+ *    be a binary fn `(acc, Promise rejection) =>`
  *
- * 4. `erro` key = handle rejected promises : `(2)=>` MUST
- *    be a binary fn `(STATE, Promise rejection) =>`
- *
- * > State-specific key:
- * 5. `path` key = lens
- * - this is used to cursor into the global state
- *   [Atom](http://thi.ng/atom) for global state evolution
- *   (immutably of course)
- * - you can do anything you want with it. It's allowed to
- *   be any form of static data (no functions), but its
- *   presence sets dispatcher to trigger a Command.
+ * ### State evolution-specific key:
+ * 5. `path` key
+ * - this is intended to provide a cursor into the global
+ *   state [Atom](http://thi.ng/atom) for global state
+ *   evolution (immutably of course)
+ * - However, you can do anything you want with it using any
+ *   other `sub$` key than `"STATE"`. It's allowed to be any
+ *   form of static data (no functions), but its presence
+ *   sets dispatcher to trigger a Command.
  *
  * ### Subtasks:
  * Subtasks are the way you compose tasks. Insert a Task and
  * the dispatcher will unpack it in place (super -> sub
  * order preserved) A Subtask must be defined as a unary
- * function that accepts a state object and returns a Task,
- * e.g.:
+ * function that accepts an accumulator object and returns a
+ * Task, e.g.:
  *
  * #### PSEUDO
  * ```js
  * // { C: Command }
- * // ( S: STATE ) => [...]: Subtask
- * let someSubtask = state => [{C}, {C}, (S)=>[...], ...]
+ * // ( A: Accumulator ) => [...]: Subtask
+ * let someSubtask = acc => [{C}, {C}, (A)=>[...], ...]
  * ```
  *
  * #### Example
  * ```js
  * // subtask example:
- * let subtask1 = state => [
- *  { args: state }, // no sub$ key = state continuation 👀
- *  { sub$: "state"
+ * let subtask1 = acc => [
+ *  { sub$: "acc"
  *  , path: ["body"]
- *  , args: { data: state.data } },
+ *  , args: { data: acc.data } },
  *  { sub$: "route"
- *  , args: { route: { href: state.href } } }
+ *  , args: { route: { href: acc.href } } }
  * ]
  *
  * // task
  * let task = [
- *  { args: { href: "https://my.io/todos" } }, // state init
+ *  { args: { href: "https://my.io/todos" } }, // acc init
  *  { sub$: "fetch"
- *  , args: ({href}) => fetch(href).then(r => r.json())
- *  , erro: (state, err) => ({ sub$: "cancel", args: err })
- *  , reso: (state, res) => ({ data: res }) },
- *  state => subtask1(state), // subtask reference
- *  { sub$: "FLIP"
- *  , args: "done" }
+ *  , args: ({ href }) => fetch(href).then(r => r.json())
+ *  , erro: (acc, err) => ({ sub$: "cancel", args: err })
+ *  , reso: (acc, res) => ({ data: res }) },
+ *  acc => subtask1(acc), // subtask reference
+ *  { sub$: "FLIP" , args: "done" }
  * ]
  *
  * ```
@@ -129,15 +133,16 @@ let fix_jsdoc
  * HURL tries to hide the stream implentation from the user
  * as much as possible, but allows you to go further down
  * the rabbit hole if so desired. You may send Commands to a
- * separate stream of your own creation by using a unary
- * `(0)=>` function signature as your `args` value If this
- * is the case, the dispatcher assumes the `sub$` key
- * references a stream and sends the return value of the
- * thunk to that stream
+ * separate stream of your own creation during a Task by
+ * using a nullary ("thunk") `(0)=>` function signature as
+ * the `args` value of a Command. If this is the case, the
+ * dispatcher assumes the `sub$` key references a stream and
+ * sends the return value of the thunk to that stream
  *
- * > Note: if you need to pass in state/data to your thunk,
- * put it in a subtask, where you can access/destructure the
- * data from the state passed into the subtask function
+ * > Note: if you need to pass the accumulator to your
+ * thunk, put it in a subtask, where you can
+ * access/destructure the data from the acc passed into the
+ * subtask function
  *
  * ```js
  * import { stream, trace } from "@thi.ng/rstream"
@@ -146,25 +151,21 @@ let fix_jsdoc
  * let login = stream().subscribe(trace("login ->"))
  *
  * // subtask
- * let subtask_login = state => [
- *  { args: state },
+ * let subtask_login = ({ token }) => [
  *  { sub$: login // <- stream
- *  , args: { data: state.token } } // <- use state
+ *  , args: { token } } // <- use acc
  * ]
  *
  * // task
  * let task = [
- *  { sub$: login
- *  , args: () => "logging in..." },
- *  { sub$: "init"
- *  , args: { href: "https://my.io/auth" } },
- *  { sub$: "cookie"
- *  , args: ({href}) => fetch(href).then(r => r.json())
- *  , erro: (state, err) => ({ sub$: "cancel", args: err })
- *  , reso: (state, res) => ({ token: res }) },
- *  state => subtask_login(state),
- *  { sub$: login
- *  , args: () => "log in success" }
+ *  { args: { href: "https://my.io/auth" } }, // <- no sub$, just pass data
+ *  { sub$: login , args: () => "logging in..." },
+ *  { sub$: "AUTH"
+ *  , args: ({ href }) => fetch(href).then(r => r.json())
+ *  , erro: (acc, err) => ({ sub$: "cancel", args: err })
+ *  , reso: (acc, res) => ({ token: res }) },
+ *  acc => subtask_login(acc),
+ *  { sub$: login , args: () => "log in success" }
  * ]
  * ```
  *
@@ -175,7 +176,7 @@ export const dispatcher = task_array =>
     // console.log("ACCUMULATOR =>", acc)
     if (isFunction(c)) {
       let recur = c(acc)
-      // this makes passing full state/acc to Subtasks more
+      // this makes passing full acc/acc to Subtasks more
       // ergonomic
       recur.unshift({ args: acc })
       return dispatcher(recur)
@@ -237,7 +238,7 @@ export const dispatcher = task_array =>
     }
 
     // RESULT HANDLERS
-    // state handler
+    // acc handler
     if (path && !(result instanceof Error)) {
       command$.next({ sub$, path, args: result })
       return { ...acc, ...result }
