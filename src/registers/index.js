@@ -7,12 +7,12 @@ import { map, comp, pluck, selectKeys } from "@thi.ng/transducers"
 import { unknown_key_ERR } from "../utils"
 
 const feedCMD$fromSource$ = ({ sub$, args, path, source$ }) => {
-  let is_fn = isFunction(args)
+  let args_is_fn = isFunction(args)
   let deliver = x => ({ sub$, args: args(x), path })
   let delivery = { sub$, args, path }
 
   let feed = $ => {
-    if (is_fn) {
+    if (args_is_fn) {
       return map(x => $.next(deliver(x)))
     } else return map(() => $.next(delivery))
   }
@@ -22,31 +22,7 @@ const feedCMD$fromSource$ = ({ sub$, args, path, source$ }) => {
 
 /**
  *
- * ## `registerStreamCMD`
- *
- * Provides a way to register ad-hoc upstream producers into
- * the `command$` stream
- *
- * Takes a `stream_command` and an optional transducer and
- * returns a subscription attached to the `command$` stream
- * to chain the emissions from one to the other
- *
- * @example
- *
- * ```js
- * 📌 what does registration do to the registered and what does the result look like, short and sweet
- * ```
- * @param {Command} stream_command Command to dispatch
- * events from the included `src$` (the upstream producer)
- * to downstream consumers/handlers registered to listen for
- * the included `sub$`
- * @param {function} xform optional transducer to preprocess
- * streamed vals before dispatching Commands downstream
- */
-
-/**
- *
- * ## `register_command`
+ * ## `registerCMD`
  *
  * Takes a Command object with some additional information
  * and returns a Command usable in a Task or as-is. This
@@ -135,7 +111,15 @@ const feedCMD$fromSource$ = ({ sub$, args, path, source$ }) => {
 export const registerCMD = command => {
   // 📌 TODO: register factory function
 
-  let { sub$, args, path, source$, handler, ...unknown } = command
+  let CMD_is_fn = isFunction(command)
+
+  let { sub$, args, path, source$, handler, ...unknown } = CMD_is_fn
+    ? command({
+        warning: `generated during registerCMD, for sub$: ${
+          command().sub$
+        } please override`
+      })
+    : command
 
   let xform = map(({ args, path }) => (path ? { args, path } : args))
 
@@ -155,5 +139,5 @@ export const registerCMD = command => {
 
   let CMD = { sub$, args, path }
 
-  return CMD
+  return CMD_is_fn ? x => CMD(x) : CMD
 }

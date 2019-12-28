@@ -102,8 +102,8 @@ let fix_jsdoc
  * #### PSEUDO
  * ```js
  * // { C: Command }
- * // ( A: Accumulator ) => [...]: Subtask
- * let someSubtask = acc => [{C}, {C}, (A)=>[...], ...]
+ * // ( { A: Accumulator }: Object ) => [{C},{C}]: Subtask
+ * let someSubtask = ({A}) => [{C}, {C}, ({A})=>[{C},{C}], ...]
  * ```
  *
  * #### Example
@@ -163,12 +163,6 @@ let fix_jsdoc
  * // ad-hoc stream
  * let login = stream().subscribe(trace("login ->"))
  *
- * // subtask
- * let subtask_login = ({ token }) => [
- *  { sub$: login // <- stream
- *  , args: { token } } // <- use acc
- * ]
- *
  * // task
  * let task = [
  *  { args: { href: "https://my.io/auth" } }, // <- no sub$, just pass data
@@ -180,6 +174,12 @@ let fix_jsdoc
  *  acc => subtask_login(acc),
  *  { sub$: login , args: () => "log in success" }
  * ]
+ *
+ * // subtask
+ * let subtask_login = ({ token }) => [
+ *  { sub$: login // <- stream
+ *  , args: () => ({ token }) } // <- use acc
+ * ]
  * ```
  *
  **/
@@ -189,12 +189,12 @@ export const dispatcher = task_array =>
     // console.log("ACCUMULATOR =>", acc)
     if (isFunction(c)) {
       let recur = c(acc)
-      // this makes passing full acc/acc to Subtasks more
-      // ergonomic
+      // this ensures the accumulator is preserved between
+      // stacks
       recur.unshift({ args: acc })
       return dispatcher(recur)
     }
-    const { sub$, args, path, reso, erro, ...unknown } = c //🤔 (sub$ = "")
+    const { sub$, args, path, reso, erro, ...unknown } = c
     if (Object.keys(unknown).length > 0)
       throw new Error(unknown_key_ERR("Task Dispatcher", c, unknown, sub$, i))
     let arg_type = stringify_type(args)
@@ -228,25 +228,25 @@ export const dispatcher = task_array =>
      *
      */
     if (arg_type === "THUNK") {
+      // if thunk, dispatch to ad-hoc stream, return acc as-is
       result = args()
       console.log("dispatching to custom stream")
       sub$.next(result) // 💃
-      // if thunk, dispatch to ad-hoc stream, return acc as-is
       return acc
     }
     if (arg_type === "FUNCTION") {
-      let temp = args(acc)
       // if function, call it with acc and resolve any promises
+      let temp = args(acc)
       result = isPromise(temp) ? await temp.catch(e => e) : temp
     }
     if (arg_type === "OBJECT") {
-      command$.next(c)
       // if object, send the Command as-is and spread into acc
+      command$.next(c)
       return { ...acc, ...args }
     }
     // https://stackoverflow.com/a/31538091
     if (args !== Object(args)) {
-      // if string, send the Command as-is, return acc as-is
+      // if primitive, send the Command as-is, return acc as-is
       command$.next(c)
       return acc
     }

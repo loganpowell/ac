@@ -16,6 +16,28 @@
     - Learning curve is basically five function signatures (within Tasks, more later)
 + IMAGE(s) of a socket and a light switch. You plug in a light and turn it on with a switch...
 - ♻ Framework Architecture
+  - Symbols
+
+| Symbol               | Description                                    |
+| -------------------- | ---------------------------------------------- |
+| `(#) =>`             | [lambda/function with `#` (number) parameters] |
+| `{ }`                | Object                                         |
+| `{C}`                | [Command object]                               |
+| `{A}`                | [Accumulator object]                           |
+| `[{C},{C}]` | `[T]`  | [Task array]                                   |
+| `(A) => [T]`         | [Subtask]                                      |
+
+[lambda/function with `#` (number) parameters](#intra-task-accumulator)
+[Command object](#commands)                              
+[Accumulator object](#intra-task-accumulator)                          
+[Task array](#tasks)                                  
+[Subtask](#subtasks)                            
+
+- Commands
+- Tasks
+- Subtasks
+- Intra-Task Accumulator
+
   - Cross-platform router
   - ❤ Data "adornment" (Google Doc -> revise it) TABLE
     1. First order UI => URL
