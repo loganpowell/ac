@@ -1,4 +1,5 @@
 import { trace } from "@thi.ng/rstream"
+import { map } from "@thi.ng/transducers"
 
 let fix_jsdoc
 
@@ -12,4 +13,9 @@ let fix_jsdoc
  * @param {stream}
  * */
 export const traceStream = (log_prefix, stream) =>
-  stream.subscribe(trace(log_prefix))
+  stream.subscribeTopic
+    ? stream.subscribeTopic("...JUST_L0GGING...", {
+        next: x => console.log(log_prefix, x),
+        error: console.warn
+      })
+    : stream.subscribe(trace(log_prefix))

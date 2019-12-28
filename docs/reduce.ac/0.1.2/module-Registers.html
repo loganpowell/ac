@@ -82,7 +82,7 @@
       
     
 
-    <h3>Modules</h3><ul><li id="Task_Spooler-nav"><a href="module-Task_Spooler.html">Task_Spooler</a></li><li id="Registers-nav"><a href="module-Registers.html">Registers</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#hurl_dispatch">hurl_dispatch</a></li><li><a href="global.html#hurl_router">hurl_router</a></li><li><a href="global.html#register_router_BOM">register_router_BOM</a></li><li><a href="global.html#href_pushState">href_pushState</a></li><li><a href="global.html#route">route</a></li><li><a href="global.html#parse_href">parse_href</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
+    <h3>Modules</h3><ul><li id="Task_Spooler-nav"><a href="module-Task_Spooler.html">Task_Spooler</a></li><li id="Registers-nav"><a href="module-Registers.html">Registers</a></li><li id="registerCMD-nav"><a href="module-registerCMD.html">registerCMD</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#hurl_dispatch">hurl_dispatch</a></li><li><a href="global.html#hurl_router">hurl_router</a></li><li><a href="global.html#register_router_BOM">register_router_BOM</a></li><li><a href="global.html#href_pushState">href_pushState</a></li><li><a href="global.html#route">route</a></li><li><a href="global.html#parse_href">parse_href</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#stringify_w_functions">stringify_w_functions</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
   </nav>
 
   <div id="main">
@@ -175,7 +175,7 @@ to chain the emissions from one to the other</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="registers_index.js.html">registers/index.js</a>, <a href="registers_index.js.html#line59">line 59</a>
+          <a href="registers_index.js.html">registers/index.js</a>, <a href="registers_index.js.html#line43">line 43</a>
         </li>
       </ul>
     </dd>
@@ -195,7 +195,7 @@ to chain the emissions from one to the other</p>
   <h5>Example</h5>
   
 
-  <pre class="prettyprint"><code>```jslet test$ = stream()let src$_CMD_payload = {  src$: stream(),  sub$: "TEST",  args: { data: "lots of 💩" }}let src$_CMD_fn = {  src$: test$,  sub$: "COMMAND1",  args: x => ({ data: x })}let inbound_stream = registerStreamCMD(src$_CMD_payload)let inbound_stream3 = registerStreamCMD(src$_CMD_fn)```</code></pre>
+  <pre class="prettyprint"><code>```js📌 what does registration do to the registered and what does the result look like, short and sweet```</code></pre>
 
 
 
@@ -255,7 +255,7 @@ the other</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="registers_index.js.html">registers/index.js</a>, <a href="registers_index.js.html#line102">line 102</a>
+          <a href="registers_index.js.html">registers/index.js</a>, <a href="registers_index.js.html#line88">line 88</a>
         </li>
       </ul>
     </dd>
@@ -285,23 +285,80 @@ the other</p>
 
 
   <div class="description">
-    <p><code>register_command</code></p>
+    <h2><code>register_command</code></h2>
 <p>Takes a Command object with some additional information
-and returns a Command usable in a Task or as-is. This also
-serves the additional benefit of giving the user a constant
-to use instead of making any typos in keys and</p>
+and returns a Command usable in a Task or as-is. This
+also serves the additional benefit of giving the user a
+constant to use instead of making any typos in keys
+during use.</p>
+<h3>Destructuring Behavior</h3>
+<p>During a <code>sub$</code> registration, the keys in the Command
+object are used to determine the signature of incoming
+Commands. In order to reduce the amount of boilerplate
+for Commands that only contain the <code>sub$</code> and <code>args</code> key,
+the <code>args</code> key is
+<a href="https://github.com/thi-ng/umbrella/blob/master/packages/transducers/src/xform/pluck.ts">pluck</a>ed
+from the incoming Commands. This pulls the <code>args</code> value
+out from the incoming Command objects to be used directly
+(without the need for dstructuring).</p>
 <h3>Example</h3>
-<pre class="prettyprint source lang-js"><code>import { route } from &quot;./my_little_router&quot;
+<pre class="prettyprint source lang-js"><code>import { registerCMD, run$ } from &quot;🍎&quot;
 
-const href_route = O_defHandler$({
- sub$: &quot;ROUTE&quot;,
- args: ({ href }) => ({ href }),
- handler: ({ href }) => route(href)
-})
-</code></pre>
-<p>returns:</p>
-<pre class="prettyprint source lang-js"><code>console.log(href_route)
-//-> { sub$: &quot;ROUTE&quot;, args: ({ href }) => ({ href }) }
+const cmd_pathless = {
+  sub$: &quot;PATHLESS&quot;,
+  args: { static: &quot;payload&quot; }
+}
+
+const pathless_handler = x => console.log(&quot;pathless ->&quot;, x)
+
+const CMD_PATHLESS = registerCMD(cmd_pathless, pathless_handler)
+
+run$.next(CMD_PATHLESS) // 🏃
+// pathless -> { static: 'payload' }
+
+const cmd_path = {
+  sub$: &quot;PATH&quot;,
+  args: { static: &quot;payload&quot; },
+  path: [&quot;default&quot;, &quot;path&quot;]
+}
+
+const path_handler = x => console.log(&quot;path ->&quot;, x)
+
+const CMD_PATH = registerCMD(cmd_path, path_handler)
+
+run$.next(CMD_PATH) // 🏃
+// path -> { args: { static: 'payload' }, path: [ 'default', 'path' ] }
+
+const test_pathless = {
+  sub$: &quot;PATHLESS&quot;,
+  args: &quot;🔥&quot;
+}
+
+run$.next(test_pathless) // 🏃
+// pathless -> &quot;🔥&quot;
+// as you can see, the Command args have been plucked out
+
+const test_path = {
+  sub$: &quot;PATH&quot;,
+  args: &quot;🌊&quot;,
+  path: [&quot;new&quot;, &quot;path&quot;]
+}
+
+run$.next(test_path) // 🏃
+// path -> { args: '🌊', path: [ 'new', 'path' ] }
+// only the sub$ entry has been removed leaving the rest
+
+// NOW: Let's stick these into a Task
+let TASK_1 = [
+  { ...CMD_PATH, path: &quot;overwritten&quot; },
+  CMD_PATHLESS,
+  { ...test_path, args: &quot;🍝&quot; }
+]
+run$.next(TASK_1)
+// path -> { args: { static: 'payload' }, path: 'overwritten' }
+// pathless -> { static: 'payload' }
+// path -> { args: '🍝', path: [ 'new', 'path' ] }
+
 </code></pre>
   </div>
 
@@ -339,7 +396,7 @@ const href_route = O_defHandler$({
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="registers_index.js.html">registers/index.js</a>, <a href="registers_index.js.html#line163">line 163</a>
+          <a href="registers_index.js.html">registers/index.js</a>, <a href="registers_index.js.html#line207">line 207</a>
         </li>
       </ul>
     </dd>

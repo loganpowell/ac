@@ -82,7 +82,7 @@
       
     
 
-    <h3>Modules</h3><ul><li id="Task_Spooler-nav"><a href="module-Task_Spooler.html">Task_Spooler</a></li><li id="Registers-nav"><a href="module-Registers.html">Registers</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#hurl_dispatch">hurl_dispatch</a></li><li><a href="global.html#hurl_router">hurl_router</a></li><li><a href="global.html#register_router_BOM">register_router_BOM</a></li><li><a href="global.html#href_pushState">href_pushState</a></li><li><a href="global.html#route">route</a></li><li><a href="global.html#parse_href">parse_href</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
+    <h3>Modules</h3><ul><li id="Task_Spooler-nav"><a href="module-Task_Spooler.html">Task_Spooler</a></li><li id="registerCMD-nav"><a href="module-registerCMD.html">registerCMD</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#hurl_dispatch">hurl_dispatch</a></li><li><a href="global.html#hurl_router">hurl_router</a></li><li><a href="global.html#register_router_BOM">register_router_BOM</a></li><li><a href="global.html#href_pushState">href_pushState</a></li><li><a href="global.html#route">route</a></li><li><a href="global.html#parse_href">parse_href</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#stringify_w_functions">stringify_w_functions</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
   </nav>
 
   <div id="main">
@@ -140,8 +140,8 @@ require <em>ordered</em> choreography and/or have a dependency
 on some (a)sync data produced by a user interaction.</p>
 <h3>Synopsis:</h3>
 <ul>
-<li>Async <code>reduce</code> function, that passes an <em>object</em> as a
-local state (acc) container between Command
+<li>Async <code>reduce</code> function, that passes an accumulator
+(<code>acc</code>) as a local state container between Command
 invocations.</li>
 <li>Commands are composed in-situ in userland (Ad hoc)</li>
 <li>spools a collection of Commands as a Task</li>
@@ -159,43 +159,43 @@ referred to as &quot;Subtasks&quot;</li>
 <h2>Recognized Keys</h2>
 <p>There are 5 recognized keys for a Command object:</p>
 <h3>Primary keys</h3>
-<ol>
-<li>
-<p><code>sub$</code> key = Topic identifier: used for registering
-handlers hooked onto the Command stream.</p>
-</li>
-<li>
-<p><code>args</code> key = <strong>primary control structure</strong> with three
-recognized forms that do different things in the
-context of a Task:</p>
-</li>
-</ol>
+<h5><code>sub$</code> key</h5>
 <ul>
-<li>non-function <code>args</code> (primitives, objects) send the
-args as-is to the Command handler</li>
+<li>Topic identifier: used for registering handlers hooked
+onto the Command stream.</li>
+</ul>
+<h5><code>args</code> key</h5>
+<ul>
+<li><strong>primary control structure</strong> with three recognized
+forms that do different things in the context of a
+Task:</li>
+<li>non-function <code>args</code> (primitives, objects) send the args
+as-is to the Command handler</li>
 <li>nullary fns (<code>(0)=&gt;</code> ) send the <em>args</em> as a Command to
 a <code>sub$</code> <em>stream</em> of your choosing (ADVANCED: see
 Ad-hoc Stream Injection below)</li>
 <li>unary fns (<code>(1)=&gt;</code>) are passed the inter-Task
 accumulated value, called and the resulting value is
 passed to registered Command handler</li>
-<li>Promises (and those returned from <code>(1)=&gt;</code>) are
-resolved and their values sent to the handler</li>
+<li>Promises (and those returned from <code>(1)=&gt;</code>) are resolved
+and their values sent to the handler</li>
 <li>new vals (Objects) are merged with accumulated object
 from preceding Task results(dupe keys overwritten)</li>
 </ul>
 <h3>Promise-specific keys -&gt; binary (as in two parameter,</h3>
-<p>not boolean) functions:
-3. <code>reso</code> (resolving) function <code>(2)=&gt;</code> = handle resolved
-promises:  MUST be a binary fn <code>(acc, resolved Promise) =&gt;</code></p>
-<ol start="4">
-<li><code>erro</code> key <code>(2)=&gt;</code> = handle rejected promises : MUST
-be a binary fn <code>(acc, Promise rejection) =&gt;</code></li>
-</ol>
+<p>not boolean) functions:</p>
+<h5><code>reso</code> key</h5>
+<ul>
+<li>(resolving) function <code>(2)=&gt;</code> = handle resolved
+promises: MUST be a binary fn <code>(acc, resolved Promise) =&gt;</code></li>
+</ul>
+<h5><code>erro</code> key</h5>
+<ul>
+<li><code>(2)=&gt;</code> = handle rejected promises: MUST be
+a binary fn <code>(acc, Promise rejection) =&gt;</code></li>
+</ul>
 <h3>State evolution-specific key:</h3>
-<ol start="5">
-<li><code>path</code> key</li>
-</ol>
+<h5><code>path</code> key</h5>
 <ul>
 <li>this is intended to provide a cursor into the global
 state <a href="http://thi.ng/atom">Atom</a> for global state
@@ -320,7 +320,7 @@ let task = [
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="dispatcher_index.js.html">dispatcher/index.js</a>, <a href="dispatcher_index.js.html#line173">line 173</a>
+          <a href="dispatcher_index.js.html">dispatcher/index.js</a>, <a href="dispatcher_index.js.html#line186">line 186</a>
         </li>
       </ul>
     </dd>

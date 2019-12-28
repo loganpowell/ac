@@ -9,7 +9,7 @@ import { command$, task$ } from "../streams"
 let fix_jsdoc
 
 /**
- * @description
+ *
  * ## `dispatcher`
  *
  * ### TL;DR:
@@ -20,8 +20,8 @@ let fix_jsdoc
  *
  * ### Synopsis:
  *
- * - Async `reduce` function, that passes an _object_ as a
- *   local state (acc) container between Command
+ * - Async `reduce` function, that passes an accumulator
+ *   (`acc`) as a local state container between Command
  *   invocations.
  * - Commands are composed in-situ in userland (Ad hoc)
  * - spools a collection of Commands as a Task
@@ -41,36 +41,48 @@ let fix_jsdoc
  * There are 5 recognized keys for a Command object:
  *
  * ### Primary keys
- * 1. `sub$` key = Topic identifier: used for registering
- *    handlers hooked onto the Command stream.
  *
- * 2. `args` key = __primary control structure__ with three
- *    recognized forms that do different things in the
- *    context of a Task:
- *  - non-function `args` (primitives, objects) send the
- *    args as-is to the Command handler
- *  - nullary fns (`(0)=>` ) send the _args_ as a Command to
- *    a `sub$` _stream_ of your choosing (ADVANCED: see
- *    Ad-hoc Stream Injection below)
- *  - unary fns (`(1)=>`) are passed the inter-Task
- *    accumulated value, called and the resulting value is
- *    passed to registered Command handler
- *  - Promises (and those returned from `(1)=>`) are
- *    resolved and their values sent to the handler
- *  - new vals (Objects) are merged with accumulated object
- *    from preceding Task results(dupe keys overwritten)
+ * ##### `sub$` key
+ *
+ * - Topic identifier: used for registering handlers hooked
+ *    onto the Command stream.
+ *
+ * ##### `args` key
+ *
+ * - __primary control structure__ with three recognized
+ *   forms that do different things in the context of a
+ *   Task:
+ * - non-function `args` (primitives, objects) send the args
+ *   as-is to the Command handler
+ * - nullary fns (`(0)=>` ) send the _args_ as a Command to
+ *   a `sub$` _stream_ of your choosing (ADVANCED: see
+ *   Ad-hoc Stream Injection below)
+ * - unary fns (`(1)=>`) are passed the inter-Task
+ *   accumulated value, called and the resulting value is
+ *   passed to registered Command handler
+ * - Promises (and those returned from `(1)=>`) are resolved
+ *   and their values sent to the handler
+ * - new vals (Objects) are merged with accumulated object
+ *   from preceding Task results(dupe keys overwritten)
  *
  * ### Promise-specific keys -> binary (as in two parameter,
  *   not boolean) functions:
- * 3. `reso` (resolving) function `(2)=>` = handle resolved
- *    promises:  MUST be a binary fn `(acc, resolved
- *    Promise) =>`
  *
- * 4. `erro` key `(2)=>` = handle rejected promises : MUST
- *    be a binary fn `(acc, Promise rejection) =>`
+ * ##### `reso` key
+ *
+ * - (resolving) function `(2)=>` = handle resolved
+ *   promises: MUST be a binary fn `(acc, resolved Promise)
+ *   =>`
+ *
+ * ##### `erro` key
+ *
+ * - `(2)=>` = handle rejected promises: MUST be
+ *   a binary fn `(acc, Promise rejection) =>`
  *
  * ### State evolution-specific key:
- * 5. `path` key
+ *
+ * ##### `path` key
+ *
  * - this is intended to provide a cursor into the global
  *   state [Atom](http://thi.ng/atom) for global state
  *   evolution (immutably of course)
@@ -80,6 +92,7 @@ let fix_jsdoc
  *   sets dispatcher to trigger a Command.
  *
  * ### Subtasks:
+ *
  * Subtasks are the way you compose tasks. Insert a Task and
  * the dispatcher will unpack it in place (super -> sub
  * order preserved) A Subtask must be defined as a unary
@@ -221,11 +234,6 @@ export const dispatcher = task_array =>
       // if thunk, dispatch to ad-hoc stream, return acc as-is
       return acc
     }
-    if (arg_type === "STRING" || arg_type === "BOOLEAN") {
-      // if string, send the Command as-is, return acc as-is
-      command$.next(c)
-      return acc
-    }
     if (arg_type === "FUNCTION") {
       let temp = args(acc)
       // if function, call it with acc and resolve any promises
@@ -235,6 +243,12 @@ export const dispatcher = task_array =>
       command$.next(c)
       // if object, send the Command as-is and spread into acc
       return { ...acc, ...args }
+    }
+    // https://stackoverflow.com/a/31538091
+    if (args !== Object(args)) {
+      // if string, send the Command as-is, return acc as-is
+      command$.next(c)
+      return acc
     }
 
     // RESULT HANDLERS
@@ -278,4 +292,4 @@ export const dispatcher = task_array =>
  * Attaches the dispatcher to the task$ stream
  *
  */
-task$.transform(map(todos => dispatcher(todos)))
+// task$.transform(map(todos => dispatcher(todos)))

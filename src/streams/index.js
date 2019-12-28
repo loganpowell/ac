@@ -1,10 +1,21 @@
 /**
  @module Streams
 */
-import { stream, pubsub } from "@thi.ng/rstream"
-import { comp, map } from "@thi.ng/transducers"
+import { pubsub } from "@thi.ng/rstream"
+import { dispatcher } from "../dispatcher"
 
-let fix_jsdoc
+/**
+ * ## `out$`
+ *
+ * Primary user-land _READ_ stream. For attaching handlers
+ * for responding to emmitted Commands
+ *
+ */
+export const out$ = pubsub({
+  topic: x => x.sub$,
+  id: "out$_stream",
+  equiv: (x, y) => x === y || x === "...JUST_L0GGING..."
+})
 
 /**
  * # Stream Architecture:
@@ -17,15 +28,15 @@ let fix_jsdoc
  * ## Marble Diagram
  *
  * ```
- * 0>- |------c---------c--[ a, b, a ]-a----c-> : calls
- * 1>- |ps|---1---------1------------0-1----1-> : run$
- * 2>- ---|tp|xf|---a-b------------a-?--------> : task$
- * 3>- ---|tp|------*-*-c----------*---a----c-> : command$
- * 4>- ------|ps|--|a-b-c----------a---a----c-> : out$
+ * 0>- |------c-----------c--[~a~b~a~]-a----c-> : calls
+ * 1>- |ps|---1-----------1----------0-1----1-> : run$
+ * 2>- |t0|---------a~~b~~~~~~~~~~~a~*--------> : task$
+ * 3>- |t1|---c-----------c------------a----c-> : command$
+ * 4>- ---|ps|c-----a--b--c--------a---a----c-> : out$
  * Handlers
- * a>- ---------|tp|*--------------*---*------>
- * b>- ---------|tp|--*----------------------->
- * c>- ---------|tp|----*-------------------*->
+ * a>- ---|ta|------*--------------*---*------> : registerCMD
+ * b>- ---|tb|---------*----------------------> : registerCMD
+ * c>- ---|tc|*-----------*-----------------*-> : registerCMD
  * ```
  *
  * ## Streams
@@ -69,16 +80,11 @@ let fix_jsdoc
  * sent to the `task$` stream.
  *
  */
-export const run$ = pubsub({ topic: x => x.length === 0, id: "run$_stream" })
-
-/**
- * ## `out$`
- *
- * Primary user-land _READ_ stream. For attaching handlers
- * for responding to emmitted Commands
- *
- */
-export const out$ = pubsub({ topic: x => x.sub$, id: "out$_stream" })
+export const run$ = pubsub({
+  topic: x => !!x.sub$,
+  id: "run$_stream",
+  equiv: (x, y) => (x && y) || (!x && !y) || x === "...JUST_L0GGING..."
+})
 
 /**
  * ## `command$`
@@ -89,10 +95,14 @@ export const out$ = pubsub({ topic: x => x.sub$, id: "out$_stream" })
  * simple lookup of the `sub$` key of the command
  *
  */
-export const command$ = run$.subscribeTopic(true, {
-  next: x => out$.next(x),
-  error: console.warn
-})
+export const command$ = run$.subscribeTopic(
+  true,
+  {
+    next: x => out$.next(x),
+    error: console.warn
+  },
+  { id: "command$_stream" }
+)
 
 /**
  * ## `task$`
@@ -103,4 +113,11 @@ export const command$ = run$.subscribeTopic(true, {
  * stream (if array of event objects)
  *
  */
-export const task$ = run$.subscribeTopic(false)
+export const task$ = run$.subscribeTopic(
+  false,
+  {
+    next: dispatcher,
+    error: console.warn
+  },
+  { id: "task$_stream" }
+)

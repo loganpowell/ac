@@ -84,7 +84,7 @@
       
     
 
-    <h3>Modules</h3><ul><li id="Task_Spooler-nav"><a href="module-Task_Spooler.html">Task_Spooler</a></li><li id="Registers-nav"><a href="module-Registers.html">Registers</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#hurl_dispatch">hurl_dispatch</a></li><li><a href="global.html#hurl_router">hurl_router</a></li><li><a href="global.html#register_router_BOM">register_router_BOM</a></li><li><a href="global.html#href_pushState">href_pushState</a></li><li><a href="global.html#route">route</a></li><li><a href="global.html#parse_href">parse_href</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
+    <h3>Modules</h3><ul><li id="Task_Spooler-nav"><a href="module-Task_Spooler.html">Task_Spooler</a></li><li id="registerCMD-nav"><a href="module-registerCMD.html">registerCMD</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#hurl_dispatch">hurl_dispatch</a></li><li><a href="global.html#hurl_router">hurl_router</a></li><li><a href="global.html#register_router_BOM">register_router_BOM</a></li><li><a href="global.html#href_pushState">href_pushState</a></li><li><a href="global.html#route">route</a></li><li><a href="global.html#parse_href">parse_href</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#stringify_w_functions">stringify_w_functions</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
   </nav>
 
   <div id="main">
@@ -102,10 +102,21 @@
     <pre class="prettyprint source linenums"><code>/**
  @module Streams
 */
-import { stream, pubsub } from "@thi.ng/rstream"
-import { comp, map } from "@thi.ng/transducers"
+import { pubsub } from "@thi.ng/rstream"
+import { dispatcher } from "../dispatcher"
 
-let fix_jsdoc
+/**
+ * ## `out$`
+ *
+ * Primary user-land _READ_ stream. For attaching handlers
+ * for responding to emmitted Commands
+ *
+ */
+export const out$ = pubsub({
+  topic: x => x.sub$,
+  id: "out$_stream",
+  equiv: (x, y) => x === y || x === "...JUST_L0GGING..."
+})
 
 /**
  * # Stream Architecture:
@@ -118,15 +129,15 @@ let fix_jsdoc
  * ## Marble Diagram
  *
  * ```
- * 0>- |------c---------c--[ a, b, a ]-a----c-> : calls
- * 1>- |ps|---1---------1------------0-1----1-> : run$
- * 2>- ---|tp|xf|---a-b------------a-?--------> : task$
- * 3>- ---|tp|------*-*-c----------*---a----c-> : command$
- * 4>- ------|ps|--|a-b-c----------a---a----c-> : out$
+ * 0>- |------c-----------c--[~a~b~a~]-a----c-> : calls
+ * 1>- |ps|---1-----------1----------0-1----1-> : run$
+ * 2>- |t0|---------a~~b~~~~~~~~~~~a~*--------> : task$
+ * 3>- |t1|---c-----------c------------a----c-> : command$
+ * 4>- ---|ps|c-----a--b--c--------a---a----c-> : out$
  * Handlers
- * a>- ---------|tp|*--------------*---*------>
- * b>- ---------|tp|--*----------------------->
- * c>- ---------|tp|----*-------------------*->
+ * a>- ---|ta|------*--------------*---*------> : registerCMD
+ * b>- ---|tb|---------*----------------------> : registerCMD
+ * c>- ---|tc|*-----------*-----------------*-> : registerCMD
  * ```
  *
  * ## Streams
@@ -170,16 +181,11 @@ let fix_jsdoc
  * sent to the `task$` stream.
  *
  */
-export const run$ = pubsub({ topic: x => x.length === 0, id: "run$_stream" })
-
-/**
- * ## `out$`
- *
- * Primary user-land _READ_ stream. For attaching handlers
- * for responding to emmitted Commands
- *
- */
-export const out$ = pubsub({ topic: x => x.sub$, id: "out$_stream" })
+export const run$ = pubsub({
+  topic: x => !!x.sub$,
+  id: "run$_stream",
+  equiv: (x, y) => (x &amp;&amp; y) || (!x &amp;&amp; !y) || x === "...JUST_L0GGING..."
+})
 
 /**
  * ## `command$`
@@ -190,10 +196,14 @@ export const out$ = pubsub({ topic: x => x.sub$, id: "out$_stream" })
  * simple lookup of the `sub$` key of the command
  *
  */
-export const command$ = run$.subscribeTopic(true, {
-  next: x => out$.next(x),
-  error: console.warn
-})
+export const command$ = run$.subscribeTopic(
+  true,
+  {
+    next: x => out$.next(x),
+    error: console.warn
+  },
+  { id: "command$_stream" }
+)
 
 /**
  * ## `task$`
@@ -204,7 +214,14 @@ export const command$ = run$.subscribeTopic(true, {
  * stream (if array of event objects)
  *
  */
-export const task$ = run$.subscribeTopic(false)
+export const task$ = run$.subscribeTopic(
+  false,
+  {
+    next: dispatcher,
+    error: console.warn
+  },
+  { id: "task$_stream" }
+)
 </code></pre>
   </article>
 </section>

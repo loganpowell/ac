@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>
-      registers/index.js - Documentation
+      registers/refactor.js - Documentation
   </title>
 
   <link href="https://www.braintreepayments.com/images/favicon-ccda0b14.png" rel="icon" type="image/png">
@@ -84,13 +84,13 @@
       
     
 
-    <h3>Modules</h3><ul><li id="Task_Spooler-nav"><a href="module-Task_Spooler.html">Task_Spooler</a></li><li id="registerCMD-nav"><a href="module-registerCMD.html">registerCMD</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#hurl_dispatch">hurl_dispatch</a></li><li><a href="global.html#hurl_router">hurl_router</a></li><li><a href="global.html#register_router_BOM">register_router_BOM</a></li><li><a href="global.html#href_pushState">href_pushState</a></li><li><a href="global.html#route">route</a></li><li><a href="global.html#parse_href">parse_href</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#stringify_w_functions">stringify_w_functions</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
+    <h3>Modules</h3><ul><li id="Task_Spooler-nav"><a href="module-Task_Spooler.html">Task_Spooler</a></li><li id="Registers-nav"><a href="module-Registers.html">Registers</a></li><li id="registerCMD-nav"><a href="module-registerCMD.html">registerCMD</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#hurl_dispatch">hurl_dispatch</a></li><li><a href="global.html#hurl_router">hurl_router</a></li><li><a href="global.html#register_router_BOM">register_router_BOM</a></li><li><a href="global.html#href_pushState">href_pushState</a></li><li><a href="global.html#route">route</a></li><li><a href="global.html#parse_href">parse_href</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#stringify_w_functions">stringify_w_functions</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
   </nav>
 
   <div id="main">
     
       <h1 class="page-title">
-        registers/index.js
+        registers/refactor.js
       </h1>
     
 
@@ -102,10 +102,11 @@
     <pre class="prettyprint source linenums"><code>/**
  * @module registerCMD
  */
-import { command$, out$ } from "../streams"
-import { isFunction } from "@thi.ng/checks"
-import { map, pluck, selectKeys } from "@thi.ng/transducers"
+import { command$, task$, out$ } from "../streams"
+import { isFunction, isObject, isArray } from "@thi.ng/checks"
+import { map, comp, pluck, selectKeys } from "@thi.ng/transducers"
 import { unknown_key_ERR } from "../utils"
+import { trace } from "@thi.ng/rstream"
 
 const feedCMD$fromSource$ = ({ sub$, args, path, source$ }) => {
   let is_fn = isFunction(args)
@@ -251,8 +252,9 @@ export const registerCMD = command => {
   }
   if (source$) feedCMD$fromSource$(command)
 
-  // more: https://github.com/thi-ng/umbrella/blob/develop/examples/rstream-event-loop/src/events.ts
-  out$.subscribeTopic(sub$, { next: handler, error: console.warn })
+  out$
+    .subscribeTopic(sub$)
+    .subscribe({ next: handler, error: console.warn }, xform)
 
   let CMD = { sub$, args, path }
 
