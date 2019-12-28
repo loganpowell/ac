@@ -80,7 +80,7 @@ const cmd_pathless = {
 
 const CMD_PATHLESS = registerCMD(cmd_pathless)
 
-run$.next(CMD_PATHLESS) // 🏃
+// run$.next(CMD_PATHLESS) // 🏃
 // pathless -> { static: 'payload' }
 
 const cmd_path = {
@@ -92,7 +92,7 @@ const cmd_path = {
 
 const CMD_PATH = registerCMD(cmd_path)
 
-run$.next(CMD_PATH) // 🏃
+// run$.next(CMD_PATH) // 🏃
 // path -> { args: { static: 'payload' }, path: [ 'default', 'path' ] }
 
 const test_pathless = {
@@ -100,7 +100,7 @@ const test_pathless = {
   args: { fire: "🔥" }
 }
 
-run$.next(test_pathless) // 🏃
+// run$.next(test_pathless) // 🏃
 // pathless -> "🔥"
 // as you can see, the Command args have been plucked out
 
@@ -110,22 +110,34 @@ const test_path = {
   path: ["new", "path"]
 }
 
-run$.next(test_path) // 🏃
+// run$.next(test_path) // 🏃
 // path -> { args: '🌊', path: [ 'new', 'path' ] }
 // only the sub$ entry has been removed leaving the rest
 
 // NOW: Let's stick these into a Task
-let TASK_1 = [
-  { ...CMD_PATH, path: "overwritten" },
+let TASK = [
+  CMD_PATH,
   CMD_PATHLESS,
   { ...test_path, args: { heart: "❤" } },
-  { sub$: "PATH", args: x => ({ ...x, smell: "👃" }) },
-  { sub$: "TEST", args: { smell: "👃" } }
+  { sub$: "PATH", args: { peach: "🍑" } }
 ]
-run$.next(TASK_1) // 🏃
-// path -> { args: { static: 'payload' }, path: 'overwritten' }
+// run$.next(TASK) // 🏃
+// path -> { args: { static: 'payload' }, path: [ 'default', 'path' ] }
 // pathless -> { static: 'payload' }
-// path -> { args: '❤', path: [ 'new', 'path' ] }
+// path -> { args: { heart: '❤' }, path: [ 'new', 'path' ] }
+// path -> { peach: '🍑' }
+
+// Advanced Task'ing:
+// NOW: Let's stick these into a Task
+let TASK_ADV = [
+  CMD_PATHLESS,
+  { ...test_path, args: { heart: "❤" } },
+  { sub$: "PATH", args: x => ({ ...x, peach: "🍑" }) }
+]
+run$.next(TASK_ADV) //?
+// pathless -> { static: 'payload' }
+// path -> { args: { heart: '❤' }, path: [ 'new', 'path' ] }
+// path -> { static: 'payload', heart: '❤', peach: '🍑' }
 
 //
 //                     ,d88~/\
@@ -142,15 +154,15 @@ run$.next(TASK_1) // 🏃
 // invocation, but some other stream of things (powered by
 // [@thi.ng/rstream](http://thi.ng/rstream) `<x>from`s
 
-const upstream$ = stream()
+// const upstream$ = stream()
 
-const upstream_cmd = {
-  sub$: "UPSTREAM",
-  args: { static: "payload" },
-  handler: x => console.log("upstream ->", x),
-  source$: upstream$
-}
+// const upstream_cmd = {
+//   sub$: "UPSTREAM",
+//   args: { static: "payload" },
+//   handler: x => console.log("upstream ->", x),
+//   source$: upstream$
+// }
 
-const UPSTREAM_CMD = registerCMD(upstream_cmd)
+// const UPSTREAM_CMD = registerCMD(upstream_cmd)
 
-run$.next(UPSTREAM_CMD)
+// run$.next(UPSTREAM_CMD)

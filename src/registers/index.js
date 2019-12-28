@@ -3,7 +3,7 @@
  */
 import { command$, out$ } from "../streams"
 import { isFunction } from "@thi.ng/checks"
-import { map, pluck, selectKeys } from "@thi.ng/transducers"
+import { map, comp, pluck, selectKeys } from "@thi.ng/transducers"
 import { unknown_key_ERR } from "../utils"
 
 const feedCMD$fromSource$ = ({ sub$, args, path, source$ }) => {
@@ -137,7 +137,7 @@ export const registerCMD = command => {
 
   let { sub$, args, path, source$, handler, ...unknown } = command
 
-  let xform = path ? selectKeys(["path", "args"]) : pluck("args")
+  let xform = map(({ args, path }) => (path ? { args, path } : args))
 
   /**
    * destructure the args component out of the emissions
@@ -151,7 +151,7 @@ export const registerCMD = command => {
   if (source$) feedCMD$fromSource$(command)
 
   // more: https://github.com/thi-ng/umbrella/blob/develop/examples/rstream-event-loop/src/events.ts
-  out$.subscribeTopic(sub$, { next: handler, error: console.warn })
+  out$.subscribeTopic(sub$, { next: handler, error: console.warn }, xform)
 
   let CMD = { sub$, args, path }
 
