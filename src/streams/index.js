@@ -2,7 +2,7 @@
  @module Streams
 */
 import { pubsub } from "@thi.ng/rstream"
-import { dispatcher } from "../dispatcher"
+import { dispatch } from "../dispatch"
 
 /**
  * ## `out$`
@@ -116,7 +116,7 @@ export const command$ = run$.subscribeTopic(
 export const task$ = run$.subscribeTopic(
   false,
   {
-    next: dispatcher,
+    next: dispatch,
     error: console.warn
   },
   { id: "task$_stream" }

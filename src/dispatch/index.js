@@ -1,16 +1,16 @@
 /**
- @module Task_Spooler
+ @module Tasks
 */
 import { isFunction, isPromise } from "@thi.ng/checks"
 import { map } from "@thi.ng/transducers"
 import { stringify_type, unknown_key_ERR } from "../utils"
-import { command$, task$ } from "../streams"
+import { command$, task$, run$ } from "../streams"
 
-let fix_jsdoc
+let err_str = "Error during Dispatch"
 
 /**
  *
- * ## `dispatcher`
+ * ## `dispatch`
  *
  * ### TL;DR:
  *
@@ -183,16 +183,21 @@ let fix_jsdoc
  * ```
  *
  **/
-export const dispatcher = task_array =>
+export const dispatch = task_array =>
   task_array.reduce(async (a, c, i) => {
     const acc = await a
     // console.log("ACCUMULATOR =>", acc)
     if (isFunction(c)) {
-      let recur = c(acc)
-      // this ensures the accumulator is preserved between
-      // stacks
-      recur.unshift({ args: acc })
-      return dispatcher(recur)
+      try {
+        let recur = c(acc)
+        // this ensures the accumulator is preserved between
+        // stacks
+        recur.unshift({ args: acc })
+        return dispatch(recur)
+      } catch (e) {
+        console.warn(err_str, e)
+        run$.done()
+      }
     }
     const { sub$, args, path, reso, erro, ...unknown } = c
     if (Object.keys(unknown).length > 0)
@@ -209,7 +214,7 @@ export const dispatcher = task_array =>
      *   however it may be useful in some cases (e.g., for
      *   injecting a quick in-situ logger within a task as
      *   opposed to tracing all command emmissions with
-     *   `trace_stream`)
+     *   `traceStream`)
      *
      * - The dispatcher preserves execution order of
      *   Commands within a Task, but doesn't do anything to
@@ -260,9 +265,10 @@ export const dispatcher = task_array =>
     // promise rejection handler
     if (erro && result instanceof Error) {
       let error = erro(acc, result)
-      console.warn("error in Promise within dispatcher:", result)
       if (error.sub$) return command$.next(error)
-      throw new Error(error)
+      console.warn(err_str, "[ Promise rejected ]:", result)
+      return run$.done()
+      // throw new Error(error)
     }
     // no sub$ key & not a promise -> just spread into acc
     if (!reso && !sub$) return { ...acc, ...result }
@@ -277,8 +283,9 @@ export const dispatcher = task_array =>
     }
     // error, but no error handler
     if (result instanceof Error) {
-      console.warn("error in reducer:", result)
-      throw new Error(result)
+      console.warn(err_str, result)
+      return run$.done()
+      // throw new Error(result)
     }
     // if the result has made it this far, send it along
     // console.log(`${sub$} made it through`)

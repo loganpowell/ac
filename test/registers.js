@@ -1,6 +1,6 @@
 import { stream } from "@thi.ng/rstream"
-import { registerCMD } from "../src/registers"
-import { traceStream } from "../src/utils"
+import { registerCMD } from "../src/register"
+import { traceStream, parse_href } from "../src/utils"
 import { isFunction } from "@thi.ng/checks"
 import { command$, run$, task$, out$ } from "../src/streams"
 import fetch from "node-fetch"
@@ -100,6 +100,19 @@ const test_path = {
 
 /**
  *
+ * Additional Command keys available when within a Task
+ *
+ * | key      | value   | role(s)                                | required |
+ * | -------- | ------- | -------------------------------------- | -------- |
+ * | `erro`   | Function| Dispatches on Command                  | promises |
+ * | `reso`   | Function| Upstream producer of Command           | promises |
+ *
+ * Glossary:
+ * ##### promises
+ *
+ * Needed when the `args` value is either a Promise or a
+ * Promise-returning function... more on this later...
+ *
  * 📌 TODO: put this doc into the `Streams` module above
  * `task$`
  *
@@ -110,8 +123,87 @@ const test_path = {
  *
  * You can think of Commands like ingredients and Tasks like
  * recipes that take some ingredients and execute them in a
- * specific order
+ * specific order.
  *
+ * In the context of a Task, the Command object acquires
+ * some special powers that enable the passing of state
+ * between commands. This super power uses the `args`
+ * signature to determine the intra-task Comand behavior:
+ *
+ * Pseudo Signature Dictionary
+ *
+ * | Symbol               | Description                                    |
+ * | -------------------- | ---------------------------------------------- |
+ * | `PRI`                | Primitive value (boolean, string, number)      |
+ * | `{?}`                | Object                                         |
+ * | `{P}`                | Promise                                        |
+ * | `{A}`                | [Accumulator object]                           |
+ * | `(#) =>`             | [function with `#` parameters]                 |
+ *
+ * ## Valid Intra-Task Command (Pseudo)signatures
+ *
+ * ### `{ sub$, args: PRI }`
+ *
+ * if the value of `args` is a primitive value (number,
+ * boolean, string), the Command is sent as-is to its
+ * downstream handler and the value is discarded (doesn't
+ * impact accululator)
+ *
+ *  ### `{ sub$, args: {?} }`
+ *
+ * if the value of `args` is an object, the Command is sent
+ * as-is to its downstream handler and the value is spread
+ * into the accumulator
+ *
+ * ### `{ sub$, args: ({A}) => ({?}) }`
+ *
+ * if the value of `args` is a UNARY (1-parameter) factory
+ *   function, it's an "Accumulator Transform". I.e., this
+ *   function will recieve an accumulator of all Objects
+ *   (spread together) from previous Commands and its
+ *   returned value will be sent with the Command to the
+ *   `sub$`
+ *
+ * ### `{ sub$, args: {P} || (1) => ({P}) }`
+ *
+ * if the value of `args` is a Promise or Promise-returning
+ * UNARY function, the Promise is resolved and then the
+ * Command is passed with the resolved value to the
+ * downstream handler
+ *
+ * #### Additional Command keys needed for Promises
+ *
+ * In addition to the common Command keys, there are two
+ * additional keys needed when dealing with Promises:
+ * 1. `reso`: `({A}, res) => ({?})`
+ * 2. `erro`: `({A}, err) => ({?})`
+ *
+ * These functions allow you to prepare the resolved payload
+ * for accumulation:
+ * ```
+ * reso: ({A}, res) => ({ data: res })
+ * ```
+ * or send the error to some other command:
+ * ```
+ * erro: ({A}, err) => ({ sub$: 'LOG', args: err })
+ * ```
+ * before `throw`ing (terminating the Task)
+ *
+ * ##### example:
+ *
+ * ```js
+ * let Task = [
+ *  { args: fetch("http://show.me/pic/1").then(r => r.json())
+ *  , reso: (acc, res) => ({ data: res })
+ *  , erro: (acc, err) => ({ sub$: "PATH", args: err }) }
+ * ]
+ * ```
+ *
+ * ### `{ args }` / `{ args, erro, reso }`
+ *
+ * if no `sub$` key is present in Command within a Task it
+ * is treated as a "Feeder" to following Commands. I.e., the
+ * `args` value is spread into the intra-task accumulator
  */
 
 // NOW: Let's stick these into a Task
@@ -150,7 +242,7 @@ let TASK_ADV = [
   { ...test_path, args: { heart: "❤" } },
   { sub$: "PATH", args: x => ({ ...x, peach: "🍑" }) }
 ]
-run$.next(TASK_ADV)
+// run$.next(TASK_ADV) // 🏃
 // pathless -> { static: 'payload' }
 // path -> { args: { heart: '❤' }, path: [ 'new', 'path' ] }
 // path -> { static: 'payload', heart: '❤', peach: '🍑' }
@@ -168,6 +260,14 @@ run$.next(TASK_ADV)
 //
 
 /**
+ * Pseudo Signature Dictionary
+ *
+ * | Symbol               | Description                                    |
+ * | -------------------- | ---------------------------------------------- |
+ * | `{C}`                | [Command object]                               |
+ * | `{A}`                | [Accumulator object]                           |
+ * | `[{C},{C}]` / `[T]`  | [Task array]                                   |
+ * | `(A) => [T]`         | [Subtask]                                      |
  *
  * Tasks give you a way to compose Commands, but what if we
  * want to compose Tasks into larger/"higher-order" Tasks?
@@ -241,14 +341,16 @@ let subtask1 = ({ data, href }) => [
   { sub$: "SUBTASK", path: ["body"], args: { data } }, // <- uses accumulator
   { sub$: "SUBTASK", args: { route: { href } } } // <- uses accumulator
 ]
+// 📌 .prettierignore file: https://prettier.io/docs/en/ignore.html#ignoring-files
 //prettier-ignore
 let task = [
+  // { sub$: "SUBTASK", args: { route: { state: parse_href(href) } } } // <- uses accumulator
   { args: { href: "https://jsonplaceholder.typicode.com/todos/1" } }, // initializer
   { args: ({ href }) => fetch(href).then(r => r.json())
-  , erro: (acc, err) => ({ sub$: "PATHLESS", args: err })
-  , reso: (acc, res) => ({ data: res }) },
+  , reso: (acc, res) => ({ data: res })
+  , erro: (acc, err) => ({ sub$: "PATHLESS", args: err }) },
   acc => subtask1(acc), // <- USES SUBTASK
-  { sub$: "SUBTASK", args: "done" }
+  { sub$: "PATHLESS", args: "done" }
 ]
 
 let cmd_subtask = {
@@ -256,9 +358,9 @@ let cmd_subtask = {
   handler: x => console.log("subtask ->", x)
 }
 
-let CMD_SUBTASK = registerCMD(cmd_subtask)
+registerCMD(cmd_subtask)
 
-run$.next(task) // 🏃
+// run$.next(task) // 🏃
 
 // subtask -> { args:
 //   { data:
@@ -267,10 +369,8 @@ run$.next(task) // 🏃
 //        title: 'delectus aut autem',
 //        completed: false } },
 //  path: [ 'body' ] }
-//
 // subtask -> { route: { href: 'https://jsonplaceholder.typicode.com/todos/1' } }
-
-// subtask -> done
+// pathless -> done
 
 //
 //                                                    ,d88~/\
@@ -287,15 +387,55 @@ run$.next(task) // 🏃
 // invocation, but some other stream of things (powered by
 // [@thi.ng/rstream](http://thi.ng/rstream) `<x>from`s
 
-// const upstream$ = stream()
+// EX1
+const upstream_instigator$ = stream()
 
-// const upstream_cmd = {
-//   sub$: "UPSTREAM",
-//   args: { static: "payload" },
-//   handler: x => console.log("upstream ->", x),
-//   source$: upstream$
-// }
+const upstream_cmd = {
+  sub$: "UPSTREAM_STATIC",
+  args: { static: "payload" },
+  handler: x => console.log("upstream_instigator ->", x),
+  source$: upstream_instigator$
+}
+const UPSTREAM_CMD = registerCMD(upstream_cmd)
 
-// const UPSTREAM_CMD = registerCMD(upstream_cmd)
+upstream_instigator$.next({ ...UPSTREAM_CMD, args: "aren't used" })
+// upstream_instigator -> { static: 'payload' }
 
-// run$.next(UPSTREAM_CMD)
+// EX2
+const upstream_source$ = stream()
+
+const upstream_xform_cmd = {
+  sub$: "UPSTREAM_DYNAMIC",
+  args: ({ args }) => ({ dynamic: args }),
+  handler: x => console.log("upstream_source ->", x),
+  source$: upstream_source$
+}
+
+const UPSTREAM_XFORM_CMD = registerCMD(upstream_xform_cmd)
+
+upstream_source$.next({
+  ...UPSTREAM_XFORM_CMD,
+  args: "destructured Command object `args` from `source$`"
+})
+
+// upstream_source ->
+// { dynamic: 'destructured Command object `args` from `source$`' }
+
+// EX3
+const upstream$ = stream()
+
+const upstream = {
+  sub$: "UPSTREAM",
+  args: x => x,
+  handler: ({ args }) => console.log("upstream ->", args),
+  source$: upstream$
+}
+
+const UPSTREAM = registerCMD(upstream)
+
+upstream$.next({
+  ...UPSTREAM,
+  args: "you can also destructure in the handler, whatevs"
+})
+
+// upstream -> you can also destructure in the handler, whatevs

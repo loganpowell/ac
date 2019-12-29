@@ -18,16 +18,18 @@
 - ♻ Framework Architecture
   - Symbols
 
-| Symbol               | Description                                    |
-| -------------------- | ---------------------------------------------- |
-| `(#) =>`             | [lambda/function with `#` (number) parameters] |
-| `{ }`                | Object                                         |
-| `{C}`                | [Command object]                               |
-| `{A}`                | [Accumulator object]                           |
-| `[{C},{C}]` | `[T]`  | [Task array]                                   |
-| `(A) => [T]`         | [Subtask]                                      |
+ | Symbol               | Description                                    |
+ | -------------------- | ---------------------------------------------- |
+ | `(#) =>`             | [function with `#` (number) parameters]        |
+ | `PRI`                | Primitive value (boolean, string, number)      |
+ | `{?}`                | Object                                         |
+ | `{P}`                | Promise                                        |
+ | `{C}`                | [Command object]                               |
+ | `{A}`                | [Accumulator object]                           |
+ | `[{C},{C}]` / `[T]`  | [Task array]                                   |
+ | `(A) => [T]`         | [Subtask]                                      |
 
-[lambda/function with `#` (number) parameters](#intra-task-accumulator)
+[function with `#` (number) parameters](#intra-task-accumulator)
 [Command object](#commands)                              
 [Accumulator object](#intra-task-accumulator)                          
 [Task array](#tasks)                                  

@@ -111,15 +111,7 @@ const feedCMD$fromSource$ = ({ sub$, args, path, source$ }) => {
 export const registerCMD = command => {
   // 📌 TODO: register factory function
 
-  let CMD_is_fn = isFunction(command)
-
-  let { sub$, args, path, source$, handler, ...unknown } = CMD_is_fn
-    ? command({
-        warning: `generated during registerCMD, for sub$: ${
-          command().sub$
-        } please override`
-      })
-    : command
+  let { sub$, args, path, source$, handler, ...unknown } = command
 
   let xform = map(({ args, path }) => (path ? { args, path } : args))
 
@@ -139,5 +131,5 @@ export const registerCMD = command => {
 
   let CMD = { sub$, args, path }
 
-  return CMD_is_fn ? x => CMD(x) : CMD
+  return CMD
 }
