@@ -79,28 +79,29 @@ const router = async hurl => {
   } = parsed_href
   let [p_a, p_b] = path
 
-  let state = new EquivMap([
+  let { data, spec } = new EquivMap([
     [
       { ...parsed_href, path: ["todos"] },
-      { data: await getSomeJSON("todos"), spec: "todo" }
+      { data: () => getSomeJSON("todos"), spec: "todo" }
     ],
     [
       { ...parsed_href, path: ["todos", p_b] },
-      { data: await getSomeJSON("todos", p_b), spec: "" }
+      { data: () => getSomeJSON("todos", p_b), spec: "" }
     ],
     [
       { ...parsed_href, path: ["users"] },
-      { data: await getSomeJSON("users"), spec: "ass" }
+      { data: () => getSomeJSON("users"), spec: "ass" }
     ],
     [
       { ...parsed_href, path: ["users", p_b] },
-      { data: await getSomeJSON("users", p_b), spec: "bloop" }
+      { data: () => getSomeJSON("users", p_b), spec: "bloop" }
     ]
   ]).get(parsed_href) || {
     data: { home: "page" },
     spec: "bloop"
   } // should probably be a 404... also need a match for an empty path: []
 
+  let state = { spec, data: await data() }
   console.log("router called")
   return { state, path, query, hash }
 }
@@ -163,10 +164,14 @@ const UI_todo = (ctx, payload) => {
         ...payload.map(({ img, text }) => [
           component,
           img,
-          text.title || text.name
+          `${text.title || text.name}`
         ])
       ]
-    : [component, payload.img, payload.text.name]
+    : [
+        component,
+        payload.img,
+        { ...payload.text }["title"] || { ...payload.text }["name"]
+      ]
 }
 // return ["pre", JSON.stringify(state, null, 2)]
 
