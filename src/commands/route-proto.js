@@ -8,7 +8,7 @@ import {
   navigated$,
   sidechainNav$,
   route$
-} from "../browser"
+} from "../DOM"
 import { out$ } from "../streams"
 
 export const hurl_data_stream = stream()

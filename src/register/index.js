@@ -6,6 +6,8 @@ import { isFunction } from "@thi.ng/checks"
 import { map, comp, pluck, selectKeys } from "@thi.ng/transducers"
 import { unknown_key_ERR } from "../utils"
 
+const err_str = "registerCMD"
+
 const feedCMD$fromSource$ = ({ sub$, args, path, source$ }) => {
   let args_is_fn = isFunction(args)
   let deliver = x => ({ sub$, args: args(x), path })
@@ -120,9 +122,7 @@ export const registerCMD = command => {
    * to save the user from having to do that PITA everytime
    */
   if (Object.keys(unknown).length > 0) {
-    throw new Error(
-      unknown_key_ERR("Command Registration", command, unknown, sub$, undefined)
-    )
+    throw new Error(unknown_key_ERR(err_str, command, unknown, sub$, undefined))
   }
   if (source$) feedCMD$fromSource$(command)
 

@@ -91,17 +91,18 @@ let fix_jsdoc
  * @param {string} URL - full or partial URL/href
  *
  * */
+
 export const parse_href = URL => {
   let subdomain = []
   let domain = []
   let path = []
   // split the path on any `?` and/or `#` chars (1-3 parts)
-  const parts = URL.split(/(?=\?)|(?=#)/g) //?
+  const parts = URL.split(/(?=\?)|(?=#)/g)
   // take the first component of split: the core URL
   const path_str = parts[0]
   // split the path_str further into individual members and
   // remove the empty string between any adjacent slashes `//`
-  const full_path = path_str.split("/").filter(x => x !== "") //?
+  const full_path = path_str.split("/").filter(x => x !== "")
   if (/http/i.test(URL)) {
     // if the input URL is HTTP(S), partition into sub components
     // domain is the last two members of the 2nd component

@@ -417,7 +417,6 @@ upstream_source$.next({
   ...UPSTREAM_XFORM_CMD,
   args: "destructured Command object `args` from `source$`"
 })
-
 // upstream_source ->
 // { dynamic: 'destructured Command object `args` from `source$`' }
 
@@ -437,5 +436,4 @@ upstream$.next({
   ...UPSTREAM,
   args: "you can also destructure in the handler, whatevs"
 })
-
 // upstream -> you can also destructure in the handler, whatevs

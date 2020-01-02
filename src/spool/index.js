@@ -6,11 +6,11 @@ import { map } from "@thi.ng/transducers"
 import { stringify_type, unknown_key_ERR } from "../utils"
 import { command$, task$, run$ } from "../streams"
 
-let err_str = "Error during Dispatch"
+let err_str = "`spool` Interupted" // <- add doc link to error strings
 
 /**
  *
- * ## `dispatch`
+ * ## `spool`
  *
  * ### TL;DR:
  *
@@ -89,12 +89,12 @@ let err_str = "Error during Dispatch"
  * - However, you can do anything you want with it using any
  *   other `sub$` key than `"STATE"`. It's allowed to be any
  *   form of static data (no functions), but its presence
- *   sets dispatcher to trigger a Command.
+ *   sets spool to dispatch a Command.
  *
  * ### Subtasks:
  *
  * Subtasks are the way you compose tasks. Insert a Task and
- * the dispatcher will unpack it in place (super -> sub
+ * the spool will unpack it in place (super -> sub
  * order preserved) A Subtask must be defined as a unary
  * function that accepts an accumulator object and returns a
  * Task, e.g.:
@@ -149,7 +149,7 @@ let err_str = "Error during Dispatch"
  * separate stream of your own creation during a Task by
  * using a nullary ("thunk") `(0)=>` function signature as
  * the `args` value of a Command. If this is the case, the
- * dispatcher assumes the `sub$` key references a stream and
+ * spool assumes the `sub$` key references a stream and
  * sends the return value of the thunk to that stream
  *
  * > Note: if you need to pass the accumulator to your
@@ -183,7 +183,7 @@ let err_str = "Error during Dispatch"
  * ```
  *
  **/
-export const dispatch = task_array =>
+export const spool = task_array =>
   task_array.reduce(async (a, c, i) => {
     const acc = await a
     // console.log("ACCUMULATOR =>", acc)
@@ -193,7 +193,7 @@ export const dispatch = task_array =>
         // this ensures the accumulator is preserved between
         // stacks
         recur.unshift({ args: acc })
-        return dispatch(recur)
+        return spool(recur)
       } catch (e) {
         console.warn(err_str, e)
         run$.done()
@@ -201,7 +201,7 @@ export const dispatch = task_array =>
     }
     const { sub$, args, path, reso, erro, ...unknown } = c
     if (Object.keys(unknown).length > 0)
-      throw new Error(unknown_key_ERR("Task Dispatcher", c, unknown, sub$, i))
+      throw new Error(unknown_key_ERR("Task `spool`", c, unknown, sub$, i))
     let arg_type = stringify_type(args)
     let result = args
 
@@ -216,7 +216,7 @@ export const dispatch = task_array =>
      *   opposed to tracing all command emmissions with
      *   `traceStream`)
      *
-     * - The dispatcher preserves execution order of
+     * - The spool preserves execution order of
      *   Commands within a Task, but doesn't do anything to
      *   prevent Commands sent directly to the Command
      *   stream - while the Task is spooling - from being
@@ -232,6 +232,9 @@ export const dispatch = task_array =>
      * ARG SIGNATURE LOGIC
      *
      */
+    if (arg_type === "PROMISE") {
+      result = await args.catch(e => e)
+    }
     if (arg_type === "THUNK") {
       // if thunk, dispatch to ad-hoc stream, return acc as-is
       result = args()
@@ -292,11 +295,3 @@ export const dispatch = task_array =>
     command$.next({ sub$, args: result })
     return { ...acc, ...result }
   }, Promise.resolve({}))
-
-/**
- * ## Dispatch registration
- *
- * Attaches the dispatcher to the task$ stream
- *
- */
-// task$.transform(map(todos => dispatcher(todos)))

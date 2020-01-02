@@ -7,8 +7,8 @@
   "scripts": {
     "clean": "rm -rf .cache dist dist",
     "prep": "npm run clean && mkdir dist && cp -r up.json dist",
-    "build": "npm run prep && parcel build test/hurl/index.html -d dist --public-url ./ --no-source-maps --no-cache",
-    "start": "parcel test/hurl/index.html -d dist",
+    "build": "npm run prep && parcel build test/index.html -d dist --public-url ./ --no-source-maps --no-cache",
+    "start": "parcel test/index.html -d dist",
     "serve": "node dist/server.js",
     "docs": "jsdoc --configure jsdoc.json --verbose"
   },
@@ -16,6 +16,7 @@
     "thi.ng"
   ],
   "dependencies": {
+    "@thi.ng/hdom": "^8.0.8",
     "@thi.ng/rstream": "latest",
     "querystring": "^0.2.0"
   },
@@ -27,6 +28,7 @@
     "@thi.ng/atom": "latest"
   },
   "devDependencies": {
+    "flip-toolkit": "^7.0.7",
     "dotenv": "^8.2.0",
     "node-fetch": "^2.6.0",
     "eslint": "^6.7.2",

@@ -16,18 +16,37 @@
     - Learning curve is basically five function signatures (within Tasks, more later)
 + IMAGE(s) of a socket and a light switch. You plug in a light and turn it on with a switch...
 - ♻ Framework Architecture
-  - Symbols
 
- | Symbol               | Description                                    |
- | -------------------- | ---------------------------------------------- |
- | `(#) =>`             | [function with `#` (number) parameters]        |
- | `PRI`                | Primitive value (boolean, string, number)      |
- | `{?}`                | Object                                         |
- | `{P}`                | Promise                                        |
- | `{C}`                | [Command object]                               |
- | `{A}`                | [Accumulator object]                           |
- | `[{C},{C}]` / `[T]`  | [Task array]                                   |
- | `(A) => [T]`         | [Subtask]                                      |
+### Command Keys
+| Key       | Value    | Role(s)                                | Required  |
+| --------- | -------- | -------------------------------------- | --------- |
+| `sub$`    | String   | Topic ID: connects Command to handler  | [DP]/[RG] |
+| `args`    | Any      | Payload or payload function            | [AH]      |
+| `path`    | Any      | Lens for global state evolution        | [ST]      |
+| `handler` | Function | Dispatches on Command (side effects)   | [RG]      |
+| `source$` | Stream   | Upstream Command "Feeder"              | [AH]      |
+| `reso`    | Function | Promise resolution handler             | [PR]      |
+| `erro`    | Function | Promise rejection handler              | [PR]      |
+
+##### RG: Command _Registration_
+##### DP: Command _Dispatch_
+##### PR: Commands Containing _Promises_ (during dispatch)
+##### AH: _Ad-hoc_ Configuration of Command Dispatch   
+##### ST: Global _State_ evolution (lens)
+
+[lensed]()
+
+### Symbols Glossary
+| Symbol               | Description                                    |
+| -------------------- | ---------------------------------------------- |
+| `(#) =>`             | [function with `#` (number) parameters]        |
+| `PRI`                | Primitive value (boolean, string, number)      |
+| `{?}`                | Object                                         |
+| `{P}`                | Promise                                        |
+| `{C}`                | [Command object]                               |
+| `{A}`                | [Accumulator object]                           |
+| `[{C},{C}]` / `[T]`  | [Task array]                                   |
+| `(A) => [T]`         | [Subtask]                                      |
 
 [function with `#` (number) parameters](#intra-task-accumulator)
 [Command object](#commands)                              
