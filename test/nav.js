@@ -170,7 +170,7 @@ const UI_todo = (ctx, payload) => {
     : [
         component,
         payload.img,
-        { ...payload.text }["title"] || { ...payload.text }["name"]
+        payload.text ? payload.text.title || payload.text.name : "n/a"
       ]
 }
 // return ["pre", JSON.stringify(state, null, 2)]
