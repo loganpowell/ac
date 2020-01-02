@@ -129,7 +129,7 @@ export const registerCMD = command => {
   // more: https://github.com/thi-ng/umbrella/blob/develop/examples/rstream-event-loop/src/events.ts
   out$.subscribeTopic(sub$, { next: handler, error: console.warn }, xform)
 
-  let CMD = { sub$, args, path }
+  let CMD = path ? { sub$, args, path } : { sub$, args }
 
   return CMD
 }

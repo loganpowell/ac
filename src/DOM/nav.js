@@ -14,15 +14,15 @@ export const DOMContentLoaded$ = fromDOMEvent(window, "DOMContentLoaded")
  * There are three types of navigation we need to handle:
  * 1. DOMContentLoaded (entering the site) events
  * 2. popstate (browser back/forward button clicks) events
- * 3. <a href="x"> (link clicking)
+ * 3. <a hurl="x"> (link clicking)
  *
  * These events have different payloads and need to be
  * harmonized in order to use them consistently
  *
- * ## getting the `href` property from the various events:
- * 1. ev.target.location.href
- * 2. ev.target.location.href
- * 3. ev.target.href
+ * ## getting the `hurl` property from the various events:
+ * 1. ev.target.location.hurl
+ * 2. ev.target.location.hurl
+ * 3. ev.target.hurl
  *
  * for raw events, we can just transform them, but for link
  * clicking we need to convert/wrap it to align with the
@@ -31,15 +31,15 @@ export const DOMContentLoaded$ = fromDOMEvent(window, "DOMContentLoaded")
 export const navigated$ = merge({
   src: [popstate$, DOMContentLoaded$]
 }).transform(
-  map(x => ({ href: x.target.location.href, target: x.currentTarget }))
+  map(x => ({ hurl: x.target.location.href, target: x.currentTarget }))
 )
 
-export const hrefToPushState = href => {
-  history.pushState(parse_href(href), null, href)
+export const hrefToPushState = hurl => {
+  history.pushState(parse_href(hurl), null, hurl)
   document.dispatchEvent(new Event("rendered")) //👀 for prerenderer,
 }
 
-export const navigateOnEvent = e => {
+export const DOMClickEventHandler = e => {
   e.preventDefault()
   let href = e.target.href
   let w_href = window.location.href
@@ -63,12 +63,20 @@ export const navigateOnEvent = e => {
 
 // source = TRIGGER
 
-export const STATE = new Atom()
+export const stateAtom = new Atom({ path: [] })
 
-const ROUTER_STATE = registerCMD({
+const setValue = (path, val) => stateAtom.swap(state => setIn(state, path, val))
+
+export const ROUTER_STATE = registerCMD({
   sub$: "ROUTER_STATE",
   args: x => x,
-  handler: ({ state, path }) => setIn(STATE, path, state)
+  handler: ({ data, path }) => setValue(path, data)
+})
+
+export const SET_PATH = registerCMD({
+  sub$: "SET_PATH",
+  args: x => x,
+  handler: ({ path }) => setValue("path", path)
 })
 
 const setLinkAttrs = target => {
@@ -82,32 +90,46 @@ const setLinkAttrs = target => {
   }
 }
 
-const SET_LINK_ATTRS = registerCMD({
+export const SET_LINK_ATTRS = registerCMD({
   sub$: "SET_LINK_ATTRS",
   args: x => x,
   handler: ({ target }) => setLinkAttrs(target)
 })
 
-const HREF_PUSHSTATE = registerCMD({
+export const HREF_PUSHSTATE = registerCMD({
   sub$: "HREF_PUSHSTATE",
   args: x => x,
-  handler: ({ href }) => hrefToPushState(href)
+  handler: ({ hurl }) => hrefToPushState(hurl)
 })
 
-export const routerTask = router => ({ href, target }) => [
-  {
-    // sub$: "HREF_ROUTER",
-    args: router(href), // Promise
-    erro: (acc, err) => console.warn(err),
-    reso: (acc, { state, path }) => ({ state, path })
-  },
-  {
-    sub$: "ROUTER_STATE",
-    args: ({ state, path }) => ({ state, path })
-  },
-  { sub$: "SET_LINK_ATTRS", args: { target } },
-  { args: ({ state }) => console.log("state:", state) }
-]
+// export let HREF_NAV$
+
+export const registerDOMRouter = router => {
+  return registerCMD({
+    sub$: "HREF_NAV$",
+    source$: navigated$,
+    args: x => x,
+    handler: ({ hurl, target }) =>
+      run$.next([
+        {
+          // sub$: "HREF_ROUTER",
+          args: router(hurl), // Promise
+          erro: (acc, err) => console.warn(err),
+          reso: (acc, { state, path }) => ({ state, path })
+        },
+        {
+          sub$: "SET_PATH",
+          args: ({ path }) => ({ path })
+        },
+        {
+          sub$: "ROUTER_STATE",
+          args: ({ state: { data, spec }, path }) => ({ data, path, spec })
+        },
+        { sub$: "SET_LINK_ATTRS", args: { target } },
+        { args: x => console.log("acc:", x) }
+      ])
+  })
+}
 /**
  *
  * preventing a leaky abstration,
@@ -116,5 +138,5 @@ export const routerTask = router => ({ href, target }) => [
  * returns data, a path, and spec and executes side-effects.
  *
  * input: config -> returns a Task (function) Task: input ->
- * takes { href, target } off of the navigated$ stream
+ * takes { hurl, target } off of the navigated$ stream
  */

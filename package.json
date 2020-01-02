@@ -18,6 +18,7 @@
   "dependencies": {
     "@thi.ng/hdom": "^8.0.8",
     "@thi.ng/rstream": "latest",
+    "@thi.ng/transducers-hdom": "^2.0.32",
     "querystring": "^0.2.0"
   },
   "peerDependencies": {

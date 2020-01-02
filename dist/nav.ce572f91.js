@@ -22004,10 +22004,13 @@ const registerCMD = command => {
     error: console.warn
   }, xform);
 
-  let CMD = {
+  let CMD = path ? {
     sub$,
     args,
     path
+  } : {
+    sub$,
+    args
   };
   return CMD;
 };
@@ -22019,7 +22022,7 @@ exports.registerCMD = registerCMD;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.routerTask = exports.STATE = exports.navigateOnEvent = exports.hrefToPushState = exports.navigated$ = exports.DOMContentLoaded$ = exports.popstate$ = void 0;
+exports.registerDOMRouter = exports.HREF_PUSHSTATE = exports.SET_LINK_ATTRS = exports.SET_PATH = exports.ROUTER_STATE = exports.stateAtom = exports.DOMClickEventHandler = exports.hrefToPushState = exports.navigated$ = exports.DOMContentLoaded$ = exports.popstate$ = void 0;
 
 var _rstream = require("@thi.ng/rstream");
 
@@ -22043,15 +22046,15 @@ const DOMContentLoaded$ = (0, _rstream.fromDOMEvent)(window, "DOMContentLoaded")
  * There are three types of navigation we need to handle:
  * 1. DOMContentLoaded (entering the site) events
  * 2. popstate (browser back/forward button clicks) events
- * 3. <a href="x"> (link clicking)
+ * 3. <a hurl="x"> (link clicking)
  *
  * These events have different payloads and need to be
  * harmonized in order to use them consistently
  *
- * ## getting the `href` property from the various events:
- * 1. ev.target.location.href
- * 2. ev.target.location.href
- * 3. ev.target.href
+ * ## getting the `hurl` property from the various events:
+ * 1. ev.target.location.hurl
+ * 2. ev.target.location.hurl
+ * 3. ev.target.hurl
  *
  * for raw events, we can just transform them, but for link
  * clicking we need to convert/wrap it to align with the
@@ -22062,19 +22065,19 @@ exports.DOMContentLoaded$ = DOMContentLoaded$;
 const navigated$ = (0, _rstream.merge)({
   src: [popstate$, DOMContentLoaded$]
 }).transform((0, _transducers.map)(x => ({
-  href: x.target.location.href,
+  hurl: x.target.location.href,
   target: x.currentTarget
 })));
 exports.navigated$ = navigated$;
 
-const hrefToPushState = href => {
-  history.pushState((0, _utils.parse_href)(href), null, href);
+const hrefToPushState = hurl => {
+  history.pushState((0, _utils.parse_href)(hurl), null, hurl);
   document.dispatchEvent(new Event("rendered")); //👀 for prerenderer,
 };
 
 exports.hrefToPushState = hrefToPushState;
 
-const navigateOnEvent = e => {
+const DOMClickEventHandler = e => {
   e.preventDefault();
   let href = e.target.href;
   let w_href = window.location.href;
@@ -22100,17 +22103,31 @@ const navigateOnEvent = e => {
 }; // source = TRIGGER
 
 
-exports.navigateOnEvent = navigateOnEvent;
-const STATE = new _atom.Atom();
-exports.STATE = STATE;
+exports.DOMClickEventHandler = DOMClickEventHandler;
+const stateAtom = new _atom.Atom({
+  path: []
+});
+exports.stateAtom = stateAtom;
+
+const setValue = (path, val) => stateAtom.swap(state => (0, _paths.setIn)(state, path, val));
+
 const ROUTER_STATE = (0, _register.registerCMD)({
   sub$: "ROUTER_STATE",
   args: x => x,
   handler: ({
-    state,
+    data,
     path
-  }) => (0, _paths.setIn)(STATE, path, state)
+  }) => setValue(path, data)
 });
+exports.ROUTER_STATE = ROUTER_STATE;
+const SET_PATH = (0, _register.registerCMD)({
+  sub$: "SET_PATH",
+  args: x => x,
+  handler: ({
+    path
+  }) => setValue("path", path)
+});
+exports.SET_PATH = SET_PATH;
 
 const setLinkAttrs = target => {
   document.body.querySelectorAll("a[visited]").forEach(el => {
@@ -22130,48 +22147,67 @@ const SET_LINK_ATTRS = (0, _register.registerCMD)({
     target
   }) => setLinkAttrs(target)
 });
+exports.SET_LINK_ATTRS = SET_LINK_ATTRS;
 const HREF_PUSHSTATE = (0, _register.registerCMD)({
   sub$: "HREF_PUSHSTATE",
   args: x => x,
   handler: ({
-    href
-  }) => hrefToPushState(href)
-});
+    hurl
+  }) => hrefToPushState(hurl)
+}); // export let HREF_NAV$
 
-const routerTask = router => ({
-  href,
-  target
-}) => [{
-  // sub$: "HREF_ROUTER",
-  args: router(href),
-  // Promise
-  erro: (acc, err) => console.warn(err),
-  reso: (acc, {
-    state,
-    path
-  }) => ({
-    state,
-    path
-  })
-}, {
-  sub$: "ROUTER_STATE",
-  args: ({
-    state,
-    path
-  }) => ({
-    state,
-    path
-  })
-}, {
-  sub$: "SET_LINK_ATTRS",
-  args: {
-    target
-  }
-}, {
-  args: ({
-    state
-  }) => console.log("state:", state)
-}];
+exports.HREF_PUSHSTATE = HREF_PUSHSTATE;
+
+const registerDOMRouter = router => {
+  return (0, _register.registerCMD)({
+    sub$: "HREF_NAV$",
+    source$: navigated$,
+    args: x => x,
+    handler: ({
+      hurl,
+      target
+    }) => _streams.run$.next([{
+      // sub$: "HREF_ROUTER",
+      args: router(hurl),
+      // Promise
+      erro: (acc, err) => console.warn(err),
+      reso: (acc, {
+        state,
+        path
+      }) => ({
+        state,
+        path
+      })
+    }, {
+      sub$: "SET_PATH",
+      args: ({
+        path
+      }) => ({
+        path
+      })
+    }, {
+      sub$: "ROUTER_STATE",
+      args: ({
+        state: {
+          data,
+          spec
+        },
+        path
+      }) => ({
+        data,
+        path,
+        spec
+      })
+    }, {
+      sub$: "SET_LINK_ATTRS",
+      args: {
+        target
+      }
+    }, {
+      args: x => console.log("acc:", x)
+    }])
+  });
+};
 /**
  *
  * preventing a leaky abstration,
@@ -22180,11 +22216,11 @@ const routerTask = router => ({
  * returns data, a path, and spec and executes side-effects.
  *
  * input: config -> returns a Task (function) Task: input ->
- * takes { href, target } off of the navigated$ stream
+ * takes { hurl, target } off of the navigated$ stream
  */
 
 
-exports.routerTask = routerTask;
+exports.registerDOMRouter = registerDOMRouter;
 },{"@thi.ng/rstream":"../node_modules/@thi.ng/rstream/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js","../register":"../src/register/index.js","../utils":"../src/utils/index.js","../streams":"../src/streams/index.js","@thi.ng/paths":"../node_modules/@thi.ng/paths/index.js","@thi.ng/atom":"../node_modules/@thi.ng/atom/index.js"}],"../src/DOM/index.js":[function(require,module,exports) {
 "use strict";
 
@@ -24333,7 +24369,81 @@ Object.keys(_utils).forEach(function (key) {
     }
   });
 });
-},{"./api":"../node_modules/@thi.ng/hdom/api.js","./default":"../node_modules/@thi.ng/hdom/default.js","./diff":"../node_modules/@thi.ng/hdom/diff.js","./dom":"../node_modules/@thi.ng/hdom/dom.js","./normalize":"../node_modules/@thi.ng/hdom/normalize.js","./render-once":"../node_modules/@thi.ng/hdom/render-once.js","./start":"../node_modules/@thi.ng/hdom/start.js","./utils":"../node_modules/@thi.ng/hdom/utils.js"}],"../node_modules/node-fetch/browser.js":[function(require,module,exports) {
+},{"./api":"../node_modules/@thi.ng/hdom/api.js","./default":"../node_modules/@thi.ng/hdom/default.js","./diff":"../node_modules/@thi.ng/hdom/diff.js","./dom":"../node_modules/@thi.ng/hdom/dom.js","./normalize":"../node_modules/@thi.ng/hdom/normalize.js","./render-once":"../node_modules/@thi.ng/hdom/render-once.js","./start":"../node_modules/@thi.ng/hdom/start.js","./utils":"../node_modules/@thi.ng/hdom/utils.js"}],"../node_modules/@thi.ng/transducers-hdom/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.updateDOM = void 0;
+
+var _hdom = require("@thi.ng/hdom");
+
+var _hiccup = require("@thi.ng/hiccup");
+
+var _transducers = require("@thi.ng/transducers");
+
+/**
+ * Side-effecting & stateful transducer which receives @thi.ng/hdom
+ * component trees, diffs each against previous value and applies
+ * required changes to browser DOM starting at given root element.
+ *
+ * By default, incoming values are first normalized using hdom's
+ * `normalizeTree()` function and a copy of the given (optional) `ctx`
+ * object is provided to all embedded component functions in the tree.
+ * If the `autoDerefKeys` option is given, attempts to auto-expand/deref
+ * the given keys in the user supplied context object (`ctx` option)
+ * prior to *each* tree normalization. All of these values should
+ * implement the thi.ng/api `IDeref` interface (e.g. atoms, cursors,
+ * views, rstreams etc.). This feature can be used to define dynamic
+ * contexts linked to the main app state, e.g. using derived views
+ * provided by thi.ng/atom.
+ *
+ * If the `hydrate` option is given, the first received tree is only
+ * used to inject event listeners and initialize components with
+ * lifecycle `init()` methods and expects an otherwise identical,
+ * pre-existing DOM. All succeeding trees are diffed then as usual.
+ *
+ * This transducer is primarily intended for @thi.ng/rstream dataflow
+ * graph based applications, where it can be used as final leaf
+ * subscription to reactively reflect UI changes back to the user,
+ * without using the usual RAF update loop used by hdom by default. In
+ * this setup, DOM updates will only be performed when the stream this
+ * transducer is attached to emits new values (i.e. hdom component
+ * trees).
+ *
+ * Please see here for further details:
+ * https://github.com/thi-ng/umbrella/blob/master/packages/hdom/src/start.ts
+ *
+ * @param opts hdom options
+ */
+const updateDOM = (opts = {}, impl = _hdom.DEFAULT_IMPL) => {
+  const _opts = Object.assign({
+    root: "app"
+  }, opts);
+
+  const root = (0, _hdom.resolveRoot)(_opts.root, impl);
+  return (0, _transducers.scan)([() => [], acc => acc, (prev, curr) => {
+    _opts.ctx = (0, _hiccup.derefContext)(opts.ctx, _opts.autoDerefKeys);
+    curr = impl.normalizeTree(_opts, curr);
+
+    if (curr != null) {
+      if (_opts.hydrate) {
+        impl.hydrateTree(_opts, root, curr);
+        _opts.hydrate = false;
+      } else {
+        impl.diffTree(_opts, root, prev, curr, 0);
+      }
+
+      return curr;
+    }
+
+    return prev;
+  }]);
+};
+
+exports.updateDOM = updateDOM;
+},{"@thi.ng/hdom":"../node_modules/@thi.ng/hdom/index.js","@thi.ng/hiccup":"../node_modules/@thi.ng/hiccup/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js"}],"../node_modules/node-fetch/browser.js":[function(require,module,exports) {
 
 "use strict"; // ref: https://github.com/tc39/proposal-global
 
@@ -24366,16 +24476,17 @@ exports.Response = global.Response;
 },{}],"nav.js":[function(require,module,exports) {
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.I_pushState_href = void 0;
-
 var _utils = require("../src/utils");
 
 var _DOM = require("../src/DOM");
 
+var _transducersHdom = require("@thi.ng/transducers-hdom");
+
+var _rstream = require("@thi.ng/rstream");
+
 var _register = require("../src/register");
+
+var _paths = require("@thi.ng/paths");
 
 var _streams = require("../src/streams");
 
@@ -24386,6 +24497,8 @@ var _transducers = require("@thi.ng/transducers");
 var _hdom = require("@thi.ng/hdom");
 
 var _associative = require("@thi.ng/associative");
+
+var _atom = require("@thi.ng/atom");
 
 var _nodeFetch = _interopRequireDefault(require("node-fetch"));
 
@@ -24406,14 +24519,17 @@ const getSomeJSON = async (path, b) => {
 
   const img_base = id => `https://i.picsum.photos/id/${id}/600/600.jpg`;
 
-  const img_rand = "https://picsum.photos/seed/picsum/600/800";
   const data = b ? {
     img: img_base(b),
+    // this needs fixin' 📌
     text: await (0, _nodeFetch.default)(`${text_base}${path}/${b}`).then(r => r.json())
-  } : {
-    img: img_rand,
-    text: await (0, _nodeFetch.default)(`${text_base}${path}/`).then(r => r.json())
-  };
+  } : (async () => {
+    let list = await (0, _nodeFetch.default)(`${text_base}${path}/`).then(r => r.json());
+    return list.map((c, i) => ({
+      img: img_base(i + 1),
+      text: c
+    }));
+  })();
   return data;
 };
 /**
@@ -24438,8 +24554,8 @@ const getSomeJSON = async (path, b) => {
  */
 
 
-const router = async href => {
-  let parsed_href = (0, _utils.parse_href)(href);
+const router = async hurl => {
+  let parsed_href = (0, _utils.parse_href)(hurl);
   let {
     subdomain,
     // array
@@ -24457,12 +24573,12 @@ const router = async href => {
     path: ["todos"]
   }, {
     data: await getSomeJSON("todos"),
-    spec: "something"
+    spec: "todo"
   }], [{ ...parsed_href,
     path: ["todos", p_b]
   }, {
     data: await getSomeJSON("todos", p_b),
-    spec: todo_spec
+    spec: ""
   }], [{ ...parsed_href,
     path: ["users"]
   }, {
@@ -24473,100 +24589,97 @@ const router = async href => {
   }, {
     data: await getSomeJSON("users", p_b),
     spec: "bloop"
-  }]]).get(parsed_href) || null;
+  }]]).get(parsed_href) || {
+    data: {
+      home: "page"
+    },
+    spec: "bloop" // should probably be a 404... also need a match for an empty path: []
+
+  };
   console.log("router called");
   return {
     state,
-    path
+    path,
+    query,
+    hash
   };
-}; // router({ href: "/todos/1" }) //?
+}; // router({ hurl: "/todos/1" }) //?
 
 
-const img = img => ["img", {
+let NAV_CMD = (0, _DOM.registerDOMRouter)(router); //
+//                        ,d
+//   e88~~8e  Y88b  /  ,d888
+//  d888  88b  Y88b/     888
+//  8888__888   Y88b     888
+//  Y888    ,   /Y88b    888
+//   "88___/   /  Y88b   888
+//
+//
+
+let links = document.querySelectorAll("a");
+links.forEach(x => {
+  x.addEventListener("click", e => {
+    console.log("STATE:", _DOM.stateAtom.deref());
+    (0, _DOM.DOMClickEventHandler)(e);
+  });
+}); //
+//  888   | 888
+//  888   | 888
+//  888   | 888
+//  888   | 888
+//  Y88   | 888
+//   "8__/  888
+//
+//
+// TODO
+// {
+//   "img": "https://i.picsum.photos/id/1/600/600.jpg",
+//   "text": {
+//     "userId": 1,
+//     "id": 1,
+//     "title": "delectus aut autem",
+//     "completed": false
+//   }
+// }
+
+const image = (ctx, img) => ["img", {
   src: img
 }];
 
-const title = title => ["p", title];
+const component = (ctx, img, title) => ["div", {}, [image, img], ["p", {
+  class: "title"
+}, title]];
 
-const completed = completed => completed ? ["div", "✔"] : ["div", "❌"];
-
-(0, _checks.isPromise)(router("/todos/1")); //?
-
-let todo_spec = {
-  img,
-  text: [title, completed] // getSomeJSON("todos", 1) //?
-
-  /*
-  
-  { img: 'https://i.picsum.photos/id/1/600/600.jpg',
-    text: 
-     { userId: 1,
-       id: 1,
-       title: 'delectus aut autem',
-       completed: false } }
-  
-  */
-  //
-  //    d8                      d8
-  //  _d88__  e88~~8e   d88~\ _d88__
-  //   888   d888  88b C888    888
-  //   888   8888__888  Y88b   888
-  //   888   Y888    ,   888D  888
-  //   "88_/  "88___/  \_88P   "88_/
-  //
-  //
-  // first the command... then the handler
-  // command
-
-};
-const I_pushState_href = {
-  sub$: "pushstate",
-  args: ({
-    href
-  }) => ({
-    href
-  })
-  /** or maybe the handler is defined as a part of the
-   * Command and destructured out like this:
-   * ```js
-   * export const I_pushState_href = {
-   *  sub$: "pushstate",
-   *  args: ({ href }) => ({ href }) // <- implied/unnecessary?
-   *  handler: ({ href }) => href_pushState(href)
-   * }
-   * ````
-   * And then the actual defHandler takes that and just gives
-   * back the Command without the handler!?
-   */
-
-};
-exports.I_pushState_href = I_pushState_href;
-console.log("loaded!"); //
-//    d8              d8    d8b
-//  _d88__ 888  888 _d88__ !Y88!
-//   888   888  888  888    Y8Y
-//   888   888  888  888     8
-//   888   888  888  888     e
-//   "88_/ "88_-888  "88_/  "8"
+const UI_todo = (ctx, payload) => {
+  return (0, _checks.isArray)(payload) ? ["div", ...payload.map(({
+    img,
+    text
+  }) => [component, img, text.title || text.name])] : [component, payload.img, payload.text.name];
+}; // return ["pre", JSON.stringify(state, null, 2)]
 //
+//        /           d8b
+//  e88~88e  e88~-_  !Y88!
+//  888 888 d888   i  Y8Y
+//  "88_88" 8888   |   8
+//   /      Y888   '   e
+//  Cb       "88_-~   "8"
+//   Y8""8D
 //
 
-let route = (0, _DOM.routerTask)(router);
-const HREF_NAV$ = (0, _register.registerCMD)({
-  sub$: "HREF_NAV$",
-  source$: _DOM.navigated$,
-  args: x => x,
-  handler: x => _streams.run$.next(route(x))
+
+const route_path = _DOM.stateAtom.addView("path");
+
+(0, _hdom.start)(({
+  run$,
+  state
+}) => [UI_todo, (0, _paths.getIn)(state.deref(), route_path.deref())], {
+  root: document.getElementById("app"),
+  ctx: {
+    run$: _streams.run$,
+    state: _DOM.stateAtom
+  }
 });
-let links = document.querySelectorAll("a");
-links.forEach(x => {
-  x.addEventListener("click", e => (0, _DOM.navigateOnEvent)(e));
-}); // const href2route = registerCMD({
-//   sub$: "HREF_ROUTE",
-//   handler: ({ href }) => href_pushState(href)
-// })
-// start(() => []
-},{"../src/utils":"../src/utils/index.js","../src/DOM":"../src/DOM/index.js","../src/register":"../src/register/index.js","../src/streams":"../src/streams/index.js","@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js","@thi.ng/hdom":"../node_modules/@thi.ng/hdom/index.js","@thi.ng/associative":"../node_modules/@thi.ng/associative/index.js","node-fetch":"../node_modules/node-fetch/browser.js"}],"../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"../src/utils":"../src/utils/index.js","../src/DOM":"../src/DOM/index.js","@thi.ng/transducers-hdom":"../node_modules/@thi.ng/transducers-hdom/index.js","@thi.ng/rstream":"../node_modules/@thi.ng/rstream/index.js","../src/register":"../src/register/index.js","@thi.ng/paths":"../node_modules/@thi.ng/paths/index.js","../src/streams":"../src/streams/index.js","@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js","@thi.ng/hdom":"../node_modules/@thi.ng/hdom/index.js","@thi.ng/associative":"../node_modules/@thi.ng/associative/index.js","@thi.ng/atom":"../node_modules/@thi.ng/atom/index.js","node-fetch":"../node_modules/node-fetch/browser.js"}],"../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -24594,7 +24707,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62814" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60541" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
