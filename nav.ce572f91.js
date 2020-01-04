@@ -117,338 +117,1030 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel-bundler/node_modules/querystring-es3/decode.js":[function(require,module,exports) {
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-'use strict'; // If obj.hasOwnProperty has been overridden, then calling
-// obj.hasOwnProperty(prop) will break.
-// See: https://github.com/joyent/node/issues/1707
-
-function hasOwnProperty(obj, prop) {
-  return Object.prototype.hasOwnProperty.call(obj, prop);
-}
-
-module.exports = function (qs, sep, eq, options) {
-  sep = sep || '&';
-  eq = eq || '=';
-  var obj = {};
-
-  if (typeof qs !== 'string' || qs.length === 0) {
-    return obj;
-  }
-
-  var regexp = /\+/g;
-  qs = qs.split(sep);
-  var maxKeys = 1000;
-
-  if (options && typeof options.maxKeys === 'number') {
-    maxKeys = options.maxKeys;
-  }
-
-  var len = qs.length; // maxKeys <= 0 means that we should not limit keys count
-
-  if (maxKeys > 0 && len > maxKeys) {
-    len = maxKeys;
-  }
-
-  for (var i = 0; i < len; ++i) {
-    var x = qs[i].replace(regexp, '%20'),
-        idx = x.indexOf(eq),
-        kstr,
-        vstr,
-        k,
-        v;
-
-    if (idx >= 0) {
-      kstr = x.substr(0, idx);
-      vstr = x.substr(idx + 1);
-    } else {
-      kstr = x;
-      vstr = '';
-    }
-
-    k = decodeURIComponent(kstr);
-    v = decodeURIComponent(vstr);
-
-    if (!hasOwnProperty(obj, k)) {
-      obj[k] = v;
-    } else if (isArray(obj[k])) {
-      obj[k].push(v);
-    } else {
-      obj[k] = [obj[k], v];
-    }
-  }
-
-  return obj;
-};
-
-var isArray = Array.isArray || function (xs) {
-  return Object.prototype.toString.call(xs) === '[object Array]';
-};
-},{}],"../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel-bundler/node_modules/querystring-es3/encode.js":[function(require,module,exports) {
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-'use strict';
-
-var stringifyPrimitive = function (v) {
-  switch (typeof v) {
-    case 'string':
-      return v;
-
-    case 'boolean':
-      return v ? 'true' : 'false';
-
-    case 'number':
-      return isFinite(v) ? v : '';
-
-    default:
-      return '';
-  }
-};
-
-module.exports = function (obj, sep, eq, name) {
-  sep = sep || '&';
-  eq = eq || '=';
-
-  if (obj === null) {
-    obj = undefined;
-  }
-
-  if (typeof obj === 'object') {
-    return map(objectKeys(obj), function (k) {
-      var ks = encodeURIComponent(stringifyPrimitive(k)) + eq;
-
-      if (isArray(obj[k])) {
-        return map(obj[k], function (v) {
-          return ks + encodeURIComponent(stringifyPrimitive(v));
-        }).join(sep);
-      } else {
-        return ks + encodeURIComponent(stringifyPrimitive(obj[k]));
-      }
-    }).join(sep);
-  }
-
-  if (!name) return '';
-  return encodeURIComponent(stringifyPrimitive(name)) + eq + encodeURIComponent(stringifyPrimitive(obj));
-};
-
-var isArray = Array.isArray || function (xs) {
-  return Object.prototype.toString.call(xs) === '[object Array]';
-};
-
-function map(xs, f) {
-  if (xs.map) return xs.map(f);
-  var res = [];
-
-  for (var i = 0; i < xs.length; i++) {
-    res.push(f(xs[i], i));
-  }
-
-  return res;
-}
-
-var objectKeys = Object.keys || function (obj) {
-  var res = [];
-
-  for (var key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) res.push(key);
-  }
-
-  return res;
-};
-},{}],"../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel-bundler/node_modules/querystring-es3/index.js":[function(require,module,exports) {
-'use strict';
-
-exports.decode = exports.parse = require('./decode');
-exports.encode = exports.stringify = require('./encode');
-},{"./decode":"../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel-bundler/node_modules/querystring-es3/decode.js","./encode":"../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel-bundler/node_modules/querystring-es3/encode.js"}],"../src/utils/parse_href.js":[function(require,module,exports) {
+})({"../node_modules/@thi.ng/api/api.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.parse_href = void 0;
-
-var _querystring = _interopRequireDefault(require("querystring"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-let fix_jsdoc;
+exports.SEMAPHORE = exports.DEFAULT_EPS = void 0;
+const DEFAULT_EPS = 1e-6;
 /**
- * # HREF/URL Parser
+ * Internal use only. **Do NOT use in user land code!**
+ */
+
+exports.DEFAULT_EPS = DEFAULT_EPS;
+const SEMAPHORE = Symbol();
+exports.SEMAPHORE = SEMAPHORE;
+},{}],"../node_modules/@thi.ng/api/api/event.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.EVENT_DISABLE = exports.EVENT_ENABLE = exports.EVENT_ALL = void 0;
+const EVENT_ALL = "*";
+exports.EVENT_ALL = EVENT_ALL;
+const EVENT_ENABLE = "enable";
+exports.EVENT_ENABLE = EVENT_ENABLE;
+const EVENT_DISABLE = "disable";
+exports.EVENT_DISABLE = EVENT_DISABLE;
+},{}],"../node_modules/@thi.ng/api/api/fn.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.NO_OP = void 0;
+
+/**
+ * No-effect placeholder function.
+ */
+const NO_OP = () => {};
+
+exports.NO_OP = NO_OP;
+},{}],"../node_modules/@thi.ng/api/api/logger.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.LogLevel = void 0;
+var LogLevel;
+exports.LogLevel = LogLevel;
+
+(function (LogLevel) {
+  LogLevel[LogLevel["FINE"] = 0] = "FINE";
+  LogLevel[LogLevel["DEBUG"] = 1] = "DEBUG";
+  LogLevel[LogLevel["INFO"] = 2] = "INFO";
+  LogLevel[LogLevel["WARN"] = 3] = "WARN";
+  LogLevel[LogLevel["SEVERE"] = 4] = "SEVERE";
+  LogLevel[LogLevel["NONE"] = 5] = "NONE";
+})(LogLevel || (exports.LogLevel = LogLevel = {}));
+},{}],"../node_modules/@thi.ng/api/api/typedarray.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.typedArray = typedArray;
+exports.intType = exports.uintType = exports.TYPEDARRAY_CTORS = exports.SIZEOF = exports.TYPE2GL = exports.GL2TYPE = exports.GLType = exports.Type = void 0;
+
+/**
+ * Type enums for Typedarray-backed buffers.
  *
- * Takes an href (full or relative) and pulls out the various
- * components to be used for instrumentation of various
- * high-level event handling.
+ * @see GLType
+ * @see GL2TYPE
+ * @see TYPE2GL
+ */
+var Type;
+exports.Type = Type;
+
+(function (Type) {
+  Type[Type["U8"] = 0] = "U8";
+  Type[Type["U8C"] = 1] = "U8C";
+  Type[Type["I8"] = 2] = "I8";
+  Type[Type["U16"] = 3] = "U16";
+  Type[Type["I16"] = 4] = "I16";
+  Type[Type["U32"] = 5] = "U32";
+  Type[Type["I32"] = 6] = "I32";
+  Type[Type["F32"] = 7] = "F32";
+  Type[Type["F64"] = 8] = "F64";
+})(Type || (exports.Type = Type = {}));
+/**
+ * WebGL numeric type constants. Use `GL2TYPE` to convert, if needed.
  *
- * ## Examples:
+ * @see Type
+ * @see GL2TYPE
+ * @see TYPE2GL
+ */
+
+
+var GLType;
+exports.GLType = GLType;
+
+(function (GLType) {
+  GLType[GLType["I8"] = 5120] = "I8";
+  GLType[GLType["U8"] = 5121] = "U8";
+  GLType[GLType["I16"] = 5122] = "I16";
+  GLType[GLType["U16"] = 5123] = "U16";
+  GLType[GLType["I32"] = 5124] = "I32";
+  GLType[GLType["U32"] = 5125] = "U32";
+  GLType[GLType["F32"] = 5126] = "F32";
+})(GLType || (exports.GLType = GLType = {}));
+/**
+ * Conversion from `GLType` to `Type` enums.
+ */
+
+
+const GL2TYPE = {
+  [5120
+  /* I8 */
+  ]: 2
+  /* I8 */
+  ,
+  [5121
+  /* U8 */
+  ]: 0
+  /* U8 */
+  ,
+  [5122
+  /* I16 */
+  ]: 4
+  /* I16 */
+  ,
+  [5123
+  /* U16 */
+  ]: 3
+  /* U16 */
+  ,
+  [5124
+  /* I32 */
+  ]: 6
+  /* I32 */
+  ,
+  [5125
+  /* U32 */
+  ]: 5
+  /* U32 */
+  ,
+  [5126
+  /* F32 */
+  ]: 7
+  /* F32 */
+
+};
+/**
+ * Potentially lossy conversion from `Type` to `GLType` enums.
  *
- * Ex1:
- * ```js
- * parse_href("http://localhost:1234/about?get=some#today")
- * ```
+ * Not all enums are mappable:
  *
+ * - `F64` maps to `undefined`, since unsupported by WebGL
+ * - `U8C` maps to U8
+ */
+
+exports.GL2TYPE = GL2TYPE;
+const TYPE2GL = {
+  [2
+  /* I8 */
+  ]: 5120
+  /* I8 */
+  ,
+  [0
+  /* U8 */
+  ]: 5121
+  /* U8 */
+  ,
+  [1
+  /* U8C */
+  ]: 5121
+  /* U8 */
+  ,
+  [4
+  /* I16 */
+  ]: 5122
+  /* I16 */
+  ,
+  [3
+  /* U16 */
+  ]: 5123
+  /* U16 */
+  ,
+  [6
+  /* I32 */
+  ]: 5124
+  /* I32 */
+  ,
+  [6
+  /* I32 */
+  ]: 5124
+  /* I32 */
+  ,
+  [5
+  /* U32 */
+  ]: 5125
+  /* U32 */
+  ,
+  [7
+  /* F32 */
+  ]: 5126
+  /* F32 */
+  ,
+  [8
+  /* F64 */
+  ]: undefined
+};
+/**
+ * Size information (in bytes) for `Type` enums. For `GLType`, use this
+ * form, e.g. `SIZEOF[GL2TYPE[GLType.F32]]`
+ */
+
+exports.TYPE2GL = TYPE2GL;
+const SIZEOF = {
+  [0
+  /* U8 */
+  ]: 1,
+  [1
+  /* U8C */
+  ]: 1,
+  [2
+  /* I8 */
+  ]: 1,
+  [3
+  /* U16 */
+  ]: 2,
+  [4
+  /* I16 */
+  ]: 2,
+  [5
+  /* U32 */
+  ]: 4,
+  [6
+  /* I32 */
+  ]: 4,
+  [7
+  /* F32 */
+  ]: 4,
+  [8
+  /* F64 */
+  ]: 8
+};
+exports.SIZEOF = SIZEOF;
+const TYPEDARRAY_CTORS = {
+  [0
+  /* U8 */
+  ]: Uint8Array,
+  [1
+  /* U8C */
+  ]: Uint8ClampedArray,
+  [2
+  /* I8 */
+  ]: Int8Array,
+  [3
+  /* U16 */
+  ]: Uint16Array,
+  [4
+  /* I16 */
+  ]: Int16Array,
+  [5
+  /* U32 */
+  ]: Uint32Array,
+  [6
+  /* I32 */
+  ]: Int32Array,
+  [7
+  /* F32 */
+  ]: Float32Array,
+  [8
+  /* F64 */
+  ]: Float64Array,
+  [5121
+  /* U8 */
+  ]: Uint8Array,
+  [5120
+  /* I8 */
+  ]: Int8Array,
+  [5123
+  /* U16 */
+  ]: Uint16Array,
+  [5122
+  /* I16 */
+  ]: Int16Array,
+  [5125
+  /* U32 */
+  ]: Uint32Array,
+  [5124
+  /* I32 */
+  ]: Int32Array,
+  [5126
+  /* F32 */
+  ]: Float32Array
+};
+exports.TYPEDARRAY_CTORS = TYPEDARRAY_CTORS;
+
+function typedArray(type, ...xs) {
+  return new TYPEDARRAY_CTORS[type](...xs);
+}
+/**
+ * Returns the smallest possible *unsigned* int type enum for given `x`.
+ * E.g. if `x <= 256`, the function returns `Type.U8`.
  *
- * ```js
- * {
- *   URL: "http://localhost:1234/about?get=some#today",
- *   subdomain: [],
- *   domain: ["localhost:1234"],
- *   path: ["about"],
- *   query: { get: "some" },
- *   hash: "today"
- * }
- * ```
+ * @param x
+ */
+
+
+const uintType = x => x <= 0x100 ? 0
+/* U8 */
+: x <= 0x10000 ? 3
+/* U16 */
+: 5
+/* U32 */
+;
+/**
+ * Returns the smallest possible *signed* int type enum for given `x`.
+ * E.g. if `x >= -128 && x < 128`, the function returns `Type.I8`.
  *
- * Ex2:
- * ```js
- * parse_href("https://github.com/thi-ng/umbrella/#blog-posts")
- * ```
- * ```js
- * {
- *   URL: 'https://github.com/thi-ng/umbrella/#blog-posts',
- *   subdomain: [],
- *   domain: ["github", "com"],
- *   path: ["thi-ng", "umbrella"],
- *   query: {},
- *   hash: "blog-posts"
- * }
- * ```
+ * @param x
+ */
+
+
+exports.uintType = uintType;
+
+const intType = x => x >= -0x80 && x < 0x80 ? 2
+/* I8 */
+: x >= -0x8000 && x < 0x8000 ? 4
+/* I16 */
+: 6
+/* I32 */
+;
+
+exports.intType = intType;
+},{}],"../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel-bundler/src/builtins/_empty.js":[function(require,module,exports) {
+
+},{}],"../node_modules/@thi.ng/api/assert.js":[function(require,module,exports) {
+var process = require("process");
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.assert = void 0;
+
+var _fn = require("./api/fn");
+
+/**
+ * Takes a `test` result or predicate function without args and throws
+ * error with given `msg` if test failed (i.e. is falsy). The function
+ * is only enabled if `NODE_ENV != "production"` or if
+ * `UMBRELLA_ASSERTS = 1`.
+ */
+const assert = typeof process === "undefined" || "development" !== "production" || undefined === "1" ? (test, msg = "assertion failed") => {
+  if (typeof test === "function" && !test() || !test) {
+    throw new Error(typeof msg === "function" ? msg() : msg);
+  }
+} : _fn.NO_OP;
+exports.assert = assert;
+},{"./api/fn":"../node_modules/@thi.ng/api/api/fn.js","process":"../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel-bundler/src/builtins/_empty.js"}],"../node_modules/@thi.ng/api/logger.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ConsoleLogger = exports.NULL_LOGGER = void 0;
+
+var _logger = require("./api/logger");
+
+const NULL_LOGGER = Object.freeze({
+  level: _logger.LogLevel.NONE,
+
+  fine() {},
+
+  debug() {},
+
+  info() {},
+
+  warn() {},
+
+  severe() {}
+
+});
+exports.NULL_LOGGER = NULL_LOGGER;
+
+class ConsoleLogger {
+  constructor(id, level = _logger.LogLevel.FINE) {
+    this.id = id;
+    this.level = level;
+  }
+
+  fine(...args) {
+    this.level <= _logger.LogLevel.FINE && this.log("FINE", args);
+  }
+
+  debug(...args) {
+    this.level <= _logger.LogLevel.DEBUG && this.log("DEBUG", args);
+  }
+
+  info(...args) {
+    this.level <= _logger.LogLevel.INFO && this.log("INFO", args);
+  }
+
+  warn(...args) {
+    this.level <= _logger.LogLevel.WARN && this.log("WARN", args);
+  }
+
+  severe(...args) {
+    this.level <= _logger.LogLevel.SEVERE && this.log("SEVERE", args);
+  }
+
+  log(level, args) {
+    console.log(`[${level}] ${this.id}:`, ...args);
+  }
+
+}
+
+exports.ConsoleLogger = ConsoleLogger;
+},{"./api/logger":"../node_modules/@thi.ng/api/api/logger.js"}],"../node_modules/@thi.ng/api/mixin.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.mixin = void 0;
+
+/**
+ * Class behavior mixin based on:
+ * http://raganwald.com/2015/06/26/decorators-in-es7.html
  *
- * Ex3:
- * ```js
- * parse_href("https://very-long-sub.dom.cloud.eu/site/my/happy/")
- * ```
- * ```js
- * {
- *   URL: 'https://very-long-sub.dom.cloud.eu/site/my/happy/',
- *   subdomain: ["very-long-sub", "dom"],
- *   domain: ["cloud", "eu"],
- *   path: ["site", "my", "happy"],
- *   query: {},
- *   hash: ""
- * }
- * ```
+ * Additionally only injects/overwrites properties in target, which are
+ * NOT marked with `@nomixin` (i.e. haven't set their `configurable`
+ * property descriptor flag to `false`)
  *
- * Ex4:
- * ```js
- * parse_href("https://api.census.gov/data?get=NAME&in=state:01&in=county:*")
- * ```
- * ```js
- * {
- *   URL: "https://api.census.gov/data?get=NAME&in=state:01&in=county:*",
- *   subdomain: ["api"],
- *   domain: ["census", "gov"],
- *   path: ["data"],
- *   query: { get: "NAME", in: ["state:01", "county:*"] },
- *   hash: ""
- * }
- * ```
- *
- * Ex5:
- * ```js
- * parse_href("/data?get=NAME&in=state#indeed")
- * ```
- * ```js
- * {
- *   URL: "/data?get=NAME&in=state#indeed",
- *   subdomain: [],
- *   domain: [],
- *   path: ["data"],
- *   query: { get: "NAME", in: "state" },
- *   hash: "indeed"
- * }
- * ```
- *
- * @param {string} URL - full or partial URL/href
- *
- * */
+ * @param behaviour to mixin
+ * @param sharedBehaviour
+ * @returns decorator function
+ */
+const mixin = (behaviour, sharedBehaviour = {}) => {
+  const instanceKeys = Reflect.ownKeys(behaviour);
+  const sharedKeys = Reflect.ownKeys(sharedBehaviour);
+  const typeTag = Symbol("isa");
 
-const parse_href = URL => {
-  let subdomain = [];
-  let domain = [];
-  let path = []; // split the path on any `?` and/or `#` chars (1-3 parts)
+  function _mixin(clazz) {
+    for (let key of instanceKeys) {
+      const existing = Object.getOwnPropertyDescriptor(clazz.prototype, key);
 
-  const parts = URL.split(/(?=\?)|(?=#)/g); // take the first component of split: the core URL
+      if (!existing || existing.configurable) {
+        Object.defineProperty(clazz.prototype, key, {
+          value: behaviour[key],
+          writable: true
+        });
+      } else {
+        console.log(`not patching: ${clazz.name}.${key.toString()}`);
+      }
+    }
 
-  const path_str = parts[0]; // split the path_str further into individual members and
-  // remove the empty string between any adjacent slashes `//`
+    Object.defineProperty(clazz.prototype, typeTag, {
+      value: true
+    });
+    return clazz;
+  }
 
-  const full_path = path_str.split("/").filter(x => x !== "");
+  for (let key of sharedKeys) {
+    Object.defineProperty(_mixin, key, {
+      value: sharedBehaviour[key],
+      enumerable: sharedBehaviour.propertyIsEnumerable(key)
+    });
+  }
 
-  if (/http/i.test(URL)) {
-    // if the input URL is HTTP(S), partition into sub components
-    // domain is the last two members of the 2nd component
-    domain = full_path[1].split(".").slice(-2); // subdomain is anything before the domain
-    // see https://stackoverflow.com/a/56921347
-    // for mocking subdomain on localhost
-
-    subdomain = full_path[1].split(".").slice(0, -2); // path is the last component in the
-
-    path = full_path.slice(2);
-  } else {
-    // in the case of a relative URL `<a href="/about">
-    // the relative path is the full path
-    path = full_path;
-  } // pull out the query component as a string
-
-
-  const query_str = parts.filter(part => part.slice(0, 1) === "?")[0] || ""; // pull out the hash component as a string
-
-  const hash_str = parts.filter(part => part.slice(0, 1) === "#")[0] || ""; // parse the query string into conventional parts using qs
-
-  const query = _querystring.default.parse(query_str.slice(1)); // remove the actual `#` hash character from the string
-
-
-  const hash = hash_str.slice(1);
-  return {
-    URL,
-    subdomain,
-    domain,
-    path,
-    query,
-    hash
-  };
+  Object.defineProperty(_mixin, Symbol.hasInstance, {
+    value: x => !!x[typeTag]
+  });
+  return _mixin;
 };
 
-exports.parse_href = parse_href;
-},{"querystring":"../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel-bundler/node_modules/querystring-es3/index.js"}],"../node_modules/@thi.ng/checks/exists-not-null.js":[function(require,module,exports) {
+exports.mixin = mixin;
+},{}],"../node_modules/@thi.ng/api/decorators/configurable.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.configurable = void 0;
+
+/**
+ * Property decorator factory. Sets `configurable` flag of PropertyDescriptor
+ * to given state.
+ *
+ * @param state
+ */
+const configurable = state => function (_, __, descriptor) {
+  descriptor.configurable = state;
+};
+
+exports.configurable = configurable;
+},{}],"../node_modules/@thi.ng/api/decorators/deprecated.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.deprecated = void 0;
+
+var _assert = require("../assert");
+
+/**
+ * Method property decorator factory. Augments original method with
+ * deprecation message (via console), shown when method is invoked.
+ * Accepts optional message arg. Throws error if assigned property
+ * is not a function.
+ *
+ * @param msg deprecation message
+ */
+const deprecated = (msg, log = console.log) => function (target, prop, descriptor) {
+  const signature = `${target.constructor.name}#${prop.toString()}`;
+  const fn = descriptor.value;
+  (0, _assert.assert)(typeof fn === "function", `${signature} is not a function`);
+
+  descriptor.value = function () {
+    log(`DEPRECATED ${signature}: ${msg || "will be removed soon"}`);
+    return fn.apply(this, arguments);
+  };
+
+  return descriptor;
+};
+
+exports.deprecated = deprecated;
+},{"../assert":"../node_modules/@thi.ng/api/assert.js"}],"../node_modules/@thi.ng/api/decorators/nomixin.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.nomixin = void 0;
+
+/**
+ * Method property decorator. Sets `configurable` flag of
+ * PropertyDescriptor to `false` (same as `@configurable(false)`).
+ * Intended to be used in combination with mixin decorators to enable
+ * partial implementations of mixed-in behaviors in target class and
+ * avoid them being overidden by mixed-in behaviour.
+ */
+const nomixin = (_, __, descriptor) => {
+  descriptor.configurable = false;
+};
+
+exports.nomixin = nomixin;
+},{}],"../node_modules/@thi.ng/api/decorators/sealed.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.sealed = void 0;
+
+/**
+ * Class decorator. Seals both constructor and prototype.
+ *
+ * @param constructor
+ */
+const sealed = constructor => {
+  Object.seal(constructor);
+  Object.seal(constructor.prototype);
+};
+
+exports.sealed = sealed;
+},{}],"../node_modules/@thi.ng/api/mixins/ienable.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.IEnableMixin = void 0;
+
+var _event = require("../api/event");
+
+var _mixin = require("../mixin");
+
+/**
+ * Mixin class decorator, injects IEnable default implementation, incl.
+ * a `_enabled` property. If the target also implements the `INotify`
+ * interface, `enable()` and `disable()` will automatically emit the
+ * respective events.
+ */
+const IEnableMixin = (0, _mixin.mixin)({
+  _enabled: true,
+
+  isEnabled() {
+    return this._enabled;
+  },
+
+  enable() {
+    this._enabled = true;
+
+    if (this.notify) {
+      this.notify({
+        id: _event.EVENT_ENABLE,
+        target: this
+      });
+    }
+  },
+
+  disable() {
+    this._enabled = false;
+
+    if (this.notify) {
+      this.notify({
+        id: _event.EVENT_DISABLE,
+        target: this
+      });
+    }
+  },
+
+  toggle() {
+    this._enabled ? this.disable() : this.enable();
+    return this._enabled;
+  }
+
+});
+exports.IEnableMixin = IEnableMixin;
+},{"../api/event":"../node_modules/@thi.ng/api/api/event.js","../mixin":"../node_modules/@thi.ng/api/mixin.js"}],"../node_modules/@thi.ng/api/mixins/inotify.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.INotifyMixin = exports.inotify_dispatch = void 0;
+
+var _event = require("../api/event");
+
+var _mixin = require("../mixin");
+
+const inotify_dispatch = (listeners, e) => {
+  if (!listeners) return;
+
+  for (let i = 0, n = listeners.length, l; i < n; i++) {
+    l = listeners[i];
+    l[0].call(l[1], e);
+
+    if (e.canceled) {
+      return;
+    }
+  }
+};
+/**
+ * Mixin class decorator, injects INotify default implementation, incl.
+ * a lazily instantiated `_listeners` property object, storing
+ * registered listeners.
+ */
+
+
+exports.inotify_dispatch = inotify_dispatch;
+const INotifyMixin = (0, _mixin.mixin)({
+  addListener(id, fn, scope) {
+    let l = (this._listeners = this._listeners || {})[id];
+    !l && (l = this._listeners[id] = []);
+
+    if (this.__listener(l, fn, scope) === -1) {
+      l.push([fn, scope]);
+      return true;
+    }
+
+    return false;
+  },
+
+  removeListener(id, fn, scope) {
+    let listeners;
+    if (!(listeners = this._listeners)) return false;
+    const l = listeners[id];
+
+    if (l) {
+      const idx = this.__listener(l, fn, scope);
+
+      if (idx !== -1) {
+        l.splice(idx, 1);
+        !l.length && delete listeners[id];
+        return true;
+      }
+    }
+
+    return false;
+  },
+
+  notify(e) {
+    let listeners;
+    if (!(listeners = this._listeners)) return false;
+    e.target === undefined && (e.target = this);
+    inotify_dispatch(listeners[e.id], e);
+    inotify_dispatch(listeners[_event.EVENT_ALL], e);
+  },
+
+  __listener(listeners, f, scope) {
+    let i = listeners.length;
+
+    while (--i >= 0) {
+      const l = listeners[i];
+
+      if (l[0] === f && l[1] === scope) {
+        break;
+      }
+    }
+
+    return i;
+  }
+
+});
+exports.INotifyMixin = INotifyMixin;
+},{"../api/event":"../node_modules/@thi.ng/api/api/event.js","../mixin":"../node_modules/@thi.ng/api/mixin.js"}],"../node_modules/@thi.ng/api/mixins/iterable.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.iterable = void 0;
+
+var _mixin = require("../mixin");
+
+const iterable = prop => (0, _mixin.mixin)({
+  *[Symbol.iterator]() {
+    yield* this[prop];
+  }
+
+});
+
+exports.iterable = iterable;
+},{"../mixin":"../node_modules/@thi.ng/api/mixin.js"}],"../node_modules/@thi.ng/api/mixins/iwatch.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.IWatchMixin = void 0;
+
+var _mixin = require("../mixin");
+
+const IWatchMixin = (0, _mixin.mixin)({
+  addWatch(id, fn) {
+    this._watches = this._watches || {};
+
+    if (this._watches[id]) {
+      return false;
+    }
+
+    this._watches[id] = fn;
+    return true;
+  },
+
+  removeWatch(id) {
+    if (!this._watches) return;
+
+    if (this._watches[id]) {
+      delete this._watches[id];
+      return true;
+    }
+
+    return false;
+  },
+
+  notifyWatches(oldState, newState) {
+    if (!this._watches) return;
+    const w = this._watches;
+
+    for (let id in w) {
+      w[id](id, oldState, newState);
+    }
+  }
+
+});
+exports.IWatchMixin = IWatchMixin;
+},{"../mixin":"../node_modules/@thi.ng/api/mixin.js"}],"../node_modules/@thi.ng/api/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _api = require("./api");
+
+Object.keys(_api).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _api[key];
+    }
+  });
+});
+
+var _event = require("./api/event");
+
+Object.keys(_event).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _event[key];
+    }
+  });
+});
+
+var _fn = require("./api/fn");
+
+Object.keys(_fn).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _fn[key];
+    }
+  });
+});
+
+var _logger = require("./api/logger");
+
+Object.keys(_logger).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _logger[key];
+    }
+  });
+});
+
+var _typedarray = require("./api/typedarray");
+
+Object.keys(_typedarray).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _typedarray[key];
+    }
+  });
+});
+
+var _assert = require("./assert");
+
+Object.keys(_assert).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _assert[key];
+    }
+  });
+});
+
+var _logger2 = require("./logger");
+
+Object.keys(_logger2).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _logger2[key];
+    }
+  });
+});
+
+var _mixin = require("./mixin");
+
+Object.keys(_mixin).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _mixin[key];
+    }
+  });
+});
+
+var _configurable = require("./decorators/configurable");
+
+Object.keys(_configurable).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _configurable[key];
+    }
+  });
+});
+
+var _deprecated = require("./decorators/deprecated");
+
+Object.keys(_deprecated).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _deprecated[key];
+    }
+  });
+});
+
+var _nomixin = require("./decorators/nomixin");
+
+Object.keys(_nomixin).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _nomixin[key];
+    }
+  });
+});
+
+var _sealed = require("./decorators/sealed");
+
+Object.keys(_sealed).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _sealed[key];
+    }
+  });
+});
+
+var _ienable = require("./mixins/ienable");
+
+Object.keys(_ienable).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _ienable[key];
+    }
+  });
+});
+
+var _inotify = require("./mixins/inotify");
+
+Object.keys(_inotify).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _inotify[key];
+    }
+  });
+});
+
+var _iterable = require("./mixins/iterable");
+
+Object.keys(_iterable).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _iterable[key];
+    }
+  });
+});
+
+var _iwatch = require("./mixins/iwatch");
+
+Object.keys(_iwatch).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _iwatch[key];
+    }
+  });
+});
+},{"./api":"../node_modules/@thi.ng/api/api.js","./api/event":"../node_modules/@thi.ng/api/api/event.js","./api/fn":"../node_modules/@thi.ng/api/api/fn.js","./api/logger":"../node_modules/@thi.ng/api/api/logger.js","./api/typedarray":"../node_modules/@thi.ng/api/api/typedarray.js","./assert":"../node_modules/@thi.ng/api/assert.js","./logger":"../node_modules/@thi.ng/api/logger.js","./mixin":"../node_modules/@thi.ng/api/mixin.js","./decorators/configurable":"../node_modules/@thi.ng/api/decorators/configurable.js","./decorators/deprecated":"../node_modules/@thi.ng/api/decorators/deprecated.js","./decorators/nomixin":"../node_modules/@thi.ng/api/decorators/nomixin.js","./decorators/sealed":"../node_modules/@thi.ng/api/decorators/sealed.js","./mixins/ienable":"../node_modules/@thi.ng/api/mixins/ienable.js","./mixins/inotify":"../node_modules/@thi.ng/api/mixins/inotify.js","./mixins/iterable":"../node_modules/@thi.ng/api/mixins/iterable.js","./mixins/iwatch":"../node_modules/@thi.ng/api/mixins/iwatch.js"}],"../node_modules/@thi.ng/rstream/api.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.setLogger = exports.LOGGER = exports.CloseMode = exports.State = void 0;
+
+var _api = require("@thi.ng/api");
+
+var State;
+exports.State = State;
+
+(function (State) {
+  State[State["IDLE"] = 0] = "IDLE";
+  State[State["ACTIVE"] = 1] = "ACTIVE";
+  State[State["DONE"] = 2] = "DONE";
+  State[State["ERROR"] = 3] = "ERROR";
+  State[State["DISABLED"] = 4] = "DISABLED"; // TODO currently unused
+})(State || (exports.State = State = {}));
+/**
+ * Closing behaviors.
+ */
+
+
+var CloseMode;
+exports.CloseMode = CloseMode;
+
+(function (CloseMode) {
+  /**
+   * Never close, even if no more inputs/outputs.
+   */
+  CloseMode[CloseMode["NEVER"] = 0] = "NEVER";
+  /**
+   * Close when first input/output is done / removed.
+   */
+
+  CloseMode[CloseMode["FIRST"] = 1] = "FIRST";
+  /**
+   * Close when last input/output is done / removed.
+   */
+
+  CloseMode[CloseMode["LAST"] = 2] = "LAST";
+})(CloseMode || (exports.CloseMode = CloseMode = {}));
+
+let LOGGER = _api.NULL_LOGGER;
+exports.LOGGER = LOGGER;
+
+const setLogger = logger => exports.LOGGER = LOGGER = logger;
+
+exports.setLogger = setLogger;
+},{"@thi.ng/api":"../node_modules/@thi.ng/api/index.js"}],"../node_modules/@thi.ng/checks/exists-not-null.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -816,8 +1508,6 @@ exports.isNil = void 0;
 const isNil = x => x == null;
 
 exports.isNil = isNil;
-},{}],"../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel-bundler/src/builtins/_empty.js":[function(require,module,exports) {
-
 },{}],"../node_modules/@thi.ng/checks/is-node.js":[function(require,module,exports) {
 var process = require("process");
 "use strict";
@@ -1767,1064 +2457,7 @@ Object.keys(_isZero).forEach(function (key) {
     }
   });
 });
-},{"./exists-not-null":"../node_modules/@thi.ng/checks/exists-not-null.js","./exists":"../node_modules/@thi.ng/checks/exists.js","./has-crypto":"../node_modules/@thi.ng/checks/has-crypto.js","./has-max-length":"../node_modules/@thi.ng/checks/has-max-length.js","./has-min-length":"../node_modules/@thi.ng/checks/has-min-length.js","./has-performance":"../node_modules/@thi.ng/checks/has-performance.js","./has-wasm":"../node_modules/@thi.ng/checks/has-wasm.js","./has-webgl":"../node_modules/@thi.ng/checks/has-webgl.js","./has-websocket":"../node_modules/@thi.ng/checks/has-websocket.js","./implements-function":"../node_modules/@thi.ng/checks/implements-function.js","./is-array":"../node_modules/@thi.ng/checks/is-array.js","./is-arraylike":"../node_modules/@thi.ng/checks/is-arraylike.js","./is-blob":"../node_modules/@thi.ng/checks/is-blob.js","./is-boolean":"../node_modules/@thi.ng/checks/is-boolean.js","./is-chrome":"../node_modules/@thi.ng/checks/is-chrome.js","./is-date":"../node_modules/@thi.ng/checks/is-date.js","./is-even":"../node_modules/@thi.ng/checks/is-even.js","./is-false":"../node_modules/@thi.ng/checks/is-false.js","./is-file":"../node_modules/@thi.ng/checks/is-file.js","./is-firefox":"../node_modules/@thi.ng/checks/is-firefox.js","./is-function":"../node_modules/@thi.ng/checks/is-function.js","./is-hex-color":"../node_modules/@thi.ng/checks/is-hex-color.js","./is-ie":"../node_modules/@thi.ng/checks/is-ie.js","./is-in-range":"../node_modules/@thi.ng/checks/is-in-range.js","./is-int32":"../node_modules/@thi.ng/checks/is-int32.js","./is-iterable":"../node_modules/@thi.ng/checks/is-iterable.js","./is-map":"../node_modules/@thi.ng/checks/is-map.js","./is-mobile":"../node_modules/@thi.ng/checks/is-mobile.js","./is-nan":"../node_modules/@thi.ng/checks/is-nan.js","./is-negative":"../node_modules/@thi.ng/checks/is-negative.js","./is-nil":"../node_modules/@thi.ng/checks/is-nil.js","./is-node":"../node_modules/@thi.ng/checks/is-node.js","./is-not-string-iterable":"../node_modules/@thi.ng/checks/is-not-string-iterable.js","./is-null":"../node_modules/@thi.ng/checks/is-null.js","./is-number":"../node_modules/@thi.ng/checks/is-number.js","./is-object":"../node_modules/@thi.ng/checks/is-object.js","./is-odd":"../node_modules/@thi.ng/checks/is-odd.js","./is-plain-object":"../node_modules/@thi.ng/checks/is-plain-object.js","./is-positive":"../node_modules/@thi.ng/checks/is-positive.js","./is-primitive":"../node_modules/@thi.ng/checks/is-primitive.js","./is-promise":"../node_modules/@thi.ng/checks/is-promise.js","./is-promiselike":"../node_modules/@thi.ng/checks/is-promiselike.js","./is-regexp":"../node_modules/@thi.ng/checks/is-regexp.js","./is-safari":"../node_modules/@thi.ng/checks/is-safari.js","./is-set":"../node_modules/@thi.ng/checks/is-set.js","./is-string":"../node_modules/@thi.ng/checks/is-string.js","./is-symbol":"../node_modules/@thi.ng/checks/is-symbol.js","./is-transferable":"../node_modules/@thi.ng/checks/is-transferable.js","./is-true":"../node_modules/@thi.ng/checks/is-true.js","./is-typedarray":"../node_modules/@thi.ng/checks/is-typedarray.js","./is-uint32":"../node_modules/@thi.ng/checks/is-uint32.js","./is-undefined":"../node_modules/@thi.ng/checks/is-undefined.js","./is-uuid":"../node_modules/@thi.ng/checks/is-uuid.js","./is-uuid4":"../node_modules/@thi.ng/checks/is-uuid4.js","./is-zero":"../node_modules/@thi.ng/checks/is-zero.js"}],"../src/utils/stringify_type.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.stringify_type = void 0;
-
-var _checks = require("@thi.ng/checks");
-
-let fix_jsdoc; // prettier-ignore
-
-/**
- * ### `stringify_type`
- *
- * just a little convenience function
- * takes some value and returns a string representation of its type
- * this makes it easier to create a switch statement using types
- *
- * powered by [@thi.ng/checks](http://thi.ng/checks)
- *
- */
-
-const stringify_type = x => {
-  if ((0, _checks.isArray)(x)) return "ARRAY";
-  if ((0, _checks.isFunction)(x) && x.length === 0) return "THUNK";
-  if ((0, _checks.isFunction)(x) && x.length > 0) return "FUNCTION";
-  if ((0, _checks.isPromise)(x)) return "PROMISE";
-  if ((0, _checks.isString)(x)) return "STRING";
-  if ((0, _checks.isBoolean)(x)) return "BOOLEAN";
-  if ((0, _checks.isNull)(x)) return "NULL";
-  if ((0, _checks.isObject)(x)) return "OBJECT";
-  return "type_str NOT FOUND";
-};
-
-exports.stringify_type = stringify_type;
-},{"@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js"}],"../node_modules/@thi.ng/api/api.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.SEMAPHORE = exports.DEFAULT_EPS = void 0;
-const DEFAULT_EPS = 1e-6;
-/**
- * Internal use only. **Do NOT use in user land code!**
- */
-
-exports.DEFAULT_EPS = DEFAULT_EPS;
-const SEMAPHORE = Symbol();
-exports.SEMAPHORE = SEMAPHORE;
-},{}],"../node_modules/@thi.ng/api/api/event.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.EVENT_DISABLE = exports.EVENT_ENABLE = exports.EVENT_ALL = void 0;
-const EVENT_ALL = "*";
-exports.EVENT_ALL = EVENT_ALL;
-const EVENT_ENABLE = "enable";
-exports.EVENT_ENABLE = EVENT_ENABLE;
-const EVENT_DISABLE = "disable";
-exports.EVENT_DISABLE = EVENT_DISABLE;
-},{}],"../node_modules/@thi.ng/api/api/fn.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.NO_OP = void 0;
-
-/**
- * No-effect placeholder function.
- */
-const NO_OP = () => {};
-
-exports.NO_OP = NO_OP;
-},{}],"../node_modules/@thi.ng/api/api/logger.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.LogLevel = void 0;
-var LogLevel;
-exports.LogLevel = LogLevel;
-
-(function (LogLevel) {
-  LogLevel[LogLevel["FINE"] = 0] = "FINE";
-  LogLevel[LogLevel["DEBUG"] = 1] = "DEBUG";
-  LogLevel[LogLevel["INFO"] = 2] = "INFO";
-  LogLevel[LogLevel["WARN"] = 3] = "WARN";
-  LogLevel[LogLevel["SEVERE"] = 4] = "SEVERE";
-  LogLevel[LogLevel["NONE"] = 5] = "NONE";
-})(LogLevel || (exports.LogLevel = LogLevel = {}));
-},{}],"../node_modules/@thi.ng/api/api/typedarray.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.typedArray = typedArray;
-exports.intType = exports.uintType = exports.TYPEDARRAY_CTORS = exports.SIZEOF = exports.TYPE2GL = exports.GL2TYPE = exports.GLType = exports.Type = void 0;
-
-/**
- * Type enums for Typedarray-backed buffers.
- *
- * @see GLType
- * @see GL2TYPE
- * @see TYPE2GL
- */
-var Type;
-exports.Type = Type;
-
-(function (Type) {
-  Type[Type["U8"] = 0] = "U8";
-  Type[Type["U8C"] = 1] = "U8C";
-  Type[Type["I8"] = 2] = "I8";
-  Type[Type["U16"] = 3] = "U16";
-  Type[Type["I16"] = 4] = "I16";
-  Type[Type["U32"] = 5] = "U32";
-  Type[Type["I32"] = 6] = "I32";
-  Type[Type["F32"] = 7] = "F32";
-  Type[Type["F64"] = 8] = "F64";
-})(Type || (exports.Type = Type = {}));
-/**
- * WebGL numeric type constants. Use `GL2TYPE` to convert, if needed.
- *
- * @see Type
- * @see GL2TYPE
- * @see TYPE2GL
- */
-
-
-var GLType;
-exports.GLType = GLType;
-
-(function (GLType) {
-  GLType[GLType["I8"] = 5120] = "I8";
-  GLType[GLType["U8"] = 5121] = "U8";
-  GLType[GLType["I16"] = 5122] = "I16";
-  GLType[GLType["U16"] = 5123] = "U16";
-  GLType[GLType["I32"] = 5124] = "I32";
-  GLType[GLType["U32"] = 5125] = "U32";
-  GLType[GLType["F32"] = 5126] = "F32";
-})(GLType || (exports.GLType = GLType = {}));
-/**
- * Conversion from `GLType` to `Type` enums.
- */
-
-
-const GL2TYPE = {
-  [5120
-  /* I8 */
-  ]: 2
-  /* I8 */
-  ,
-  [5121
-  /* U8 */
-  ]: 0
-  /* U8 */
-  ,
-  [5122
-  /* I16 */
-  ]: 4
-  /* I16 */
-  ,
-  [5123
-  /* U16 */
-  ]: 3
-  /* U16 */
-  ,
-  [5124
-  /* I32 */
-  ]: 6
-  /* I32 */
-  ,
-  [5125
-  /* U32 */
-  ]: 5
-  /* U32 */
-  ,
-  [5126
-  /* F32 */
-  ]: 7
-  /* F32 */
-
-};
-/**
- * Potentially lossy conversion from `Type` to `GLType` enums.
- *
- * Not all enums are mappable:
- *
- * - `F64` maps to `undefined`, since unsupported by WebGL
- * - `U8C` maps to U8
- */
-
-exports.GL2TYPE = GL2TYPE;
-const TYPE2GL = {
-  [2
-  /* I8 */
-  ]: 5120
-  /* I8 */
-  ,
-  [0
-  /* U8 */
-  ]: 5121
-  /* U8 */
-  ,
-  [1
-  /* U8C */
-  ]: 5121
-  /* U8 */
-  ,
-  [4
-  /* I16 */
-  ]: 5122
-  /* I16 */
-  ,
-  [3
-  /* U16 */
-  ]: 5123
-  /* U16 */
-  ,
-  [6
-  /* I32 */
-  ]: 5124
-  /* I32 */
-  ,
-  [6
-  /* I32 */
-  ]: 5124
-  /* I32 */
-  ,
-  [5
-  /* U32 */
-  ]: 5125
-  /* U32 */
-  ,
-  [7
-  /* F32 */
-  ]: 5126
-  /* F32 */
-  ,
-  [8
-  /* F64 */
-  ]: undefined
-};
-/**
- * Size information (in bytes) for `Type` enums. For `GLType`, use this
- * form, e.g. `SIZEOF[GL2TYPE[GLType.F32]]`
- */
-
-exports.TYPE2GL = TYPE2GL;
-const SIZEOF = {
-  [0
-  /* U8 */
-  ]: 1,
-  [1
-  /* U8C */
-  ]: 1,
-  [2
-  /* I8 */
-  ]: 1,
-  [3
-  /* U16 */
-  ]: 2,
-  [4
-  /* I16 */
-  ]: 2,
-  [5
-  /* U32 */
-  ]: 4,
-  [6
-  /* I32 */
-  ]: 4,
-  [7
-  /* F32 */
-  ]: 4,
-  [8
-  /* F64 */
-  ]: 8
-};
-exports.SIZEOF = SIZEOF;
-const TYPEDARRAY_CTORS = {
-  [0
-  /* U8 */
-  ]: Uint8Array,
-  [1
-  /* U8C */
-  ]: Uint8ClampedArray,
-  [2
-  /* I8 */
-  ]: Int8Array,
-  [3
-  /* U16 */
-  ]: Uint16Array,
-  [4
-  /* I16 */
-  ]: Int16Array,
-  [5
-  /* U32 */
-  ]: Uint32Array,
-  [6
-  /* I32 */
-  ]: Int32Array,
-  [7
-  /* F32 */
-  ]: Float32Array,
-  [8
-  /* F64 */
-  ]: Float64Array,
-  [5121
-  /* U8 */
-  ]: Uint8Array,
-  [5120
-  /* I8 */
-  ]: Int8Array,
-  [5123
-  /* U16 */
-  ]: Uint16Array,
-  [5122
-  /* I16 */
-  ]: Int16Array,
-  [5125
-  /* U32 */
-  ]: Uint32Array,
-  [5124
-  /* I32 */
-  ]: Int32Array,
-  [5126
-  /* F32 */
-  ]: Float32Array
-};
-exports.TYPEDARRAY_CTORS = TYPEDARRAY_CTORS;
-
-function typedArray(type, ...xs) {
-  return new TYPEDARRAY_CTORS[type](...xs);
-}
-/**
- * Returns the smallest possible *unsigned* int type enum for given `x`.
- * E.g. if `x <= 256`, the function returns `Type.U8`.
- *
- * @param x
- */
-
-
-const uintType = x => x <= 0x100 ? 0
-/* U8 */
-: x <= 0x10000 ? 3
-/* U16 */
-: 5
-/* U32 */
-;
-/**
- * Returns the smallest possible *signed* int type enum for given `x`.
- * E.g. if `x >= -128 && x < 128`, the function returns `Type.I8`.
- *
- * @param x
- */
-
-
-exports.uintType = uintType;
-
-const intType = x => x >= -0x80 && x < 0x80 ? 2
-/* I8 */
-: x >= -0x8000 && x < 0x8000 ? 4
-/* I16 */
-: 6
-/* I32 */
-;
-
-exports.intType = intType;
-},{}],"../node_modules/@thi.ng/api/assert.js":[function(require,module,exports) {
-var process = require("process");
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.assert = void 0;
-
-var _fn = require("./api/fn");
-
-/**
- * Takes a `test` result or predicate function without args and throws
- * error with given `msg` if test failed (i.e. is falsy). The function
- * is only enabled if `NODE_ENV != "production"` or if
- * `UMBRELLA_ASSERTS = 1`.
- */
-const assert = typeof process === "undefined" || "development" !== "production" || undefined === "1" ? (test, msg = "assertion failed") => {
-  if (typeof test === "function" && !test() || !test) {
-    throw new Error(typeof msg === "function" ? msg() : msg);
-  }
-} : _fn.NO_OP;
-exports.assert = assert;
-},{"./api/fn":"../node_modules/@thi.ng/api/api/fn.js","process":"../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel-bundler/src/builtins/_empty.js"}],"../node_modules/@thi.ng/api/logger.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ConsoleLogger = exports.NULL_LOGGER = void 0;
-
-var _logger = require("./api/logger");
-
-const NULL_LOGGER = Object.freeze({
-  level: _logger.LogLevel.NONE,
-
-  fine() {},
-
-  debug() {},
-
-  info() {},
-
-  warn() {},
-
-  severe() {}
-
-});
-exports.NULL_LOGGER = NULL_LOGGER;
-
-class ConsoleLogger {
-  constructor(id, level = _logger.LogLevel.FINE) {
-    this.id = id;
-    this.level = level;
-  }
-
-  fine(...args) {
-    this.level <= _logger.LogLevel.FINE && this.log("FINE", args);
-  }
-
-  debug(...args) {
-    this.level <= _logger.LogLevel.DEBUG && this.log("DEBUG", args);
-  }
-
-  info(...args) {
-    this.level <= _logger.LogLevel.INFO && this.log("INFO", args);
-  }
-
-  warn(...args) {
-    this.level <= _logger.LogLevel.WARN && this.log("WARN", args);
-  }
-
-  severe(...args) {
-    this.level <= _logger.LogLevel.SEVERE && this.log("SEVERE", args);
-  }
-
-  log(level, args) {
-    console.log(`[${level}] ${this.id}:`, ...args);
-  }
-
-}
-
-exports.ConsoleLogger = ConsoleLogger;
-},{"./api/logger":"../node_modules/@thi.ng/api/api/logger.js"}],"../node_modules/@thi.ng/api/mixin.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.mixin = void 0;
-
-/**
- * Class behavior mixin based on:
- * http://raganwald.com/2015/06/26/decorators-in-es7.html
- *
- * Additionally only injects/overwrites properties in target, which are
- * NOT marked with `@nomixin` (i.e. haven't set their `configurable`
- * property descriptor flag to `false`)
- *
- * @param behaviour to mixin
- * @param sharedBehaviour
- * @returns decorator function
- */
-const mixin = (behaviour, sharedBehaviour = {}) => {
-  const instanceKeys = Reflect.ownKeys(behaviour);
-  const sharedKeys = Reflect.ownKeys(sharedBehaviour);
-  const typeTag = Symbol("isa");
-
-  function _mixin(clazz) {
-    for (let key of instanceKeys) {
-      const existing = Object.getOwnPropertyDescriptor(clazz.prototype, key);
-
-      if (!existing || existing.configurable) {
-        Object.defineProperty(clazz.prototype, key, {
-          value: behaviour[key],
-          writable: true
-        });
-      } else {
-        console.log(`not patching: ${clazz.name}.${key.toString()}`);
-      }
-    }
-
-    Object.defineProperty(clazz.prototype, typeTag, {
-      value: true
-    });
-    return clazz;
-  }
-
-  for (let key of sharedKeys) {
-    Object.defineProperty(_mixin, key, {
-      value: sharedBehaviour[key],
-      enumerable: sharedBehaviour.propertyIsEnumerable(key)
-    });
-  }
-
-  Object.defineProperty(_mixin, Symbol.hasInstance, {
-    value: x => !!x[typeTag]
-  });
-  return _mixin;
-};
-
-exports.mixin = mixin;
-},{}],"../node_modules/@thi.ng/api/decorators/configurable.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.configurable = void 0;
-
-/**
- * Property decorator factory. Sets `configurable` flag of PropertyDescriptor
- * to given state.
- *
- * @param state
- */
-const configurable = state => function (_, __, descriptor) {
-  descriptor.configurable = state;
-};
-
-exports.configurable = configurable;
-},{}],"../node_modules/@thi.ng/api/decorators/deprecated.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.deprecated = void 0;
-
-var _assert = require("../assert");
-
-/**
- * Method property decorator factory. Augments original method with
- * deprecation message (via console), shown when method is invoked.
- * Accepts optional message arg. Throws error if assigned property
- * is not a function.
- *
- * @param msg deprecation message
- */
-const deprecated = (msg, log = console.log) => function (target, prop, descriptor) {
-  const signature = `${target.constructor.name}#${prop.toString()}`;
-  const fn = descriptor.value;
-  (0, _assert.assert)(typeof fn === "function", `${signature} is not a function`);
-
-  descriptor.value = function () {
-    log(`DEPRECATED ${signature}: ${msg || "will be removed soon"}`);
-    return fn.apply(this, arguments);
-  };
-
-  return descriptor;
-};
-
-exports.deprecated = deprecated;
-},{"../assert":"../node_modules/@thi.ng/api/assert.js"}],"../node_modules/@thi.ng/api/decorators/nomixin.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.nomixin = void 0;
-
-/**
- * Method property decorator. Sets `configurable` flag of
- * PropertyDescriptor to `false` (same as `@configurable(false)`).
- * Intended to be used in combination with mixin decorators to enable
- * partial implementations of mixed-in behaviors in target class and
- * avoid them being overidden by mixed-in behaviour.
- */
-const nomixin = (_, __, descriptor) => {
-  descriptor.configurable = false;
-};
-
-exports.nomixin = nomixin;
-},{}],"../node_modules/@thi.ng/api/decorators/sealed.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.sealed = void 0;
-
-/**
- * Class decorator. Seals both constructor and prototype.
- *
- * @param constructor
- */
-const sealed = constructor => {
-  Object.seal(constructor);
-  Object.seal(constructor.prototype);
-};
-
-exports.sealed = sealed;
-},{}],"../node_modules/@thi.ng/api/mixins/ienable.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.IEnableMixin = void 0;
-
-var _event = require("../api/event");
-
-var _mixin = require("../mixin");
-
-/**
- * Mixin class decorator, injects IEnable default implementation, incl.
- * a `_enabled` property. If the target also implements the `INotify`
- * interface, `enable()` and `disable()` will automatically emit the
- * respective events.
- */
-const IEnableMixin = (0, _mixin.mixin)({
-  _enabled: true,
-
-  isEnabled() {
-    return this._enabled;
-  },
-
-  enable() {
-    this._enabled = true;
-
-    if (this.notify) {
-      this.notify({
-        id: _event.EVENT_ENABLE,
-        target: this
-      });
-    }
-  },
-
-  disable() {
-    this._enabled = false;
-
-    if (this.notify) {
-      this.notify({
-        id: _event.EVENT_DISABLE,
-        target: this
-      });
-    }
-  },
-
-  toggle() {
-    this._enabled ? this.disable() : this.enable();
-    return this._enabled;
-  }
-
-});
-exports.IEnableMixin = IEnableMixin;
-},{"../api/event":"../node_modules/@thi.ng/api/api/event.js","../mixin":"../node_modules/@thi.ng/api/mixin.js"}],"../node_modules/@thi.ng/api/mixins/inotify.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.INotifyMixin = exports.inotify_dispatch = void 0;
-
-var _event = require("../api/event");
-
-var _mixin = require("../mixin");
-
-const inotify_dispatch = (listeners, e) => {
-  if (!listeners) return;
-
-  for (let i = 0, n = listeners.length, l; i < n; i++) {
-    l = listeners[i];
-    l[0].call(l[1], e);
-
-    if (e.canceled) {
-      return;
-    }
-  }
-};
-/**
- * Mixin class decorator, injects INotify default implementation, incl.
- * a lazily instantiated `_listeners` property object, storing
- * registered listeners.
- */
-
-
-exports.inotify_dispatch = inotify_dispatch;
-const INotifyMixin = (0, _mixin.mixin)({
-  addListener(id, fn, scope) {
-    let l = (this._listeners = this._listeners || {})[id];
-    !l && (l = this._listeners[id] = []);
-
-    if (this.__listener(l, fn, scope) === -1) {
-      l.push([fn, scope]);
-      return true;
-    }
-
-    return false;
-  },
-
-  removeListener(id, fn, scope) {
-    let listeners;
-    if (!(listeners = this._listeners)) return false;
-    const l = listeners[id];
-
-    if (l) {
-      const idx = this.__listener(l, fn, scope);
-
-      if (idx !== -1) {
-        l.splice(idx, 1);
-        !l.length && delete listeners[id];
-        return true;
-      }
-    }
-
-    return false;
-  },
-
-  notify(e) {
-    let listeners;
-    if (!(listeners = this._listeners)) return false;
-    e.target === undefined && (e.target = this);
-    inotify_dispatch(listeners[e.id], e);
-    inotify_dispatch(listeners[_event.EVENT_ALL], e);
-  },
-
-  __listener(listeners, f, scope) {
-    let i = listeners.length;
-
-    while (--i >= 0) {
-      const l = listeners[i];
-
-      if (l[0] === f && l[1] === scope) {
-        break;
-      }
-    }
-
-    return i;
-  }
-
-});
-exports.INotifyMixin = INotifyMixin;
-},{"../api/event":"../node_modules/@thi.ng/api/api/event.js","../mixin":"../node_modules/@thi.ng/api/mixin.js"}],"../node_modules/@thi.ng/api/mixins/iterable.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.iterable = void 0;
-
-var _mixin = require("../mixin");
-
-const iterable = prop => (0, _mixin.mixin)({
-  *[Symbol.iterator]() {
-    yield* this[prop];
-  }
-
-});
-
-exports.iterable = iterable;
-},{"../mixin":"../node_modules/@thi.ng/api/mixin.js"}],"../node_modules/@thi.ng/api/mixins/iwatch.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.IWatchMixin = void 0;
-
-var _mixin = require("../mixin");
-
-const IWatchMixin = (0, _mixin.mixin)({
-  addWatch(id, fn) {
-    this._watches = this._watches || {};
-
-    if (this._watches[id]) {
-      return false;
-    }
-
-    this._watches[id] = fn;
-    return true;
-  },
-
-  removeWatch(id) {
-    if (!this._watches) return;
-
-    if (this._watches[id]) {
-      delete this._watches[id];
-      return true;
-    }
-
-    return false;
-  },
-
-  notifyWatches(oldState, newState) {
-    if (!this._watches) return;
-    const w = this._watches;
-
-    for (let id in w) {
-      w[id](id, oldState, newState);
-    }
-  }
-
-});
-exports.IWatchMixin = IWatchMixin;
-},{"../mixin":"../node_modules/@thi.ng/api/mixin.js"}],"../node_modules/@thi.ng/api/index.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _api = require("./api");
-
-Object.keys(_api).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _api[key];
-    }
-  });
-});
-
-var _event = require("./api/event");
-
-Object.keys(_event).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _event[key];
-    }
-  });
-});
-
-var _fn = require("./api/fn");
-
-Object.keys(_fn).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _fn[key];
-    }
-  });
-});
-
-var _logger = require("./api/logger");
-
-Object.keys(_logger).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _logger[key];
-    }
-  });
-});
-
-var _typedarray = require("./api/typedarray");
-
-Object.keys(_typedarray).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _typedarray[key];
-    }
-  });
-});
-
-var _assert = require("./assert");
-
-Object.keys(_assert).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _assert[key];
-    }
-  });
-});
-
-var _logger2 = require("./logger");
-
-Object.keys(_logger2).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _logger2[key];
-    }
-  });
-});
-
-var _mixin = require("./mixin");
-
-Object.keys(_mixin).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _mixin[key];
-    }
-  });
-});
-
-var _configurable = require("./decorators/configurable");
-
-Object.keys(_configurable).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _configurable[key];
-    }
-  });
-});
-
-var _deprecated = require("./decorators/deprecated");
-
-Object.keys(_deprecated).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _deprecated[key];
-    }
-  });
-});
-
-var _nomixin = require("./decorators/nomixin");
-
-Object.keys(_nomixin).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _nomixin[key];
-    }
-  });
-});
-
-var _sealed = require("./decorators/sealed");
-
-Object.keys(_sealed).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _sealed[key];
-    }
-  });
-});
-
-var _ienable = require("./mixins/ienable");
-
-Object.keys(_ienable).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _ienable[key];
-    }
-  });
-});
-
-var _inotify = require("./mixins/inotify");
-
-Object.keys(_inotify).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _inotify[key];
-    }
-  });
-});
-
-var _iterable = require("./mixins/iterable");
-
-Object.keys(_iterable).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _iterable[key];
-    }
-  });
-});
-
-var _iwatch = require("./mixins/iwatch");
-
-Object.keys(_iwatch).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _iwatch[key];
-    }
-  });
-});
-},{"./api":"../node_modules/@thi.ng/api/api.js","./api/event":"../node_modules/@thi.ng/api/api/event.js","./api/fn":"../node_modules/@thi.ng/api/api/fn.js","./api/logger":"../node_modules/@thi.ng/api/api/logger.js","./api/typedarray":"../node_modules/@thi.ng/api/api/typedarray.js","./assert":"../node_modules/@thi.ng/api/assert.js","./logger":"../node_modules/@thi.ng/api/logger.js","./mixin":"../node_modules/@thi.ng/api/mixin.js","./decorators/configurable":"../node_modules/@thi.ng/api/decorators/configurable.js","./decorators/deprecated":"../node_modules/@thi.ng/api/decorators/deprecated.js","./decorators/nomixin":"../node_modules/@thi.ng/api/decorators/nomixin.js","./decorators/sealed":"../node_modules/@thi.ng/api/decorators/sealed.js","./mixins/ienable":"../node_modules/@thi.ng/api/mixins/ienable.js","./mixins/inotify":"../node_modules/@thi.ng/api/mixins/inotify.js","./mixins/iterable":"../node_modules/@thi.ng/api/mixins/iterable.js","./mixins/iwatch":"../node_modules/@thi.ng/api/mixins/iwatch.js"}],"../node_modules/@thi.ng/rstream/api.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.setLogger = exports.LOGGER = exports.CloseMode = exports.State = void 0;
-
-var _api = require("@thi.ng/api");
-
-var State;
-exports.State = State;
-
-(function (State) {
-  State[State["IDLE"] = 0] = "IDLE";
-  State[State["ACTIVE"] = 1] = "ACTIVE";
-  State[State["DONE"] = 2] = "DONE";
-  State[State["ERROR"] = 3] = "ERROR";
-  State[State["DISABLED"] = 4] = "DISABLED"; // TODO currently unused
-})(State || (exports.State = State = {}));
-/**
- * Closing behaviors.
- */
-
-
-var CloseMode;
-exports.CloseMode = CloseMode;
-
-(function (CloseMode) {
-  /**
-   * Never close, even if no more inputs/outputs.
-   */
-  CloseMode[CloseMode["NEVER"] = 0] = "NEVER";
-  /**
-   * Close when first input/output is done / removed.
-   */
-
-  CloseMode[CloseMode["FIRST"] = 1] = "FIRST";
-  /**
-   * Close when last input/output is done / removed.
-   */
-
-  CloseMode[CloseMode["LAST"] = 2] = "LAST";
-})(CloseMode || (exports.CloseMode = CloseMode = {}));
-
-let LOGGER = _api.NULL_LOGGER;
-exports.LOGGER = LOGGER;
-
-const setLogger = logger => exports.LOGGER = LOGGER = logger;
-
-exports.setLogger = setLogger;
-},{"@thi.ng/api":"../node_modules/@thi.ng/api/index.js"}],"../node_modules/@thi.ng/transducers/reduced.js":[function(require,module,exports) {
+},{"./exists-not-null":"../node_modules/@thi.ng/checks/exists-not-null.js","./exists":"../node_modules/@thi.ng/checks/exists.js","./has-crypto":"../node_modules/@thi.ng/checks/has-crypto.js","./has-max-length":"../node_modules/@thi.ng/checks/has-max-length.js","./has-min-length":"../node_modules/@thi.ng/checks/has-min-length.js","./has-performance":"../node_modules/@thi.ng/checks/has-performance.js","./has-wasm":"../node_modules/@thi.ng/checks/has-wasm.js","./has-webgl":"../node_modules/@thi.ng/checks/has-webgl.js","./has-websocket":"../node_modules/@thi.ng/checks/has-websocket.js","./implements-function":"../node_modules/@thi.ng/checks/implements-function.js","./is-array":"../node_modules/@thi.ng/checks/is-array.js","./is-arraylike":"../node_modules/@thi.ng/checks/is-arraylike.js","./is-blob":"../node_modules/@thi.ng/checks/is-blob.js","./is-boolean":"../node_modules/@thi.ng/checks/is-boolean.js","./is-chrome":"../node_modules/@thi.ng/checks/is-chrome.js","./is-date":"../node_modules/@thi.ng/checks/is-date.js","./is-even":"../node_modules/@thi.ng/checks/is-even.js","./is-false":"../node_modules/@thi.ng/checks/is-false.js","./is-file":"../node_modules/@thi.ng/checks/is-file.js","./is-firefox":"../node_modules/@thi.ng/checks/is-firefox.js","./is-function":"../node_modules/@thi.ng/checks/is-function.js","./is-hex-color":"../node_modules/@thi.ng/checks/is-hex-color.js","./is-ie":"../node_modules/@thi.ng/checks/is-ie.js","./is-in-range":"../node_modules/@thi.ng/checks/is-in-range.js","./is-int32":"../node_modules/@thi.ng/checks/is-int32.js","./is-iterable":"../node_modules/@thi.ng/checks/is-iterable.js","./is-map":"../node_modules/@thi.ng/checks/is-map.js","./is-mobile":"../node_modules/@thi.ng/checks/is-mobile.js","./is-nan":"../node_modules/@thi.ng/checks/is-nan.js","./is-negative":"../node_modules/@thi.ng/checks/is-negative.js","./is-nil":"../node_modules/@thi.ng/checks/is-nil.js","./is-node":"../node_modules/@thi.ng/checks/is-node.js","./is-not-string-iterable":"../node_modules/@thi.ng/checks/is-not-string-iterable.js","./is-null":"../node_modules/@thi.ng/checks/is-null.js","./is-number":"../node_modules/@thi.ng/checks/is-number.js","./is-object":"../node_modules/@thi.ng/checks/is-object.js","./is-odd":"../node_modules/@thi.ng/checks/is-odd.js","./is-plain-object":"../node_modules/@thi.ng/checks/is-plain-object.js","./is-positive":"../node_modules/@thi.ng/checks/is-positive.js","./is-primitive":"../node_modules/@thi.ng/checks/is-primitive.js","./is-promise":"../node_modules/@thi.ng/checks/is-promise.js","./is-promiselike":"../node_modules/@thi.ng/checks/is-promiselike.js","./is-regexp":"../node_modules/@thi.ng/checks/is-regexp.js","./is-safari":"../node_modules/@thi.ng/checks/is-safari.js","./is-set":"../node_modules/@thi.ng/checks/is-set.js","./is-string":"../node_modules/@thi.ng/checks/is-string.js","./is-symbol":"../node_modules/@thi.ng/checks/is-symbol.js","./is-transferable":"../node_modules/@thi.ng/checks/is-transferable.js","./is-true":"../node_modules/@thi.ng/checks/is-true.js","./is-typedarray":"../node_modules/@thi.ng/checks/is-typedarray.js","./is-uint32":"../node_modules/@thi.ng/checks/is-uint32.js","./is-undefined":"../node_modules/@thi.ng/checks/is-undefined.js","./is-uuid":"../node_modules/@thi.ng/checks/is-uuid.js","./is-uuid4":"../node_modules/@thi.ng/checks/is-uuid4.js","./is-zero":"../node_modules/@thi.ng/checks/is-zero.js"}],"../node_modules/@thi.ng/transducers/reduced.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21201,7 +20834,374 @@ Object.keys(_worker2).forEach(function (key) {
     }
   });
 });
-},{"./api":"../node_modules/@thi.ng/rstream/api.js","./forkjoin":"../node_modules/@thi.ng/rstream/forkjoin.js","./metastream":"../node_modules/@thi.ng/rstream/metastream.js","./pubsub":"../node_modules/@thi.ng/rstream/pubsub.js","./stream":"../node_modules/@thi.ng/rstream/stream.js","./stream-merge":"../node_modules/@thi.ng/rstream/stream-merge.js","./stream-sync":"../node_modules/@thi.ng/rstream/stream-sync.js","./subscription":"../node_modules/@thi.ng/rstream/subscription.js","./trigger":"../node_modules/@thi.ng/rstream/trigger.js","./tween":"../node_modules/@thi.ng/rstream/tween.js","./from/atom":"../node_modules/@thi.ng/rstream/from/atom.js","./from/event":"../node_modules/@thi.ng/rstream/from/event.js","./from/interval":"../node_modules/@thi.ng/rstream/from/interval.js","./from/iterable":"../node_modules/@thi.ng/rstream/from/iterable.js","./from/promise":"../node_modules/@thi.ng/rstream/from/promise.js","./from/promises":"../node_modules/@thi.ng/rstream/from/promises.js","./from/raf":"../node_modules/@thi.ng/rstream/from/raf.js","./from/view":"../node_modules/@thi.ng/rstream/from/view.js","./from/worker":"../node_modules/@thi.ng/rstream/from/worker.js","./subs/bisect":"../node_modules/@thi.ng/rstream/subs/bisect.js","./subs/post-worker":"../node_modules/@thi.ng/rstream/subs/post-worker.js","./subs/resolve":"../node_modules/@thi.ng/rstream/subs/resolve.js","./subs/sidechain-partition":"../node_modules/@thi.ng/rstream/subs/sidechain-partition.js","./subs/sidechain-toggle":"../node_modules/@thi.ng/rstream/subs/sidechain-toggle.js","./subs/timeout":"../node_modules/@thi.ng/rstream/subs/timeout.js","./subs/trace":"../node_modules/@thi.ng/rstream/subs/trace.js","./subs/transduce":"../node_modules/@thi.ng/rstream/subs/transduce.js","./subs/tunnel":"../node_modules/@thi.ng/rstream/subs/tunnel.js","./utils/idgen":"../node_modules/@thi.ng/rstream/utils/idgen.js","./utils/worker":"../node_modules/@thi.ng/rstream/utils/worker.js"}],"../src/utils/traceStream.js":[function(require,module,exports) {
+},{"./api":"../node_modules/@thi.ng/rstream/api.js","./forkjoin":"../node_modules/@thi.ng/rstream/forkjoin.js","./metastream":"../node_modules/@thi.ng/rstream/metastream.js","./pubsub":"../node_modules/@thi.ng/rstream/pubsub.js","./stream":"../node_modules/@thi.ng/rstream/stream.js","./stream-merge":"../node_modules/@thi.ng/rstream/stream-merge.js","./stream-sync":"../node_modules/@thi.ng/rstream/stream-sync.js","./subscription":"../node_modules/@thi.ng/rstream/subscription.js","./trigger":"../node_modules/@thi.ng/rstream/trigger.js","./tween":"../node_modules/@thi.ng/rstream/tween.js","./from/atom":"../node_modules/@thi.ng/rstream/from/atom.js","./from/event":"../node_modules/@thi.ng/rstream/from/event.js","./from/interval":"../node_modules/@thi.ng/rstream/from/interval.js","./from/iterable":"../node_modules/@thi.ng/rstream/from/iterable.js","./from/promise":"../node_modules/@thi.ng/rstream/from/promise.js","./from/promises":"../node_modules/@thi.ng/rstream/from/promises.js","./from/raf":"../node_modules/@thi.ng/rstream/from/raf.js","./from/view":"../node_modules/@thi.ng/rstream/from/view.js","./from/worker":"../node_modules/@thi.ng/rstream/from/worker.js","./subs/bisect":"../node_modules/@thi.ng/rstream/subs/bisect.js","./subs/post-worker":"../node_modules/@thi.ng/rstream/subs/post-worker.js","./subs/resolve":"../node_modules/@thi.ng/rstream/subs/resolve.js","./subs/sidechain-partition":"../node_modules/@thi.ng/rstream/subs/sidechain-partition.js","./subs/sidechain-toggle":"../node_modules/@thi.ng/rstream/subs/sidechain-toggle.js","./subs/timeout":"../node_modules/@thi.ng/rstream/subs/timeout.js","./subs/trace":"../node_modules/@thi.ng/rstream/subs/trace.js","./subs/transduce":"../node_modules/@thi.ng/rstream/subs/transduce.js","./subs/tunnel":"../node_modules/@thi.ng/rstream/subs/tunnel.js","./utils/idgen":"../node_modules/@thi.ng/rstream/utils/idgen.js","./utils/worker":"../node_modules/@thi.ng/rstream/utils/worker.js"}],"../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel-bundler/node_modules/querystring-es3/decode.js":[function(require,module,exports) {
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+'use strict'; // If obj.hasOwnProperty has been overridden, then calling
+// obj.hasOwnProperty(prop) will break.
+// See: https://github.com/joyent/node/issues/1707
+
+function hasOwnProperty(obj, prop) {
+  return Object.prototype.hasOwnProperty.call(obj, prop);
+}
+
+module.exports = function (qs, sep, eq, options) {
+  sep = sep || '&';
+  eq = eq || '=';
+  var obj = {};
+
+  if (typeof qs !== 'string' || qs.length === 0) {
+    return obj;
+  }
+
+  var regexp = /\+/g;
+  qs = qs.split(sep);
+  var maxKeys = 1000;
+
+  if (options && typeof options.maxKeys === 'number') {
+    maxKeys = options.maxKeys;
+  }
+
+  var len = qs.length; // maxKeys <= 0 means that we should not limit keys count
+
+  if (maxKeys > 0 && len > maxKeys) {
+    len = maxKeys;
+  }
+
+  for (var i = 0; i < len; ++i) {
+    var x = qs[i].replace(regexp, '%20'),
+        idx = x.indexOf(eq),
+        kstr,
+        vstr,
+        k,
+        v;
+
+    if (idx >= 0) {
+      kstr = x.substr(0, idx);
+      vstr = x.substr(idx + 1);
+    } else {
+      kstr = x;
+      vstr = '';
+    }
+
+    k = decodeURIComponent(kstr);
+    v = decodeURIComponent(vstr);
+
+    if (!hasOwnProperty(obj, k)) {
+      obj[k] = v;
+    } else if (isArray(obj[k])) {
+      obj[k].push(v);
+    } else {
+      obj[k] = [obj[k], v];
+    }
+  }
+
+  return obj;
+};
+
+var isArray = Array.isArray || function (xs) {
+  return Object.prototype.toString.call(xs) === '[object Array]';
+};
+},{}],"../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel-bundler/node_modules/querystring-es3/encode.js":[function(require,module,exports) {
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+'use strict';
+
+var stringifyPrimitive = function (v) {
+  switch (typeof v) {
+    case 'string':
+      return v;
+
+    case 'boolean':
+      return v ? 'true' : 'false';
+
+    case 'number':
+      return isFinite(v) ? v : '';
+
+    default:
+      return '';
+  }
+};
+
+module.exports = function (obj, sep, eq, name) {
+  sep = sep || '&';
+  eq = eq || '=';
+
+  if (obj === null) {
+    obj = undefined;
+  }
+
+  if (typeof obj === 'object') {
+    return map(objectKeys(obj), function (k) {
+      var ks = encodeURIComponent(stringifyPrimitive(k)) + eq;
+
+      if (isArray(obj[k])) {
+        return map(obj[k], function (v) {
+          return ks + encodeURIComponent(stringifyPrimitive(v));
+        }).join(sep);
+      } else {
+        return ks + encodeURIComponent(stringifyPrimitive(obj[k]));
+      }
+    }).join(sep);
+  }
+
+  if (!name) return '';
+  return encodeURIComponent(stringifyPrimitive(name)) + eq + encodeURIComponent(stringifyPrimitive(obj));
+};
+
+var isArray = Array.isArray || function (xs) {
+  return Object.prototype.toString.call(xs) === '[object Array]';
+};
+
+function map(xs, f) {
+  if (xs.map) return xs.map(f);
+  var res = [];
+
+  for (var i = 0; i < xs.length; i++) {
+    res.push(f(xs[i], i));
+  }
+
+  return res;
+}
+
+var objectKeys = Object.keys || function (obj) {
+  var res = [];
+
+  for (var key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) res.push(key);
+  }
+
+  return res;
+};
+},{}],"../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel-bundler/node_modules/querystring-es3/index.js":[function(require,module,exports) {
+'use strict';
+
+exports.decode = exports.parse = require('./decode');
+exports.encode = exports.stringify = require('./encode');
+},{"./decode":"../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel-bundler/node_modules/querystring-es3/decode.js","./encode":"../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel-bundler/node_modules/querystring-es3/encode.js"}],"../src/utils/parse_URL.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.parse_URL = void 0;
+
+var _querystring = _interopRequireDefault(require("querystring"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+let fix_jsdoc;
+/**
+ * # HREF/URL Parser
+ *
+ * Takes an href (full or relative) and pulls out the various
+ * components to be used for instrumentation of various
+ * high-level event handling.
+ *
+ * ## Examples:
+ *
+ * Ex1:
+ * ```js
+ * parse_href("http://localhost:1234/about?get=some#today")
+ * ```
+ *
+ *
+ * ```js
+ * {
+ *   URL: "http://localhost:1234/about?get=some#today",
+ *   subdomain: [],
+ *   domain: ["localhost:1234"],
+ *   path: ["about"],
+ *   query: { get: "some" },
+ *   hash: "today"
+ * }
+ * ```
+ *
+ * Ex2:
+ * ```js
+ * parse_href("https://github.com/thi-ng/umbrella/#blog-posts")
+ * ```
+ * ```js
+ * {
+ *   URL: 'https://github.com/thi-ng/umbrella/#blog-posts',
+ *   subdomain: [],
+ *   domain: ["github", "com"],
+ *   path: ["thi-ng", "umbrella"],
+ *   query: {},
+ *   hash: "blog-posts"
+ * }
+ * ```
+ *
+ * Ex3:
+ * ```js
+ * parse_href("https://very-long-sub.dom.cloud.eu/site/my/happy/")
+ * ```
+ * ```js
+ * {
+ *   URL: 'https://very-long-sub.dom.cloud.eu/site/my/happy/',
+ *   subdomain: ["very-long-sub", "dom"],
+ *   domain: ["cloud", "eu"],
+ *   path: ["site", "my", "happy"],
+ *   query: {},
+ *   hash: ""
+ * }
+ * ```
+ *
+ * Ex4:
+ * ```js
+ * parse_href("https://api.census.gov/data?get=NAME&in=state:01&in=county:*")
+ * ```
+ * ```js
+ * {
+ *   URL: "https://api.census.gov/data?get=NAME&in=state:01&in=county:*",
+ *   subdomain: ["api"],
+ *   domain: ["census", "gov"],
+ *   path: ["data"],
+ *   query: { get: "NAME", in: ["state:01", "county:*"] },
+ *   hash: ""
+ * }
+ * ```
+ *
+ * Ex5:
+ * ```js
+ * parse_href("/data?get=NAME&in=state#indeed")
+ * ```
+ * ```js
+ * {
+ *   URL: "/data?get=NAME&in=state#indeed",
+ *   subdomain: [],
+ *   domain: [],
+ *   path: ["data"],
+ *   query: { get: "NAME", in: "state" },
+ *   hash: "indeed"
+ * }
+ * ```
+ *
+ * @param {string} URL - full or partial URL/href
+ *
+ * */
+
+const parse_URL = URL => {
+  let URL_subdomain = [];
+  let URL_domain = [];
+  let URL_path = []; // split the path on any `?` and/or `#` chars (1-3 parts)
+
+  const parts = URL.split(/(?=\?)|(?=#)/g); // take the first component of split: the core URL
+
+  const path_str = parts[0]; // split the path_str further into individual members and
+  // remove the empty string between any adjacent slashes `//`
+
+  const full_path = path_str.split("/").filter(x => x !== "");
+
+  if (/http/i.test(URL)) {
+    // if the input URL is HTTP(S), partition into sub components
+    // domain is the last two members of the 2nd component
+    URL_domain = full_path[1].split(".").slice(-2); // subdomain is anything before the domain
+    // see https://stackoverflow.com/a/56921347
+    // for mocking subdomain on localhost
+
+    URL_subdomain = full_path[1].split(".").slice(0, -2); // path is the last component in the
+
+    URL_path = full_path.slice(2);
+  } else {
+    // in the case of a relative URL `<a href="/about">
+    // the relative path is the full path
+    URL_path = full_path;
+  } // pull out the query component as a string
+
+
+  const query_str = parts.filter(part => part.slice(0, 1) === "?")[0] || ""; // pull out the hash component as a string
+
+  const hash_str = parts.filter(part => part.slice(0, 1) === "#")[0] || ""; // parse the query string into conventional parts using qs
+
+  const URL_query = _querystring.default.parse(query_str.slice(1)); // remove the actual `#` hash character from the string
+
+
+  const URL_hash = hash_str.slice(1);
+  return {
+    URL,
+    URL_subdomain,
+    URL_domain,
+    URL_path,
+    URL_query,
+    URL_hash
+  };
+};
+
+exports.parse_URL = parse_URL;
+},{"querystring":"../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel-bundler/node_modules/querystring-es3/index.js"}],"../src/utils/stringify_type.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.stringify_type = void 0;
+
+var _checks = require("@thi.ng/checks");
+
+let fix_jsdoc; // prettier-ignore
+
+/**
+ * ### `stringify_type`
+ *
+ * just a little convenience function
+ * takes some value and returns a string representation of its type
+ * this makes it easier to create a switch statement using types
+ *
+ * powered by [@thi.ng/checks](http://thi.ng/checks)
+ *
+ */
+
+const stringify_type = x => {
+  if ((0, _checks.isArray)(x)) return "ARRAY";
+  if ((0, _checks.isFunction)(x) && x.length === 0) return "THUNK";
+  if ((0, _checks.isFunction)(x) && x.length > 0) return "FUNCTION";
+  if ((0, _checks.isPromise)(x)) return "PROMISE";
+  if ((0, _checks.isString)(x)) return "STRING";
+  if ((0, _checks.isBoolean)(x)) return "BOOLEAN";
+  if ((0, _checks.isNull)(x)) return "NULL";
+  if ((0, _checks.isObject)(x)) return "OBJECT";
+  return "type_str NOT FOUND";
+};
+
+exports.stringify_type = stringify_type;
+},{"@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js"}],"../src/utils/traceStream.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21224,7 +21224,7 @@ let fix_jsdoc;
  * @param {stream}
  * */
 
-const traceStream = (log_prefix, stream) => stream.subscribeTopic ? stream.subscribeTopic("...JUST_L0GGING...", {
+const traceStream = (log_prefix, stream) => stream.subscribeTopic ? stream.subscribeTopic("_TRACE_STREAM", {
   next: x => console.log(log_prefix, x),
   error: console.warn
 }) : stream.subscribe((0, _rstream.trace)(log_prefix));
@@ -21298,21 +21298,1143 @@ const unknown_key_ERR = (str, c, unknown, sub$, index) => {
 };
 
 exports.unknown_key_ERR = unknown_key_ERR;
-},{}],"../src/utils/index.js":[function(require,module,exports) {
+},{}],"../src/DOM/index.js":[function(require,module,exports) {
+
+},{}],"../node_modules/event-target-shim/dist/event-target-shim.js":[function(require,module,exports) {
+/**
+ * @author Toru Nagashima <https://github.com/mysticatea>
+ * @copyright 2015 Toru Nagashima. All rights reserved.
+ * See LICENSE file in root directory for full license.
+ */
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+/**
+ * @typedef {object} PrivateData
+ * @property {EventTarget} eventTarget The event target.
+ * @property {{type:string}} event The original event object.
+ * @property {number} eventPhase The current event phase.
+ * @property {EventTarget|null} currentTarget The current event target.
+ * @property {boolean} canceled The flag to prevent default.
+ * @property {boolean} stopped The flag to stop propagation.
+ * @property {boolean} immediateStopped The flag to stop propagation immediately.
+ * @property {Function|null} passiveListener The listener if the current listener is passive. Otherwise this is null.
+ * @property {number} timeStamp The unix time.
+ * @private
+ */
+
+/**
+ * Private data for event wrappers.
+ * @type {WeakMap<Event, PrivateData>}
+ * @private
+ */
+
+const privateData = new WeakMap();
+/**
+ * Cache for wrapper classes.
+ * @type {WeakMap<Object, Function>}
+ * @private
+ */
+
+const wrappers = new WeakMap();
+/**
+ * Get private data.
+ * @param {Event} event The event object to get private data.
+ * @returns {PrivateData} The private data of the event.
+ * @private
+ */
+
+function pd(event) {
+  const retv = privateData.get(event);
+  console.assert(retv != null, "'this' is expected an Event object, but got", event);
+  return retv;
+}
+/**
+ * https://dom.spec.whatwg.org/#set-the-canceled-flag
+ * @param data {PrivateData} private data.
+ */
+
+
+function setCancelFlag(data) {
+  if (data.passiveListener != null) {
+    if (typeof console !== "undefined" && typeof console.error === "function") {
+      console.error("Unable to preventDefault inside passive event listener invocation.", data.passiveListener);
+    }
+
+    return;
+  }
+
+  if (!data.event.cancelable) {
+    return;
+  }
+
+  data.canceled = true;
+
+  if (typeof data.event.preventDefault === "function") {
+    data.event.preventDefault();
+  }
+}
+/**
+ * @see https://dom.spec.whatwg.org/#interface-event
+ * @private
+ */
+
+/**
+ * The event wrapper.
+ * @constructor
+ * @param {EventTarget} eventTarget The event target of this dispatching.
+ * @param {Event|{type:string}} event The original event to wrap.
+ */
+
+
+function Event(eventTarget, event) {
+  privateData.set(this, {
+    eventTarget,
+    event,
+    eventPhase: 2,
+    currentTarget: eventTarget,
+    canceled: false,
+    stopped: false,
+    immediateStopped: false,
+    passiveListener: null,
+    timeStamp: event.timeStamp || Date.now()
+  }); // https://heycam.github.io/webidl/#Unforgeable
+
+  Object.defineProperty(this, "isTrusted", {
+    value: false,
+    enumerable: true
+  }); // Define accessors
+
+  const keys = Object.keys(event);
+
+  for (let i = 0; i < keys.length; ++i) {
+    const key = keys[i];
+
+    if (!(key in this)) {
+      Object.defineProperty(this, key, defineRedirectDescriptor(key));
+    }
+  }
+} // Should be enumerable, but class methods are not enumerable.
+
+
+Event.prototype = {
+  /**
+   * The type of this event.
+   * @type {string}
+   */
+  get type() {
+    return pd(this).event.type;
+  },
+
+  /**
+   * The target of this event.
+   * @type {EventTarget}
+   */
+  get target() {
+    return pd(this).eventTarget;
+  },
+
+  /**
+   * The target of this event.
+   * @type {EventTarget}
+   */
+  get currentTarget() {
+    return pd(this).currentTarget;
+  },
+
+  /**
+   * @returns {EventTarget[]} The composed path of this event.
+   */
+  composedPath() {
+    const currentTarget = pd(this).currentTarget;
+
+    if (currentTarget == null) {
+      return [];
+    }
+
+    return [currentTarget];
+  },
+
+  /**
+   * Constant of NONE.
+   * @type {number}
+   */
+  get NONE() {
+    return 0;
+  },
+
+  /**
+   * Constant of CAPTURING_PHASE.
+   * @type {number}
+   */
+  get CAPTURING_PHASE() {
+    return 1;
+  },
+
+  /**
+   * Constant of AT_TARGET.
+   * @type {number}
+   */
+  get AT_TARGET() {
+    return 2;
+  },
+
+  /**
+   * Constant of BUBBLING_PHASE.
+   * @type {number}
+   */
+  get BUBBLING_PHASE() {
+    return 3;
+  },
+
+  /**
+   * The target of this event.
+   * @type {number}
+   */
+  get eventPhase() {
+    return pd(this).eventPhase;
+  },
+
+  /**
+   * Stop event bubbling.
+   * @returns {void}
+   */
+  stopPropagation() {
+    const data = pd(this);
+    data.stopped = true;
+
+    if (typeof data.event.stopPropagation === "function") {
+      data.event.stopPropagation();
+    }
+  },
+
+  /**
+   * Stop event bubbling.
+   * @returns {void}
+   */
+  stopImmediatePropagation() {
+    const data = pd(this);
+    data.stopped = true;
+    data.immediateStopped = true;
+
+    if (typeof data.event.stopImmediatePropagation === "function") {
+      data.event.stopImmediatePropagation();
+    }
+  },
+
+  /**
+   * The flag to be bubbling.
+   * @type {boolean}
+   */
+  get bubbles() {
+    return Boolean(pd(this).event.bubbles);
+  },
+
+  /**
+   * The flag to be cancelable.
+   * @type {boolean}
+   */
+  get cancelable() {
+    return Boolean(pd(this).event.cancelable);
+  },
+
+  /**
+   * Cancel this event.
+   * @returns {void}
+   */
+  preventDefault() {
+    setCancelFlag(pd(this));
+  },
+
+  /**
+   * The flag to indicate cancellation state.
+   * @type {boolean}
+   */
+  get defaultPrevented() {
+    return pd(this).canceled;
+  },
+
+  /**
+   * The flag to be composed.
+   * @type {boolean}
+   */
+  get composed() {
+    return Boolean(pd(this).event.composed);
+  },
+
+  /**
+   * The unix time of this event.
+   * @type {number}
+   */
+  get timeStamp() {
+    return pd(this).timeStamp;
+  },
+
+  /**
+   * The target of this event.
+   * @type {EventTarget}
+   * @deprecated
+   */
+  get srcElement() {
+    return pd(this).eventTarget;
+  },
+
+  /**
+   * The flag to stop event bubbling.
+   * @type {boolean}
+   * @deprecated
+   */
+  get cancelBubble() {
+    return pd(this).stopped;
+  },
+
+  set cancelBubble(value) {
+    if (!value) {
+      return;
+    }
+
+    const data = pd(this);
+    data.stopped = true;
+
+    if (typeof data.event.cancelBubble === "boolean") {
+      data.event.cancelBubble = true;
+    }
+  },
+
+  /**
+   * The flag to indicate cancellation state.
+   * @type {boolean}
+   * @deprecated
+   */
+  get returnValue() {
+    return !pd(this).canceled;
+  },
+
+  set returnValue(value) {
+    if (!value) {
+      setCancelFlag(pd(this));
+    }
+  },
+
+  /**
+   * Initialize this event object. But do nothing under event dispatching.
+   * @param {string} type The event type.
+   * @param {boolean} [bubbles=false] The flag to be possible to bubble up.
+   * @param {boolean} [cancelable=false] The flag to be possible to cancel.
+   * @deprecated
+   */
+  initEvent() {// Do nothing.
+  }
+
+}; // `constructor` is not enumerable.
+
+Object.defineProperty(Event.prototype, "constructor", {
+  value: Event,
+  configurable: true,
+  writable: true
+}); // Ensure `event instanceof window.Event` is `true`.
+
+if (typeof window !== "undefined" && typeof window.Event !== "undefined") {
+  Object.setPrototypeOf(Event.prototype, window.Event.prototype); // Make association for wrappers.
+
+  wrappers.set(window.Event.prototype, Event);
+}
+/**
+ * Get the property descriptor to redirect a given property.
+ * @param {string} key Property name to define property descriptor.
+ * @returns {PropertyDescriptor} The property descriptor to redirect the property.
+ * @private
+ */
+
+
+function defineRedirectDescriptor(key) {
+  return {
+    get() {
+      return pd(this).event[key];
+    },
+
+    set(value) {
+      pd(this).event[key] = value;
+    },
+
+    configurable: true,
+    enumerable: true
+  };
+}
+/**
+ * Get the property descriptor to call a given method property.
+ * @param {string} key Property name to define property descriptor.
+ * @returns {PropertyDescriptor} The property descriptor to call the method property.
+ * @private
+ */
+
+
+function defineCallDescriptor(key) {
+  return {
+    value() {
+      const event = pd(this).event;
+      return event[key].apply(event, arguments);
+    },
+
+    configurable: true,
+    enumerable: true
+  };
+}
+/**
+ * Define new wrapper class.
+ * @param {Function} BaseEvent The base wrapper class.
+ * @param {Object} proto The prototype of the original event.
+ * @returns {Function} The defined wrapper class.
+ * @private
+ */
+
+
+function defineWrapper(BaseEvent, proto) {
+  const keys = Object.keys(proto);
+
+  if (keys.length === 0) {
+    return BaseEvent;
+  }
+  /** CustomEvent */
+
+
+  function CustomEvent(eventTarget, event) {
+    BaseEvent.call(this, eventTarget, event);
+  }
+
+  CustomEvent.prototype = Object.create(BaseEvent.prototype, {
+    constructor: {
+      value: CustomEvent,
+      configurable: true,
+      writable: true
+    }
+  }); // Define accessors.
+
+  for (let i = 0; i < keys.length; ++i) {
+    const key = keys[i];
+
+    if (!(key in BaseEvent.prototype)) {
+      const descriptor = Object.getOwnPropertyDescriptor(proto, key);
+      const isFunc = typeof descriptor.value === "function";
+      Object.defineProperty(CustomEvent.prototype, key, isFunc ? defineCallDescriptor(key) : defineRedirectDescriptor(key));
+    }
+  }
+
+  return CustomEvent;
+}
+/**
+ * Get the wrapper class of a given prototype.
+ * @param {Object} proto The prototype of the original event to get its wrapper.
+ * @returns {Function} The wrapper class.
+ * @private
+ */
+
+
+function getWrapper(proto) {
+  if (proto == null || proto === Object.prototype) {
+    return Event;
+  }
+
+  let wrapper = wrappers.get(proto);
+
+  if (wrapper == null) {
+    wrapper = defineWrapper(getWrapper(Object.getPrototypeOf(proto)), proto);
+    wrappers.set(proto, wrapper);
+  }
+
+  return wrapper;
+}
+/**
+ * Wrap a given event to management a dispatching.
+ * @param {EventTarget} eventTarget The event target of this dispatching.
+ * @param {Object} event The event to wrap.
+ * @returns {Event} The wrapper instance.
+ * @private
+ */
+
+
+function wrapEvent(eventTarget, event) {
+  const Wrapper = getWrapper(Object.getPrototypeOf(event));
+  return new Wrapper(eventTarget, event);
+}
+/**
+ * Get the immediateStopped flag of a given event.
+ * @param {Event} event The event to get.
+ * @returns {boolean} The flag to stop propagation immediately.
+ * @private
+ */
+
+
+function isStopped(event) {
+  return pd(event).immediateStopped;
+}
+/**
+ * Set the current event phase of a given event.
+ * @param {Event} event The event to set current target.
+ * @param {number} eventPhase New event phase.
+ * @returns {void}
+ * @private
+ */
+
+
+function setEventPhase(event, eventPhase) {
+  pd(event).eventPhase = eventPhase;
+}
+/**
+ * Set the current target of a given event.
+ * @param {Event} event The event to set current target.
+ * @param {EventTarget|null} currentTarget New current target.
+ * @returns {void}
+ * @private
+ */
+
+
+function setCurrentTarget(event, currentTarget) {
+  pd(event).currentTarget = currentTarget;
+}
+/**
+ * Set a passive listener of a given event.
+ * @param {Event} event The event to set current target.
+ * @param {Function|null} passiveListener New passive listener.
+ * @returns {void}
+ * @private
+ */
+
+
+function setPassiveListener(event, passiveListener) {
+  pd(event).passiveListener = passiveListener;
+}
+/**
+ * @typedef {object} ListenerNode
+ * @property {Function} listener
+ * @property {1|2|3} listenerType
+ * @property {boolean} passive
+ * @property {boolean} once
+ * @property {ListenerNode|null} next
+ * @private
+ */
+
+/**
+ * @type {WeakMap<object, Map<string, ListenerNode>>}
+ * @private
+ */
+
+
+const listenersMap = new WeakMap(); // Listener types
+
+const CAPTURE = 1;
+const BUBBLE = 2;
+const ATTRIBUTE = 3;
+/**
+ * Check whether a given value is an object or not.
+ * @param {any} x The value to check.
+ * @returns {boolean} `true` if the value is an object.
+ */
+
+function isObject(x) {
+  return x !== null && typeof x === "object"; //eslint-disable-line no-restricted-syntax
+}
+/**
+ * Get listeners.
+ * @param {EventTarget} eventTarget The event target to get.
+ * @returns {Map<string, ListenerNode>} The listeners.
+ * @private
+ */
+
+
+function getListeners(eventTarget) {
+  const listeners = listenersMap.get(eventTarget);
+
+  if (listeners == null) {
+    throw new TypeError("'this' is expected an EventTarget object, but got another value.");
+  }
+
+  return listeners;
+}
+/**
+ * Get the property descriptor for the event attribute of a given event.
+ * @param {string} eventName The event name to get property descriptor.
+ * @returns {PropertyDescriptor} The property descriptor.
+ * @private
+ */
+
+
+function defineEventAttributeDescriptor(eventName) {
+  return {
+    get() {
+      const listeners = getListeners(this);
+      let node = listeners.get(eventName);
+
+      while (node != null) {
+        if (node.listenerType === ATTRIBUTE) {
+          return node.listener;
+        }
+
+        node = node.next;
+      }
+
+      return null;
+    },
+
+    set(listener) {
+      if (typeof listener !== "function" && !isObject(listener)) {
+        listener = null; // eslint-disable-line no-param-reassign
+      }
+
+      const listeners = getListeners(this); // Traverse to the tail while removing old value.
+
+      let prev = null;
+      let node = listeners.get(eventName);
+
+      while (node != null) {
+        if (node.listenerType === ATTRIBUTE) {
+          // Remove old value.
+          if (prev !== null) {
+            prev.next = node.next;
+          } else if (node.next !== null) {
+            listeners.set(eventName, node.next);
+          } else {
+            listeners.delete(eventName);
+          }
+        } else {
+          prev = node;
+        }
+
+        node = node.next;
+      } // Add new value.
+
+
+      if (listener !== null) {
+        const newNode = {
+          listener,
+          listenerType: ATTRIBUTE,
+          passive: false,
+          once: false,
+          next: null
+        };
+
+        if (prev === null) {
+          listeners.set(eventName, newNode);
+        } else {
+          prev.next = newNode;
+        }
+      }
+    },
+
+    configurable: true,
+    enumerable: true
+  };
+}
+/**
+ * Define an event attribute (e.g. `eventTarget.onclick`).
+ * @param {Object} eventTargetPrototype The event target prototype to define an event attrbite.
+ * @param {string} eventName The event name to define.
+ * @returns {void}
+ */
+
+
+function defineEventAttribute(eventTargetPrototype, eventName) {
+  Object.defineProperty(eventTargetPrototype, `on${eventName}`, defineEventAttributeDescriptor(eventName));
+}
+/**
+ * Define a custom EventTarget with event attributes.
+ * @param {string[]} eventNames Event names for event attributes.
+ * @returns {EventTarget} The custom EventTarget.
+ * @private
+ */
+
+
+function defineCustomEventTarget(eventNames) {
+  /** CustomEventTarget */
+  function CustomEventTarget() {
+    EventTarget.call(this);
+  }
+
+  CustomEventTarget.prototype = Object.create(EventTarget.prototype, {
+    constructor: {
+      value: CustomEventTarget,
+      configurable: true,
+      writable: true
+    }
+  });
+
+  for (let i = 0; i < eventNames.length; ++i) {
+    defineEventAttribute(CustomEventTarget.prototype, eventNames[i]);
+  }
+
+  return CustomEventTarget;
+}
+/**
+ * EventTarget.
+ *
+ * - This is constructor if no arguments.
+ * - This is a function which returns a CustomEventTarget constructor if there are arguments.
+ *
+ * For example:
+ *
+ *     class A extends EventTarget {}
+ *     class B extends EventTarget("message") {}
+ *     class C extends EventTarget("message", "error") {}
+ *     class D extends EventTarget(["message", "error"]) {}
+ */
+
+
+function EventTarget() {
+  /*eslint-disable consistent-return */
+  if (this instanceof EventTarget) {
+    listenersMap.set(this, new Map());
+    return;
+  }
+
+  if (arguments.length === 1 && Array.isArray(arguments[0])) {
+    return defineCustomEventTarget(arguments[0]);
+  }
+
+  if (arguments.length > 0) {
+    const types = new Array(arguments.length);
+
+    for (let i = 0; i < arguments.length; ++i) {
+      types[i] = arguments[i];
+    }
+
+    return defineCustomEventTarget(types);
+  }
+
+  throw new TypeError("Cannot call a class as a function");
+  /*eslint-enable consistent-return */
+} // Should be enumerable, but class methods are not enumerable.
+
+
+EventTarget.prototype = {
+  /**
+   * Add a given listener to this event target.
+   * @param {string} eventName The event name to add.
+   * @param {Function} listener The listener to add.
+   * @param {boolean|{capture?:boolean,passive?:boolean,once?:boolean}} [options] The options for this listener.
+   * @returns {void}
+   */
+  addEventListener(eventName, listener, options) {
+    if (listener == null) {
+      return;
+    }
+
+    if (typeof listener !== "function" && !isObject(listener)) {
+      throw new TypeError("'listener' should be a function or an object.");
+    }
+
+    const listeners = getListeners(this);
+    const optionsIsObj = isObject(options);
+    const capture = optionsIsObj ? Boolean(options.capture) : Boolean(options);
+    const listenerType = capture ? CAPTURE : BUBBLE;
+    const newNode = {
+      listener,
+      listenerType,
+      passive: optionsIsObj && Boolean(options.passive),
+      once: optionsIsObj && Boolean(options.once),
+      next: null
+    }; // Set it as the first node if the first node is null.
+
+    let node = listeners.get(eventName);
+
+    if (node === undefined) {
+      listeners.set(eventName, newNode);
+      return;
+    } // Traverse to the tail while checking duplication..
+
+
+    let prev = null;
+
+    while (node != null) {
+      if (node.listener === listener && node.listenerType === listenerType) {
+        // Should ignore duplication.
+        return;
+      }
+
+      prev = node;
+      node = node.next;
+    } // Add it.
+
+
+    prev.next = newNode;
+  },
+
+  /**
+   * Remove a given listener from this event target.
+   * @param {string} eventName The event name to remove.
+   * @param {Function} listener The listener to remove.
+   * @param {boolean|{capture?:boolean,passive?:boolean,once?:boolean}} [options] The options for this listener.
+   * @returns {void}
+   */
+  removeEventListener(eventName, listener, options) {
+    if (listener == null) {
+      return;
+    }
+
+    const listeners = getListeners(this);
+    const capture = isObject(options) ? Boolean(options.capture) : Boolean(options);
+    const listenerType = capture ? CAPTURE : BUBBLE;
+    let prev = null;
+    let node = listeners.get(eventName);
+
+    while (node != null) {
+      if (node.listener === listener && node.listenerType === listenerType) {
+        if (prev !== null) {
+          prev.next = node.next;
+        } else if (node.next !== null) {
+          listeners.set(eventName, node.next);
+        } else {
+          listeners.delete(eventName);
+        }
+
+        return;
+      }
+
+      prev = node;
+      node = node.next;
+    }
+  },
+
+  /**
+   * Dispatch a given event.
+   * @param {Event|{type:string}} event The event to dispatch.
+   * @returns {boolean} `false` if canceled.
+   */
+  dispatchEvent(event) {
+    if (event == null || typeof event.type !== "string") {
+      throw new TypeError('"event.type" should be a string.');
+    } // If listeners aren't registered, terminate.
+
+
+    const listeners = getListeners(this);
+    const eventName = event.type;
+    let node = listeners.get(eventName);
+
+    if (node == null) {
+      return true;
+    } // Since we cannot rewrite several properties, so wrap object.
+
+
+    const wrappedEvent = wrapEvent(this, event); // This doesn't process capturing phase and bubbling phase.
+    // This isn't participating in a tree.
+
+    let prev = null;
+
+    while (node != null) {
+      // Remove this listener if it's once
+      if (node.once) {
+        if (prev !== null) {
+          prev.next = node.next;
+        } else if (node.next !== null) {
+          listeners.set(eventName, node.next);
+        } else {
+          listeners.delete(eventName);
+        }
+      } else {
+        prev = node;
+      } // Call this listener
+
+
+      setPassiveListener(wrappedEvent, node.passive ? node.listener : null);
+
+      if (typeof node.listener === "function") {
+        try {
+          node.listener.call(this, wrappedEvent);
+        } catch (err) {
+          if (typeof console !== "undefined" && typeof console.error === "function") {
+            console.error(err);
+          }
+        }
+      } else if (node.listenerType !== ATTRIBUTE && typeof node.listener.handleEvent === "function") {
+        node.listener.handleEvent(wrappedEvent);
+      } // Break if `event.stopImmediatePropagation` was called.
+
+
+      if (isStopped(wrappedEvent)) {
+        break;
+      }
+
+      node = node.next;
+    }
+
+    setPassiveListener(wrappedEvent, null);
+    setEventPhase(wrappedEvent, 0);
+    setCurrentTarget(wrappedEvent, null);
+    return !wrappedEvent.defaultPrevented;
+  }
+
+}; // `constructor` is not enumerable.
+
+Object.defineProperty(EventTarget.prototype, "constructor", {
+  value: EventTarget,
+  configurable: true,
+  writable: true
+}); // Ensure `eventTarget instanceof window.EventTarget` is `true`.
+
+if (typeof window !== "undefined" && typeof window.EventTarget !== "undefined") {
+  Object.setPrototypeOf(EventTarget.prototype, window.EventTarget.prototype);
+}
+
+exports.defineEventAttribute = defineEventAttribute;
+exports.EventTarget = EventTarget;
+exports.default = EventTarget;
+module.exports = EventTarget;
+module.exports.EventTarget = module.exports["default"] = EventTarget;
+module.exports.defineEventAttribute = defineEventAttribute;
+},{}],"../node_modules/abort-controller/dist/abort-controller.js":[function(require,module,exports) {
+/**
+ * @author Toru Nagashima <https://github.com/mysticatea>
+ * See LICENSE file in root directory for full license.
+ */
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var eventTargetShim = require('event-target-shim');
+/**
+ * The signal class.
+ * @see https://dom.spec.whatwg.org/#abortsignal
+ */
+
+
+class AbortSignal extends eventTargetShim.EventTarget {
+  /**
+   * AbortSignal cannot be constructed directly.
+   */
+  constructor() {
+    super();
+    throw new TypeError("AbortSignal cannot be constructed directly");
+  }
+  /**
+   * Returns `true` if this `AbortSignal`'s `AbortController` has signaled to abort, and `false` otherwise.
+   */
+
+
+  get aborted() {
+    const aborted = abortedFlags.get(this);
+
+    if (typeof aborted !== "boolean") {
+      throw new TypeError(`Expected 'this' to be an 'AbortSignal' object, but got ${this === null ? "null" : typeof this}`);
+    }
+
+    return aborted;
+  }
+
+}
+
+eventTargetShim.defineEventAttribute(AbortSignal.prototype, "abort");
+/**
+ * Create an AbortSignal object.
+ */
+
+function createAbortSignal() {
+  const signal = Object.create(AbortSignal.prototype);
+  eventTargetShim.EventTarget.call(signal);
+  abortedFlags.set(signal, false);
+  return signal;
+}
+/**
+ * Abort a given signal.
+ */
+
+
+function abortSignal(signal) {
+  if (abortedFlags.get(signal) !== false) {
+    return;
+  }
+
+  abortedFlags.set(signal, true);
+  signal.dispatchEvent({
+    type: "abort"
+  });
+}
+/**
+ * Aborted flag for each instances.
+ */
+
+
+const abortedFlags = new WeakMap(); // Properties should be enumerable.
+
+Object.defineProperties(AbortSignal.prototype, {
+  aborted: {
+    enumerable: true
+  }
+}); // `toString()` should return `"[object AbortSignal]"`
+
+if (typeof Symbol === "function" && typeof Symbol.toStringTag === "symbol") {
+  Object.defineProperty(AbortSignal.prototype, Symbol.toStringTag, {
+    configurable: true,
+    value: "AbortSignal"
+  });
+}
+/**
+ * The AbortController.
+ * @see https://dom.spec.whatwg.org/#abortcontroller
+ */
+
+
+class AbortController {
+  /**
+   * Initialize this controller.
+   */
+  constructor() {
+    signals.set(this, createAbortSignal());
+  }
+  /**
+   * Returns the `AbortSignal` object associated with this object.
+   */
+
+
+  get signal() {
+    return getSignal(this);
+  }
+  /**
+   * Abort and signal to any observers that the associated activity is to be aborted.
+   */
+
+
+  abort() {
+    abortSignal(getSignal(this));
+  }
+
+}
+/**
+ * Associated signals.
+ */
+
+
+const signals = new WeakMap();
+/**
+ * Get the associated signal of a given controller.
+ */
+
+function getSignal(controller) {
+  const signal = signals.get(controller);
+
+  if (signal == null) {
+    throw new TypeError(`Expected 'this' to be an 'AbortController' object, but got ${controller === null ? "null" : typeof controller}`);
+  }
+
+  return signal;
+} // Properties should be enumerable.
+
+
+Object.defineProperties(AbortController.prototype, {
+  signal: {
+    enumerable: true
+  },
+  abort: {
+    enumerable: true
+  }
+});
+
+if (typeof Symbol === "function" && typeof Symbol.toStringTag === "symbol") {
+  Object.defineProperty(AbortController.prototype, Symbol.toStringTag, {
+    configurable: true,
+    value: "AbortController"
+  });
+}
+
+exports.AbortController = AbortController;
+exports.AbortSignal = AbortSignal;
+exports.default = AbortController;
+module.exports = AbortController;
+module.exports.AbortController = module.exports["default"] = AbortController;
+module.exports.AbortSignal = AbortSignal;
+},{"event-target-shim":"../node_modules/event-target-shim/dist/event-target-shim.js"}],"../node_modules/abort-controller/polyfill.js":[function(require,module,exports) {
+var global = arguments[3];
+/*globals require, self, window */
+"use strict";
+
+const ac = require("./dist/abort-controller");
+/*eslint-disable @mysticatea/prettier */
+
+
+const g = typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global :
+/* otherwise */
+undefined;
+/*eslint-enable @mysticatea/prettier */
+
+if (g) {
+  if (typeof g.AbortController === "undefined") {
+    g.AbortController = ac.AbortController;
+  }
+
+  if (typeof g.AbortSignal === "undefined") {
+    g.AbortSignal = ac.AbortSignal;
+  }
+}
+},{"./dist/abort-controller":"../node_modules/abort-controller/dist/abort-controller.js"}],"../src/utils/discardable.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.discardable = void 0;
 
-var _parse_href = require("./parse_href");
+var _rstream = require("@thi.ng/rstream");
 
-Object.keys(_parse_href).forEach(function (key) {
+var _DOM = require("../DOM");
+
+var _streams = require("../streams");
+
+var _atom = require("@thi.ng/atom");
+
+var _transducers = require("@thi.ng/transducers");
+
+require("abort-controller/polyfill");
+
+/**
+ * Blogs:
+ * - source1:
+ *   https://medium.com/@bramus/cancel-a-javascript-promise-with-abortcontroller-3540cbbda0a9
+ * - source2:
+ *   https://dev.to/frederikprijck/converting-a-promise-into-an-observable-dag
+ */
+// Creation of an AbortController signal
+
+/**
+ *
+ * ## `discardable`
+ *
+ * Promise handler that is attached to an existing Promise
+ * and adds the ability to discard a pending result
+ * (original Promise isn't Discarded)
+ *
+ */
+const discardable = promise => promise.then(r => {
+  return new Promise((resolve, reject) => {
+    // Something fake async
+    // Listen for abort event on signal
+    _streams.cancel$.deref() === true ? reject("promise rejected") : null;
+    resolve(r);
+  });
+});
+
+exports.discardable = discardable;
+},{"@thi.ng/rstream":"../node_modules/@thi.ng/rstream/index.js","../DOM":"../src/DOM/index.js","../streams":"../src/streams/index.js","@thi.ng/atom":"../node_modules/@thi.ng/atom/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js","abort-controller/polyfill":"../node_modules/abort-controller/polyfill.js"}],"../src/utils/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var _exportNames = {
+  delay: true
+};
+exports.delay = void 0;
+
+var _parse_URL = require("./parse_URL");
+
+Object.keys(_parse_URL).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function () {
-      return _parse_href[key];
+      return _parse_URL[key];
     }
   });
 });
@@ -21321,6 +22443,7 @@ var _stringify_type = require("./stringify_type");
 
 Object.keys(_stringify_type).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function () {
@@ -21333,6 +22456,7 @@ var _traceStream = require("./traceStream");
 
 Object.keys(_traceStream).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function () {
@@ -21345,6 +22469,7 @@ var _unknown_key_ERR = require("./unknown_key_ERR");
 
 Object.keys(_unknown_key_ERR).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function () {
@@ -21352,7 +22477,24 @@ Object.keys(_unknown_key_ERR).forEach(function (key) {
     }
   });
 });
-},{"./parse_href":"../src/utils/parse_href.js","./stringify_type":"../src/utils/stringify_type.js","./traceStream":"../src/utils/traceStream.js","./unknown_key_ERR":"../src/utils/unknown_key_ERR.js"}],"../src/spool/index.js":[function(require,module,exports) {
+
+var _discardable = require("./discardable");
+
+Object.keys(_discardable).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _discardable[key];
+    }
+  });
+});
+
+const delay = t => new Promise(resolve => setTimeout(resolve, t));
+
+exports.delay = delay;
+},{"./parse_URL":"../src/utils/parse_URL.js","./stringify_type":"../src/utils/stringify_type.js","./traceStream":"../src/utils/traceStream.js","./unknown_key_ERR":"../src/utils/unknown_key_ERR.js","./discardable":"../src/utils/discardable.js"}],"../src/spool/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21361,8 +22503,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.spool = void 0;
 
 var _checks = require("@thi.ng/checks");
-
-var _transducers = require("@thi.ng/transducers");
 
 var _utils = require("../utils");
 
@@ -21373,6 +22513,10 @@ var _streams = require("../streams");
 */
 let err_str = "`spool` Interupted"; // <- add doc link to error strings
 
+let no_sub$_err = c => console.warn(`
+no sub$ included for a Command with a primitive for 'args'. 
+Nothing done with this Command: 
+${c}`);
 /**
  *
  * ## `spool`
@@ -21453,8 +22597,7 @@ let err_str = "`spool` Interupted"; // <- add doc link to error strings
  *   evolution (immutably of course)
  * - However, you can do anything you want with it using any
  *   other `sub$` key than `"STATE"`. It's allowed to be any
- *   form of static data (no functions), but its presence
- *   sets spool to dispatch a Command.
+ *   form of __static data__ (no functions).
  *
  * ### Subtasks:
  *
@@ -21549,6 +22692,7 @@ let err_str = "`spool` Interupted"; // <- add doc link to error strings
  *
  **/
 
+
 const spool = task_array => task_array.reduce(async (a, c, i) => {
   const acc = await a; // console.log("ACCUMULATOR =>", acc)
 
@@ -21563,8 +22707,7 @@ const spool = task_array => task_array.reduce(async (a, c, i) => {
       return spool(recur);
     } catch (e) {
       console.warn(err_str, e);
-
-      _streams.run$.done();
+      return;
     }
   }
 
@@ -21606,83 +22749,136 @@ const spool = task_array => task_array.reduce(async (a, c, i) => {
    * ARG SIGNATURE LOGIC
    *
    */
+  // RESOLVING ARGS
+
+  if (arg_type !== "PROMISE" && reso) {
+    // if some signature needs to deal with both promises
+    // and non-promises, non-promises are wrapped in a
+    // Promise to "lift" them into the proper context for
+    // handling
+    result = Promise.resolve(args);
+  }
 
   if (arg_type === "PROMISE") {
+    // result = await discardable(args).catch(e => e)
     result = await args.catch(e => e);
   }
 
   if (arg_type === "THUNK") {
-    // if thunk, dispatch to ad-hoc stream, return acc as-is
+    // if thunk, dispatch to ad-hoc stream, return acc
+    // as-is ⚠ this command will not be waited on
     result = args();
-    console.log("dispatching to custom stream");
+    console.log(`dispatching to custom stream: ${sub$.id}`);
     sub$.next(result); // 💃
 
     return acc;
   }
 
   if (arg_type === "FUNCTION") {
-    // if function, call it with acc and resolve any promises
-    let temp = args(acc);
+    // if function, call it with acc and resolve any
+    // promises
+    let temp = args(acc); // result = isPromise(temp) ? await discardable(temp).catch(e => e) : temp
+
     result = (0, _checks.isPromise)(temp) ? await temp.catch(e => e) : temp;
   }
 
   if (arg_type === "OBJECT") {
-    // if object, send the Command as-is and spread into acc
+    // if object, send the Command as-is and spread into
+    // acc
+    if (!sub$) return { ...acc,
+      ...args
+    };
+
     _streams.command$.next(c);
 
     return { ...acc,
       ...args
     };
-  } // https://stackoverflow.com/a/31538091
-
-
-  if (args !== Object(args)) {
-    // if primitive, send the Command as-is, return acc as-is
-    _streams.command$.next(c);
-
-    return acc;
   } // RESULT HANDLERS
   // acc handler
 
 
-  if (path && !(result instanceof Error)) {
-    _streams.command$.next({
-      sub$,
-      path,
-      args: result
-    });
-
-    return { ...acc,
-      ...result
-    };
-  } // promise rejection handler
+  if (reso) {
+    // promise rejection handler
+    if (erro & result instanceof Error) {
+      let error = erro(acc, result);
+      if (error.sub$) return _streams.command$.next(error);
+      console.warn(err_str, "[ Promise rejected ]:", result);
+      result = error;
+    } // resovled promise handler
 
 
-  if (erro && result instanceof Error) {
-    let error = erro(acc, result);
-    if (error.sub$) return _streams.command$.next(error);
-    console.warn(err_str, "[ Promise rejected ]:", result);
-    return _streams.run$.done(); // throw new Error(error)
+    if (!(result instanceof Error)) {
+      let resolved = reso(acc, result);
+      if (resolved.sub$) _streams.command$.next(resolved); // resolved promise with no sub$ key -> spread
+      // resolved value into acc
+      else if (!sub$) return { ...acc,
+          ...resolved
+        };
+      result = resolved;
+    }
+
+    console.warn(`no 'erro' (Error handler) set for ${c}`);
+    return;
+  }
+
+  if (path) {
+    if (result !== Object(args)) {
+      // if the final result is primitive, you can't refer
+      // to this value in proceeding Commands -> send the
+      // Command as-is, return acc as-is.
+      if (!sub$) {
+        no_sub$_err(c);
+        return acc;
+      }
+
+      _streams.command$.next({
+        sub$,
+        path,
+        args: result
+      });
+
+      return acc;
+    }
+
+    if (!(result instanceof Error)) {
+      _streams.command$.next({
+        sub$,
+        path,
+        args: result
+      });
+
+      return { ...acc,
+        ...result
+      };
+    }
   } // no sub$ key & not a promise -> just spread into acc
 
 
   if (!reso && !sub$) return { ...acc,
     ...result
-  }; // resovled promise handler
-
-  if (reso && !(result instanceof Error)) {
-    let resolved = reso(acc, result);
-    if (resolved.sub$) _streams.command$.next(resolved); // resolved promise with no sub$ key -> spread
-    // resolved value into acc
-    else if (!sub$) return { ...acc,
-        ...resolved
-      };else result = resolved;
-  } // error, but no error handler
-
+  }; // error, but no error handler
 
   if (result instanceof Error) {
     console.warn(err_str, result);
-    return _streams.run$.done(); // throw new Error(result)
+    return; // throw new Error(result)
+  }
+
+  if (result !== Object(args)) {
+    if (!sub$) {
+      no_sub$_err(c);
+      return acc;
+    } // if the final result is primitive, you can't refer
+    // to this value in proceeding Commands -> send the
+    // Command as-is, return acc as-is.
+
+
+    _streams.command$.next({
+      sub$,
+      args: result
+    });
+
+    return acc;
   } // if the result has made it this far, send it along
   // console.log(`${sub$} made it through`)
 
@@ -21698,33 +22894,25 @@ const spool = task_array => task_array.reduce(async (a, c, i) => {
 }, Promise.resolve({}));
 
 exports.spool = spool;
-},{"@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js","../utils":"../src/utils/index.js","../streams":"../src/streams/index.js"}],"../src/streams/index.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js","../utils":"../src/utils/index.js","../streams":"../src/streams/index.js"}],"../src/streams/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.task$ = exports.command$ = exports.run$ = exports.out$ = void 0;
+exports.navigated$ = exports.DOMContentLoaded$ = exports.popstate$ = exports.task$ = exports.command$ = exports.out$ = exports.run$ = exports.log$ = void 0;
 
 var _rstream = require("@thi.ng/rstream");
+
+var _transducers = require("@thi.ng/transducers");
 
 var _spool = require("../spool");
 
 /**
  @module Streams
 */
-
-/**
- * ## `out$`
- *
- * Primary user-land _READ_ stream. For attaching handlers
- * for responding to emmitted Commands
- *
- */
-const out$ = (0, _rstream.pubsub)({
-  topic: x => x.sub$,
-  id: "out$_stream",
-  equiv: (x, y) => x === y || x === "...JUST_L0GGING..."
+const log$ = (0, _rstream.stream)().subscribe((0, _rstream.trace)("log$ -> "), {
+  id: "log$"
 });
 /**
  * # Stream Architecture:
@@ -21790,11 +22978,25 @@ const out$ = (0, _rstream.pubsub)({
  *
  */
 
-exports.out$ = out$;
+exports.log$ = log$;
 const run$ = (0, _rstream.pubsub)({
   topic: x => !!x.sub$,
   id: "run$_stream",
-  equiv: (x, y) => x && y || !x && !y || x === "...JUST_L0GGING..."
+  equiv: (x, y) => x === y || y === "_TRACE_STREAM"
+});
+/**
+ * ## `out$`
+ *
+ * Primary user-land _READ_ stream. For attaching handlers
+ * for responding to emmitted Commands
+ *
+ */
+
+exports.run$ = run$;
+const out$ = (0, _rstream.pubsub)({
+  topic: x => x.sub$,
+  id: "out$_stream",
+  equiv: (x, y) => x === y || y === "_TRACE_STREAM"
 });
 /**
  * ## `command$`
@@ -21806,7 +23008,7 @@ const run$ = (0, _rstream.pubsub)({
  *
  */
 
-exports.run$ = run$;
+exports.out$ = out$;
 const command$ = run$.subscribeTopic(true, {
   next: x => out$.next(x),
   error: console.warn
@@ -21831,19 +23033,186 @@ const task$ = run$.subscribeTopic(false, {
   id: "task$_stream"
 });
 exports.task$ = task$;
-},{"@thi.ng/rstream":"../node_modules/@thi.ng/rstream/index.js","../spool":"../src/spool/index.js"}],"../src/register/index.js":[function(require,module,exports) {
+const popstate$ = (0, _rstream.fromDOMEvent)(window, "popstate");
+exports.popstate$ = popstate$;
+const DOMContentLoaded$ = (0, _rstream.fromDOMEvent)(window, "DOMContentLoaded"); // example of custom stream dispatch (logging)
+
+/**
+ *
+ * There are three types of navigation we need to handle:
+ * 1. DOMContentLoaded (entering the site) events
+ * 2. popstate (browser back/forward button clicks) events
+ * 3. <a hurl="x"> (link clicking)
+ *
+ * These events have different payloads and need to be
+ * harmonized in order to use them consistently
+ *
+ * ## getting the `hurl` property from the various events:
+ * 1. ev.target.location.hurl
+ * 2. ev.target.location.hurl
+ * 3. ev.target.hurl
+ *
+ * for raw events, we can just transform them, but for link
+ * clicking we need to convert/wrap it to align with the
+ * destructuring of the others
+ */
+
+exports.DOMContentLoaded$ = DOMContentLoaded$;
+const navigated$ = (0, _rstream.merge)({
+  src: [popstate$, DOMContentLoaded$]
+}).transform((0, _transducers.map)(x => ({
+  URL: x.target.location.href,
+  DOM: x.currentTarget
+})));
+exports.navigated$ = navigated$;
+},{"@thi.ng/rstream":"../node_modules/@thi.ng/rstream/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js","../spool":"../src/spool/index.js"}],"../src/tasks/URL_route.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.registerCMD = void 0;
+exports.URL__ROUTE = exports.URL__ROUTE_DOM = void 0;
+
+var _utils = require("../utils");
+
+var _streams = require("../streams");
+
+/**
+ *
+ * `URL__ROUTE_DOM`
+ *
+ * DOM Router that contains a cross-platform Subtask Router `URL__ROUTE`
+ * Pseudo
+ *
+ * Subtask:
+ * ```
+ * - input         => { href }
+ * - href_query    => { path, query }  : parse_href
+ * - query_match   => { match }        : EquivMap
+ * - query_auth    => Promise { auth } : ? API
+ * - auth_data     => Promise { data } : ? API
+ * - FLIP          => 0                : side-effect
+ * - query_URL     => { route }        : side-effect
+ * - datapath_head => { path, data }   : Atom$ -> <head>
+ * - datapath_body => { path, data }   : Atom$ -> UI render!
+ * - FLIP          => 1                : side-effect
+ * ```
+ *
+ */
+const URL__ROUTE_DOM = router => ({
+  URL,
+  DOM
+}) => [{
+  sub$: "_HREF_PUSHSTATE",
+  args: {
+    URL,
+    DOM
+  }
+}, ({
+  URL
+}) => URL__ROUTE(router, {
+  URL
+}), // example ad-hoc stream injection
+// { sub$: log$, args: () => ({ DOM }) },
+{
+  sub$: "_SET_LINK_ATTRS",
+  args: {
+    DOM
+  }
+}, {
+  sub$: "_NOTIFY_PRERENDER",
+  args: true
+}];
+/**
+ *
+ * `URL__ROUTE`
+ *
+ * Universal router (cross-platform) Subtask.
+ *
+ * This can be used in both a browser and Node context. The parts that handle browser side-effects are included in an Supertask `URL__ROUTE`
+ *
+ */
+
+
+exports.URL__ROUTE_DOM = URL__ROUTE_DOM;
+
+const URL__ROUTE = (router, {
+  URL
+}) => [{
+  sub$: "_SET_ROUTER_LOADING_STATE",
+  args: true
+}, {
+  args: router(URL),
+  reso: (acc, {
+    page,
+    data
+  }) => ({
+    page,
+    data
+  }),
+  erro: (acc, err) => console.warn(err)
+}, // inject a delay
+// { args: delay(100) },
+{
+  args: (0, _utils.parse_URL)(URL)
+}, {
+  sub$: "_SET_ROUTER_PATH",
+  args: ({
+    URL_path
+  }) => ({
+    URL_path
+  })
+}, {
+  sub$: "_SET_ROUTER_STATE",
+  args: ({
+    URL_path,
+    page,
+    data
+  }) => ({
+    data,
+    URL_path,
+    page
+  })
+}, // if you need to wait on any pending promises, use a unary function
+{
+  sub$: "_SET_ROUTER_LOADING_STATE",
+  args: _ => false
+}];
+
+exports.URL__ROUTE = URL__ROUTE;
+},{"../utils":"../src/utils/index.js","../streams":"../src/streams/index.js"}],"../src/tasks/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _URL_route = require("./URL_route");
+
+Object.keys(_URL_route).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _URL_route[key];
+    }
+  });
+});
+},{"./URL_route":"../src/tasks/URL_route.js"}],"../src/register/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.registerRouterDOM = exports.registerCMD = void 0;
 
 var _streams = require("../streams");
 
 var _checks = require("@thi.ng/checks");
 
 var _transducers = require("@thi.ng/transducers");
+
+var _tasks = require("../tasks");
 
 var _utils = require("../utils");
 
@@ -21860,16 +23229,22 @@ const feedCMD$fromSource$ = ({
 }) => {
   let args_is_fn = (0, _checks.isFunction)(args);
 
-  let deliver = x => ({
+  let deliver = x => path ? {
     sub$,
     args: args(x),
     path
-  });
+  } : {
+    sub$,
+    args: args(x)
+  };
 
-  let delivery = {
+  let delivery = path ? {
     sub$,
     args,
     path
+  } : {
+    sub$,
+    args
   };
 
   let feed = $ => {
@@ -21981,6 +23356,13 @@ const registerCMD = command => {
     handler,
     ...unknown
   } = command;
+  /**
+   *
+   * during registration, the `args` value is used to
+   * determine how the result of each value dispatched to
+   * the stream is transformed
+   */
+
   let xform = (0, _transducers.map)(({
     args,
     path
@@ -22016,82 +23398,82 @@ const registerCMD = command => {
 };
 
 exports.registerCMD = registerCMD;
-},{"../streams":"../src/streams/index.js","@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js","../utils":"../src/utils/index.js"}],"../src/DOM/nav.js":[function(require,module,exports) {
+
+const registerRouterDOM = router => {
+  console.log("DOM Router Registered");
+  const taskFrom = (0, _tasks.URL__ROUTE_DOM)(router);
+  return registerCMD({
+    sub$: "_URL_NAVIGATED$",
+    source$: _streams.navigated$,
+    args: x => x,
+    handler: ({
+      URL,
+      DOM
+    }) => _streams.run$.next(taskFrom({
+      URL,
+      DOM
+    }))
+  });
+};
+
+exports.registerRouterDOM = registerRouterDOM;
+},{"../streams":"../src/streams/index.js","@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js","../tasks":"../src/tasks/index.js","../utils":"../src/utils/index.js"}],"../src/store/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.registerDOMRouter = exports.HREF_PUSHSTATE = exports.SET_LINK_ATTRS = exports.SET_PATH = exports.ROUTER_STATE = exports.stateAtom = exports.DOMClickEventHandler = exports.hrefToPushState = exports.navigated$ = exports.DOMContentLoaded$ = exports.popstate$ = void 0;
-
-var _rstream = require("@thi.ng/rstream");
-
-var _transducers = require("@thi.ng/transducers");
-
-var _register = require("../register");
-
-var _utils = require("../utils");
-
-var _streams = require("../streams");
+exports.routePathState = exports.routeLoadingState = exports.setState = exports.stateAtom = void 0;
 
 var _paths = require("@thi.ng/paths");
 
 var _atom = require("@thi.ng/atom");
 
-const popstate$ = (0, _rstream.fromDOMEvent)(window, "popstate");
-exports.popstate$ = popstate$;
-const DOMContentLoaded$ = (0, _rstream.fromDOMEvent)(window, "DOMContentLoaded");
+// Global State Container from [@thi.ng/atom](http://thi.ng/atom)
+const stateAtom = new _atom.Atom({
+  route_path: [],
+  route_loading: false
+}); // sets a value within the global atom by path/lens
+
+exports.stateAtom = stateAtom;
+
+const setState = (path, val) => stateAtom.swap(state => (0, _paths.setIn)(state, path, val));
+
+exports.setState = setState;
+const routeLoadingState = stateAtom.addView("route_loading");
+exports.routeLoadingState = routeLoadingState;
+const routePathState = stateAtom.addView("route_path");
+exports.routePathState = routePathState;
+},{"@thi.ng/paths":"../node_modules/@thi.ng/paths/index.js","@thi.ng/atom":"../node_modules/@thi.ng/atom/index.js"}],"../src/commands/routing.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports._NOTIFY_PRERENDER = exports._HREF_PUSHSTATE = exports._SET_LINK_ATTRS = exports._SET_ROUTER_PATH = exports._SET_ROUTER_LOADING_STATE = exports._SET_ROUTER_STATE = exports.clickEventHandlerDOM = void 0;
+
+var _register = require("../register");
+
+var _store = require("../store");
+
+var _utils = require("../utils");
+
+var _streams = require("../streams");
+
 /**
- *
- * There are three types of navigation we need to handle:
- * 1. DOMContentLoaded (entering the site) events
- * 2. popstate (browser back/forward button clicks) events
- * 3. <a hurl="x"> (link clicking)
- *
- * These events have different payloads and need to be
- * harmonized in order to use them consistently
- *
- * ## getting the `hurl` property from the various events:
- * 1. ev.target.location.hurl
- * 2. ev.target.location.hurl
- * 3. ev.target.hurl
- *
- * for raw events, we can just transform them, but for link
- * clicking we need to convert/wrap it to align with the
- * destructuring of the others
+ * we need to transform the payload to align with the
+ * object structure of the native DOM events ('popstate'
+ * and 'DOMContentLoaded') payloads, so they're
+ * transformed correctly by the `navigated$` stream
+ * transforms
  */
-
-exports.DOMContentLoaded$ = DOMContentLoaded$;
-const navigated$ = (0, _rstream.merge)({
-  src: [popstate$, DOMContentLoaded$]
-}).transform((0, _transducers.map)(x => ({
-  hurl: x.target.location.href,
-  target: x.currentTarget
-})));
-exports.navigated$ = navigated$;
-
-const hrefToPushState = hurl => {
-  history.pushState((0, _utils.parse_href)(hurl), null, hurl);
-  document.dispatchEvent(new Event("rendered")); //👀 for prerenderer,
-};
-
-exports.hrefToPushState = hrefToPushState;
-
-const DOMClickEventHandler = e => {
+const clickEventHandlerDOM = e => {
   e.preventDefault();
   let href = e.target.href;
   let w_href = window.location.href;
   if (w_href === href) return;
-  hrefToPushState(href);
-  /**
-   * we need to transform the payload to align with the
-   * object structure of the native DOM events ('popstate'
-   * and 'DOMContentLoaded') payloads, so they're
-   * transformed correctly by the `navigated$` stream
-   * transforms
-   */
 
-  navigated$.next({
+  _streams.navigated$.next({
     target: {
       location: {
         href
@@ -22099,35 +23481,41 @@ const DOMClickEventHandler = e => {
     },
     currentTarget: e.currentTarget
   });
+
   return e;
 }; // source = TRIGGER
 
 
-exports.DOMClickEventHandler = DOMClickEventHandler;
-const stateAtom = new _atom.Atom({
-  path: []
-});
-exports.stateAtom = stateAtom;
+exports.clickEventHandlerDOM = clickEventHandlerDOM;
 
-const setValue = (path, val) => stateAtom.swap(state => (0, _paths.setIn)(state, path, val));
-
-const ROUTER_STATE = (0, _register.registerCMD)({
-  sub$: "ROUTER_STATE",
+const _SET_ROUTER_STATE = (0, _register.registerCMD)({
+  sub$: "_SET_ROUTER_STATE",
   args: x => x,
   handler: ({
     data,
-    path
-  }) => setValue(path, data)
+    URL_path
+  }) => (0, _store.setState)(URL_path, data)
 });
-exports.ROUTER_STATE = ROUTER_STATE;
-const SET_PATH = (0, _register.registerCMD)({
-  sub$: "SET_PATH",
+
+exports._SET_ROUTER_STATE = _SET_ROUTER_STATE;
+
+const _SET_ROUTER_LOADING_STATE = (0, _register.registerCMD)({
+  sub$: "_SET_ROUTER_LOADING_STATE",
+  args: x => x,
+  handler: x => (0, _store.setState)("route_loading", x)
+});
+
+exports._SET_ROUTER_LOADING_STATE = _SET_ROUTER_LOADING_STATE;
+
+const _SET_ROUTER_PATH = (0, _register.registerCMD)({
+  sub$: "_SET_ROUTER_PATH",
   args: x => x,
   handler: ({
-    path
-  }) => setValue("path", path)
+    URL_path
+  }) => (0, _store.setState)("route_path", URL_path)
 });
-exports.SET_PATH = SET_PATH;
+
+exports._SET_ROUTER_PATH = _SET_ROUTER_PATH;
 
 const setLinkAttrs = target => {
   document.body.querySelectorAll("a[visited]").forEach(el => {
@@ -22140,106 +23528,88 @@ const setLinkAttrs = target => {
   }
 };
 
-const SET_LINK_ATTRS = (0, _register.registerCMD)({
-  sub$: "SET_LINK_ATTRS",
+const _SET_LINK_ATTRS = (0, _register.registerCMD)({
+  sub$: "_SET_LINK_ATTRS",
   args: x => x,
   handler: ({
-    target
-  }) => setLinkAttrs(target)
+    DOM
+  }) => setLinkAttrs(DOM)
 });
-exports.SET_LINK_ATTRS = SET_LINK_ATTRS;
-const HREF_PUSHSTATE = (0, _register.registerCMD)({
-  sub$: "HREF_PUSHSTATE",
+
+exports._SET_LINK_ATTRS = _SET_LINK_ATTRS;
+
+const _HREF_PUSHSTATE = (0, _register.registerCMD)({
+  sub$: "_HREF_PUSHSTATE",
   args: x => x,
   handler: ({
-    hurl
-  }) => hrefToPushState(hurl)
+    URL,
+    DOM
+  }) => !DOM.document ? history.pushState((0, _utils.parse_URL)(URL), null, URL) : null
+});
+
+exports._HREF_PUSHSTATE = _HREF_PUSHSTATE;
+
+const _NOTIFY_PRERENDER = (0, _register.registerCMD)({
+  sub$: "_NOTIFY_PRERENDER",
+  args: x => x,
+  handler: () => document.dispatchEvent(new Event("rendered")) //👀 for prerenderer,
+
 }); // export let HREF_NAV$
 
-exports.HREF_PUSHSTATE = HREF_PUSHSTATE;
 
-const registerDOMRouter = router => {
-  return (0, _register.registerCMD)({
-    sub$: "HREF_NAV$",
-    source$: navigated$,
-    args: x => x,
-    handler: ({
-      hurl,
-      target
-    }) => _streams.run$.next([{
-      // sub$: "HREF_ROUTER",
-      args: router(hurl),
-      // Promise
-      erro: (acc, err) => console.warn(err),
-      reso: (acc, {
-        state,
-        path
-      }) => ({
-        state,
-        path
-      })
-    }, {
-      sub$: "SET_PATH",
-      args: ({
-        path
-      }) => ({
-        path
-      })
-    }, {
-      sub$: "ROUTER_STATE",
-      args: ({
-        state: {
-          data,
-          spec
-        },
-        path
-      }) => ({
-        data,
-        path,
-        spec
-      })
-    }, {
-      sub$: "SET_LINK_ATTRS",
-      args: {
-        target
-      }
-    }, {
-      args: x => console.log("acc:", x)
-    }])
-  });
-};
-/**
- *
- * preventing a leaky abstration,
- *
- * The route Task takes a router (EquivMap) config that
- * returns data, a path, and spec and executes side-effects.
- *
- * input: config -> returns a Task (function) Task: input ->
- * takes { hurl, target } off of the navigated$ stream
- */
-
-
-exports.registerDOMRouter = registerDOMRouter;
-},{"@thi.ng/rstream":"../node_modules/@thi.ng/rstream/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js","../register":"../src/register/index.js","../utils":"../src/utils/index.js","../streams":"../src/streams/index.js","@thi.ng/paths":"../node_modules/@thi.ng/paths/index.js","@thi.ng/atom":"../node_modules/@thi.ng/atom/index.js"}],"../src/DOM/index.js":[function(require,module,exports) {
+exports._NOTIFY_PRERENDER = _NOTIFY_PRERENDER;
+},{"../register":"../src/register/index.js","../store":"../src/store/index.js","../utils":"../src/utils/index.js","../streams":"../src/streams/index.js"}],"../src/commands/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _nav = require("./nav");
+var _routing = require("./routing");
 
-Object.keys(_nav).forEach(function (key) {
+Object.keys(_routing).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function () {
-      return _nav[key];
+      return _routing[key];
     }
   });
 });
-},{"./nav":"../src/DOM/nav.js"}],"../node_modules/@thi.ng/hdom/api.js":[function(require,module,exports) {
+},{"./routing":"../src/commands/routing.js"}],"../src/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.streams = exports.store = exports.register = exports.utils = exports.tasks = exports.commands = void 0;
+
+var commands = _interopRequireWildcard(require("./commands"));
+
+exports.commands = commands;
+
+var tasks = _interopRequireWildcard(require("./tasks"));
+
+exports.tasks = tasks;
+
+var utils = _interopRequireWildcard(require("./utils"));
+
+exports.utils = utils;
+
+var register = _interopRequireWildcard(require("./register"));
+
+exports.register = register;
+
+var store = _interopRequireWildcard(require("./store"));
+
+exports.store = store;
+
+var streams = _interopRequireWildcard(require("./streams"));
+
+exports.streams = streams;
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+},{"./commands":"../src/commands/index.js","./tasks":"../src/tasks/index.js","./utils":"../src/utils/index.js","./register":"../src/register/index.js","./store":"../src/store/index.js","./streams":"../src/streams/index.js"}],"../node_modules/@thi.ng/hdom/api.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -24476,15 +25846,11 @@ exports.Response = global.Response;
 },{}],"nav.js":[function(require,module,exports) {
 "use strict";
 
-var _utils = require("../src/utils");
-
-var _DOM = require("../src/DOM");
+var _src = require("../src");
 
 var _transducersHdom = require("@thi.ng/transducers-hdom");
 
 var _rstream = require("@thi.ng/rstream");
-
-var _register = require("../src/register");
 
 var _paths = require("@thi.ng/paths");
 
@@ -24498,13 +25864,29 @@ var _hdom = require("@thi.ng/hdom");
 
 var _associative = require("@thi.ng/associative");
 
-var _atom = require("@thi.ng/atom");
-
 var _nodeFetch = _interopRequireDefault(require("node-fetch"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-(0, _utils.traceStream)("run$ ->", _streams.run$); //
+const {
+  registerRouterDOM
+} = _src.register;
+const {
+  clickEventHandlerDOM
+} = _src.commands;
+const {
+  parse_URL,
+  traceStream
+} = _src.utils;
+const {
+  routePathState,
+  stateAtom
+} = _src.store;
+// traceStream("run$ ->", run$)
+traceStream("command$ ->", _streams.command$); // traceStream("task$ ->", task$)
+
+traceStream("out$ ->", _streams.out$); // traceStream("navigated$ ->", navigated$)
+//
 //    d8                      d8
 //  _d88__  e88~~8e   d88~\ _d88__
 //   888   d888  88b C888    888
@@ -24554,66 +25936,61 @@ const getSomeJSON = async (path, b) => {
  */
 
 
-const router = async hurl => {
-  let parsed_href = (0, _utils.parse_href)(hurl);
+const router = async url => {
+  let matchingComponents = parse_URL(url);
   let {
-    subdomain,
+    URL,
+    URL_subdomain,
     // array
-    domain,
+    URL_domain,
     // array
-    path,
+    URL_path,
     // array
-    query,
+    URL_query,
     // object
-    hash // string
+    URL_hash // string
 
-  } = parsed_href;
-  let [p_a, p_b] = path;
+  } = matchingComponents;
+  let [p_a, p_b] = URL_path;
   let {
     data,
-    spec
-  } = new _associative.EquivMap([[{ ...parsed_href,
-    path: ["todos"]
+    page
+  } = new _associative.EquivMap([[{ ...matchingComponents,
+    URL_path: ["todos"]
   }, {
     data: () => getSomeJSON("todos"),
-    spec: "todo"
-  }], [{ ...parsed_href,
-    path: ["todos", p_b]
+    page: "todo"
+  }], [{ ...matchingComponents,
+    URL_path: ["todos", p_b]
   }, {
     data: () => getSomeJSON("todos", p_b),
-    spec: ""
-  }], [{ ...parsed_href,
-    path: ["users"]
+    page: ""
+  }], [{ ...matchingComponents,
+    URL_path: ["users"]
   }, {
     data: () => getSomeJSON("users"),
-    spec: "ass"
-  }], [{ ...parsed_href,
-    path: ["users", p_b]
+    page: "ass"
+  }], [{ ...matchingComponents,
+    URL_path: ["users", p_b]
   }, {
     data: () => getSomeJSON("users", p_b),
-    spec: "bloop"
-  }]]).get(parsed_href) || {
-    data: {
+    page: "bloop"
+  }]]).get(matchingComponents) || {
+    data: () => ({
       home: "page"
-    },
-    spec: "bloop" // should probably be a 404... also need a match for an empty path: []
+    }),
+    page: "bloop" // should probably be a 404... also need a match for an empty path: []
 
-  };
-  let state = {
-    spec,
-    data: await data()
   };
   console.log("router called");
   return {
-    state,
-    path,
-    query,
-    hash
+    page,
+    data: await data()
   };
 }; // router({ hurl: "/todos/1" }) //?
 
 
-let NAV_CMD = (0, _DOM.registerDOMRouter)(router); //
+registerRouterDOM(router); //
 //                        ,d
 //   e88~~8e  Y88b  /  ,d888
 //  d888  88b  Y88b/     888
@@ -24626,8 +26003,8 @@ let NAV_CMD = (0, _DOM.registerDOMRouter)(router); //
 let links = document.querySelectorAll("a");
 links.forEach(x => {
   x.addEventListener("click", e => {
-    console.log("STATE:", _DOM.stateAtom.deref());
-    (0, _DOM.DOMClickEventHandler)(e);
+    console.log("STATE:", stateAtom.deref());
+    clickEventHandlerDOM(e);
   });
 }); //
 //  888   | 888
@@ -24661,7 +26038,7 @@ const UI_todo = (ctx, payload) => {
   return (0, _checks.isArray)(payload) ? ["div", ...payload.map(({
     img,
     text
-  }) => [component, img, `${text.title || text.name}`])] : [component, payload.img, payload.text ? payload.text.title || payload.text.name : "n/a"];
+  }) => [component, img, `${text.title || text.name}`])] : [component, payload && payload.img ? payload.img : "n/a", payload && payload.text ? payload.text.title || payload.text.name : "n/a"];
 }; // return ["pre", JSON.stringify(state, null, 2)]
 //
 //        /           d8b
@@ -24674,19 +26051,18 @@ const UI_todo = (ctx, payload) => {
 //
 
 
-const route_path = _DOM.stateAtom.addView("path");
-
-(0, _hdom.start)(({
+(0, _hdom.start)( // 📌 page component that chooses a template based on the spec returned
+({
   run$,
   state
-}) => [UI_todo, (0, _paths.getIn)(state.deref(), route_path.deref())], {
+}) => [UI_todo, (0, _paths.getIn)(state.deref(), routePathState.deref())], {
   root: document.getElementById("app"),
   ctx: {
     run$: _streams.run$,
-    state: _DOM.stateAtom
+    state: stateAtom
   }
 });
-},{"../src/utils":"../src/utils/index.js","../src/DOM":"../src/DOM/index.js","@thi.ng/transducers-hdom":"../node_modules/@thi.ng/transducers-hdom/index.js","@thi.ng/rstream":"../node_modules/@thi.ng/rstream/index.js","../src/register":"../src/register/index.js","@thi.ng/paths":"../node_modules/@thi.ng/paths/index.js","../src/streams":"../src/streams/index.js","@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js","@thi.ng/hdom":"../node_modules/@thi.ng/hdom/index.js","@thi.ng/associative":"../node_modules/@thi.ng/associative/index.js","@thi.ng/atom":"../node_modules/@thi.ng/atom/index.js","node-fetch":"../node_modules/node-fetch/browser.js"}],"../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"../src":"../src/index.js","@thi.ng/transducers-hdom":"../node_modules/@thi.ng/transducers-hdom/index.js","@thi.ng/rstream":"../node_modules/@thi.ng/rstream/index.js","@thi.ng/paths":"../node_modules/@thi.ng/paths/index.js","../src/streams":"../src/streams/index.js","@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js","@thi.ng/hdom":"../node_modules/@thi.ng/hdom/index.js","@thi.ng/associative":"../node_modules/@thi.ng/associative/index.js","node-fetch":"../node_modules/node-fetch/browser.js"}],"../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -24714,7 +26090,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56350" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51998" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
