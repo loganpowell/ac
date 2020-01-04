@@ -1,21 +1,11 @@
 /**
  @module Streams
 */
-import { pubsub } from "@thi.ng/rstream"
+import { fromDOMEvent, merge, pubsub, stream, trace } from "@thi.ng/rstream"
+import { map } from "@thi.ng/transducers"
 import { spool } from "../spool"
 
-/**
- * ## `out$`
- *
- * Primary user-land _READ_ stream. For attaching handlers
- * for responding to emmitted Commands
- *
- */
-export const out$ = pubsub({
-  topic: x => x.sub$,
-  id: "out$_stream",
-  equiv: (x, y) => x === y || x === "...JUST_L0GGING..."
-})
+export const log$ = stream().subscribe(trace("log$ -> "), { id: "log$" })
 
 /**
  * # Stream Architecture:
@@ -83,7 +73,20 @@ export const out$ = pubsub({
 export const run$ = pubsub({
   topic: x => !!x.sub$,
   id: "run$_stream",
-  equiv: (x, y) => (x && y) || (!x && !y) || x === "...JUST_L0GGING..."
+  equiv: (x, y) => x === y || y === "_TRACE_STREAM"
+})
+
+/**
+ * ## `out$`
+ *
+ * Primary user-land _READ_ stream. For attaching handlers
+ * for responding to emmitted Commands
+ *
+ */
+export const out$ = pubsub({
+  topic: x => x.sub$,
+  id: "out$_stream",
+  equiv: (x, y) => x === y || y === "_TRACE_STREAM"
 })
 
 /**
@@ -121,3 +124,30 @@ export const task$ = run$.subscribeTopic(
   },
   { id: "task$_stream" }
 )
+
+export const popstate$ = fromDOMEvent(window, "popstate")
+export const DOMContentLoaded$ = fromDOMEvent(window, "DOMContentLoaded")
+
+// example of custom stream dispatch (logging)
+/**
+ *
+ * There are three types of navigation we need to handle:
+ * 1. DOMContentLoaded (entering the site) events
+ * 2. popstate (browser back/forward button clicks) events
+ * 3. <a hurl="x"> (link clicking)
+ *
+ * These events have different payloads and need to be
+ * harmonized in order to use them consistently
+ *
+ * ## getting the `hurl` property from the various events:
+ * 1. ev.target.location.hurl
+ * 2. ev.target.location.hurl
+ * 3. ev.target.hurl
+ *
+ * for raw events, we can just transform them, but for link
+ * clicking we need to convert/wrap it to align with the
+ * destructuring of the others
+ */
+export const navigated$ = merge({
+  src: [popstate$, DOMContentLoaded$]
+}).transform(map(x => ({ URL: x.target.location.href, DOM: x.currentTarget })))

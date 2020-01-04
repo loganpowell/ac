@@ -2,12 +2,16 @@
  @module Tasks
 */
 import { isFunction, isPromise } from "@thi.ng/checks"
-import { map } from "@thi.ng/transducers"
 import { stringify_type, unknown_key_ERR } from "../utils"
-import { command$, task$, run$ } from "../streams"
+import { command$ } from "../streams"
 
 let err_str = "`spool` Interupted" // <- add doc link to error strings
 
+let no_sub$_err = c =>
+  console.warn(`
+no sub$ included for a Command with a primitive for 'args'. 
+Nothing done with this Command: 
+${c}`)
 /**
  *
  * ## `spool`
@@ -88,8 +92,7 @@ let err_str = "`spool` Interupted" // <- add doc link to error strings
  *   evolution (immutably of course)
  * - However, you can do anything you want with it using any
  *   other `sub$` key than `"STATE"`. It's allowed to be any
- *   form of static data (no functions), but its presence
- *   sets spool to dispatch a Command.
+ *   form of __static data__ (no functions).
  *
  * ### Subtasks:
  *
@@ -196,7 +199,7 @@ export const spool = task_array =>
         return spool(recur)
       } catch (e) {
         console.warn(err_str, e)
-        run$.done()
+        return
       }
     }
     const { sub$, args, path, reso, erro, ...unknown } = c
@@ -232,63 +235,102 @@ export const spool = task_array =>
      * ARG SIGNATURE LOGIC
      *
      */
+
+    // RESOLVING ARGS
+    if (arg_type !== "PROMISE" && reso) {
+      // if some signature needs to deal with both promises
+      // and non-promises, non-promises are wrapped in a
+      // Promise to "lift" them into the proper context for
+      // handling
+      result = Promise.resolve(args)
+    }
     if (arg_type === "PROMISE") {
+      // result = await discardable(args).catch(e => e)
       result = await args.catch(e => e)
     }
     if (arg_type === "THUNK") {
-      // if thunk, dispatch to ad-hoc stream, return acc as-is
+      // if thunk, dispatch to ad-hoc stream, return acc
+      // as-is ⚠ this command will not be waited on
       result = args()
-      console.log("dispatching to custom stream")
+      console.log(`dispatching to custom stream: ${sub$.id}`)
       sub$.next(result) // 💃
       return acc
     }
     if (arg_type === "FUNCTION") {
-      // if function, call it with acc and resolve any promises
+      // if function, call it with acc and resolve any
+      // promises
       let temp = args(acc)
+      // result = isPromise(temp) ? await discardable(temp).catch(e => e) : temp
       result = isPromise(temp) ? await temp.catch(e => e) : temp
     }
+
     if (arg_type === "OBJECT") {
-      // if object, send the Command as-is and spread into acc
+      // if object, send the Command as-is and spread into
+      // acc
+      if (!sub$) return { ...acc, ...args }
       command$.next(c)
       return { ...acc, ...args }
-    }
-    // https://stackoverflow.com/a/31538091
-    if (args !== Object(args)) {
-      // if primitive, send the Command as-is, return acc as-is
-      command$.next(c)
-      return acc
     }
 
     // RESULT HANDLERS
     // acc handler
-    if (path && !(result instanceof Error)) {
-      command$.next({ sub$, path, args: result })
-      return { ...acc, ...result }
+
+    if (reso) {
+      // promise rejection handler
+      if (erro & (result instanceof Error)) {
+        let error = erro(acc, result)
+        if (error.sub$) return command$.next(error)
+        console.warn(err_str, "[ Promise rejected ]:", result)
+        result = error
+      }
+      // resovled promise handler
+      if (!(result instanceof Error)) {
+        let resolved = reso(acc, result)
+        if (resolved.sub$) command$.next(resolved)
+        // resolved promise with no sub$ key -> spread
+        // resolved value into acc
+        else if (!sub$) return { ...acc, ...resolved }
+        result = resolved
+      }
+      console.warn(`no 'erro' (Error handler) set for ${c}`)
+      return
     }
-    // promise rejection handler
-    if (erro && result instanceof Error) {
-      let error = erro(acc, result)
-      if (error.sub$) return command$.next(error)
-      console.warn(err_str, "[ Promise rejected ]:", result)
-      return run$.done()
-      // throw new Error(error)
+    if (path) {
+      if (result !== Object(args)) {
+        // if the final result is primitive, you can't refer
+        // to this value in proceeding Commands -> send the
+        // Command as-is, return acc as-is.
+        if (!sub$) {
+          no_sub$_err(c)
+          return acc
+        }
+        command$.next({ sub$, path, args: result })
+        return acc
+      }
+      if (!(result instanceof Error)) {
+        command$.next({ sub$, path, args: result })
+        return { ...acc, ...result }
+      }
     }
     // no sub$ key & not a promise -> just spread into acc
     if (!reso && !sub$) return { ...acc, ...result }
-    // resovled promise handler
-    if (reso && !(result instanceof Error)) {
-      let resolved = reso(acc, result)
-      if (resolved.sub$) command$.next(resolved)
-      // resolved promise with no sub$ key -> spread
-      // resolved value into acc
-      else if (!sub$) return { ...acc, ...resolved }
-      else result = resolved
-    }
+
     // error, but no error handler
     if (result instanceof Error) {
       console.warn(err_str, result)
-      return run$.done()
+      return
       // throw new Error(result)
+    }
+    if (result !== Object(args)) {
+      if (!sub$) {
+        no_sub$_err(c)
+        return acc
+      }
+      // if the final result is primitive, you can't refer
+      // to this value in proceeding Commands -> send the
+      // Command as-is, return acc as-is.
+      command$.next({ sub$, args: result })
+      return acc
     }
     // if the result has made it this far, send it along
     // console.log(`${sub$} made it through`)

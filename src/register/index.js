@@ -1,17 +1,19 @@
 /**
  * @module registerCMD
  */
-import { command$, out$ } from "../streams"
+import { command$, out$, run$, navigated$ } from "../streams"
 import { isFunction } from "@thi.ng/checks"
 import { map, comp, pluck, selectKeys } from "@thi.ng/transducers"
+import { URL__ROUTE_DOM } from "../tasks"
 import { unknown_key_ERR } from "../utils"
 
 const err_str = "registerCMD"
 
 const feedCMD$fromSource$ = ({ sub$, args, path, source$ }) => {
   let args_is_fn = isFunction(args)
-  let deliver = x => ({ sub$, args: args(x), path })
-  let delivery = { sub$, args, path }
+  let deliver = x =>
+    path ? { sub$, args: args(x), path } : { sub$, args: args(x) }
+  let delivery = path ? { sub$, args, path } : { sub$, args }
 
   let feed = $ => {
     if (args_is_fn) {
@@ -115,6 +117,12 @@ export const registerCMD = command => {
 
   let { sub$, args, path, source$, handler, ...unknown } = command
 
+  /**
+   *
+   * during registration, the `args` value is used to
+   * determine how the result of each value dispatched to
+   * the stream is transformed
+   */
   let xform = map(({ args, path }) => (path ? { args, path } : args))
 
   /**
@@ -124,6 +132,7 @@ export const registerCMD = command => {
   if (Object.keys(unknown).length > 0) {
     throw new Error(unknown_key_ERR(err_str, command, unknown, sub$, undefined))
   }
+
   if (source$) feedCMD$fromSource$(command)
 
   // more: https://github.com/thi-ng/umbrella/blob/develop/examples/rstream-event-loop/src/events.ts
@@ -132,4 +141,16 @@ export const registerCMD = command => {
   let CMD = path ? { sub$, args, path } : { sub$, args }
 
   return CMD
+}
+
+export const registerRouterDOM = router => {
+  console.log("DOM Router Registered")
+
+  const taskFrom = URL__ROUTE_DOM(router)
+  return registerCMD({
+    sub$: "_URL_NAVIGATED$",
+    source$: navigated$,
+    args: x => x,
+    handler: ({ URL, DOM }) => run$.next(taskFrom({ URL, DOM }))
+  })
 }

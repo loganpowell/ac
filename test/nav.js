@@ -1,26 +1,26 @@
-import { parse_href, traceStream } from "../src/utils"
-import {
-  navigated$,
-  DOMClickEventHandler,
-  registerDOMRouter,
-  stateAtom as state
-  // HREF_NAV$
-} from "../src/DOM"
+import { register, commands, utils, store } from "../src"
+
+const { registerRouterDOM } = register
+const { clickEventHandlerDOM } = commands
+const { parse_URL, traceStream } = utils
+const { routePathState, stateAtom } = store
+
 import { updateDOM } from "@thi.ng/transducers-hdom"
 import { fromAtom } from "@thi.ng/rstream"
-import { registerCMD } from "../src/register"
 import { getIn } from "@thi.ng/paths"
-import { run$ } from "../src/streams"
-import { isPromise, isArray } from "@thi.ng/checks"
+import { run$, out$, command$, task$, navigated$ } from "../src/streams"
+import { isArray } from "@thi.ng/checks"
 import { deepTransform } from "@thi.ng/transducers"
 import { start } from "@thi.ng/hdom"
 import { EquivMap } from "@thi.ng/associative"
 
-import { Atom, Cursor } from "@thi.ng/atom"
-
 import fetch from "node-fetch"
 
-traceStream("run$ ->", run$)
+// traceStream("run$ ->", run$)
+traceStream("command$ ->", command$)
+// traceStream("task$ ->", task$)
+traceStream("out$ ->", out$)
+// traceStream("navigated$ ->", navigated$)
 //
 //    d8                      d8
 //  _d88__  e88~~8e   d88~\ _d88__
@@ -68,47 +68,47 @@ const getSomeJSON = async (path, b) => {
  * Value semantics have so many benefits. As a router,
  * here's one.
  */
-const router = async hurl => {
-  let parsed_href = parse_href(hurl)
+const router = async url => {
+  let matchingComponents = parse_URL(url)
   let {
-    subdomain, // array
-    domain, // array
-    path, // array
-    query, // object
-    hash // string
-  } = parsed_href
-  let [p_a, p_b] = path
+    URL,
+    URL_subdomain, // array
+    URL_domain, // array
+    URL_path, // array
+    URL_query, // object
+    URL_hash // string
+  } = matchingComponents
+  let [p_a, p_b] = URL_path
 
-  let { data, spec } = new EquivMap([
+  let { data, page } = new EquivMap([
     [
-      { ...parsed_href, path: ["todos"] },
-      { data: () => getSomeJSON("todos"), spec: "todo" }
+      { ...matchingComponents, URL_path: ["todos"] },
+      { data: () => getSomeJSON("todos"), page: "todo" }
     ],
     [
-      { ...parsed_href, path: ["todos", p_b] },
-      { data: () => getSomeJSON("todos", p_b), spec: "" }
+      { ...matchingComponents, URL_path: ["todos", p_b] },
+      { data: () => getSomeJSON("todos", p_b), page: "" }
     ],
     [
-      { ...parsed_href, path: ["users"] },
-      { data: () => getSomeJSON("users"), spec: "ass" }
+      { ...matchingComponents, URL_path: ["users"] },
+      { data: () => getSomeJSON("users"), page: "ass" }
     ],
     [
-      { ...parsed_href, path: ["users", p_b] },
-      { data: () => getSomeJSON("users", p_b), spec: "bloop" }
+      { ...matchingComponents, URL_path: ["users", p_b] },
+      { data: () => getSomeJSON("users", p_b), page: "bloop" }
     ]
-  ]).get(parsed_href) || {
-    data: { home: "page" },
-    spec: "bloop"
+  ]).get(matchingComponents) || {
+    data: () => ({ home: "page" }),
+    page: "bloop"
   } // should probably be a 404... also need a match for an empty path: []
 
-  let state = { spec, data: await data() }
   console.log("router called")
-  return { state, path, query, hash }
+  return { page, data: await data() }
 }
 
 // router({ hurl: "/todos/1" }) //?
 
-let NAV_CMD = registerDOMRouter(router)
+registerRouterDOM(router)
 
 //
 //                        ,d
@@ -124,8 +124,8 @@ let links = document.querySelectorAll("a")
 
 links.forEach(x => {
   x.addEventListener("click", e => {
-    console.log("STATE:", state.deref())
-    DOMClickEventHandler(e)
+    console.log("STATE:", stateAtom.deref())
+    clickEventHandlerDOM(e)
   })
 })
 
@@ -169,8 +169,10 @@ const UI_todo = (ctx, payload) => {
       ]
     : [
         component,
-        payload.img,
-        payload.text ? payload.text.title || payload.text.name : "n/a"
+        payload && payload.img ? payload.img : "n/a",
+        payload && payload.text
+          ? payload.text.title || payload.text.name
+          : "n/a"
       ]
 }
 // return ["pre", JSON.stringify(state, null, 2)]
@@ -185,12 +187,11 @@ const UI_todo = (ctx, payload) => {
 //   Y8""8D
 //
 
-const route_path = state.addView("path")
-
 start(
-  ({ run$, state }) => [UI_todo, getIn(state.deref(), route_path.deref())],
+  // 📌 page component that chooses a template based on the spec returned
+  ({ run$, state }) => [UI_todo, getIn(state.deref(), routePathState.deref())],
   {
     root: document.getElementById("app"),
-    ctx: { run$, state }
+    ctx: { run$, state: stateAtom }
   }
 )

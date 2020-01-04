@@ -14,7 +14,7 @@ let fix_jsdoc
  * */
 export const traceStream = (log_prefix, stream) =>
   stream.subscribeTopic
-    ? stream.subscribeTopic("...JUST_L0GGING...", {
+    ? stream.subscribeTopic("_TRACE_STREAM", {
         next: x => console.log(log_prefix, x),
         error: console.warn
       })
