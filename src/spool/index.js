@@ -2,16 +2,23 @@
  @module Tasks
 */
 import { isFunction, isPromise } from "@thi.ng/checks"
-import { stringify_type, unknown_key_ERR } from "../utils"
+import { stringify_type, unknown_key_ERR, key_index_err } from "../utils"
 import { command$ } from "../streams"
 
-let err_str = "`spool` Interupted" // <- add doc link to error strings
+let err_str = "Spool Interupted" // <- add doc link to error strings
 
-let no_sub$_err = c =>
+let no_sub$_err = (c, i) =>
   console.warn(`
-no sub$ included for a Command with a primitive for 'args'. 
-Nothing done with this Command: 
-${c}`)
+  🔥 No sub$ included for a Command with a primitive for 'args'. 
+  🔥 Ergo, nothing was done with this Command: 
+  
+  ${JSON.stringify(c)}
+  
+  ${key_index_err(c, i)}
+  
+  Hope that helps!
+  `)
+
 /**
  *
  * ## `spool`
@@ -83,17 +90,6 @@ ${c}`)
  * - `(2)=>` = handle rejected promises: MUST be
  *   a binary fn `(acc, Promise rejection) =>`
  *
- * ### State evolution-specific key:
- *
- * ##### `path` key
- *
- * - this is intended to provide a cursor into the global
- *   state [Atom](http://thi.ng/atom) for global state
- *   evolution (immutably of course)
- * - However, you can do anything you want with it using any
- *   other `sub$` key than `"STATE"`. It's allowed to be any
- *   form of __static data__ (no functions).
- *
  * ### Subtasks:
  *
  * Subtasks are the way you compose tasks. Insert a Task and
@@ -114,7 +110,6 @@ ${c}`)
  * // subtask example:
  * let subtask1 = acc => [
  *  { sub$: "acc"
- *  , path: ["body"]
  *  , args: { data: acc.data } },
  *  { sub$: "route"
  *  , args: { route: { href: acc.href } } }
@@ -202,9 +197,9 @@ export const spool = task_array =>
         return
       }
     }
-    const { sub$, args, path, reso, erro, ...unknown } = c
+    const { sub$, args, reso, erro, ...unknown } = c
     if (Object.keys(unknown).length > 0)
-      throw new Error(unknown_key_ERR("Task `spool`", c, unknown, sub$, i))
+      throw new Error(unknown_key_ERR(err_str, c, unknown, sub$, i))
     let arg_type = stringify_type(args)
     let result = args
 
@@ -243,6 +238,10 @@ export const spool = task_array =>
       // Promise to "lift" them into the proper context for
       // handling
       result = Promise.resolve(args)
+    }
+    if (args !== Object(args) && !sub$) {
+      no_sub$_err(c, i)
+      return acc
     }
     if (arg_type === "PROMISE") {
       // result = await discardable(args).catch(e => e)
@@ -295,23 +294,6 @@ export const spool = task_array =>
       console.warn(`no 'erro' (Error handler) set for ${c}`)
       return
     }
-    if (path) {
-      if (result !== Object(args)) {
-        // if the final result is primitive, you can't refer
-        // to this value in proceeding Commands -> send the
-        // Command as-is, return acc as-is.
-        if (!sub$) {
-          no_sub$_err(c)
-          return acc
-        }
-        command$.next({ sub$, path, args: result })
-        return acc
-      }
-      if (!(result instanceof Error)) {
-        command$.next({ sub$, path, args: result })
-        return { ...acc, ...result }
-      }
-    }
     // no sub$ key & not a promise -> just spread into acc
     if (!reso && !sub$) return { ...acc, ...result }
 
@@ -321,9 +303,9 @@ export const spool = task_array =>
       return
       // throw new Error(result)
     }
-    if (result !== Object(args)) {
+    if (result !== Object(result)) {
       if (!sub$) {
-        no_sub$_err(c)
+        no_sub$_err(c, i)
         return acc
       }
       // if the final result is primitive, you can't refer

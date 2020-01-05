@@ -21230,26 +21230,41 @@ const traceStream = (log_prefix, stream) => stream.subscribeTopic ? stream.subsc
 }) : stream.subscribe((0, _rstream.trace)(log_prefix));
 
 exports.traceStream = traceStream;
-},{"@thi.ng/rstream":"../node_modules/@thi.ng/rstream/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js"}],"../src/utils/unknown_key_ERR.js":[function(require,module,exports) {
+},{"@thi.ng/rstream":"../node_modules/@thi.ng/rstream/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js"}],"../src/utils/unknownKey.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.unknown_key_ERR = void 0;
+exports.unknown_key_ERR = exports.key_index_err = exports.stringify_w_functions = void 0;
 
 /**
  * Uses a JSON.stringify "replacer" function to preserve a
  * small (truncated) version of the function signature for
  * Object values that contain them
  */
-let stringify_w_functions = (x, indent) => JSON.stringify(x, (key, value) => {
+const stringify_w_functions = (x, indent) => JSON.stringify(x, (key, value) => {
   if (typeof value === "function") {
-    return value.toString().replace(/\r?\n|\r/g, "").slice(0, 12) + "...";
+    return value.toString().replace(/\r?\n|\r/g, "").replace(/\s\s+/g, " ").slice(0, 12) + "...";
   } else {
     return value;
   }
-}, indent); // prettier-ignore
+}, indent);
+
+exports.stringify_w_functions = stringify_w_functions;
+
+const key_index_err = (c, i) => {
+  const idx_dict0 = Array.from(Array(19).keys()).reduce((a, idx) => ({ ...a,
+    [idx]: `${idx + 1}th`
+  }), {});
+  const idx_dict = { ...idx_dict0,
+    0: "1st",
+    1: "2nd",
+    2: "3rd"
+  };
+  const idx_str = idx_dict[i];
+  return `🔍 it was the ${idx_str} Command in a Task or ${idx_dict[i - 1]} in a Subtask.`;
+}; // prettier-ignore
 
 /**
  *
@@ -21260,46 +21275,34 @@ let stringify_w_functions = (x, indent) => JSON.stringify(x, (key, value) => {
  */
 
 
-const unknown_key_ERR = (str, c, unknown, sub$, index) => {
-  const idx_dict0 = Array.from(Array(19).keys()).reduce((a, idx) => ({ ...a,
-    [idx]: `${idx + 1}th`
-  }), {});
-  const idx_dict = { ...idx_dict0,
-    0: "1st",
-    1: "2nd",
-    2: "3rd"
-  };
-  const idx_str = idx_dict[index];
-  return `
+exports.key_index_err = key_index_err;
+
+const unknown_key_ERR = (str, c, unknown, sub$, index) => `
   🔥 ${str} ERROR:
   🔥
   🔥 Unrecognized Command Key(s)
   
   FAULTY sub$: "${sub$}" 
-  ${Object.keys(unknown)[0] ? ` ${index ? `
-  🔥 was the ${idx_str} Command in a Task or ${idx_dict[index - 1]} in a Subtask.
-  ` : ""}
+  ${Object.keys(unknown)[0] ? `
+  ${index ? key_index_err(c, index) : ""}
+
   The problematic entry/entries: 
 
   🤔 ${stringify_w_functions(unknown, 2)}` : ""} 🤔
 
   ACCEPTABLE ENTRY KEYS: 
-  - sub$: a Topic key for for registering the event ${index ? `  
-  - args: arguments for the handler of the event  
-  - reso: handler for resolved Promise args
-  - erro: handler for rejected Promise args` : `
-  - args: payload or payload reshape function 
+  - sub$: topic key for for registering & targeting Commands ${index ? `  
+  - args: payload for the handler of the Command  
+  - reso: converts resolved Promise payloads to Command args
+  - erro: handles rejected Promise payloads` : `
+  - args: static payload or payload reshaping function
   - handler: function that is called on payload's arrival
-  - source$: source stream (advanced use only)`}
-  - path: path/lens for targeted state evolution
+  - source$: source stream (see http://thi.ng/rstream)`}
 
   Hope that helps!
   `;
-};
 
 exports.unknown_key_ERR = unknown_key_ERR;
-},{}],"../src/DOM/index.js":[function(require,module,exports) {
-
 },{}],"../node_modules/event-target-shim/dist/event-target-shim.js":[function(require,module,exports) {
 /**
  * @author Toru Nagashima <https://github.com/mysticatea>
@@ -22377,8 +22380,6 @@ exports.discardable = void 0;
 
 var _rstream = require("@thi.ng/rstream");
 
-var _DOM = require("../DOM");
-
 var _streams = require("../streams");
 
 var _atom = require("@thi.ng/atom");
@@ -22415,16 +22416,16 @@ const discardable = promise => promise.then(r => {
 });
 
 exports.discardable = discardable;
-},{"@thi.ng/rstream":"../node_modules/@thi.ng/rstream/index.js","../DOM":"../src/DOM/index.js","../streams":"../src/streams/index.js","@thi.ng/atom":"../node_modules/@thi.ng/atom/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js","abort-controller/polyfill":"../node_modules/abort-controller/polyfill.js"}],"../src/utils/index.js":[function(require,module,exports) {
+},{"@thi.ng/rstream":"../node_modules/@thi.ng/rstream/index.js","../streams":"../src/streams/index.js","@thi.ng/atom":"../node_modules/@thi.ng/atom/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js","abort-controller/polyfill":"../node_modules/abort-controller/polyfill.js"}],"../src/utils/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var _exportNames = {
-  delay: true
+  msTaskDelay: true
 };
-exports.delay = void 0;
+exports.msTaskDelay = void 0;
 
 var _parse_URL = require("./parse_URL");
 
@@ -22465,15 +22466,15 @@ Object.keys(_traceStream).forEach(function (key) {
   });
 });
 
-var _unknown_key_ERR = require("./unknown_key_ERR");
+var _unknownKey = require("./unknownKey");
 
-Object.keys(_unknown_key_ERR).forEach(function (key) {
+Object.keys(_unknownKey).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function () {
-      return _unknown_key_ERR[key];
+      return _unknownKey[key];
     }
   });
 });
@@ -22491,10 +22492,10 @@ Object.keys(_discardable).forEach(function (key) {
   });
 });
 
-const delay = t => new Promise(resolve => setTimeout(resolve, t));
+const msTaskDelay = t => new Promise(resolve => setTimeout(resolve, t));
 
-exports.delay = delay;
-},{"./parse_URL":"../src/utils/parse_URL.js","./stringify_type":"../src/utils/stringify_type.js","./traceStream":"../src/utils/traceStream.js","./unknown_key_ERR":"../src/utils/unknown_key_ERR.js","./discardable":"../src/utils/discardable.js"}],"../src/spool/index.js":[function(require,module,exports) {
+exports.msTaskDelay = msTaskDelay;
+},{"./parse_URL":"../src/utils/parse_URL.js","./stringify_type":"../src/utils/stringify_type.js","./traceStream":"../src/utils/traceStream.js","./unknownKey":"../src/utils/unknownKey.js","./discardable":"../src/utils/discardable.js"}],"../src/spool/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -22511,12 +22512,18 @@ var _streams = require("../streams");
 /**
  @module Tasks
 */
-let err_str = "`spool` Interupted"; // <- add doc link to error strings
+let err_str = "Spool Interupted"; // <- add doc link to error strings
 
-let no_sub$_err = c => console.warn(`
-no sub$ included for a Command with a primitive for 'args'. 
-Nothing done with this Command: 
-${c}`);
+let no_sub$_err = (c, i) => console.warn(`
+  🔥 No sub$ included for a Command with a primitive for 'args'. 
+  🔥 Ergo, nothing was done with this Command: 
+  
+  ${JSON.stringify(c)}
+  
+  ${(0, _utils.key_index_err)(c, i)}
+  
+  Hope that helps!
+  `);
 /**
  *
  * ## `spool`
@@ -22588,17 +22595,6 @@ ${c}`);
  * - `(2)=>` = handle rejected promises: MUST be
  *   a binary fn `(acc, Promise rejection) =>`
  *
- * ### State evolution-specific key:
- *
- * ##### `path` key
- *
- * - this is intended to provide a cursor into the global
- *   state [Atom](http://thi.ng/atom) for global state
- *   evolution (immutably of course)
- * - However, you can do anything you want with it using any
- *   other `sub$` key than `"STATE"`. It's allowed to be any
- *   form of __static data__ (no functions).
- *
  * ### Subtasks:
  *
  * Subtasks are the way you compose tasks. Insert a Task and
@@ -22619,7 +22615,6 @@ ${c}`);
  * // subtask example:
  * let subtask1 = acc => [
  *  { sub$: "acc"
- *  , path: ["body"]
  *  , args: { data: acc.data } },
  *  { sub$: "route"
  *  , args: { route: { href: acc.href } } }
@@ -22714,12 +22709,11 @@ const spool = task_array => task_array.reduce(async (a, c, i) => {
   const {
     sub$,
     args,
-    path,
     reso,
     erro,
     ...unknown
   } = c;
-  if (Object.keys(unknown).length > 0) throw new Error((0, _utils.unknown_key_ERR)("Task `spool`", c, unknown, sub$, i));
+  if (Object.keys(unknown).length > 0) throw new Error((0, _utils.unknown_key_ERR)(err_str, c, unknown, sub$, i));
   let arg_type = (0, _utils.stringify_type)(args);
   let result = args;
   /**
@@ -22757,6 +22751,11 @@ const spool = task_array => task_array.reduce(async (a, c, i) => {
     // Promise to "lift" them into the proper context for
     // handling
     result = Promise.resolve(args);
+  }
+
+  if (args !== Object(args) && !sub$) {
+    no_sub$_err(c, i);
+    return acc;
   }
 
   if (arg_type === "PROMISE") {
@@ -22820,38 +22819,6 @@ const spool = task_array => task_array.reduce(async (a, c, i) => {
 
     console.warn(`no 'erro' (Error handler) set for ${c}`);
     return;
-  }
-
-  if (path) {
-    if (result !== Object(args)) {
-      // if the final result is primitive, you can't refer
-      // to this value in proceeding Commands -> send the
-      // Command as-is, return acc as-is.
-      if (!sub$) {
-        no_sub$_err(c);
-        return acc;
-      }
-
-      _streams.command$.next({
-        sub$,
-        path,
-        args: result
-      });
-
-      return acc;
-    }
-
-    if (!(result instanceof Error)) {
-      _streams.command$.next({
-        sub$,
-        path,
-        args: result
-      });
-
-      return { ...acc,
-        ...result
-      };
-    }
   } // no sub$ key & not a promise -> just spread into acc
 
 
@@ -22864,9 +22831,9 @@ const spool = task_array => task_array.reduce(async (a, c, i) => {
     return; // throw new Error(result)
   }
 
-  if (result !== Object(args)) {
+  if (result !== Object(result)) {
     if (!sub$) {
-      no_sub$_err(c);
+      no_sub$_err(c, i);
       return acc;
     } // if the final result is primitive, you can't refer
     // to this value in proceeding Commands -> send the
@@ -22900,7 +22867,7 @@ exports.spool = spool;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.navigated$ = exports.DOMContentLoaded$ = exports.popstate$ = exports.task$ = exports.command$ = exports.out$ = exports.run$ = exports.log$ = void 0;
+exports.DOMnavigated$ = exports.DOMContentLoaded$ = exports.popstate$ = exports.task$ = exports.command$ = exports.out$ = exports.run$ = exports.log$ = void 0;
 
 var _rstream = require("@thi.ng/rstream");
 
@@ -23058,90 +23025,110 @@ const DOMContentLoaded$ = (0, _rstream.fromDOMEvent)(window, "DOMContentLoaded")
  */
 
 exports.DOMContentLoaded$ = DOMContentLoaded$;
-const navigated$ = (0, _rstream.merge)({
+const DOMnavigated$ = (0, _rstream.merge)({
   src: [popstate$, DOMContentLoaded$]
 }).transform((0, _transducers.map)(x => ({
   URL: x.target.location.href,
   DOM: x.currentTarget
 })));
-exports.navigated$ = navigated$;
-},{"@thi.ng/rstream":"../node_modules/@thi.ng/rstream/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js","../spool":"../src/spool/index.js"}],"../src/tasks/URL_route.js":[function(require,module,exports) {
+exports.DOMnavigated$ = DOMnavigated$;
+},{"@thi.ng/rstream":"../node_modules/@thi.ng/rstream/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js","../spool":"../src/spool/index.js"}],"../src/tasks/_URL+DOM__ROUTE.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.URL__ROUTE = exports.URL__ROUTE_DOM = void 0;
+exports._URL__ROUTE = exports._URL_DOM__ROUTE = void 0;
 
 var _utils = require("../utils");
 
-var _streams = require("../streams");
+var _commands = require("../commands");
+
+// import { parse_URL, delay } from "../utils"
+// import { log$ } from "../streams"
 
 /**
  *
- * `URL__ROUTE_DOM`
+ * `_URL__ROUTE_DOM`
  *
- * DOM Router that contains a cross-platform Subtask Router `URL__ROUTE`
+ * DOM Router that contains a cross-platform routing Subtask
+ * `_URL__ROUTE`
+ *
+ *
+ * Subtask HOF for router registration. Takes a
+ * `@thi.ng/associative` `EquivMap` route matching function,
+ * registers that router as a member of a Task for following
+ * Commands to leverage the returned data (`{ data, page }`)
+ *
  * Pseudo
- *
- * Subtask:
  * ```
- * - input         => { href }
- * - href_query    => { path, query }  : parse_href
- * - query_match   => { match }        : EquivMap
- * - query_auth    => Promise { auth } : ? API
- * - auth_data     => Promise { data } : ? API
- * - FLIP          => 0                : side-effect
- * - query_URL     => { route }        : side-effect
- * - datapath_head => { path, data }   : Atom$ -> <head>
- * - datapath_body => { path, data }   : Atom$ -> UI render!
- * - FLIP          => 1                : side-effect
+ * ( router ) => ({ URL, DOM event }) => [
+ * - if href, push to `history.pushState`
+ * - SUBTASK: _URL__ROUTE (universal router)
+ * - remove `active` attribute from visited links except current
+ * - notify rendertron (TBD) of new page
+ * ]
  * ```
  *
  */
-const URL__ROUTE_DOM = router => ({
-  URL,
-  DOM
-}) => [{
-  sub$: "_HREF_PUSHSTATE",
-  args: {
+const _URL_DOM__ROUTE = router => {
+  // instantiate router configuration on registration
+  let match = _URL__ROUTE(router); // Task signature is either a straight Array of Commands
+  // or a function that returns an Array of Commands
+
+
+  return ({
     URL,
     DOM
-  }
-}, ({
-  URL
-}) => URL__ROUTE(router, {
-  URL
-}), // example ad-hoc stream injection
-// { sub$: log$, args: () => ({ DOM }) },
-{
-  sub$: "_SET_LINK_ATTRS",
-  args: {
-    DOM
-  }
-}, {
-  sub$: "_NOTIFY_PRERENDER",
-  args: true
-}];
+  }) => [{ ..._commands._HREF_PUSHSTATE_DOM,
+    args: {
+      URL,
+      DOM
+    }
+  }, // example Subtask injection
+  ({
+    URL
+  }) => match({
+    URL
+  }), // example ad-hoc stream injection
+  // { sub$: log$, args: () => ({ DOM }) },
+  { ..._commands._SET_LINK_ATTRS_DOM,
+    args: {
+      DOM
+    }
+  }, // just use default args
+  _commands._NOTIFY_PRERENDER_DOM];
+};
 /**
  *
- * `URL__ROUTE`
+ * `_URL__ROUTE`
  *
  * Universal router (cross-platform) Subtask.
  *
- * This can be used in both a browser and Node context. The parts that handle browser side-effects are included in an Supertask `URL__ROUTE`
+ * This can be used in both a browser and Node context. The
+ * parts that handle browser side-effects are included in an
+ * Supertask `_URL__ROUTE`
  *
+ * Pseudo
+ * ```
+ * ( router ) => ({ URL }) => [
+ * - set `router_loading` path in global atom to `true`
+ * - call provided router with the URL and await payload
+ * - `parse_URL(URL)` for URL components
+ * - set `route_path` in global store/atom to current `URL_path`
+ * - set page state (data, path & page component name) in store
+ * - once promise(s) resolved, set `router_loading` to `false`
+ * ]
+ * ```
  */
 
 
-exports.URL__ROUTE_DOM = URL__ROUTE_DOM;
+exports._URL_DOM__ROUTE = _URL_DOM__ROUTE;
 
-const URL__ROUTE = (router, {
+const _URL__ROUTE = router => ({
   URL
-}) => [{
-  sub$: "_SET_ROUTER_LOADING_STATE",
-  args: true
-}, {
+}) => [// use default args
+_commands._SET_ROUTER_LOADING_STATE, {
   args: router(URL),
   reso: (acc, {
     page,
@@ -23155,15 +23142,13 @@ const URL__ROUTE = (router, {
 // { args: delay(100) },
 {
   args: (0, _utils.parse_URL)(URL)
-}, {
-  sub$: "_SET_ROUTER_PATH",
+}, { ..._commands._SET_ROUTER_PATH,
   args: ({
     URL_path
   }) => ({
     URL_path
   })
-}, {
-  sub$: "_SET_ROUTER_STATE",
+}, { ..._commands._SET_PAGE_STATE,
   args: ({
     URL_path,
     page,
@@ -23174,37 +23159,36 @@ const URL__ROUTE = (router, {
     page
   })
 }, // if you need to wait on any pending promises, use a unary function
-{
-  sub$: "_SET_ROUTER_LOADING_STATE",
+{ ..._commands._SET_ROUTER_LOADING_STATE,
   args: _ => false
 }];
 
-exports.URL__ROUTE = URL__ROUTE;
-},{"../utils":"../src/utils/index.js","../streams":"../src/streams/index.js"}],"../src/tasks/index.js":[function(require,module,exports) {
+exports._URL__ROUTE = _URL__ROUTE;
+},{"../utils":"../src/utils/index.js","../commands":"../src/commands/index.js"}],"../src/tasks/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _URL_route = require("./URL_route");
+var _URLDOM__ROUTE = require("./_URL+DOM__ROUTE");
 
-Object.keys(_URL_route).forEach(function (key) {
+Object.keys(_URLDOM__ROUTE).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function () {
-      return _URL_route[key];
+      return _URLDOM__ROUTE[key];
     }
   });
 });
-},{"./URL_route":"../src/tasks/URL_route.js"}],"../src/register/index.js":[function(require,module,exports) {
+},{"./_URL+DOM__ROUTE":"../src/tasks/_URL+DOM__ROUTE.js"}],"../src/register/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.registerRouterDOM = exports.registerCMD = void 0;
+exports.registerRouter = exports.registerRouterDOM = exports.registerCMD = void 0;
 
 var _streams = require("../streams");
 
@@ -23224,34 +23208,21 @@ const err_str = "registerCMD";
 const feedCMD$fromSource$ = ({
   sub$,
   args,
-  path,
   source$
 }) => {
   let args_is_fn = (0, _checks.isFunction)(args);
 
-  let deliver = x => path ? {
-    sub$,
-    args: args(x),
-    path
-  } : {
+  let deliver = x => ({
     sub$,
     args: args(x)
-  };
+  });
 
-  let delivery = path ? {
-    sub$,
-    args,
-    path
-  } : {
+  let delivery = {
     sub$,
     args
   };
 
-  let feed = $ => {
-    if (args_is_fn) {
-      return (0, _transducers.map)(x => $.next(deliver(x)));
-    } else return (0, _transducers.map)(() => $.next(delivery));
-  }; // looks for the `sub$` key to determine if its a command
+  let feed = $ => args_is_fn ? (0, _transducers.map)(x => $.next(deliver(x))) : (0, _transducers.map)(() => $.next(delivery)); // looks for the `sub$` key to determine if its a command
 
 
   return source$.subscribe(feed(_streams.command$));
@@ -23351,25 +23322,10 @@ const registerCMD = command => {
   let {
     sub$,
     args,
-    path,
     source$,
     handler,
     ...unknown
   } = command;
-  /**
-   *
-   * during registration, the `args` value is used to
-   * determine how the result of each value dispatched to
-   * the stream is transformed
-   */
-
-  let xform = (0, _transducers.map)(({
-    args,
-    path
-  }) => path ? {
-    args,
-    path
-  } : args);
   /**
    * destructure the args component out of the emissions
    * to save the user from having to do that PITA everytime
@@ -23384,13 +23340,11 @@ const registerCMD = command => {
   _streams.out$.subscribeTopic(sub$, {
     next: handler,
     error: console.warn
-  }, xform);
+  }, (0, _transducers.map)(({
+    args
+  }) => args));
 
-  let CMD = path ? {
-    sub$,
-    args,
-    path
-  } : {
+  let CMD = {
     sub$,
     args
   };
@@ -23401,10 +23355,10 @@ exports.registerCMD = registerCMD;
 
 const registerRouterDOM = router => {
   console.log("DOM Router Registered");
-  const taskFrom = (0, _tasks.URL__ROUTE_DOM)(router);
+  const taskFrom = (0, _tasks._URL_DOM__ROUTE)(router);
   return registerCMD({
-    sub$: "_URL_NAVIGATED$",
-    source$: _streams.navigated$,
+    sub$: "_URL_NAVIGATED$_DOM",
+    source$: _streams.DOMnavigated$,
     args: x => x,
     handler: ({
       URL,
@@ -23417,40 +23371,62 @@ const registerRouterDOM = router => {
 };
 
 exports.registerRouterDOM = registerRouterDOM;
+
+const registerRouter = router => {
+  console.log("DOM Router Registered");
+  const taskFrom = (0, _tasks._URL__ROUTE)(router);
+  return registerCMD({
+    sub$: "_URL_NAVIGATED$",
+    source$: _streams.DOMnavigated$,
+    args: x => x,
+    handler: ({
+      URL,
+      DOM
+    }) => _streams.run$.next(taskFrom({
+      URL,
+      DOM
+    }))
+  });
+};
+
+exports.registerRouter = registerRouter;
 },{"../streams":"../src/streams/index.js","@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js","../tasks":"../src/tasks/index.js","../utils":"../src/utils/index.js"}],"../src/store/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.routePathState = exports.routeLoadingState = exports.setState = exports.stateAtom = void 0;
+exports.pageState = exports.routePathState = exports.routeLoadingState = exports.setState = exports.globalStore = void 0;
 
 var _paths = require("@thi.ng/paths");
 
 var _atom = require("@thi.ng/atom");
 
 // Global State Container from [@thi.ng/atom](http://thi.ng/atom)
-const stateAtom = new _atom.Atom({
+const globalStore = new _atom.Atom({
   route_path: [],
-  route_loading: false
+  route_loading: false,
+  page: ""
 }); // sets a value within the global atom by path/lens
 
-exports.stateAtom = stateAtom;
+exports.globalStore = globalStore;
 
-const setState = (path, val) => stateAtom.swap(state => (0, _paths.setIn)(state, path, val));
+const setState = (path, val) => globalStore.swap(state => (0, _paths.setIn)(state, path, val));
 
 exports.setState = setState;
-const routeLoadingState = stateAtom.addView("route_loading");
+const routeLoadingState = globalStore.addView("route_loading");
 exports.routeLoadingState = routeLoadingState;
-const routePathState = stateAtom.addView("route_path");
+const routePathState = globalStore.addView("route_path");
 exports.routePathState = routePathState;
+const pageState = globalStore.addView("page");
+exports.pageState = pageState;
 },{"@thi.ng/paths":"../node_modules/@thi.ng/paths/index.js","@thi.ng/atom":"../node_modules/@thi.ng/atom/index.js"}],"../src/commands/routing.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports._NOTIFY_PRERENDER = exports._HREF_PUSHSTATE = exports._SET_LINK_ATTRS = exports._SET_ROUTER_PATH = exports._SET_ROUTER_LOADING_STATE = exports._SET_ROUTER_STATE = exports.clickEventHandlerDOM = void 0;
+exports._NOTIFY_PRERENDER_DOM = exports._HREF_PUSHSTATE_DOM = exports._SET_LINK_ATTRS_DOM = exports._SET_ROUTER_PATH = exports._SET_ROUTER_LOADING_STATE = exports._SET_PAGE_STATE = exports.clickEventHandlerDOM = void 0;
 
 var _register = require("../register");
 
@@ -23473,7 +23449,7 @@ const clickEventHandlerDOM = e => {
   let w_href = window.location.href;
   if (w_href === href) return;
 
-  _streams.navigated$.next({
+  _streams.DOMnavigated$.next({
     target: {
       location: {
         href
@@ -23485,25 +23461,71 @@ const clickEventHandlerDOM = e => {
   return e;
 }; // source = TRIGGER
 
+/**
+ * ## `_SET_PAGE_STATE`
+ *
+ * Routing Command: Universal
+ *
+ * ### Payload: function
+ * takes the result from two sources: the user-provided
+ * `router` ([@thi.ng/associative:
+ * EquivMap](http://thi.ng/associative)) and the `URL_path`
+ * from `parse_URL(URL)`
+ *
+ * ### Handler: side-effecting
+ * Hydrates the page state as well as the name of the active
+ * page in the global store
+ *
+ */
+
 
 exports.clickEventHandlerDOM = clickEventHandlerDOM;
 
-const _SET_ROUTER_STATE = (0, _register.registerCMD)({
-  sub$: "_SET_ROUTER_STATE",
+const _SET_PAGE_STATE = (0, _register.registerCMD)({
+  sub$: "_SET_PAGE_STATE",
   args: x => x,
   handler: ({
     data,
-    URL_path
-  }) => (0, _store.setState)(URL_path, data)
+    URL_path,
+    page
+  }) => ((0, _store.setState)(URL_path, data), (0, _store.setState)("page", page))
 });
+/**
+ * ## `_SET_ROUTER_LOADING_STATE`
+ *
+ * Routing Command: Universal
+ *
+ * ### Payload: static
+ * Simple true or false payload to alert handler
+ *
+ * ### Handler: side-effecting
+ * Sets `route_loading` path in global Atom to true || false
+ *
+ */
 
-exports._SET_ROUTER_STATE = _SET_ROUTER_STATE;
+
+exports._SET_PAGE_STATE = _SET_PAGE_STATE;
 
 const _SET_ROUTER_LOADING_STATE = (0, _register.registerCMD)({
   sub$: "_SET_ROUTER_LOADING_STATE",
-  args: x => x,
+  args: true,
   handler: x => (0, _store.setState)("route_loading", x)
 });
+/**
+ * ## `_SET_ROUTER_PATH`
+ *
+ * Routing Command: Universal
+ *
+ * ### Payload: function
+ * Consumes the `URL_path` property from a `parse_URL`
+ * object, handed off from a prior Command
+ *
+ * ### Handler: side-effecting
+ * Sets the current/loading router's `route_path` in the
+ * global Atom
+ *
+ */
+
 
 exports._SET_ROUTER_LOADING_STATE = _SET_ROUTER_LOADING_STATE;
 
@@ -23527,37 +23549,79 @@ const setLinkAttrs = target => {
     target.setAttribute("active", "");
   }
 };
+/**
+ * ## `_SET_LINK_ATTRS_DOM`
+ *
+ * Routing Command: DOM-specific
+ *
+ * ### Payload: function
+ * Input = DOM node reference
+ *
+ * ### Handler: side-effecting
+ * Takes a DOM reference and queries all visited links. Sets
+ * current/clicked link as active and sets visted links that
+ * don't match current URL to inactive see `setLinkAttrs`
+ * function
+ *
+ */
 
-const _SET_LINK_ATTRS = (0, _register.registerCMD)({
-  sub$: "_SET_LINK_ATTRS",
+
+const _SET_LINK_ATTRS_DOM = (0, _register.registerCMD)({
+  sub$: "_SET_LINK_ATTRS_DOM",
   args: x => x,
   handler: ({
     DOM
   }) => setLinkAttrs(DOM)
 });
+/**
+ * ## `_HREF_PUSHSTATE_DOM`
+ *
+ * Routing Command: DOM-specific
+ *
+ * ### Payload: function
+ * Takes a URL and a DOM reference
+ *
+ * ### Handler: side-effecting
+ * If the DOM reference is an `<a>` element, uses
+ * `history.pushState` to add the clicked URL (plus the
+ * parsed URL from `parse_URL(URL)`) to the `history` object
+ *
+ */
 
-exports._SET_LINK_ATTRS = _SET_LINK_ATTRS;
 
-const _HREF_PUSHSTATE = (0, _register.registerCMD)({
-  sub$: "_HREF_PUSHSTATE",
+exports._SET_LINK_ATTRS_DOM = _SET_LINK_ATTRS_DOM;
+
+const _HREF_PUSHSTATE_DOM = (0, _register.registerCMD)({
+  sub$: "_HREF_PUSHSTATE_DOM",
   args: x => x,
   handler: ({
     URL,
     DOM
   }) => !DOM.document ? history.pushState((0, _utils.parse_URL)(URL), null, URL) : null
 });
+/**
+ * ## `_SET_ROUTER`
+ *
+ * ### Payload: static
+ *
+ * ### Handler: side-effecting
+ * Routing Command: DOM-specific (used for manually
+ * triggering `rendertron` prerenderer for bots/web-crawlers
+ *
+ *
+ */
 
-exports._HREF_PUSHSTATE = _HREF_PUSHSTATE;
 
-const _NOTIFY_PRERENDER = (0, _register.registerCMD)({
-  sub$: "_NOTIFY_PRERENDER",
-  args: x => x,
-  handler: () => document.dispatchEvent(new Event("rendered")) //👀 for prerenderer,
+exports._HREF_PUSHSTATE_DOM = _HREF_PUSHSTATE_DOM;
 
-}); // export let HREF_NAV$
+const _NOTIFY_PRERENDER_DOM = (0, _register.registerCMD)({
+  sub$: "_NOTIFY_PRERENDER_DOM",
+  args: true,
+  //👀 for prerenderer,
+  handler: () => document.dispatchEvent(new Event("rendered"))
+});
 
-
-exports._NOTIFY_PRERENDER = _NOTIFY_PRERENDER;
+exports._NOTIFY_PRERENDER_DOM = _NOTIFY_PRERENDER_DOM;
 },{"../register":"../src/register/index.js","../store":"../src/store/index.js","../utils":"../src/utils/index.js","../streams":"../src/streams/index.js"}],"../src/commands/index.js":[function(require,module,exports) {
 "use strict";
 
@@ -25880,20 +25944,19 @@ const {
 } = _src.utils;
 const {
   routePathState,
-  stateAtom
+  globalStore
 } = _src.store;
-// traceStream("run$ ->", run$)
-traceStream("command$ ->", _streams.command$); // traceStream("task$ ->", task$)
-
-traceStream("out$ ->", _streams.out$); // traceStream("navigated$ ->", navigated$)
-//
+traceStream("run$ ->", _streams.run$);
+traceStream("command$ ->", _streams.command$);
+traceStream("task$ ->", _streams.task$);
+traceStream("out$ ->", _streams.out$);
+traceStream("navigated$ ->", _streams.DOMnavigated$); //
 //    d8                      d8
 //  _d88__  e88~~8e   d88~\ _d88__
 //   888   d888  88b C888    888
 //   888   8888__888  Y88b   888
 //   888   Y888    ,   888D  888
 //   "88_/  "88___/  \_88P   "88_/
-//
 //
 
 const getSomeJSON = async (path, b) => {
@@ -25959,22 +26022,22 @@ const router = async url => {
     URL_path: ["todos"]
   }, {
     data: () => getSomeJSON("todos"),
-    page: "todo"
+    page: "todos"
   }], [{ ...matchingComponents,
     URL_path: ["todos", p_b]
   }, {
     data: () => getSomeJSON("todos", p_b),
-    page: ""
+    page: "todo"
   }], [{ ...matchingComponents,
     URL_path: ["users"]
   }, {
     data: () => getSomeJSON("users"),
-    page: "ass"
+    page: "users"
   }], [{ ...matchingComponents,
     URL_path: ["users", p_b]
   }, {
     data: () => getSomeJSON("users", p_b),
-    page: "bloop"
+    page: "user"
   }]]).get(matchingComponents) || {
     data: () => ({
       home: "page"
@@ -26003,7 +26066,7 @@ registerRouterDOM(router); //
 let links = document.querySelectorAll("a");
 links.forEach(x => {
   x.addEventListener("click", e => {
-    console.log("STATE:", stateAtom.deref());
+    console.log("STATE:", globalStore.deref());
     clickEventHandlerDOM(e);
   });
 }); //
@@ -26059,7 +26122,7 @@ const UI_todo = (ctx, payload) => {
   root: document.getElementById("app"),
   ctx: {
     run$: _streams.run$,
-    state: stateAtom
+    state: globalStore
   }
 });
 },{"../src":"../src/index.js","@thi.ng/transducers-hdom":"../node_modules/@thi.ng/transducers-hdom/index.js","@thi.ng/rstream":"../node_modules/@thi.ng/rstream/index.js","@thi.ng/paths":"../node_modules/@thi.ng/paths/index.js","../src/streams":"../src/streams/index.js","@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js","@thi.ng/hdom":"../node_modules/@thi.ng/hdom/index.js","@thi.ng/associative":"../node_modules/@thi.ng/associative/index.js","node-fetch":"../node_modules/node-fetch/browser.js"}],"../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
@@ -26090,7 +26153,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51998" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59759" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

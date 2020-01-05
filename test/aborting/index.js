@@ -1,24 +1,15 @@
-// import fetch from "node-fetch"
-// import { stream } from "@thi.ng/rstream"
-// import { map } from "@thi.ng/transducers"
-
+const { cancel$ } = require("../../src/streams")
 const fetch = require("node-fetch")
 const { stream } = require("@thi.ng/rstream")
 const { map } = require("@thi.ng/transducers")
 require("abort-controller/polyfill")
-/**
- * Blogs:
- * - source1:
- *   https://medium.com/@bramus/cancel-a-javascript-promise-with-abortcontroller-3540cbbda0a9
- * - source2:
- *   https://dev.to/frederikprijck/converting-a-promise-into-an-observable-dag
- */
 
-// Creation of an AbortController signal
 const controller = new AbortController()
 const signal = controller.signal
 
-const promiseAborter = promise => {
+// working
+
+const abortable = promise => {
   // window.stop()
   console.log("Promise Started")
   return promise.then(r => {
@@ -38,7 +29,7 @@ const promiseAborter = promise => {
   })
 }
 
-promiseAborter(
+abortable(
   fetch("https://api.census.gov/data/2017/cbp/geography.json").then(r =>
     r.json()
   )
@@ -48,40 +39,7 @@ promiseAborter(
     e.message === "Aborted"
       ? console.log("Promise Aborted")
       : console.log("Promise rejected")
-  ) //?
-
-// Call a promise, with the signal injected into it
-// doSomethingAsync(signal)
-//   .then(result => {
-//     console.log(result)
-//   })
-//   .catch(err => {
-//     if (err.name === "AbortError") {
-//       console.log("Promise Aborted")
-//     } else {
-//       console.log("Promise Rejected")
-//     }
-//   })
-
-// // Example Promise, which takes signal into account
-// function doSomethingAsync(signal) {
-//   if (signal.aborted) {
-//     return Promise.reject(new DOMException("Aborted", "AbortError"))
-//   }
-
-//   return new Promise((resolve, reject) => {
-//     console.log("Promise Started")
-
-//     // Something fake async
-//     const timeout = window.setTimeout(resolve, 3000, "Promise Resolved")
-
-//     // Listen for abort event on signal
-//     signal.addEventListener("abort", () => {
-//       window.clearTimeout(timeout)
-//       reject(new DOMException("Aborted", "AbortError"))
-//     })
-//   })
-// }
+  )
 
 const abort$ = stream().subscribe(map(() => controller.abort()))
 
@@ -96,3 +54,17 @@ document.getElementById("stop").addEventListener("click", e => {
 // setTimeout(() => abort$.next("abort"), 50)
 
 // setTimeout(() => controller.abort(), 5)
+
+/* Also works... sorta... */
+
+// export const discardable = promise =>
+//   promise.then(r => {
+//     return new Promise((resolve, reject) => {
+//       // Something fake async
+
+//       // Listen for abort event on signal
+//       cancel$.deref() === true ? reject("promise rejected") : null
+
+//       resolve(r)
+//     })
+//   })

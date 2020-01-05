@@ -116,6 +116,24 @@
   - `route_cfg` Object (TABLE)
     - a [@thi.ng/associative](http://thi.ng/associative) `EquivMap` pattern matcher
     - see [LINK TO DOCS IN CODE CONTEXT 📌 TODO]
+- Naming Conventions:
+  - constants: `CAPITAL_SNAKE_CASE`
+    - generally accepted convention for constants in JS
+    - used for defining Commands (as though they might cause
+      side effects, their subscription names are constant -
+      i.e., a signal for emphasising this aspect of a
+      Command)
+  - pure functions: `snake_case`
+    - some novelty here due to pure functions acting like
+      constants in that with the same input they always
+      return the same output
+  - impure functions: `camelCase`
+    - regular side-effecty JS
+  - Tasks: `DOUBLE__UNDERSCORE__SNAKE__CASE`
+    - implies the inputs and outputs on either end of a Task
+    - Tasks also should be treated as pure functions where
+      the output is really just data (and lambdas). This is
+      going in the direction of "code as data"
 - lots'o'examples
 - ADVANCED
   - ad-hoc stream injection

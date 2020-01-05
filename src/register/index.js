@@ -1,25 +1,22 @@
 /**
  * @module registerCMD
  */
-import { command$, out$, run$, navigated$ } from "../streams"
+import { command$, out$, run$, DOMnavigated$ } from "../streams"
 import { isFunction } from "@thi.ng/checks"
 import { map, comp, pluck, selectKeys } from "@thi.ng/transducers"
-import { URL__ROUTE_DOM } from "../tasks"
+import { _URL_DOM__ROUTE, _URL__ROUTE } from "../tasks"
 import { unknown_key_ERR } from "../utils"
 
 const err_str = "registerCMD"
 
-const feedCMD$fromSource$ = ({ sub$, args, path, source$ }) => {
+const feedCMD$fromSource$ = ({ sub$, args, source$ }) => {
   let args_is_fn = isFunction(args)
-  let deliver = x =>
-    path ? { sub$, args: args(x), path } : { sub$, args: args(x) }
-  let delivery = path ? { sub$, args, path } : { sub$, args }
+  let deliver = x => ({ sub$, args: args(x) })
+  let delivery = { sub$, args }
 
-  let feed = $ => {
-    if (args_is_fn) {
-      return map(x => $.next(deliver(x)))
-    } else return map(() => $.next(delivery))
-  }
+  let feed = $ =>
+    args_is_fn ? map(x => $.next(deliver(x))) : map(() => $.next(delivery))
+
   // looks for the `sub$` key to determine if its a command
   return source$.subscribe(feed(command$))
 }
@@ -115,15 +112,7 @@ const feedCMD$fromSource$ = ({ sub$, args, path, source$ }) => {
 export const registerCMD = command => {
   // 📌 TODO: register factory function
 
-  let { sub$, args, path, source$, handler, ...unknown } = command
-
-  /**
-   *
-   * during registration, the `args` value is used to
-   * determine how the result of each value dispatched to
-   * the stream is transformed
-   */
-  let xform = map(({ args, path }) => (path ? { args, path } : args))
+  let { sub$, args, source$, handler, ...unknown } = command
 
   /**
    * destructure the args component out of the emissions
@@ -136,9 +125,13 @@ export const registerCMD = command => {
   if (source$) feedCMD$fromSource$(command)
 
   // more: https://github.com/thi-ng/umbrella/blob/develop/examples/rstream-event-loop/src/events.ts
-  out$.subscribeTopic(sub$, { next: handler, error: console.warn }, xform)
+  out$.subscribeTopic(
+    sub$,
+    { next: handler, error: console.warn },
+    map(({ args }) => args)
+  )
 
-  let CMD = path ? { sub$, args, path } : { sub$, args }
+  let CMD = { sub$, args }
 
   return CMD
 }
@@ -146,10 +139,22 @@ export const registerCMD = command => {
 export const registerRouterDOM = router => {
   console.log("DOM Router Registered")
 
-  const taskFrom = URL__ROUTE_DOM(router)
+  const taskFrom = _URL_DOM__ROUTE(router)
+  return registerCMD({
+    sub$: "_URL_NAVIGATED$_DOM",
+    source$: DOMnavigated$,
+    args: x => x,
+    handler: ({ URL, DOM }) => run$.next(taskFrom({ URL, DOM }))
+  })
+}
+
+export const registerRouter = router => {
+  console.log("DOM Router Registered")
+
+  const taskFrom = _URL__ROUTE(router)
   return registerCMD({
     sub$: "_URL_NAVIGATED$",
-    source$: navigated$,
+    source$: DOMnavigated$,
     args: x => x,
     handler: ({ URL, DOM }) => run$.next(taskFrom({ URL, DOM }))
   })

@@ -148,6 +148,6 @@ export const DOMContentLoaded$ = fromDOMEvent(window, "DOMContentLoaded")
  * clicking we need to convert/wrap it to align with the
  * destructuring of the others
  */
-export const navigated$ = merge({
+export const DOMnavigated$ = merge({
   src: [popstate$, DOMContentLoaded$]
 }).transform(map(x => ({ URL: x.target.location.href, DOM: x.currentTarget })))

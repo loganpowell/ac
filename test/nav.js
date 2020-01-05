@@ -3,12 +3,12 @@ import { register, commands, utils, store } from "../src"
 const { registerRouterDOM } = register
 const { clickEventHandlerDOM } = commands
 const { parse_URL, traceStream } = utils
-const { routePathState, stateAtom } = store
+const { routePathState, globalStore } = store
 
 import { updateDOM } from "@thi.ng/transducers-hdom"
 import { fromAtom } from "@thi.ng/rstream"
 import { getIn } from "@thi.ng/paths"
-import { run$, out$, command$, task$, navigated$ } from "../src/streams"
+import { run$, out$, command$, task$, DOMnavigated$ } from "../src/streams"
 import { isArray } from "@thi.ng/checks"
 import { deepTransform } from "@thi.ng/transducers"
 import { start } from "@thi.ng/hdom"
@@ -16,11 +16,12 @@ import { EquivMap } from "@thi.ng/associative"
 
 import fetch from "node-fetch"
 
-// traceStream("run$ ->", run$)
+traceStream("run$ ->", run$)
 traceStream("command$ ->", command$)
-// traceStream("task$ ->", task$)
+traceStream("task$ ->", task$)
 traceStream("out$ ->", out$)
-// traceStream("navigated$ ->", navigated$)
+traceStream("navigated$ ->", DOMnavigated$)
+
 //
 //    d8                      d8
 //  _d88__  e88~~8e   d88~\ _d88__
@@ -28,7 +29,6 @@ traceStream("out$ ->", out$)
 //   888   8888__888  Y88b   888
 //   888   Y888    ,   888D  888
 //   "88_/  "88___/  \_88P   "88_/
-//
 //
 
 const getSomeJSON = async (path, b) => {
@@ -83,19 +83,19 @@ const router = async url => {
   let { data, page } = new EquivMap([
     [
       { ...matchingComponents, URL_path: ["todos"] },
-      { data: () => getSomeJSON("todos"), page: "todo" }
+      { data: () => getSomeJSON("todos"), page: "todos" }
     ],
     [
       { ...matchingComponents, URL_path: ["todos", p_b] },
-      { data: () => getSomeJSON("todos", p_b), page: "" }
+      { data: () => getSomeJSON("todos", p_b), page: "todo" }
     ],
     [
       { ...matchingComponents, URL_path: ["users"] },
-      { data: () => getSomeJSON("users"), page: "ass" }
+      { data: () => getSomeJSON("users"), page: "users" }
     ],
     [
       { ...matchingComponents, URL_path: ["users", p_b] },
-      { data: () => getSomeJSON("users", p_b), page: "bloop" }
+      { data: () => getSomeJSON("users", p_b), page: "user" }
     ]
   ]).get(matchingComponents) || {
     data: () => ({ home: "page" }),
@@ -124,7 +124,7 @@ let links = document.querySelectorAll("a")
 
 links.forEach(x => {
   x.addEventListener("click", e => {
-    console.log("STATE:", stateAtom.deref())
+    console.log("STATE:", globalStore.deref())
     clickEventHandlerDOM(e)
   })
 })
@@ -192,6 +192,6 @@ start(
   ({ run$, state }) => [UI_todo, getIn(state.deref(), routePathState.deref())],
   {
     root: document.getElementById("app"),
-    ctx: { run$, state: stateAtom }
+    ctx: { run$, state: globalStore }
   }
 )

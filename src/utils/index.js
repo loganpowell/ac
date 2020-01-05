@@ -1,7 +1,6 @@
 export * from "./parse_URL"
 export * from "./stringify_type"
 export * from "./traceStream"
-export * from "./unknown_key_ERR"
-export * from "./discardable"
+export * from "./unknownKey"
 
-export const delay = t => new Promise(resolve => setTimeout(resolve, t))
+export const msTaskDelay = t => new Promise(resolve => setTimeout(resolve, t))
