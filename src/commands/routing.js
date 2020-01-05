@@ -1,7 +1,7 @@
 import { registerCMD } from "../register"
 import { setState } from "../store"
 import { parse_URL } from "../utils"
-import { navigated$ } from "../streams"
+import { DOMnavigated$ } from "../streams"
 
 /**
  * we need to transform the payload to align with the
@@ -16,7 +16,7 @@ export const clickEventHandlerDOM = e => {
   let w_href = window.location.href
   if (w_href === href) return
 
-  navigated$.next({
+  DOMnavigated$.next({
     target: { location: { href } },
     currentTarget: e.currentTarget
   })
@@ -25,17 +25,64 @@ export const clickEventHandlerDOM = e => {
 
 // source = TRIGGER
 
-export const _SET_ROUTER_STATE = registerCMD({
-  sub$: "_SET_ROUTER_STATE",
+/**
+ * ## `_SET_PAGE_STATE`
+ *
+ * Routing Command: Universal
+ *
+ * ### Payload: function
+ * takes the result from two sources: the user-provided
+ * `router` ([@thi.ng/associative:
+ * EquivMap](http://thi.ng/associative)) and the `URL_path`
+ * from `parse_URL(URL)`
+ *
+ * ### Handler: side-effecting
+ * Hydrates the page state as well as the name of the active
+ * page in the global store
+ *
+ */
+
+export const _SET_PAGE_STATE = registerCMD({
+  sub$: "_SET_PAGE_STATE",
   args: x => x,
-  handler: ({ data, URL_path }) => setState(URL_path, data)
+  handler: ({ data, URL_path, page }) => (
+    setState(URL_path, data), setState("page", page)
+  )
 })
+
+/**
+ * ## `_SET_ROUTER_LOADING_STATE`
+ *
+ * Routing Command: Universal
+ *
+ * ### Payload: static
+ * Simple true or false payload to alert handler
+ *
+ * ### Handler: side-effecting
+ * Sets `route_loading` path in global Atom to true || false
+ *
+ */
 
 export const _SET_ROUTER_LOADING_STATE = registerCMD({
   sub$: "_SET_ROUTER_LOADING_STATE",
-  args: x => x,
+  args: true,
   handler: x => setState("route_loading", x)
 })
+
+/**
+ * ## `_SET_ROUTER_PATH`
+ *
+ * Routing Command: Universal
+ *
+ * ### Payload: function
+ * Consumes the `URL_path` property from a `parse_URL`
+ * object, handed off from a prior Command
+ *
+ * ### Handler: side-effecting
+ * Sets the current/loading router's `route_path` in the
+ * global Atom
+ *
+ */
 
 export const _SET_ROUTER_PATH = registerCMD({
   sub$: "_SET_ROUTER_PATH",
@@ -54,22 +101,65 @@ const setLinkAttrs = target => {
   }
 }
 
-export const _SET_LINK_ATTRS = registerCMD({
-  sub$: "_SET_LINK_ATTRS",
+/**
+ * ## `_SET_LINK_ATTRS_DOM`
+ *
+ * Routing Command: DOM-specific
+ *
+ * ### Payload: function
+ * Input = DOM node reference
+ *
+ * ### Handler: side-effecting
+ * Takes a DOM reference and queries all visited links. Sets
+ * current/clicked link as active and sets visted links that
+ * don't match current URL to inactive see `setLinkAttrs`
+ * function
+ *
+ */
+
+export const _SET_LINK_ATTRS_DOM = registerCMD({
+  sub$: "_SET_LINK_ATTRS_DOM",
   args: x => x,
   handler: ({ DOM }) => setLinkAttrs(DOM)
 })
 
-export const _HREF_PUSHSTATE = registerCMD({
-  sub$: "_HREF_PUSHSTATE",
+/**
+ * ## `_HREF_PUSHSTATE_DOM`
+ *
+ * Routing Command: DOM-specific
+ *
+ * ### Payload: function
+ * Takes a URL and a DOM reference
+ *
+ * ### Handler: side-effecting
+ * If the DOM reference is an `<a>` element, uses
+ * `history.pushState` to add the clicked URL (plus the
+ * parsed URL from `parse_URL(URL)`) to the `history` object
+ *
+ */
+
+export const _HREF_PUSHSTATE_DOM = registerCMD({
+  sub$: "_HREF_PUSHSTATE_DOM",
   args: x => x,
   handler: ({ URL, DOM }) =>
     !DOM.document ? history.pushState(parse_URL(URL), null, URL) : null
 })
 
-export const _NOTIFY_PRERENDER = registerCMD({
-  sub$: "_NOTIFY_PRERENDER",
-  args: x => x,
-  handler: () => document.dispatchEvent(new Event("rendered")) //👀 for prerenderer,
+/**
+ * ## `_NOTIFY_PRERENDER_DOM`
+ *
+ * ### Payload: static
+ *
+ * ### Handler: side-effecting
+ * Routing Command: DOM-specific (used for manually
+ * triggering `rendertron` prerenderer for bots/web-crawlers
+ *
+ *
+ */
+
+export const _NOTIFY_PRERENDER_DOM = registerCMD({
+  sub$: "_NOTIFY_PRERENDER_DOM",
+  args: true,
+  //👀 for prerenderer,
+  handler: () => document.dispatchEvent(new Event("rendered"))
 })
-// export let HREF_NAV$
