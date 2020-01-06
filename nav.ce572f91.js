@@ -21040,16 +21040,14 @@ let fix_jsdoc;
  * ```js
  * parse_href("http://localhost:1234/about?get=some#today")
  * ```
- *
- *
  * ```js
  * {
  *   URL: "http://localhost:1234/about?get=some#today",
- *   subdomain: [],
- *   domain: ["localhost:1234"],
- *   path: ["about"],
- *   query: { get: "some" },
- *   hash: "today"
+ *   URL_subdomain: [],
+ *   URL_domain: ["localhost:1234"],
+ *   URL_path: ["about"],
+ *   URL_query: { get: "some" },
+ *   URL_hash: "today"
  * }
  * ```
  *
@@ -21060,11 +21058,11 @@ let fix_jsdoc;
  * ```js
  * {
  *   URL: 'https://github.com/thi-ng/umbrella/#blog-posts',
- *   subdomain: [],
- *   domain: ["github", "com"],
- *   path: ["thi-ng", "umbrella"],
- *   query: {},
- *   hash: "blog-posts"
+ *   URL_subdomain: [],
+ *   URL_domain: ["github", "com"],
+ *   URL_path: ["thi-ng", "umbrella"],
+ *   URL_query: {},
+ *   URL_hash: "blog-posts"
  * }
  * ```
  *
@@ -21075,11 +21073,11 @@ let fix_jsdoc;
  * ```js
  * {
  *   URL: 'https://very-long-sub.dom.cloud.eu/site/my/happy/',
- *   subdomain: ["very-long-sub", "dom"],
- *   domain: ["cloud", "eu"],
- *   path: ["site", "my", "happy"],
- *   query: {},
- *   hash: ""
+ *   URL_subdomain: ["very-long-sub", "dom"],
+ *   URL_domain: ["cloud", "eu"],
+ *   URL_path: ["site", "my", "happy"],
+ *   URL_query: {},
+ *   URL_hash: ""
  * }
  * ```
  *
@@ -21090,11 +21088,11 @@ let fix_jsdoc;
  * ```js
  * {
  *   URL: "https://api.census.gov/data?get=NAME&in=state:01&in=county:*",
- *   subdomain: ["api"],
- *   domain: ["census", "gov"],
- *   path: ["data"],
- *   query: { get: "NAME", in: ["state:01", "county:*"] },
- *   hash: ""
+ *   URL_subdomain: ["api"],
+ *   URL_domain: ["census", "gov"],
+ *   URL_path: ["data"],
+ *   URL_query: { get: "NAME", in: ["state:01", "county:*"] },
+ *   URL_hash: ""
  * }
  * ```
  *
@@ -21105,11 +21103,11 @@ let fix_jsdoc;
  * ```js
  * {
  *   URL: "/data?get=NAME&in=state#indeed",
- *   subdomain: [],
- *   domain: [],
- *   path: ["data"],
- *   query: { get: "NAME", in: "state" },
- *   hash: "indeed"
+ *   URL_subdomain: [],
+ *   URL_domain: [],
+ *   URL_path: ["data"],
+ *   URL_query: { get: "NAME", in: "state" },
+ *   URL_hash: "indeed"
  * }
  * ```
  *
@@ -21590,34 +21588,7 @@ const spool = task_array => task_array.reduce(async (a, c, i) => {
   if (Object.keys(unknown).length > 0) throw new Error((0, _utils.unknown_key_ERR)(err_str, c, unknown, sub$, i));
   let arg_type = (0, _utils.stringify_type)(args);
   let result = args;
-  /**
-   * ### Caveats:
-   *
-   * - It's _highly_ recommended to go through the
-   *   provided event handling system rather than monkey
-   *   patching in your own streams in the above fashion,
-   *   however it may be useful in some cases (e.g., for
-   *   injecting a quick in-situ logger within a task as
-   *   opposed to tracing all command emmissions with
-   *   `traceStream`)
-   *
-   * - The spool preserves execution order of
-   *   Commands within a Task, but doesn't do anything to
-   *   prevent Commands sent directly to the Command
-   *   stream - while the Task is spooling - from being
-   *   executed during the execution of the Commands in
-   *   the Task queue. This can actually be useful
-   *   behavior if you want to enable an, e.g.,
-   *   side-effect canceling handler (e.g.,
-   *   [AbortController](https://developer.mozilla.org/en-US/docs/Web/API/AbortController),
-   *   [📌
-   *   tut](https://www.youtube.com/watch?v=P_mSaky4OtA))
-   *
-   *
-   * ARG SIGNATURE LOGIC
-   *
-   */
-  // RESOLVING ARGS
+  /* RESOLVING ARGS */
 
   if (arg_type !== "PROMISE" && reso) {
     // if some signature needs to deal with both promises
@@ -21667,8 +21638,8 @@ const spool = task_array => task_array.reduce(async (a, c, i) => {
     return { ...acc,
       ...args
     };
-  } // RESULT HANDLERS
-  // acc handler
+  }
+  /* RESULT HANDLERS */
 
 
   if (reso) {
@@ -21987,8 +21958,8 @@ const _URL_DOM__ROUTE = router => {
  * ```
  * ( router ) => ({ URL }) => [
  * - set `router_loading` path in global atom to `true`
- * - call provided router with the URL and await payload
- * - `parse_URL(URL)` for URL components
+ * - call provided `router` with the `URL` and await payload
+ * - `parse_URL(URL)` for `URL_*` components
  * - set `route_path` in global store/atom to current `URL_path`
  * - set page state (data, path & page component name) in store
  * - once promise(s) resolved, set `router_loading` to `false`
@@ -22270,30 +22241,30 @@ exports.registerRouter = registerRouter;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.pageState = exports.routePathState = exports.routeLoadingState = exports.setState = exports.globalStore = void 0;
+exports.$page$ = exports.$routePath$ = exports.$routeLoading$ = exports.setState = exports.$store$ = void 0;
 
 var _paths = require("@thi.ng/paths");
 
 var _atom = require("@thi.ng/atom");
 
 // Global State Container from [@thi.ng/atom](http://thi.ng/atom)
-const globalStore = new _atom.Atom({
+const $store$ = new _atom.Atom({
   route_path: [],
   route_loading: false,
   page: ""
 }); // sets a value within the global atom by path/lens
 
-exports.globalStore = globalStore;
+exports.$store$ = $store$;
 
-const setState = (path, val) => globalStore.swap(state => (0, _paths.setIn)(state, path, val));
+const setState = (path, val) => $store$.swap(state => (0, _paths.setIn)(state, path, val));
 
 exports.setState = setState;
-const routeLoadingState = globalStore.addView("route_loading");
-exports.routeLoadingState = routeLoadingState;
-const routePathState = globalStore.addView("route_path");
-exports.routePathState = routePathState;
-const pageState = globalStore.addView("page");
-exports.pageState = pageState;
+const $routeLoading$ = $store$.addView("route_loading");
+exports.$routeLoading$ = $routeLoading$;
+const $routePath$ = $store$.addView("route_path");
+exports.$routePath$ = $routePath$;
+const $page$ = $store$.addView("page");
+exports.$page$ = $page$;
 },{"@thi.ng/paths":"../node_modules/@thi.ng/paths/index.js","@thi.ng/atom":"../node_modules/@thi.ng/atom/index.js"}],"../src/commands/routing.js":[function(require,module,exports) {
 "use strict";
 
@@ -22474,7 +22445,7 @@ const _HREF_PUSHSTATE_DOM = (0, _register.registerCMD)({
   }) => !DOM.document ? history.pushState((0, _utils.parse_URL)(URL), null, URL) : null
 });
 /**
- * ## `_SET_ROUTER`
+ * ## `_NOTIFY_PRERENDER_DOM`
  *
  * ### Payload: static
  *
@@ -24817,8 +24788,8 @@ const {
   traceStream
 } = _src.utils;
 const {
-  routePathState,
-  globalStore
+  $routePath$: $routePath$,
+  $store$
 } = _src.store;
 traceStream("run$ ->", _streams.run$);
 traceStream("command$ ->", _streams.command$);
@@ -24874,7 +24845,7 @@ const getSomeJSON = async (path, b) => {
 
 
 const router = async url => {
-  let matchingComponents = parse_URL(url);
+  let match = parse_URL(url);
   let {
     URL,
     URL_subdomain,
@@ -24887,32 +24858,32 @@ const router = async url => {
     // object
     URL_hash // string
 
-  } = matchingComponents;
+  } = match;
   let [p_a, p_b] = URL_path;
   let {
     data,
     page
-  } = new _associative.EquivMap([[{ ...matchingComponents,
+  } = new _associative.EquivMap([[{ ...match,
     URL_path: ["todos"]
   }, {
     data: () => getSomeJSON("todos"),
     page: "todos"
-  }], [{ ...matchingComponents,
+  }], [{ ...match,
     URL_path: ["todos", p_b]
   }, {
     data: () => getSomeJSON("todos", p_b),
     page: "todo"
-  }], [{ ...matchingComponents,
+  }], [{ ...match,
     URL_path: ["users"]
   }, {
     data: () => getSomeJSON("users"),
     page: "users"
-  }], [{ ...matchingComponents,
+  }], [{ ...match,
     URL_path: ["users", p_b]
   }, {
     data: () => getSomeJSON("users", p_b),
     page: "user"
-  }]]).get(matchingComponents) || {
+  }]]).get(match) || {
     data: () => ({
       home: "page"
     }),
@@ -24940,7 +24911,7 @@ registerRouterDOM(router); //
 let links = document.querySelectorAll("a");
 links.forEach(x => {
   x.addEventListener("click", e => {
-    console.log("STATE:", globalStore.deref());
+    console.log("STATE:", $store$.deref());
     clickEventHandlerDOM(e);
   });
 }); //
@@ -24963,19 +24934,56 @@ links.forEach(x => {
 //   }
 // }
 
-const image = (ctx, img) => ["img", {
-  src: img
+const S = JSON.stringify;
+
+const link = ({
+  state
+}, id, text) => ["a", {
+  href: `${state.value.route_path}/${id}`,
+  onclick: e => clickEventHandlerDOM(e)
+}, text];
+
+const field = (ctx, key, val) => ["li", {
+  style: {
+    display: "flex"
+  }
+}, key === "id" ? [link, val, val] : ["p", {
+  style: {
+    padding: "0 0.5rem"
+  }
+}, key], (0, _checks.isObject)(val) ? ["ul", ...Object.entries(val).map(([k, v]) => [field, k, v])] : ["p", {
+  style: {
+    padding: "0 0.5rem"
+  }
+}, val]];
+
+const image_sm = (ctx, img) => ["img", {
+  src: img,
+  style: {
+    height: "100px",
+    width: "100%",
+    "object-fit": "cover"
+  }
 }];
 
-const component = (ctx, img, title) => ["div", {}, [image, img], ["p", {
+const image_lg = (ctx, img) => ["img", {
+  src: img,
+  style: {
+    width: "100%"
+  }
+}];
+
+const component = sz => (ctx, img, title) => ["div", {}, sz === "lg" ? [image_lg, img] : [image_sm, img], ["p", {
   class: "title"
 }, title]];
+
+const fields = payload => ["ul", ...Object.entries(payload).slice(0, 4).map(([k, v]) => [field, k, v])];
 
 const UI_todo = (ctx, payload) => {
   return (0, _checks.isArray)(payload) ? ["div", ...payload.map(({
     img,
     text
-  }) => [component, img, `${text.title || text.name}`])] : [component, payload && payload.img ? payload.img : "n/a", payload && payload.text ? payload.text.title || payload.text.name : "n/a"];
+  }) => [component("sm"), img, fields(text)])] : [component("lg"), payload && payload.img ? payload.img : "n/a", payload && payload.text ? fields(payload.text.company || payload.text) : "n/a"];
 }; // return ["pre", JSON.stringify(state, null, 2)]
 //
 //        /           d8b
@@ -24992,12 +25000,13 @@ const UI_todo = (ctx, payload) => {
 ({
   run$,
   state
-}) => [UI_todo, (0, _paths.getIn)(state.deref(), routePathState.deref())], {
+}) => [UI_todo, (0, _paths.getIn)(state.deref(), $routePath$.deref())], {
   root: document.getElementById("app"),
   ctx: {
     run$: _streams.run$,
-    state: globalStore
-  }
+    state: $store$
+  },
+  span: false
 });
 },{"../src":"../src/index.js","@thi.ng/transducers-hdom":"../node_modules/@thi.ng/transducers-hdom/index.js","@thi.ng/rstream":"../node_modules/@thi.ng/rstream/index.js","@thi.ng/paths":"../node_modules/@thi.ng/paths/index.js","../src/streams":"../src/streams/index.js","@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js","@thi.ng/hdom":"../node_modules/@thi.ng/hdom/index.js","@thi.ng/associative":"../node_modules/@thi.ng/associative/index.js","node-fetch":"../node_modules/node-fetch/browser.js"}],"../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -25027,7 +25036,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65455" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60203" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
