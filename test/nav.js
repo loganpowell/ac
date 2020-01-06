@@ -3,13 +3,13 @@ import { register, commands, utils, store } from "../src"
 const { registerRouterDOM } = register
 const { clickEventHandlerDOM } = commands
 const { parse_URL, traceStream } = utils
-const { routePathState, globalStore } = store
+const { $routePath$: $routePath$, $store$ } = store
 
 import { updateDOM } from "@thi.ng/transducers-hdom"
 import { fromAtom } from "@thi.ng/rstream"
 import { getIn } from "@thi.ng/paths"
 import { run$, out$, command$, task$, DOMnavigated$ } from "../src/streams"
-import { isArray } from "@thi.ng/checks"
+import { isArray, isObject } from "@thi.ng/checks"
 import { deepTransform } from "@thi.ng/transducers"
 import { start } from "@thi.ng/hdom"
 import { EquivMap } from "@thi.ng/associative"
@@ -69,7 +69,7 @@ const getSomeJSON = async (path, b) => {
  * here's one.
  */
 const router = async url => {
-  let matchingComponents = parse_URL(url)
+  let match = parse_URL(url)
   let {
     URL,
     URL_subdomain, // array
@@ -77,27 +77,27 @@ const router = async url => {
     URL_path, // array
     URL_query, // object
     URL_hash // string
-  } = matchingComponents
+  } = match
   let [p_a, p_b] = URL_path
 
   let { data, page } = new EquivMap([
     [
-      { ...matchingComponents, URL_path: ["todos"] },
+      { ...match, URL_path: ["todos"] },
       { data: () => getSomeJSON("todos"), page: "todos" }
     ],
     [
-      { ...matchingComponents, URL_path: ["todos", p_b] },
+      { ...match, URL_path: ["todos", p_b] },
       { data: () => getSomeJSON("todos", p_b), page: "todo" }
     ],
     [
-      { ...matchingComponents, URL_path: ["users"] },
+      { ...match, URL_path: ["users"] },
       { data: () => getSomeJSON("users"), page: "users" }
     ],
     [
-      { ...matchingComponents, URL_path: ["users", p_b] },
+      { ...match, URL_path: ["users", p_b] },
       { data: () => getSomeJSON("users", p_b), page: "user" }
     ]
-  ]).get(matchingComponents) || {
+  ]).get(match) || {
     data: () => ({ home: "page" }),
     page: "bloop"
   } // should probably be a 404... also need a match for an empty path: []
@@ -124,7 +124,7 @@ let links = document.querySelectorAll("a")
 
 links.forEach(x => {
   x.addEventListener("click", e => {
-    console.log("STATE:", globalStore.deref())
+    console.log("STATE:", $store$.deref())
     clickEventHandlerDOM(e)
   })
 })
@@ -149,29 +149,61 @@ links.forEach(x => {
 //     "completed": false
 //   }
 // }
+const S = JSON.stringify
 
-const image = (ctx, img) => ["img", { src: img }]
-const component = (ctx, img, title) => [
+const link = ({ state }, id, text) => [
+  "a",
+  {
+    href: `${state.value.route_path}/${id}`,
+    onclick: e => clickEventHandlerDOM(e)
+  },
+  text
+]
+
+const field = (ctx, key, val) => [
+  "li",
+  { style: { display: "flex" } },
+  key === "id"
+    ? [link, val, val]
+    : ["p", { style: { padding: "0 0.5rem" } }, key],
+  isObject(val)
+    ? ["ul", ...Object.entries(val).map(([k, v]) => [field, k, v])]
+    : ["p", { style: { padding: "0 0.5rem" } }, val]
+]
+
+const image_sm = (ctx, img) => [
+  "img",
+  {
+    src: img,
+    style: { height: "100px", width: "100%", "object-fit": "cover" }
+  }
+]
+const image_lg = (ctx, img) => ["img", { src: img, style: { width: "100%" } }]
+
+const component = sz => (ctx, img, title) => [
   "div",
   {},
-  [image, img],
+  sz === "lg" ? [image_lg, img] : [image_sm, img],
   ["p", { class: "title" }, title]
+]
+
+const fields = payload => [
+  "ul",
+  ...Object.entries(payload)
+    .slice(0, 4)
+    .map(([k, v]) => [field, k, v])
 ]
 const UI_todo = (ctx, payload) => {
   return isArray(payload)
     ? [
         "div",
-        ...payload.map(({ img, text }) => [
-          component,
-          img,
-          `${text.title || text.name}`
-        ])
+        ...payload.map(({ img, text }) => [component("sm"), img, fields(text)])
       ]
     : [
-        component,
+        component("lg"),
         payload && payload.img ? payload.img : "n/a",
         payload && payload.text
-          ? payload.text.title || payload.text.name
+          ? fields(payload.text.company || payload.text)
           : "n/a"
       ]
 }
@@ -189,9 +221,10 @@ const UI_todo = (ctx, payload) => {
 
 start(
   // 📌 page component that chooses a template based on the spec returned
-  ({ run$, state }) => [UI_todo, getIn(state.deref(), routePathState.deref())],
+  ({ run$, state }) => [UI_todo, getIn(state.deref(), $routePath$.deref())],
   {
     root: document.getElementById("app"),
-    ctx: { run$, state: globalStore }
+    ctx: { run$, state: $store$ },
+    span: false
   }
 )

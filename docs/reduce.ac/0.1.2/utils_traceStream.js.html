@@ -84,7 +84,7 @@
       
     
 
-    <h3>Modules</h3><ul><li id="Task_Spooler-nav"><a href="module-Task_Spooler.html">Task_Spooler</a></li><li id="registerCMD-nav"><a href="module-registerCMD.html">registerCMD</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#hurl_dispatch">hurl_dispatch</a></li><li><a href="global.html#hurl_router">hurl_router</a></li><li><a href="global.html#register_router_BOM">register_router_BOM</a></li><li><a href="global.html#href_pushState">href_pushState</a></li><li><a href="global.html#route">route</a></li><li><a href="global.html#parse_href">parse_href</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#stringify_w_functions">stringify_w_functions</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
+    <h3>Modules</h3><ul><li id="registerCMD-nav"><a href="module-registerCMD.html">registerCMD</a></li><li id="Tasks-nav"><a href="module-Tasks.html">Tasks</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#_SET_PAGE_STATE">_SET_PAGE_STATE</a></li><li><a href="global.html#_SET_ROUTER_LOADING_STATE">_SET_ROUTER_LOADING_STATE</a></li><li><a href="global.html#_SET_ROUTER_PATH">_SET_ROUTER_PATH</a></li><li><a href="global.html#_SET_LINK_ATTRS_DOM">_SET_LINK_ATTRS_DOM</a></li><li><a href="global.html#_HREF_PUSHSTATE_DOM">_HREF_PUSHSTATE_DOM</a></li><li><a href="global.html#_NOTIFY_PRERENDER_DOM">_NOTIFY_PRERENDER_DOM</a></li><li><a href="global.html#_URL__ROUTE">_URL__ROUTE</a></li><li><a href="global.html#parse_URL">parse_URL</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#stringify_w_functions">stringify_w_functions</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
   </nav>
 
   <div id="main">
@@ -115,7 +115,7 @@ let fix_jsdoc
  * */
 export const traceStream = (log_prefix, stream) =>
   stream.subscribeTopic
-    ? stream.subscribeTopic("...JUST_L0GGING...", {
+    ? stream.subscribeTopic("_TRACE_STREAM", {
         next: x => console.log(log_prefix, x),
         error: console.warn
       })

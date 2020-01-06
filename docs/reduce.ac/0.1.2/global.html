@@ -82,7 +82,7 @@
       
     
 
-    <h3>Modules</h3><ul><li id="Task_Spooler-nav"><a href="module-Task_Spooler.html">Task_Spooler</a></li><li id="registerCMD-nav"><a href="module-registerCMD.html">registerCMD</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#hurl_dispatch">hurl_dispatch</a></li><li><a href="global.html#hurl_router">hurl_router</a></li><li><a href="global.html#register_router_BOM">register_router_BOM</a></li><li><a href="global.html#href_pushState">href_pushState</a></li><li><a href="global.html#route">route</a></li><li><a href="global.html#parse_href">parse_href</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#stringify_w_functions">stringify_w_functions</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
+    <h3>Modules</h3><ul><li id="registerCMD-nav"><a href="module-registerCMD.html">registerCMD</a></li><li id="Tasks-nav"><a href="module-Tasks.html">Tasks</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#_SET_PAGE_STATE">_SET_PAGE_STATE</a></li><li><a href="global.html#_SET_ROUTER_LOADING_STATE">_SET_ROUTER_LOADING_STATE</a></li><li><a href="global.html#_SET_ROUTER_PATH">_SET_ROUTER_PATH</a></li><li><a href="global.html#_SET_LINK_ATTRS_DOM">_SET_LINK_ATTRS_DOM</a></li><li><a href="global.html#_HREF_PUSHSTATE_DOM">_HREF_PUSHSTATE_DOM</a></li><li><a href="global.html#_NOTIFY_PRERENDER_DOM">_NOTIFY_PRERENDER_DOM</a></li><li><a href="global.html#_URL__ROUTE">_URL__ROUTE</a></li><li><a href="global.html#parse_URL">parse_URL</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#stringify_w_functions">stringify_w_functions</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
   </nav>
 
   <div id="main">
@@ -170,18 +170,24 @@
         
             
 
-<h4 class="name" id="hurl_dispatch">
-  <span class="type-signature">(constant) </span>hurl_dispatch<span class="type-signature"></span>
+<h4 class="name" id="_SET_PAGE_STATE">
+  <span class="type-signature">(constant) </span>_SET_PAGE_STATE<span class="type-signature"></span>
 </h4>
 
 
 
 
   <div class="description">
-    <p>preconfigured dispatch from hurl_data_stream
-this is an event handler that subscribes to the
-<code>hurl_data_stream</code> internally and applies a user-defined callback <code>fn</code>
-to every emission of data from the stream</p>
+    <h2><code>_SET_PAGE_STATE</code></h2>
+<p>Routing Command: Universal</p>
+<h3>Payload: function</h3>
+<p>takes the result from two sources: the user-provided
+<code>router</code> (<a href="http://thi.ng/associative">@thi.ng/associative:
+EquivMap</a>) and the <code>URL_path</code>
+from <code>parse_URL(URL)</code></p>
+<h3>Handler: side-effecting</h3>
+<p>Hydrates the page state as well as the name of the active
+page in the global store</p>
   </div>
 
 
@@ -218,7 +224,7 @@ to every emission of data from the stream</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="commands_route-proto.js.html">commands/route-proto.js</a>, <a href="commands_route-proto.js.html#line22">line 22</a>
+          <a href="commands_routing.js.html">commands/routing.js</a>, <a href="commands_routing.js.html#line44">line 44</a>
         </li>
       </ul>
     </dd>
@@ -240,18 +246,20 @@ to every emission of data from the stream</p>
         
             
 
-<h4 class="name" id="hurl_router">
-  <span class="type-signature">(constant) </span>hurl_router<span class="type-signature"></span>
+<h4 class="name" id="_SET_ROUTER_LOADING_STATE">
+  <span class="type-signature">(constant) </span>_SET_ROUTER_LOADING_STATE<span class="type-signature"></span>
 </h4>
 
 
 
 
   <div class="description">
-    <p>Takes a routing configuration function and returns a router that
-recieves a stream of incomming URLs/ and applies the configuration
-to each one. Once the data is resolved for the URL, dispatches to a
-completion stream to actually triggers a change in the browser router</p>
+    <h2><code>_SET_ROUTER_LOADING_STATE</code></h2>
+<p>Routing Command: Universal</p>
+<h3>Payload: static</h3>
+<p>Simple true or false payload to alert handler</p>
+<h3>Handler: side-effecting</h3>
+<p>Sets <code>route_loading</code> path in global Atom to true || false</p>
   </div>
 
 
@@ -288,7 +296,7 @@ completion stream to actually triggers a change in the browser router</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="commands_route-proto.js.html">commands/route-proto.js</a>, <a href="commands_route-proto.js.html#line58">line 58</a>
+          <a href="commands_routing.js.html">commands/routing.js</a>, <a href="commands_routing.js.html#line64">line 64</a>
         </li>
       </ul>
     </dd>
@@ -310,18 +318,22 @@ completion stream to actually triggers a change in the browser router</p>
         
             
 
-<h4 class="name" id="register_router_BOM">
-  <span class="type-signature">(constant) </span>register_router_BOM<span class="type-signature"></span>
+<h4 class="name" id="_SET_ROUTER_PATH">
+  <span class="type-signature">(constant) </span>_SET_ROUTER_PATH<span class="type-signature"></span>
 </h4>
 
 
 
 
   <div class="description">
-    <p>takes a <code>hurl_router</code> (configured routing fn) and applies the router on
-every emission of the browser navigation stream (a stream of nav events)
-the returned dispatching function allows the user to hook into the data
-emitted as per her router configuration and deploy some function thereupon</p>
+    <h2><code>_SET_ROUTER_PATH</code></h2>
+<p>Routing Command: Universal</p>
+<h3>Payload: function</h3>
+<p>Consumes the <code>URL_path</code> property from a <code>parse_URL</code>
+object, handed off from a prior Command</p>
+<h3>Handler: side-effecting</h3>
+<p>Sets the current/loading router's <code>route_path</code> in the
+global Atom</p>
   </div>
 
 
@@ -358,7 +370,7 @@ emitted as per her router configuration and deploy some function thereupon</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="commands_route-proto.js.html">commands/route-proto.js</a>, <a href="commands_route-proto.js.html#line115">line 115</a>
+          <a href="commands_routing.js.html">commands/routing.js</a>, <a href="commands_routing.js.html#line84">line 84</a>
         </li>
       </ul>
     </dd>
@@ -380,24 +392,249 @@ emitted as per her router configuration and deploy some function thereupon</p>
         
             
 
-<h4 class="name" id="href_pushState">
-  <span class="type-signature">(constant) </span>href_pushState<span class="type-signature"></span>
+<h4 class="name" id="_SET_LINK_ATTRS_DOM">
+  <span class="type-signature">(constant) </span>_SET_LINK_ATTRS_DOM<span class="type-signature"></span>
 </h4>
 
 
 
 
   <div class="description">
-    <p>or maybe the handler is defined as a part of the
-Command and destructured out like this:</p>
-<pre class="prettyprint source lang-js"><code>export const I_pushState_href = {
- sub$: &quot;pushstate&quot;,
- args: ({ href }) => ({ href }) // &lt;- implied/unnecessary?
- handler: ({ href }) => href_pushState(href)
-}
+    <h2><code>_SET_LINK_ATTRS_DOM</code></h2>
+<p>Routing Command: DOM-specific</p>
+<h3>Payload: function</h3>
+<p>Input = DOM node reference</p>
+<h3>Handler: side-effecting</h3>
+<p>Takes a DOM reference and queries all visited links. Sets
+current/clicked link as active and sets visted links that
+don't match current URL to inactive see <code>setLinkAttrs</code>
+function</p>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="commands_routing.js.html">commands/routing.js</a>, <a href="commands_routing.js.html#line116">line 116</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id="_HREF_PUSHSTATE_DOM">
+  <span class="type-signature">(constant) </span>_HREF_PUSHSTATE_DOM<span class="type-signature"></span>
+</h4>
+
+
+
+
+  <div class="description">
+    <h2><code>_HREF_PUSHSTATE_DOM</code></h2>
+<p>Routing Command: DOM-specific</p>
+<h3>Payload: function</h3>
+<p>Takes a URL and a DOM reference</p>
+<h3>Handler: side-effecting</h3>
+<p>If the DOM reference is an <code>&lt;a&gt;</code> element, uses
+<code>history.pushState</code> to add the clicked URL (plus the
+parsed URL from <code>parse_URL(URL)</code>) to the <code>history</code> object</p>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="commands_routing.js.html">commands/routing.js</a>, <a href="commands_routing.js.html#line136">line 136</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id="_NOTIFY_PRERENDER_DOM">
+  <span class="type-signature">(constant) </span>_NOTIFY_PRERENDER_DOM<span class="type-signature"></span>
+</h4>
+
+
+
+
+  <div class="description">
+    <h2><code>_NOTIFY_PRERENDER_DOM</code></h2>
+<h3>Payload: static</h3>
+<h3>Handler: side-effecting</h3>
+<p>Routing Command: DOM-specific (used for manually
+triggering <code>rendertron</code> prerenderer for bots/web-crawlers</p>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="commands_routing.js.html">commands/routing.js</a>, <a href="commands_routing.js.html#line154">line 154</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id="_URL__ROUTE">
+  <span class="type-signature">(constant) </span>_URL__ROUTE<span class="type-signature"></span>
+</h4>
+
+
+
+
+  <div class="description">
+    <p><code>_URL__ROUTE</code></p>
+<p>Universal router (cross-platform) Subtask.</p>
+<p>This can be used in both a browser and Node context. The
+parts that handle browser side-effects are included in an
+Supertask <code>_URL__ROUTE</code></p>
+<p>Pseudo</p>
+<pre class="prettyprint source"><code>( router ) => ({ URL }) => [
+- set `router_loading` path in global atom to `true`
+- call provided `router` with the `URL` and await payload
+- `parse_URL(URL)` for `URL_*` components
+- set `route_path` in global store/atom to current `URL_path`
+- set page state (data, path & page component name) in store
+- once promise(s) resolved, set `router_loading` to `false`
+]
 </code></pre>
-<p>And then the actual defHandler takes that and just gives
-back the Command without the handler!?</p>
   </div>
 
 
@@ -434,7 +671,7 @@ back the Command without the handler!?</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="commands_route.js.html">commands/route.js</a>, <a href="commands_route.js.html#line27">line 27</a>
+          <a href="tasks__URL+DOM__ROUTE.js.html">tasks/_URL+DOM__ROUTE.js</a>, <a href="tasks__URL+DOM__ROUTE.js.html#line76">line 76</a>
         </li>
       </ul>
     </dd>
@@ -456,87 +693,8 @@ back the Command without the handler!?</p>
         
             
 
-<h4 class="name" id="route">
-  <span class="type-signature">(constant) </span>route<span class="type-signature"></span>
-</h4>
-
-
-
-
-  <div class="description">
-    <p>Pseudo</p>
-<p>Subtask:</p>
-<pre class="prettyprint source"><code>- input         => { href }
-- href_query    => { path, query }  : parse_href
-- query_match   => { match }        : EquivMap
-- query_auth    => Promise { auth } : ? API
-- auth_data     => Promise { data } : ? API
-- FLIP          => 0                : side-effect
-- query_URL     => { route }        : side-effect
-- datapath_head => { path, data }   : Atom$ -> &lt;head>
-- datapath_body => { path, data }   : Atom$ -> UI render!
-- FLIP          => 1                : side-effect
-</code></pre>
-  </div>
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="subtasks_href_route.js.html">subtasks/href_route.js</a>, <a href="subtasks_href_route.js.html#line29">line 29</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-          
-        
-            
-
-<h4 class="name" id="parse_href">
-  <span class="type-signature">(constant) </span>parse_href<span class="type-signature"></span>
+<h4 class="name" id="parse_URL">
+  <span class="type-signature">(constant) </span>parse_URL<span class="type-signature"></span>
 </h4>
 
 
@@ -553,11 +711,11 @@ high-level event handling.</p>
 </code></pre>
 <pre class="prettyprint source lang-js"><code>{
   URL: &quot;http://localhost:1234/about?get=some#today&quot;,
-  subdomain: [],
-  domain: [&quot;localhost:1234&quot;],
-  path: [&quot;about&quot;],
-  query: { get: &quot;some&quot; },
-  hash: &quot;today&quot;
+  URL_subdomain: [],
+  URL_domain: [&quot;localhost:1234&quot;],
+  URL_path: [&quot;about&quot;],
+  URL_query: { get: &quot;some&quot; },
+  URL_hash: &quot;today&quot;
 }
 </code></pre>
 <p>Ex2:</p>
@@ -565,11 +723,11 @@ high-level event handling.</p>
 </code></pre>
 <pre class="prettyprint source lang-js"><code>{
   URL: 'https://github.com/thi-ng/umbrella/#blog-posts',
-  subdomain: [],
-  domain: [&quot;github&quot;, &quot;com&quot;],
-  path: [&quot;thi-ng&quot;, &quot;umbrella&quot;],
-  query: {},
-  hash: &quot;blog-posts&quot;
+  URL_subdomain: [],
+  URL_domain: [&quot;github&quot;, &quot;com&quot;],
+  URL_path: [&quot;thi-ng&quot;, &quot;umbrella&quot;],
+  URL_query: {},
+  URL_hash: &quot;blog-posts&quot;
 }
 </code></pre>
 <p>Ex3:</p>
@@ -577,11 +735,11 @@ high-level event handling.</p>
 </code></pre>
 <pre class="prettyprint source lang-js"><code>{
   URL: 'https://very-long-sub.dom.cloud.eu/site/my/happy/',
-  subdomain: [&quot;very-long-sub&quot;, &quot;dom&quot;],
-  domain: [&quot;cloud&quot;, &quot;eu&quot;],
-  path: [&quot;site&quot;, &quot;my&quot;, &quot;happy&quot;],
-  query: {},
-  hash: &quot;&quot;
+  URL_subdomain: [&quot;very-long-sub&quot;, &quot;dom&quot;],
+  URL_domain: [&quot;cloud&quot;, &quot;eu&quot;],
+  URL_path: [&quot;site&quot;, &quot;my&quot;, &quot;happy&quot;],
+  URL_query: {},
+  URL_hash: &quot;&quot;
 }
 </code></pre>
 <p>Ex4:</p>
@@ -589,11 +747,11 @@ high-level event handling.</p>
 </code></pre>
 <pre class="prettyprint source lang-js"><code>{
   URL: &quot;https://api.census.gov/data?get=NAME&in=state:01&in=county:*&quot;,
-  subdomain: [&quot;api&quot;],
-  domain: [&quot;census&quot;, &quot;gov&quot;],
-  path: [&quot;data&quot;],
-  query: { get: &quot;NAME&quot;, in: [&quot;state:01&quot;, &quot;county:*&quot;] },
-  hash: &quot;&quot;
+  URL_subdomain: [&quot;api&quot;],
+  URL_domain: [&quot;census&quot;, &quot;gov&quot;],
+  URL_path: [&quot;data&quot;],
+  URL_query: { get: &quot;NAME&quot;, in: [&quot;state:01&quot;, &quot;county:*&quot;] },
+  URL_hash: &quot;&quot;
 }
 </code></pre>
 <p>Ex5:</p>
@@ -601,11 +759,11 @@ high-level event handling.</p>
 </code></pre>
 <pre class="prettyprint source lang-js"><code>{
   URL: &quot;/data?get=NAME&in=state#indeed&quot;,
-  subdomain: [],
-  domain: [],
-  path: [&quot;data&quot;],
-  query: { get: &quot;NAME&quot;, in: &quot;state&quot; },
-  hash: &quot;indeed&quot;
+  URL_subdomain: [],
+  URL_domain: [],
+  URL_path: [&quot;data&quot;],
+  URL_query: { get: &quot;NAME&quot;, in: &quot;state&quot; },
+  URL_hash: &quot;indeed&quot;
 }
 </code></pre>
   </div>
@@ -644,7 +802,7 @@ high-level event handling.</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="utils_parse_href.js.html">utils/parse_href.js</a>, <a href="utils_parse_href.js.html#line94">line 94</a>
+          <a href="utils_parse_URL.js.html">utils/parse_URL.js</a>, <a href="utils_parse_URL.js.html#line93">line 93</a>
         </li>
       </ul>
     </dd>
@@ -805,6 +963,75 @@ this makes it easier to create a switch statement using types</p>
         
             
 
+<h4 class="name" id="stringify_w_functions">
+  <span class="type-signature">(constant) </span>stringify_w_functions<span class="type-signature"></span>
+</h4>
+
+
+
+
+  <div class="description">
+    <p>Uses a JSON.stringify &quot;replacer&quot; function to preserve a
+small (truncated) version of the function signature for
+Object values that contain them</p>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="utils_unknownKey.js.html">utils/unknownKey.js</a>, <a href="utils_unknownKey.js.html#line6">line 6</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
 <h4 class="name" id="unknown_key_ERR">
   <span class="type-signature">(constant) </span>unknown_key_ERR<span class="type-signature"></span>
 </h4>
@@ -852,7 +1079,7 @@ that makes sure their keys don't contain typos</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="utils_unknown_key_ERR.js.html">utils/unknown_key_ERR.js</a>, <a href="utils_unknown_key_ERR.js.html#line32">line 32</a>
+          <a href="utils_unknownKey.js.html">utils/unknownKey.js</a>, <a href="utils_unknownKey.js.html#line46">line 46</a>
         </li>
       </ul>
     </dd>
@@ -874,103 +1101,6 @@ that makes sure their keys don't contain typos</p>
         
     
 
-    
-      <h3 class="subsection-title">Methods</h3>
-
-      
-        
-
-
-  
-
-  <span class='name-container'>
-    <a class="link-icon" href="#stringify_w_functions">
-      <svg height="20" width="20" style="fill: black;">
-        <use xlink:href="#linkIcon"></use>
-      </svg>
-    </a>
-    <h4 class="name" id="stringify_w_functions">
-      <span class="type-signature"></span>stringify_w_functions<span class="signature">()</span><span class="type-signature"></span>
-    </h4>
-  </span>
-
-  
-
-
-
-  <div class="description">
-    <p>Uses a JSON.stringify &quot;replacer&quot; function to preserve a
-small (truncated) version of the function signature for
-Object values that contain them</p>
-  </div>
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="utils_unknown_key_ERR.js.html">utils/unknown_key_ERR.js</a>, <a href="utils_unknown_key_ERR.js.html#line6">line 6</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
     
 
     

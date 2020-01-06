@@ -41,7 +41,6 @@ export const clickEventHandlerDOM = e => {
  * page in the global store
  *
  */
-
 export const _SET_PAGE_STATE = registerCMD({
   sub$: "_SET_PAGE_STATE",
   args: x => x,
@@ -62,7 +61,6 @@ export const _SET_PAGE_STATE = registerCMD({
  * Sets `route_loading` path in global Atom to true || false
  *
  */
-
 export const _SET_ROUTER_LOADING_STATE = registerCMD({
   sub$: "_SET_ROUTER_LOADING_STATE",
   args: true,
@@ -83,7 +81,6 @@ export const _SET_ROUTER_LOADING_STATE = registerCMD({
  * global Atom
  *
  */
-
 export const _SET_ROUTER_PATH = registerCMD({
   sub$: "_SET_ROUTER_PATH",
   args: x => x,
@@ -116,7 +113,6 @@ const setLinkAttrs = target => {
  * function
  *
  */
-
 export const _SET_LINK_ATTRS_DOM = registerCMD({
   sub$: "_SET_LINK_ATTRS_DOM",
   args: x => x,
@@ -137,7 +133,6 @@ export const _SET_LINK_ATTRS_DOM = registerCMD({
  * parsed URL from `parse_URL(URL)`) to the `history` object
  *
  */
-
 export const _HREF_PUSHSTATE_DOM = registerCMD({
   sub$: "_HREF_PUSHSTATE_DOM",
   args: x => x,
@@ -146,7 +141,7 @@ export const _HREF_PUSHSTATE_DOM = registerCMD({
 })
 
 /**
- * ## `_SET_ROUTER`
+ * ## `_NOTIFY_PRERENDER_DOM`
  *
  * ### Payload: static
  *
@@ -156,7 +151,6 @@ export const _HREF_PUSHSTATE_DOM = registerCMD({
  *
  *
  */
-
 export const _NOTIFY_PRERENDER_DOM = registerCMD({
   sub$: "_NOTIFY_PRERENDER_DOM",
   args: true,

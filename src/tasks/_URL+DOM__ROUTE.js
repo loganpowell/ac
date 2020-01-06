@@ -65,8 +65,8 @@ export const _URL_DOM__ROUTE = router => {
  * ```
  * ( router ) => ({ URL }) => [
  * - set `router_loading` path in global atom to `true`
- * - call provided router with the URL and await payload
- * - `parse_URL(URL)` for URL components
+ * - call provided `router` with the `URL` and await payload
+ * - `parse_URL(URL)` for `URL_*` components
  * - set `route_path` in global store/atom to current `URL_path`
  * - set page state (data, path & page component name) in store
  * - once promise(s) resolved, set `router_loading` to `false`

@@ -15,16 +15,14 @@ let fix_jsdoc
  * ```js
  * parse_href("http://localhost:1234/about?get=some#today")
  * ```
- *
- *
  * ```js
  * {
  *   URL: "http://localhost:1234/about?get=some#today",
- *   subdomain: [],
- *   domain: ["localhost:1234"],
- *   path: ["about"],
- *   query: { get: "some" },
- *   hash: "today"
+ *   URL_subdomain: [],
+ *   URL_domain: ["localhost:1234"],
+ *   URL_path: ["about"],
+ *   URL_query: { get: "some" },
+ *   URL_hash: "today"
  * }
  * ```
  *
@@ -35,11 +33,11 @@ let fix_jsdoc
  * ```js
  * {
  *   URL: 'https://github.com/thi-ng/umbrella/#blog-posts',
- *   subdomain: [],
- *   domain: ["github", "com"],
- *   path: ["thi-ng", "umbrella"],
- *   query: {},
- *   hash: "blog-posts"
+ *   URL_subdomain: [],
+ *   URL_domain: ["github", "com"],
+ *   URL_path: ["thi-ng", "umbrella"],
+ *   URL_query: {},
+ *   URL_hash: "blog-posts"
  * }
  * ```
  *
@@ -50,11 +48,11 @@ let fix_jsdoc
  * ```js
  * {
  *   URL: 'https://very-long-sub.dom.cloud.eu/site/my/happy/',
- *   subdomain: ["very-long-sub", "dom"],
- *   domain: ["cloud", "eu"],
- *   path: ["site", "my", "happy"],
- *   query: {},
- *   hash: ""
+ *   URL_subdomain: ["very-long-sub", "dom"],
+ *   URL_domain: ["cloud", "eu"],
+ *   URL_path: ["site", "my", "happy"],
+ *   URL_query: {},
+ *   URL_hash: ""
  * }
  * ```
  *
@@ -65,11 +63,11 @@ let fix_jsdoc
  * ```js
  * {
  *   URL: "https://api.census.gov/data?get=NAME&in=state:01&in=county:*",
- *   subdomain: ["api"],
- *   domain: ["census", "gov"],
- *   path: ["data"],
- *   query: { get: "NAME", in: ["state:01", "county:*"] },
- *   hash: ""
+ *   URL_subdomain: ["api"],
+ *   URL_domain: ["census", "gov"],
+ *   URL_path: ["data"],
+ *   URL_query: { get: "NAME", in: ["state:01", "county:*"] },
+ *   URL_hash: ""
  * }
  * ```
  *
@@ -80,11 +78,11 @@ let fix_jsdoc
  * ```js
  * {
  *   URL: "/data?get=NAME&in=state#indeed",
- *   subdomain: [],
- *   domain: [],
- *   path: ["data"],
- *   query: { get: "NAME", in: "state" },
- *   hash: "indeed"
+ *   URL_subdomain: [],
+ *   URL_domain: [],
+ *   URL_path: ["data"],
+ *   URL_query: { get: "NAME", in: "state" },
+ *   URL_hash: "indeed"
  * }
  * ```
  *

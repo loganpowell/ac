@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>
-      registerCMD - Documentation
+      Tasks - Documentation
   </title>
 
   <link href="https://www.braintreepayments.com/images/favicon-ccda0b14.png" rel="icon" type="image/png">
@@ -88,7 +88,7 @@
   <div id="main">
     
       <h1 class="page-title">
-        registerCMD
+        Tasks
       </h1>
     
 
@@ -125,88 +125,152 @@
         
             
 
-<h4 class="name" id=".registerCMD">
-  <span class="type-signature">(static, constant) </span>registerCMD<span class="type-signature"></span>
+<h4 class="name" id=".spool">
+  <span class="type-signature">(static, constant) </span>spool<span class="type-signature"></span>
 </h4>
 
 
 
 
   <div class="description">
-    <h2><code>registerCMD</code></h2>
-<p>Takes a Command object with some additional information
-and returns a Command usable in a Task or as-is. This
-also serves the additional benefit of giving the user a
-constant to use instead of making any typos in keys
-during use.</p>
-<h3>Destructuring Behavior</h3>
-<p>During a <code>sub$</code> registration, the keys in the Command
-object are used to determine the signature of incoming
-Commands. In order to reduce the amount of boilerplate
-for Commands that only contain the <code>sub$</code> and <code>args</code> key,
-the <code>args</code> key is
-<a href="https://github.com/thi-ng/umbrella/blob/master/packages/transducers/src/xform/pluck.ts">pluck</a>ed
-from the incoming Commands. This pulls the <code>args</code> value
-out from the incoming Command objects to be used directly
-(without the need for dstructuring).</p>
-<h3>Example</h3>
-<pre class="prettyprint source lang-js"><code>import { registerCMD, run$ } from &quot;🍎&quot;
-
-const cmd_pathless = {
-  sub$: &quot;PATHLESS&quot;,
-  args: { static: &quot;payload&quot; }
-}
-
-const pathless_handler = x => console.log(&quot;pathless ->&quot;, x)
-
-const CMD_PATHLESS = registerCMD(cmd_pathless, pathless_handler)
-
-run$.next(CMD_PATHLESS) // 🏃
-// pathless -> { static: 'payload' }
-
-const cmd_path = {
-  sub$: &quot;PATH&quot;,
-  args: { static: &quot;payload&quot; },
-  path: [&quot;default&quot;, &quot;path&quot;]
-}
-
-const path_handler = x => console.log(&quot;path ->&quot;, x)
-
-const CMD_PATH = registerCMD(cmd_path, path_handler)
-
-run$.next(CMD_PATH) // 🏃
-// path -> { args: { static: 'payload' }, path: [ 'default', 'path' ] }
-
-const test_pathless = {
-  sub$: &quot;PATHLESS&quot;,
-  args: &quot;🔥&quot;
-}
-
-run$.next(test_pathless) // 🏃
-// pathless -> &quot;🔥&quot;
-// as you can see, the Command args have been plucked out
-
-const test_path = {
-  sub$: &quot;PATH&quot;,
-  args: &quot;🌊&quot;,
-  path: [&quot;new&quot;, &quot;path&quot;]
-}
-
-run$.next(test_path) // 🏃
-// path -> { args: '🌊', path: [ 'new', 'path' ] }
-// only the sub$ entry has been removed leaving the rest
-
-// NOW: Let's stick these into a Task
-let TASK_1 = [
-  { ...CMD_PATH, path: &quot;overwritten&quot; },
-  CMD_PATHLESS,
-  { ...test_path, args: &quot;🍝&quot; }
+    <h2><code>spool</code></h2>
+<h3>TL;DR:</h3>
+<p>Handles Collections (array) of Commands (&quot;Tasks&quot;) which
+require <em>ordered</em> choreography and/or have a dependency
+on some (a)sync data produced by a user interaction.</p>
+<h3>Synopsis:</h3>
+<ul>
+<li>Async <code>reduce</code> function, that passes an accumulator
+(<code>acc</code>) as a local state container between Command
+invocations.</li>
+<li>Commands are composed in-situ in userland (Ad hoc)</li>
+<li>spools a collection of Commands as a Task</li>
+<li>resolves any promises contained within a Command</li>
+<li>passes an accumulator (acc) to subsequent Commands in a
+Task</li>
+</ul>
+<h3>Type checks on function signatures</h3>
+<p>There are two valid forms for Task entries:</p>
+<ol>
+<li>a Unary function returning an array of Commands:
+referred to as &quot;Subtasks&quot;</li>
+<li>A Command object: dispatch to registered handlers</li>
+</ol>
+<h2>Recognized Keys</h2>
+<p>There are 5 recognized keys for a Command object:</p>
+<h3>Primary keys</h3>
+<h5><code>sub$</code> key</h5>
+<ul>
+<li>Topic identifier: used for registering handlers hooked
+onto the Command stream.</li>
+</ul>
+<h5><code>args</code> key</h5>
+<ul>
+<li><strong>primary control structure</strong> with three recognized
+forms that do different things in the context of a
+Task:</li>
+<li>non-function <code>args</code> (primitives, objects) send the args
+as-is to the Command handler</li>
+<li>nullary fns (<code>(0)=&gt;</code> ) send the <em>args</em> as a Command to
+a <code>sub$</code> <em>stream</em> of your choosing (ADVANCED: see
+Ad-hoc Stream Injection below)</li>
+<li>unary fns (<code>(1)=&gt;</code>) are passed the inter-Task
+accumulated value, called and the resulting value is
+passed to registered Command handler</li>
+<li>Promises (and those returned from <code>(1)=&gt;</code>) are resolved
+and their values sent to the handler</li>
+<li>new vals (Objects) are merged with accumulated object
+from preceding Task results(dupe keys overwritten)</li>
+</ul>
+<h3>Promise-specific keys -&gt; binary (as in two parameter,</h3>
+<p>not boolean) functions:</p>
+<h5><code>reso</code> key</h5>
+<ul>
+<li>(resolving) function <code>(2)=&gt;</code> = handle resolved
+promises: MUST be a binary fn <code>(acc, resolved Promise) =&gt;</code></li>
+</ul>
+<h5><code>erro</code> key</h5>
+<ul>
+<li><code>(2)=&gt;</code> = handle rejected promises: MUST be
+a binary fn <code>(acc, Promise rejection) =&gt;</code></li>
+</ul>
+<h3>Subtasks:</h3>
+<p>Subtasks are the way you compose tasks. Insert a Task and
+the spool will unpack it in place (super -&gt; sub
+order preserved) A Subtask must be defined as a unary
+function that accepts an accumulator object and returns a
+Task, e.g.:</p>
+<h4>PSEUDO</h4>
+<pre class="prettyprint source lang-js"><code>// { C: Command }
+// ( { A: Accumulator }: Object ) => [{C},{C}]: Subtask
+let someSubtask = ({A}) => [{C}, {C}, ({A})=>[{C},{C}], ...]
+</code></pre>
+<h4>Example</h4>
+<pre class="prettyprint source lang-js"><code>// subtask example:
+let subtask1 = acc => [
+ { sub$: &quot;acc&quot;
+ , args: { data: acc.data } },
+ { sub$: &quot;route&quot;
+ , args: { route: { href: acc.href } } }
 ]
-run$.next(TASK_1)
-// path -> { args: { static: 'payload' }, path: 'overwritten' }
-// pathless -> { static: 'payload' }
-// path -> { args: '🍝', path: [ 'new', 'path' ] }
 
+// task
+let task = [
+ { args: { href: &quot;https://my.io/todos&quot; } }, // acc init
+ { sub$: &quot;fetch&quot;
+ , args: ({ href }) => fetch(href).then(r => r.json())
+ , erro: (acc, err) => ({ sub$: &quot;cancel&quot;, args: err })
+ , reso: (acc, res) => ({ data: res }) },
+ acc => subtask1(acc), // subtask reference
+ { sub$: &quot;FLIP&quot; , args: &quot;done&quot; }
+]
+
+</code></pre>
+<h4>Use:</h4>
+<pre class="prettyprint source lang-js"><code>import { run$ } from &quot;hurl&quot;
+
+export const run = e => run$.next(e);
+
+//... 📌 TODO...
+</code></pre>
+<h3>Ad-hoc stream injection</h3>
+<p>ADVANCED USE ONLY 👽</p>
+<p>HURL tries to hide the stream implentation from the user
+as much as possible, but allows you to go further down
+the rabbit hole if so desired. You may send Commands to a
+separate stream of your own creation during a Task by
+using a nullary (&quot;thunk&quot;) <code>(0)=&gt;</code> function signature as
+the <code>args</code> value of a Command. If this is the case, the
+spool assumes the <code>sub$</code> key references a stream and
+sends the return value of the thunk to that stream</p>
+<blockquote>
+<p>Note: if you need to pass the accumulator to your
+thunk, put it in a subtask, where you can
+access/destructure the data from the acc passed into the
+subtask function</p>
+</blockquote>
+<pre class="prettyprint source lang-js"><code>import { stream, trace } from &quot;@thi.ng/rstream&quot;
+
+// ad-hoc stream
+let login = stream().subscribe(trace(&quot;login ->&quot;))
+
+// task
+let task = [
+ { args: { href: &quot;https://my.io/auth&quot; } }, // &lt;- no sub$, just pass data
+ { sub$: login , args: () => &quot;logging in...&quot; },
+ { sub$: &quot;AUTH&quot;
+ , args: ({ href }) => fetch(href).then(r => r.json())
+ , erro: (acc, err) => ({ sub$: &quot;cancel&quot;, args: err })
+ , reso: (acc, res) => ({ token: res }) },
+ acc => subtask_login(acc),
+ { sub$: login , args: () => &quot;log in success&quot; }
+]
+
+// subtask
+let subtask_login = ({ token }) => [
+ { sub$: login // &lt;- stream
+ , args: () => ({ token }) } // &lt;- use acc
+]
 </code></pre>
   </div>
 
@@ -244,7 +308,7 @@ run$.next(TASK_1)
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="register_index.js.html">register/index.js</a>, <a href="register_index.js.html#line112">line 112</a>
+          <a href="spool_index.js.html">spool/index.js</a>, <a href="spool_index.js.html#line184">line 184</a>
         </li>
       </ul>
     </dd>

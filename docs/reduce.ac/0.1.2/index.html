@@ -82,7 +82,7 @@
       
     
 
-    <h3>Modules</h3><ul><li id="Task_Spooler-nav"><a href="module-Task_Spooler.html">Task_Spooler</a></li><li id="registerCMD-nav"><a href="module-registerCMD.html">registerCMD</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#hurl_dispatch">hurl_dispatch</a></li><li><a href="global.html#hurl_router">hurl_router</a></li><li><a href="global.html#register_router_BOM">register_router_BOM</a></li><li><a href="global.html#href_pushState">href_pushState</a></li><li><a href="global.html#route">route</a></li><li><a href="global.html#parse_href">parse_href</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#stringify_w_functions">stringify_w_functions</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
+    <h3>Modules</h3><ul><li id="registerCMD-nav"><a href="module-registerCMD.html">registerCMD</a></li><li id="Tasks-nav"><a href="module-Tasks.html">Tasks</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#_SET_PAGE_STATE">_SET_PAGE_STATE</a></li><li><a href="global.html#_SET_ROUTER_LOADING_STATE">_SET_ROUTER_LOADING_STATE</a></li><li><a href="global.html#_SET_ROUTER_PATH">_SET_ROUTER_PATH</a></li><li><a href="global.html#_SET_LINK_ATTRS_DOM">_SET_LINK_ATTRS_DOM</a></li><li><a href="global.html#_HREF_PUSHSTATE_DOM">_HREF_PUSHSTATE_DOM</a></li><li><a href="global.html#_NOTIFY_PRERENDER_DOM">_NOTIFY_PRERENDER_DOM</a></li><li><a href="global.html#_URL__ROUTE">_URL__ROUTE</a></li><li><a href="global.html#parse_URL">parse_URL</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#stringify_w_functions">stringify_w_functions</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
   </nav>
 
   <div id="main">
@@ -100,390 +100,336 @@
 
   <section class="readme">
     <article>
-      <h1>reduce.ac: A framework over <a href="http://thi.ng/umbrella">@thi.ng/umbrella</a></h1>
-<p>Framework components:</p>
+      <h2>Outline</h2>
 <ul>
-<li>An event-stream based (translucent) web app framework covering architectural needs such as:
+<li>Intro:
 <ul>
-<li>universal (browser/server) routing</li>
-<li></li>
+<li>Data-oriented javascript framework built from <a href="http://thi.ng/umbrella">@thi.ng/umbrella</a> libraries</li>
+<li>Other frameworks:
+<ul>
+<li>too much boilerplate</li>
+<li>too much context switching when adding functionality (directory duck duck goose)</li>
+<li>large API surface areas</li>
+<li>Poor <a href="">&quot;reasonaboutability&quot;</a></li>
 </ul>
 </li>
+<li>This is simpler:
+<ul>
+<li>upstream (producers) &amp;&amp; downstream (consumers)</li>
+<li>async is built in (no middleware required)</li>
+<li>Elm/Flux inspired uni-directional data flow
+<ul>
+<li>via <a href="">FRP</a> under the hood</li>
+<li>direct stream participation opt-in only- i.e., not necessary for common needs</li>
 </ul>
-<h2>Design Goals</h2>
-<ul>
-<li>uses pattern matching for routing</li>
-<li>agnostic to where the user enters the app</li>
-<li>deeplinks are supported via &quot;intelligent hydration&quot;</li>
-<li>Not coupled to rendering/view, it's &quot;just data&quot; (mostly)</li>
-</ul>
-<h3>Pattern Matching</h3>
-<ul>
-<li>Uses <code>@thi.ng/associative</code> <code>EquivMap</code> for pattern matching</li>
-</ul>
-<h4>Examples</h4>
-<p>Simple path:
-paths are represented as an ordered list (Array)</p>
-<pre class="prettyprint source"><code>URL: https://example.com/parent/child
-
-parses to:
-{ path: [parent, child] }
-</code></pre>
-<p>Path with params:
-params are represented as an EquivMap (key, value pairs)</p>
-<pre class="prettyprint source"><code>URL: https://example.com/parent/child?query=just+for+looks
-
-parses to:
-{ path: [parent, child], params: {query: &quot;just for looks&quot;} }
-</code></pre>
-<h3>Intelligent Hydration</h3>
-<p>There are a number of ways a user may enter a web app:</p>
-<ol>
-<li>from the home page (e.g., <code>/</code>)</li>
-<li>from a deeplink (e.g., <code>/parent/child</code>): via shared link or bookmark</li>
-<li>through a link from another page within the same app (e.g., <code>./child</code>)</li>
-</ol>
-<p><code>hurl</code> intercepts both direct links and click events on link elements and runs through this decision-tree:</p>
-<ol>
-<li>if it's a relative link (from within the app) it concats a lens from the current path with the relative one</li>
-<li>if it's a direct link from outside (e.g., a shared link), it requests the state needed to build the page (See &quot;Hydration Strategy&quot;)</li>
-<li>if it's an absolute link from within the app, it diffs the current path with the new one to only request the needed (additional) state</li>
-</ol>
-<h4>Examples:</h4>
-<p>Basic dispatch on pattern:</p>
-<pre class="prettyprint source lang-js"><code>import { EquivMap } from &quot;@thi.ng/associative&quot;
-import * as P from &quot;@thi.ng/paths&quot;
-import { Home, Parent, Child, Four0Four } from &quot;./specs&quot; // cursor+spec components
-
-let route_match = args => {
-  let { path, params } = parse_URL(args) // TDB
-  return new EquivMap([
-    [{path: [&quot;&quot;]}, Home],
-    [{path: [&quot;parent&quot;], params }, Parent()(params)],
-    [{path: [&quot;parent&quot;, &quot;child&quot;], params }, Parent(Child)(params)],
-  ]).get(parse_URL(args) || Four0Four(path, params)
-}
-// browser
-history.addListener(&quot;popState&quot;, (a, b, c) => TBD(a, b)(route_match(c)))
-
-</code></pre>
-<h4>Hydration Strategy</h4>
-<p><code>hurl</code> follows the principle of &quot;view as a function of state&quot;, but gives you the means by which to construct your view from the URL</p>
-<p>There are a few elements that come into play here:</p>
-<ol>
-<li>At the root of the app a URL listener is registered</li>
-<li>This is a bi-directional listener, i.e., changes/entries into the URL trigger events and events can trigger changes/entries to the URL</li>
-<li>The URL is the &quot;command center&quot; for all lower-level logic (the logic hub)</li>
-<li>Pattern matching is used to determine what logic is deployed based on the path and params</li>
-<li>Patterns are associated with functions that are completely naive (and probably composed of) from de-coupled/independent functionality</li>
-<li>Each path is associated with a lens into a global App state</li>
-</ol>
-<h3>Global App State</h3>
-<p>The global application state is a <code>@thi.ng/atom</code>, which has a number of useful features we'll need to implement the intelligent hydration</p>
-<ol>
-<li>Atom can be immutably manipulated via lensed &quot;cursors&quot; (paths) into the data structure</li>
-<li>Any changes made to the Atom can trigger events (bi-directionality functionality) to subscribers/consumers of the Atom</li>
-<li>Derived views can be made on top of the atom, which provide a read-only view of the data. This will be where we instrument our views/rendering functionality</li>
-</ol>
-<p>In order to implement the intelligent hydration, the app state needs to be able to make remote resource requests for data in order to fullfil any views, which require such data.</p>
-<p>Say the user gets a shared link from one of her friends to: https://example.com/parent/child. Here's what happens:</p>
-<ol>
-<li>The URL listener gets the path: [parent, child]</li>
-<li>a dispatcher looks for data within the global Atom associated with that path</li>
-<li>if the data is not empty or <code>null</code> (non falsy), that data is presented (i.e., the state is already hydrated, probably from earlier navigation/service worker cache)</li>
-<li>if the data is falsy, the pattern associated with that path can make the necessary resource requests to hydrate the atom to fulfill the view</li>
-</ol>
-<p>Hence, the Pattern matching functionality here is the hub of the logic, implementing:</p>
-<ol>
-<li>route matches</li>
-<li>resource requirements and fetching arguments (which might also be contained in the URL as params) for the route</li>
-<li>any view that is associated with that path</li>
-</ol>
-<h2>Views</h2>
-<p>It's up to the dev to decide what to do with the data. This is completely agnostic.</p>
-<p>The way this could be implemented with <code>@thi.ng/hdom</code> is as follows:</p>
-<ul>
-<li>use <code>deeptransform</code> transducer, which takes an <code>hdom</code> &quot;spec&quot; and applies it to the data</li>
-</ul>
-<h2>Route/View Transitions</h2>
-<p>The router can also be stateful. Consider a user which transitions between two routes with significantly different layouts/views. It would be nice if these transitions would be animated to make them less &quot;janky&quot;. I.e., we can keep track of the rendering of the views and record the location of the previous components. Once a user initiates a transition, the diff between the previous and new views can be used to instrument a FLIP transition animation between components/elements that exist on both states and a disolve/fade transition can be applied to the elements leaving/entering between frames.</p>
-<p>Instead of applying this transducer to the actual view (hdom), we would only record the actual rendered position of the last frame (lazily) and attach it to the state/Atom of the previous state, then use that state to calculate the styles for the next view and attach it as styles to the new view. Each state treated as a single element within a collection of TBD state (frame) items. This should be done either via <code>id</code> or a <code>class</code> that specifies such tracking should be &quot;turned on&quot; to instrument the animation calculation efficiently (i.e., not on every element naively)</p>
-<p>This can be implemented by dynamically adorning the deeptransform <code>spec</code>s with the needed styles to be deployed on an ad-hoc basis (dynamic render spec formulation/instrumentation)</p>
-<p>This the components of this part are as follows:</p>
-<ol start="0">
-<li>router as a dynamic dispatch function based on pattern recognition</li>
-<li>page states as elements of a collection of routing states</li>
-<li>stateful transducer that formulates the next view 'spec' based on a static/config spec and some dynamic FLIP calcuations (consider <code>@thi.ng/transducers-fsm</code>)</li>
-<li>spec application to page state (data separated from view)</li>
-<li>view rendering and animation via specs</li>
-</ol>
-<h2>API-first Design</h2>
-<p>With this design, the web app could be instrumented so that by &quot;flipping a switch&quot; (e.g., via prepending <code>api</code> -&gt; https://api.example.com/parent/child), the raw/JSON data view could be shown instead of the rendered markup.</p>
-<p>The pattern matching for this could be as easy as creating one pattern matching function that responds to routes after the base URL and then - a super ordinate - pattern match that (depending on whether or not <code>api</code> is prepended) renders either the hdom components or just returns JSON data (without specs applied)</p>
-<h2>Benefits and Trade-offs</h2>
-<h3>Trade-offs</h3>
-<ol>
-<li>This design requires more forethought in design of an application as the rendered view is the last step in the process, whereas - in a conventional web app design - you may start &quot;with the end in mind&quot; (i.e., views) and work your way up to the logic</li>
-<li>This design is more difficult than an ad-hoc design pipeline and may lend itself less to a conventional design -&gt; implementation workflow (with the respective division of labor between them). I.e., the rendered view needs to be intimately &quot;aware&quot; of the data structure (not the other way around).</li>
-</ol>
-<h3>Benefits</h3>
-<ol>
-<li>This is a de-coupled approach to web app architecture; it avails itself as both a purely data-oriented approach (and thus agnostic to whether or not the data is precalculated from remote servers or dynamically accumulated via user-initiated client-side event streams</li>
-<li>Since the view is rather superficially applied to the state/data, it can be imagined that one might target alternative rendering targets (via alternative &quot;specs&quot;) with the same routing/data-hydration architecture (e.g., web, mobile-native, smart-watch, IOT, etc.)</li>
-</ol>
-<h4><a href="https://loganpowell.github.io/hurl/hurl/0.1.0/">Documentation Site</a></h4>
-<p>Documentation generated from markdown comments in source powered by <a href="https://www.npmjs.com/package/jsdoc"><code>jsdoc</code></a>  with jsdoc's <code>&quot;plugins/markdown&quot;</code></p>
-<p>Template from <a href="https://braintree.github.io/">Braintree</a>'s <a href="https://github.com/braintree/jsdoc-template"><code>jsdoc-template</code></a></p>
-<p>Setup can be a bit confusing, so I create a <a href="https://gist.github.com/loganpowell/62b8e06a8a6b38540e6268fc2048f5ee">gist</a> as a sort of note to self, but you may also find it useful if you like the docs of this site.</p>
-<pre class="prettyprint source"><code>
- 888-~88e  e88~~8e  Y88b    e    / 
- 888  888 d888  88b  Y88b  d8b  /  
- 888  888 8888__888   Y888/Y88b/   
- 888  888 Y888    ,    Y8/  Y8/    
- 888  888  &quot;88___/      Y    Y     
-                                   
-</code></pre>
-<h1>Cascade</h1>
-<h2>Stated Cascade Unidirectional Rendering</h2>
-<p>Order of execution:</p>
-<ol>
-<li>Any async data gathering/transformation happens pre-state update</li>
-<li>All rendering/presentation-oriented feature is a function of state (direct or derived)</li>
-</ol>
-<p>Diagram:</p>
-<p>0: Setup -&gt; register cursors on global state for various components
-⬇
-1: Prep -&gt; any data gathering / xformation
-⬇
-2: State Update -&gt; manipulation of global state Atom
-⬇
-3: State Stream -&gt; downstream state updates to registered components
-⬇
-4: Render (RAF) sidechain -&gt; new view is rendered based on updated state</p>
-<hr>
-<h2>Lexing (Compile Time)</h2>
-<p>ARCH: (ctx) =&gt; (ctx.state_stream.deref(), ctx.trigger_stream.next({🤔}), )
-|- === === read === === -| |- === === write === === -|</p>
-<h3>Example components (powered downstream from state updates):</h3>
-<ul>
-<li>URL
-<ul>
-<li>state_stream</li>
-<li>state_stream.subscribeTopic([&quot;router&quot;]
-<ul>
-<li>render</li>
+</li>
+<li>Complex asynchronous action coreography is handled for the user by the framework</li>
+<li>Learning curve is basically five function signatures (within Tasks, more later)</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>DATA<head>
-- state_stream
-  - render
-<body>
-- state_stream
-  - render
-</li>
 </ul>
-<h3>Example triggers (powered upstream to state)</h3>
 <ul>
-<li><code>addeventlistener</code>s
+<li>IMAGE(s) of a socket and a light switch. You plug in a light and turn it on with a switch...</li>
+</ul>
 <ul>
-<li><code>popstate</code>
-<ul>
-<li>cursor_popstate = cursor([&quot;router], DB)</li>
-<li>trigger_stream.subscribe(&quot;route&quot;, x =&gt; cursor_popstate.reset(y =&gt; y = x))</li>
+<li>♻ Framework Architecture</li>
 </ul>
-</li>
-<li><code>DOMContentLoaded</code>
-<ul>
-<li>cursor_styles = cursor([&quot;styles&quot;], DB)</li>
-<li>trigger_stream.subscribe(&quot;styles&quot;, x =&gt; cursor_styles.reset(y =&gt; y = x))</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>UI interactions (dispatch)
-<ul>
-<li>trigger_stream.next({}) -&gt; inject event from <code>ctx</code></li>
-</ul>
-</li>
-</ul>
-<h4>0: Setup</h4>
-<p>Register UI components on global state Atom as cursors, which both provide a <code>deref</code>able view of global state and its registered components</p>
-<h3>Triggers are transducers that are composed on the fly (runtime)</h3>
-<p>Triggers that are composed into an array are invoked on a substream (using R.invoker?) one step at a time. This allows the user to cancel the entire stream via (e.g., during loading of the steps) <code>triggers.cancel()</code> to terminate the entire subprocess before it completes.</p>
-<p>An array of triggers spins up a <code>transducers-fsm</code> state machine, that controls the passing of values between triggers and emits values to the <code>triggers.next</code> stream with these conditions:</p>
-<ul>
-<li>if event contains <code>resolve</code> key: resolve promise then</li>
-<li>if <code>payload</code> type === &quot;function&quot;: use fsm state ({ state: &quot;pass&quot;, payload: [result of function]</li>
-</ul>
-<p>Canceling can either be explicitly injected with <code>triggers.cancel()</code> or can</p>
-<p>🌊 All pending state updates are batched and send in a single <code>transaction</code> at the end of the sequence</p>
-<h4>Signature:</h4>
-<pre class="prettyprint source lang-js"><code>// Higher Order Trigger (used in-situ)
-let prefetch_link = (ctx, ev) => {
-  ev.preventDefault()
-
-  if (window.location.href === ev.target.href) return // one way of handling noops
-  
-  // single event object just directly pushes to the triggers stream in the stream xf
-  // first set state.loading = true
-  ctx.run.next({
-    sub: &quot;state&quot;,
-    path: [&quot;body&quot;, &quot;loading&quot;]
-    payload: true
-  })
-
-  // an array triggers the fsm to pass data between events and batch state updates 
-  // run/batch up a sequence of events
-  ctx.run.next([
-    {
-      sub: &quot;init&quot;, // sets initial state of FSM
-      args: local_state => local_state[&quot;href&quot;] = ev.target.href
-    },
-    {
-      sub: &quot;filter&quot;, // another way to handle noops -> only emit if passes predicate 
-      args: ({ href }) => window.location.href !== href
-    },
-    {
-      // if the xf returns a promise, it is resolved before passing
-      sub: &quot;promise&quot;, 
-      args: ({ href }) => fetch(&quot;something&quot; + parse_hurl(href)[&quot;path&quot;]),
-      // splitting behavior
-      // dispatch to next (invoker .next triggers)
-      then: local_state => local_state[&quot;data&quot;] = r.json(),
-      // dispatched to alternative stream (invoker .next errors) and triggers.cancel()
-      catch: () => ({ sub: &quot;cancel&quot; args: e })
-      }
-    },
-    {
-      sub: &quot;refer&quot;,
-      args: ({ data }) => route(data, ev.target.href)
-    }
-  ]) 
-}
-
-// Lower Order Trigger (on triggers.next(&quot;route&quot;) )
-let route = (data, href) => [
-  {
-    sub: &quot;init&quot;,
-    args: local_state => local_state[&quot;init&quot;] = href
-  },
-  {
-    sub: &quot;FLIP&quot;, 
-    // options (1): https://github.com/davidkpiano/flipping#new-flippingoptions
-    // options (2): https://github.com/aholachek/react-flip-toolkit/tree/7382f9380200f5a85296621db852ea2513cc5eec/packages/flip-toolkit
-    args: &quot;start&quot; || { opts } // just use the default (empty) new Flipping() 
-  },
-  {
-    sub: &quot;state&quot;,
-    path: [&quot;head&quot;],
-    // 📌 have to create a function that generates/overwrites these defaults...
-    args: {
-      title: `Hyperlocals ${search && &quot;Search Results for: &quot; + search}`,
-      &quot;og:description&quot;: &quot;social media for people who hate social media&quot;,
-      &quot;og:type&quot;: &quot;website&quot;,
-      &quot;og:url&quot;: href,
-      &quot;og:image&quot;: pic,
-      &quot;og:image:width&quot;: 1200,
-      &quot;og:image:height&quot;: 1200
-    }
-  },
-  {
-    id: &quot;state&quot;,
-    path: [&quot;body&quot;, &quot;content&quot;],
-    args: data,
-  },
-  {
-    id: &quot;state&quot;,
-    path: [&quot;body&quot;, &quot;loading&quot;],
-    args: false
-  },
-  {
-    id: &quot;state&quot;,
-    path: [&quot;route&quot;]
-    args: { state: parse_URL(href), href }
-  },
-  {
-    id: &quot;pushstate&quot;,
-    args: { state: parse_URL(href), href }
-  },
-  {
-    id: &quot;FLIP&quot;,
-    args: &quot;end&quot;
-  }
-]
-</code></pre>
-<h2>PubSub Dispatcher</h2>
-<p>The dispatching function is an <code>thi.ng/rstream</code> <code>pubsub</code> instance, which is dispatched to with an asyncronous reduction:</p>
-<pre class="prettyprint source lang-js"><code>
-
-</code></pre>
-<h2>DOM listeners</h2>
-<p>DOM listeners are registered to the triggers stream as well and can be used to inject events into the stream.</p>
-<p>Examples:</p>
-<ul>
-<li>if navigation is executed during <code>[&quot;body&quot;, &quot;loading&quot;] === true</code>, user cancels any pending events in the stream with <code>triggers.cancel()</code>,</li>
-</ul>
-<h2>if any higher order triggers are aliases for lower-order triggers, the lower-order triggers are unwrapped and applied in place of their higher-order alias before emitting event through first higher-order trigger</h2>
-<h2>Parsing (Runtime)</h2>
-<h3>1: Prep</h3>
-<p>Any function that seeks to change the UI</p>
-<pre class="prettyprint source"><code>                                          
-  888-~88e-~88e  e88~-_  888-~\  e88~~8e  
-  888  888  888 d888   i 888    d888  88b 
-  888  888  888 8888   | 888    8888__888 
-  888  888  888 Y888   ' 888    Y888    , 
-  888  888  888  &quot;88_-~  888     &quot;88___/  
-                                          
-</code></pre>
-<p>inspired by the elm-architecture</p>
+<h3>Command Keys</h3>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+<th>Role(s)</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sub$</code></td>
+<td>String</td>
+<td>Topic ID: connects Command to handler</td>
+<td>[DP]/[RG]</td>
+</tr>
+<tr>
+<td><code>args</code></td>
+<td>Any</td>
+<td>Payload or payload function</td>
+<td>[AH]</td>
+</tr>
+<tr>
+<td><code>path</code></td>
+<td>Any</td>
+<td>Lens for global state evolution</td>
+<td>[ST]</td>
+</tr>
+<tr>
+<td><code>handler</code></td>
+<td>Function</td>
+<td>Dispatches on Command (side effects)</td>
+<td>[RG]</td>
+</tr>
+<tr>
+<td><code>source$</code></td>
+<td>Stream</td>
+<td>Upstream Command &quot;Feeder&quot;</td>
+<td>[AH]</td>
+</tr>
+<tr>
+<td><code>reso</code></td>
+<td>Function</td>
+<td>Promise resolution handler</td>
+<td>[PR]</td>
+</tr>
+<tr>
+<td><code>erro</code></td>
+<td>Function</td>
+<td>Promise rejection handler</td>
+<td>[PR]</td>
+</tr>
+</tbody>
+</table>
+<h5>RG: Command <em>Registration</em></h5>
+<h5>DP: Command <em>Dispatch</em></h5>
+<h5>PR: Commands Containing <em>Promises</em> (during dispatch)</h5>
+<h5>AH: <em>Ad-hoc</em> Configuration of Command Dispatch</h5>
+<h5>ST: Global <em>State</em> evolution (lens)</h5>
+<p><a href="">lensed</a></p>
+<h3>Symbols Glossary</h3>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>(#) =&gt;</code></td>
+<td>[function with <code>#</code> (number) parameters]</td>
+</tr>
+<tr>
+<td><code>PRI</code></td>
+<td>Primitive value (boolean, string, number)</td>
+</tr>
+<tr>
+<td><code>{?}</code></td>
+<td>Object</td>
+</tr>
+<tr>
+<td><code>{P}</code></td>
+<td>Promise</td>
+</tr>
+<tr>
+<td><code>{C}</code></td>
+<td>[Command object]</td>
+</tr>
+<tr>
+<td><code>{A}</code></td>
+<td>[Accumulator object]</td>
+</tr>
+<tr>
+<td><code>[{C},{C}]</code> / <code>[T]</code></td>
+<td>[Task array]</td>
+</tr>
+<tr>
+<td><code>(A) =&gt; [T]</code></td>
+<td>[Subtask]</td>
+</tr>
+</tbody>
+</table>
+<p><a href="#intra-task-accumulator">function with <code>#</code> (number) parameters</a>
+<a href="#commands">Command object</a><br>
+<a href="#intra-task-accumulator">Accumulator object</a><br>
+<a href="#tasks">Task array</a><br>
+<a href="#subtasks">Subtask</a></p>
 <ul>
 <li>
-<p>messages / commands -&gt; (event stream) can contain:</p>
+<p>Commands</p>
+</li>
+<li>
+<p>Tasks</p>
+</li>
+<li>
+<p>Subtasks</p>
+</li>
+<li>
+<p>Intra-Task Accumulator</p>
 <ul>
-<li>a single update command:
-{
-path: ['lens', 'to', 'junk'],
-payload: ...whatevs...,
-...tbd
-}</li>
-<li>a transaction command (<code>state_stream is written to as an</code>@thi.ng/Atom.transaction`):
-[
-{
-path: ['first', 'path'],
-payload: { first: 'payload'},
-},
-{
-path: ['second', 'path'],
-payload: { second: 'payload' }
-}
-]</li>
-<li>any functionality needed for async is done at call site (for deterministic state mgmt)
+<li>Cross-platform router</li>
+<li>❤ Data &quot;adornment&quot; (Google Doc -&gt; revise it) TABLE
+<ol>
+<li>First order UI =&gt; URL</li>
+<li>Second order UI =&gt; Data</li>
+<li>Third order UI =&gt; Streams of events &amp; data</li>
+<li>Fourth order UI =&gt; Componentization (<a href="https://github.com/thi-ng/umbrella/blob/a02d7b1dbea4e4a294d238af108d23ec831c1981/packages/transducers/src/func/deep-transform.ts">@thi.ng/hdom</a> <code>spec</code>)</li>
+<li>Fith order UI =&gt; component styling (styled-system-hdom)</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>
+<p>streams (FRP Architecture)</p>
 <ul>
-<li>can be lifted into a util if concern is cross-cutting</li>
-<li>the command with the functions powering the state/path updates may also be encapsulated as modules and used across multiple components for even greater reuse with the advantage of organizing state (consider importing all such modules into the creation of initial Atom for path 'registration'</li>
+<li>marble diagram</li>
+<li>built-ins (exposed):
+<ul>
+<li><code>run$</code></li>
+<li><code>out$</code></li>
+</ul>
+</li>
+<li>built-ins (under the hood):
+<ul>
+<li><code>task$</code></li>
+<li><code>command$</code></li>
+</ul>
+</li>
+<li>ad-hoc stream attachments
+<ul>
+<li>SEE ADVANCED SECTION BELOW...</li>
 </ul>
 </li>
 </ul>
 </li>
 <li>
-<p>state -&gt; (atom) store for write/read intersection:</p>
+<p>Commands (synchronous payloads)</p>
 <ul>
-<li>central &quot;update&quot; dispatcher (from elm)</li>
-<li>subscribes to <code>event_stream</code> and allows immutable updates to state using the <code>path</code> and <code>payload</code> of the event.dispatching mech can be:
+<li>primary keys: (TABLE)
 <ul>
-<li>an <code>@thi.ng/EquivMap</code> if you want to use the raw (array-based) path</li>
-<li>take the array and turn it into a dot-string for matching on a regular es6 Map</li>
-<li>take the actual path and use it with <code>@thi.ng/paths</code> for immutable updates to the central store/Atom</li>
+<li><code>sub$</code>: a Topic key for for registering the event</li>
+<li><code>args</code>: arguments for the handler of the event</li>
+<li><code>path</code>: path/lens for targeted state evolution</li>
 </ul>
 </li>
-<li>dispatches events for view update on a separate <code>state_stream</code> (read only)</li>
-<li>state stream is subscribed to from all <code>view</code>s (can be derived views of the atom</li>
+<li>built-ins
+<ul>
+<li>State Evolution: <code>sub$: &quot;STATE&quot;</code>
+<ul>
+<li>this is where the <code>path</code> key comes into play</li>
+</ul>
+</li>
+<li>Routing: <code>sub$: &quot;ROUTE&quot;</code> (see &quot;Routing&quot; section below)</li>
+<li><a href="">FLIP</a> Animations: <code>sub$: &quot;FLIP&quot;</code></li>
+</ul>
+</li>
+<li>Command Registration
+<ul>
+<li>during registration of a Command, you will only need the primary keys
+<ul>
+<li><code>sub$</code>: Topic key for for registering the event</li>
+<li><code>args</code>: payload (static only) of the event</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>
-<h2>view (hdom component/s)</h2>
+<p>Tasks (ordered Command dispatch 💃 asynchronous payloads!)</p>
+<ul>
+<li>A Task is just an array of Commands, but with some special features:
+<ul>
+<li>pass data between Commands within a task</li>
+<li>use Promises (async) in a Command</li>
+<li>(de)compose a Task into/from Subtasks</li>
+</ul>
+</li>
+<li>w/in a Task, dispatcher recognizes two additional keys for dealing with Promises:
+<ul>
+<li><code>reso</code>: used for handling resolved Promise args</li>
+<li><code>erro</code>: used for handling rejected Promise args</li>
+</ul>
+</li>
+<li>dispatcher
+<ul>
+<li>composition of Commands</li>
+<li>&quot;Command <code>args</code> threading&quot;</li>
+<li><code>args</code> signature dynamic dispatch:
+<ul>
+<li>Functions</li>
+<li>Objects</li>
+<li>Strings|Booleans</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>forms:
+<ul>
+<li>formulaic tasks (no outside input)</li>
+<li>subtasks (outside input)
+<ul>
+<li>compose into higher-order tasks or</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>subtasks</p>
+</li>
+<li>
+<p>Routing</p>
+<ul>
+<li>combine browser API instigated (&quot;popstate&quot;, &quot;DOMContentLoaded&quot;) with user-invoked stream emissions</li>
+<li>registered the <code>sub$: &quot;ROUTE&quot;</code> Command</li>
+<li><code>route_cfg</code> Object (TABLE)
+<ul>
+<li>a <a href="http://thi.ng/associative">@thi.ng/associative</a> <code>EquivMap</code> pattern matcher</li>
+<li>see [LINK TO DOCS IN CODE CONTEXT 📌 TODO]</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Naming Conventions:</p>
+<ul>
+<li>constants: <code>CAPITAL_SNAKE_CASE</code>
+<ul>
+<li>generally accepted convention for constants in JS</li>
+<li>used for defining Commands (as though they might cause
+side effects, their subscription names are constant -
+i.e., a signal for emphasising this aspect of a
+Command)</li>
+</ul>
+</li>
+<li>pure functions: <code>snake_case</code>
+<ul>
+<li>some novelty here due to pure functions acting like
+constants in that with the same input they always
+return the same output</li>
+</ul>
+</li>
+<li>impure functions: <code>camelCase</code>
+<ul>
+<li>regular side-effecty JS</li>
+</ul>
+</li>
+<li>Tasks: <code>DOUBLE__UNDERSCORE__SNAKE__CASE</code>
+<ul>
+<li>implies the inputs and outputs on either end of a Task</li>
+<li>Tasks also should be treated as pure functions where
+the output is really just data (and lambdas). This is
+going in the direction of &quot;code as data&quot;</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>lots'o'examples</p>
+</li>
+<li>
+<p>ADVANCED</p>
+<ul>
+<li>ad-hoc stream injection
+<ul>
+<li>nullary (thunk) in a Task</li>
+</ul>
+</li>
+<li><code>rendertron</code></li>
+</ul>
 </li>
 </ul>
     </article>
