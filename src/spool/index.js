@@ -49,7 +49,7 @@ let no_sub$_err = (c, i) =>
  *
  * ## Recognized Keys
  *
- * There are 5 recognized keys for a Command object:
+ * There are 4 recognized keys for a Command object:
  *
  * ### Primary keys
  *
@@ -262,7 +262,6 @@ export const spool = task_array =>
         result = resolved
       }
       console.warn(`no 'erro' (Error handler) set for ${c}`)
-      return
     }
     // no sub$ key & not a promise -> just spread into acc
     if (!reso && !sub$) return { ...acc, ...result }

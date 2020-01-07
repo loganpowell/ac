@@ -1,12 +1,13 @@
-// import { parse_URL, delay } from "../utils"
-import { parse_URL } from "../utils"
+import { parse_URL, msTaskDelay } from "../utils"
 import {
   _HREF_PUSHSTATE_DOM,
   _NOTIFY_PRERENDER_DOM,
   _SET_LINK_ATTRS_DOM,
   _SET_ROUTER_LOADING_STATE,
   _SET_ROUTER_PATH,
-  _SET_PAGE_STATE
+  _SET_PAGE_STATE,
+  _DOM__FLIP_F,
+  _FLIP_F__FLIP_L_DOM
 } from "../commands"
 // import { log$ } from "../streams"
 
@@ -40,12 +41,19 @@ export const _URL_DOM__ROUTE = router => {
   // Task signature is either a straight Array of Commands
   // or a function that returns an Array of Commands
   return ({ URL, DOM }) => [
+    { args: { DOM } },
+    // _DOM__FLIP_F,
     { ..._HREF_PUSHSTATE_DOM, args: { URL, DOM } },
     // example Subtask injection
     ({ URL }) => match({ URL }),
     // example ad-hoc stream injection
     // { sub$: log$, args: () => ({ DOM }) },
     { ..._SET_LINK_ATTRS_DOM, args: { DOM } },
+    // { args: requestAnimationFrame(() => {}) },
+    { args: msTaskDelay(200) },
+
+    // _FLIP_F__FLIP_L_DOM,
+
     // just use default args
     _NOTIFY_PRERENDER_DOM
   ]

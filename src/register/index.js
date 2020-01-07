@@ -112,7 +112,7 @@ const feedCMD$fromSource$ = ({ sub$, args, source$ }) => {
 export const registerCMD = command => {
   // 📌 TODO: register factory function
 
-  let { sub$, args, source$, handler, ...unknown } = command
+  let { sub$, args, erro, reso, source$, handler, ...unknown } = command
 
   /**
    * destructure the args component out of the emissions
@@ -131,7 +131,7 @@ export const registerCMD = command => {
     map(({ args }) => args)
   )
 
-  let CMD = { sub$, args }
+  let CMD = reso ? { sub$, args, reso, erro } : { sub$, args }
 
   return CMD
 }
@@ -141,15 +141,15 @@ export const registerRouterDOM = router => {
 
   const taskFrom = _URL_DOM__ROUTE(router)
   return registerCMD({
-    sub$: "_URL_NAVIGATED$_DOM",
     source$: DOMnavigated$,
+    sub$: "_URL_NAVIGATED$_DOM",
     args: x => x,
     handler: ({ URL, DOM }) => run$.next(taskFrom({ URL, DOM }))
   })
 }
 
 export const registerRouter = router => {
-  console.log("DOM Router Registered")
+  console.log("Router Registered")
 
   const taskFrom = _URL__ROUTE(router)
   return registerCMD({

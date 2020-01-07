@@ -21275,30 +21275,70 @@ const key_index_err = (c, i) => {
 
 exports.key_index_err = key_index_err;
 
-const unknown_key_ERR = (str, c, unknown, sub$, index) => `
+const unknown_key_ERR = (str, c, unknown, sub$, index) => {
+  let {
+    source$
+  } = c;
+  let count = Object.entries(c).length;
+  return `
+
   🔥 ${str} ERROR:
-  🔥
+  
   🔥 Unrecognized Command Key(s)
   
   FAULTY sub$: "${sub$}" 
-  ${Object.keys(unknown)[0] ? `
+  ${Object.keys(unknown)[0][0] ? `
   ${index ? key_index_err(c, index) : ""}
 
   The problematic entry/entries: 
 
-  🤔 ${stringify_w_functions(unknown, 2)}` : ""} 🤔
+  🤔 ${!index && count > 3 && !source$ ? `${Object.entries(unknown)[0][0]}: <Stream>` : stringify_w_functions(unknown, 2)}` : ""} 🤔
 
-  ACCEPTABLE ENTRY KEYS: 
-  - sub$: topic key for for registering & targeting Commands ${index ? `  
-  - args: payload for the handler of the Command  
-  - reso: converts resolved Promise payloads to Command args
-  - erro: handles rejected Promise payloads` : `
-  - args: static payload or payload reshaping function
-  - handler: function that is called on payload's arrival
-  - source$: source stream (see http://thi.ng/rstream)`}
+  ACCEPTABLE ENTRY KEYS ${index ? "WITHIN A COMMAND" : "DURING REGISTRATION"}: 
+
+  'sub$' 
+    - optional 
+    - topic key for for registering & targeting Commands 
+    - signatures:
+      - "X"    : String: Topic key
+      - XX$    : Stream: for dispatching args to custom stream
+
+  'args' 
+    - required 
+    - payload or accumulator reshaping payload function (Promises OK)
+    - signatures:
+      - PRI    : primitive: static payload -> is NOT accumulated
+      - {?}    : object: static payload -> is accumulated 
+      - (+) => : function (non-nullary): dispatch payload from 
+                values accumulated from prior Command payloads
+      - (0) => : thunk (nullary): dispatch to custom stream
+      - {P}    : Promise or (#) => {P} Promise returning function
+      
+  'reso' 
+    - required for Promise handling 
+    - converts resolved Promise payloads to Command args
+    - signature:
+      - ({A: accumulator}, {P: resolved Promise}) =>  
+
+  'erro' 
+    - recommended for Promise rejections 
+    - handles rejected Promise payloads
+    - signature:
+      - ({A: accumulator}, {E: error object}) =>  
+  ${index ? `` : `
+  'handler' 
+    - required 
+    - function that is called on payload's arrival
+    - signature: 
+      - (#) => : function instruments actual side-effects/work 
+  
+  'source$' 
+    - advanced/optional 
+    - source stream (see http://thi.ng/rstream)`}
 
   Hope that helps!
   `;
+};
 
 exports.unknown_key_ERR = unknown_key_ERR;
 },{}],"../src/utils/index.js":[function(require,module,exports) {
@@ -21426,7 +21466,7 @@ let no_sub$_err = (c, i) => console.warn(`
  *
  * ## Recognized Keys
  *
- * There are 5 recognized keys for a Command object:
+ * There are 4 recognized keys for a Command object:
  *
  * ### Primary keys
  *
@@ -21663,7 +21703,6 @@ const spool = task_array => task_array.reduce(async (a, c, i) => {
     }
 
     console.warn(`no 'erro' (Error handler) set for ${c}`);
-    return;
   } // no sub$ key & not a promise -> just spread into acc
 
 
@@ -21720,12 +21759,16 @@ var _transducers = require("@thi.ng/transducers");
 
 var _spool = require("../spool");
 
+var _utils = require("../utils");
+
 /**
  @module Streams
 */
 const log$ = (0, _rstream.stream)().subscribe((0, _rstream.trace)("log$ -> "), {
   id: "log$"
 });
+exports.log$ = log$;
+const err_str = "Command";
 /**
  * # Stream Architecture:
  *
@@ -21790,7 +21833,6 @@ const log$ = (0, _rstream.stream)().subscribe((0, _rstream.trace)("log$ -> "), {
  *
  */
 
-exports.log$ = log$;
 const run$ = (0, _rstream.pubsub)({
   topic: x => !!x.sub$,
   id: "run$_stream",
@@ -21877,7 +21919,7 @@ const DOMnavigated$ = (0, _rstream.merge)({
   DOM: x.currentTarget
 })));
 exports.DOMnavigated$ = DOMnavigated$;
-},{"@thi.ng/rstream":"../node_modules/@thi.ng/rstream/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js","../spool":"../src/spool/index.js"}],"../src/tasks/_URL+DOM__ROUTE.js":[function(require,module,exports) {
+},{"@thi.ng/rstream":"../node_modules/@thi.ng/rstream/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js","../spool":"../src/spool/index.js","../utils":"../src/utils/index.js"}],"../src/tasks/_URL+DOM__ROUTE.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21889,7 +21931,6 @@ var _utils = require("../utils");
 
 var _commands = require("../commands");
 
-// import { parse_URL, delay } from "../utils"
 // import { log$ } from "../streams"
 
 /**
@@ -21925,7 +21966,12 @@ const _URL_DOM__ROUTE = router => {
   return ({
     URL,
     DOM
-  }) => [{ ..._commands._HREF_PUSHSTATE_DOM,
+  }) => [{
+    args: {
+      DOM
+    }
+  }, // _DOM__FLIP_F,
+  { ..._commands._HREF_PUSHSTATE_DOM,
     args: {
       URL,
       DOM
@@ -21941,7 +21987,11 @@ const _URL_DOM__ROUTE = router => {
     args: {
       DOM
     }
-  }, // just use default args
+  }, // { args: requestAnimationFrame(() => {}) },
+  {
+    args: (0, _utils.msTaskDelay)(200)
+  }, // _FLIP_F__FLIP_L_DOM,
+  // just use default args
   _commands._NOTIFY_PRERENDER_DOM];
 };
 /**
@@ -22167,6 +22217,8 @@ const registerCMD = command => {
   let {
     sub$,
     args,
+    erro,
+    reso,
     source$,
     handler,
     ...unknown
@@ -22189,7 +22241,12 @@ const registerCMD = command => {
     args
   }) => args));
 
-  let CMD = {
+  let CMD = reso ? {
+    sub$,
+    args,
+    reso,
+    erro
+  } : {
     sub$,
     args
   };
@@ -22202,8 +22259,8 @@ const registerRouterDOM = router => {
   console.log("DOM Router Registered");
   const taskFrom = (0, _tasks._URL_DOM__ROUTE)(router);
   return registerCMD({
-    sub$: "_URL_NAVIGATED$_DOM",
     source$: _streams.DOMnavigated$,
+    sub$: "_URL_NAVIGATED$_DOM",
     args: x => x,
     handler: ({
       URL,
@@ -22218,7 +22275,7 @@ const registerRouterDOM = router => {
 exports.registerRouterDOM = registerRouterDOM;
 
 const registerRouter = router => {
-  console.log("DOM Router Registered");
+  console.log("Router Registered");
   const taskFrom = (0, _tasks._URL__ROUTE)(router);
   return registerCMD({
     sub$: "_URL_NAVIGATED$",
@@ -22467,7 +22524,91 @@ const _NOTIFY_PRERENDER_DOM = (0, _register.registerCMD)({
 });
 
 exports._NOTIFY_PRERENDER_DOM = _NOTIFY_PRERENDER_DOM;
-},{"../register":"../src/register/index.js","../store":"../src/store/index.js","../utils":"../src/utils/index.js","../streams":"../src/streams/index.js"}],"../src/commands/index.js":[function(require,module,exports) {
+},{"../register":"../src/register/index.js","../store":"../src/store/index.js","../utils":"../src/utils/index.js","../streams":"../src/streams/index.js"}],"../src/commands/FLIP.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports._FLIP_F__FLIP_L_DOM = exports._DOM__FLIP_F = void 0;
+
+var _register = require("../register");
+
+var rand = _interopRequireWildcard(require("@thi.ng/random"));
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+/**
+ * We need a way to get from first -> last and back again
+ *
+ * This is complicated by the fact that we clear any
+ * `visited` links when we navigate from one page to
+ * another.
+ *
+ * So, how do we cache the last `flip_key`, in a way that
+ * allows us to 'zoom out' so-to-speak...
+ *
+ * pseudo:
+ * ```
+ * - naive (no flip_key in cache) nav
+ * - now there's a flip_key in cache
+ * - use that flip_key to target the new frame
+ * - user hits back button, use the same flip_key? (!DOM.document)
+ * - use an Atom with the current `route_path` as the lens?
+ */
+const FLIP_EL = a => {
+  // start simply with first sib with flip-key attr
+  let target = a.closest(".flip");
+  let scope = target.querySelector("[flip]");
+  let flip_key = scope.attributes.flip.value;
+  let FLIP_F = scope.getBoundingClientRect();
+  return {
+    FLIP_F,
+    flip_key
+  };
+};
+
+const _DOM__FLIP_F = (0, _register.registerCMD)({
+  sub$: "_DOM__FLIP_F",
+  args: ({
+    DOM
+  }) => !DOM.document ? FLIP_EL(DOM) : {
+    DOM
+  },
+  handler: console.log
+});
+
+exports._DOM__FLIP_F = _DOM__FLIP_F;
+
+const RAFPromise = () => new Promise(resolve => requestAnimationFrame(resolve));
+
+const FLIP_DOM = (FLIP_F, flip_key) => {
+  // start simply with first sib with flip-key attr
+  let scope = document.querySelector(`[flip="${flip_key}"]`); // let target = parent
+  // let FLIP_DOM = scope.getBoundingClientRect()
+  // let FLIP_DOM = await RAFPromise()
+  //   .then(() => scope.getBoundingClientRect())
+
+  let FLIP_DOM = scope.getBoundingClientRect();
+  return {
+    FLIP_F,
+    FLIP_DOM
+  };
+};
+
+const _FLIP_F__FLIP_L_DOM = (0, _register.registerCMD)({
+  sub$: "_FLIP_F__FLIP_L_DOM",
+  args: ({
+    FLIP_F,
+    flip_key
+  }) => FLIP_DOM(FLIP_F, flip_key),
+  // reso: (acc, { FLIP_F, FLIP_DOM }) => ({ FLIP_F, FLIP_DOM }),
+  // erro: (acc, e) => console.warn(e),
+  handler: console.log
+});
+
+exports._FLIP_F__FLIP_L_DOM = _FLIP_F__FLIP_L_DOM;
+},{"../register":"../src/register/index.js","@thi.ng/random":"../node_modules/@thi.ng/random/index.js"}],"../src/commands/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -22485,7 +22626,19 @@ Object.keys(_routing).forEach(function (key) {
     }
   });
 });
-},{"./routing":"../src/commands/routing.js"}],"../src/index.js":[function(require,module,exports) {
+
+var _FLIP = require("./FLIP");
+
+Object.keys(_FLIP).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _FLIP[key];
+    }
+  });
+});
+},{"./routing":"../src/commands/routing.js","./FLIP":"../src/commands/FLIP.js"}],"../src/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -24789,13 +24942,16 @@ const {
 } = _src.utils;
 const {
   $routePath$: $routePath$,
-  $store$
+  $store$,
+  setState
 } = _src.store;
-traceStream("run$ ->", _streams.run$);
-traceStream("command$ ->", _streams.command$);
-traceStream("task$ ->", _streams.task$);
-traceStream("out$ ->", _streams.out$);
-traceStream("navigated$ ->", _streams.DOMnavigated$); //
+
+// traceStream("run$ ->", run$)
+// traceStream("command$ ->", command$)
+// traceStream("task$ ->", task$)
+// traceStream("out$ ->", out$)
+// traceStream("navigated$ ->", DOMnavigated$)
+//
 //    d8                      d8
 //  _d88__  e88~~8e   d88~\ _d88__
 //   888   d888  88b C888    888
@@ -24803,7 +24959,6 @@ traceStream("navigated$ ->", _streams.DOMnavigated$); //
 //   888   Y888    ,   888D  888
 //   "88_/  "88___/  \_88P   "88_/
 //
-
 const getSomeJSON = async (path, b) => {
   const text_base = "https://jsonplaceholder.typicode.com/";
 
@@ -24957,33 +25112,99 @@ const field = (ctx, key, val) => ["li", {
   }
 }, val]];
 
-const image_sm = (ctx, img) => ["img", {
+const getRect = element => {
+  var rect = element.getBoundingClientRect();
+  return {
+    top: rect.top,
+    right: rect.right,
+    bottom: rect.bottom,
+    left: rect.left,
+    width: rect.width,
+    height: rect.height,
+    x: rect.x,
+    y: rect.y
+  };
+};
+
+const FLIP_img = {
+  init: (el, {
+    state
+  }, img, id) => {
+    let path = id ? state.value.route_path.concat(id.toString()) : state.value.route_path;
+    console.log({
+      path
+    });
+    let lens = ["flip_map", ...path]; // prettier-ignore
+
+    let config = {
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      width: 0,
+      height: 0,
+      x: 0,
+      y: 0
+    };
+    if (!(0, _paths.getIn)(state.deref(), lens)) return setState(lens, config);
+    let F_flip_map = (0, _paths.getIn)(state.deref(), lens);
+    let L_flip_map = getRect(el);
+    let tX = F_flip_map.left - L_flip_map.left;
+    let tY = F_flip_map.top - L_flip_map.top;
+    let sX = F_flip_map.width / L_flip_map.width;
+    let sY = F_flip_map.height / L_flip_map.height;
+    console.log({
+      F_flip_map,
+      L_flip_map
+    });
+    el.style.transition = "";
+    let transform = `translate(${tX}px, ${tY}px) scale(${sX}, ${sY})`;
+    console.log(transform);
+    el.style.transform = transform;
+    requestAnimationFrame(() => {
+      el.style.transition = "transform .5s";
+      el.style.transform = "";
+    });
+    setState(lens, L_flip_map);
+  },
+  render: (ctx, img, id) => [image, img, id]
+};
+
+const image = ({
+  state
+}, img, id) => ["img", {
   src: img,
-  style: {
+  style: id ? {
     height: "100px",
     width: "100%",
     "object-fit": "cover"
-  }
+  } : {
+    width: "100%",
+    "object-fit": "cover"
+  },
+  flip: `${state.value.route_path.join("/")}${id ? "/" + id : ""}`
 }];
 
-const image_lg = (ctx, img) => ["img", {
-  src: img,
-  style: {
-    width: "100%"
-  }
-}];
-
-const component = sz => (ctx, img, title) => ["div", {}, sz === "lg" ? [image_lg, img] : [image_sm, img], ["p", {
-  class: "title"
-}, title]];
+const component = sz => {
+  return (ctx, img, fields, id) => ["div", {
+    class: "flip"
+  }, sz === "lg" ? [FLIP_img, img] : [FLIP_img, img, id], ["p", {
+    class: "title"
+  }, fields]];
+};
 
 const fields = payload => ["ul", ...Object.entries(payload).slice(0, 4).map(([k, v]) => [field, k, v])];
 
-const UI_todo = (ctx, payload) => {
-  return (0, _checks.isArray)(payload) ? ["div", ...payload.map(({
+const page = (ctx, payload) => {
+  return ["div", {
+    style: {
+      "max-width": "40rem",
+      margin: "auto"
+    }
+  }, (0, _checks.isArray)(payload) ? ["div", ...payload.map(({
     img,
     text
-  }) => [component("sm"), img, fields(text)])] : [component("lg"), payload && payload.img ? payload.img : "n/a", payload && payload.text ? fields(payload.text.company || payload.text) : "n/a"];
+  }) => [component("sm"), img, fields(text), text.id])] : [component("lg"), payload && payload.img ? payload.img : "n/a", payload && payload.text ? fields(payload.text.company || payload.text) : "n/a"]];
 }; // return ["pre", JSON.stringify(state, null, 2)]
 //
 //        /           d8b
@@ -25000,7 +25221,7 @@ const UI_todo = (ctx, payload) => {
 ({
   run$,
   state
-}) => [UI_todo, (0, _paths.getIn)(state.deref(), $routePath$.deref())], {
+}) => [page, (0, _paths.getIn)(state.deref(), $routePath$.deref())], {
   root: document.getElementById("app"),
   ctx: {
     run$: _streams.run$,
@@ -25036,7 +25257,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60203" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53310" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
