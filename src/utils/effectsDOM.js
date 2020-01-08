@@ -16,13 +16,9 @@ const getRect = element => {
   }
 }
 
-export const initFLIP = (el, state, flip_id) => {
-  let path = flip_id
-    ? state.value.route_path.concat(flip_id.toString())
-    : state.value.route_path
-
-  console.log({ path })
-  let lens = ["flip_map", ...path]
+export const initFLIP = (el, state, uid) => {
+  let lens = ["flip_map", uid]
+  console.log({ lens })
 
   // prettier-ignore
   let config = {
@@ -47,13 +43,14 @@ export const initFLIP = (el, state, flip_id) => {
 
   console.log({ F_flip_map, L_flip_map })
 
+  el.style.transformOrigin = "top left"
   el.style.transition = ""
   let trans = `translate(${tX}px, ${tY}px) scale(${sX}, ${sY})`
   // console.log(transform)
   el.style.transform = trans
   requestAnimationFrame(() => {
     el.style.transition = "transform .5s"
-    el.style.transform = ""
+    el.style.transform = "none"
   })
 
   set$tate(lens, L_flip_map)

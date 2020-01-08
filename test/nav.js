@@ -158,30 +158,47 @@ const field = (ctx, key, val) => [
     : ["p", { style: { padding: "0 0.5rem" } }, val]
 ]
 
-// 📌 TODO: convert to containers rather than image warps:
-// 📌 clip-path: https://css-tricks.com/clipping-masking-css/
-// 📌 clip-path: https://www.youtube.com/watch?v=F4kJXbaunUg
-const FLIP_img = {
-  init: (el, { $store$ }, img, id) => initFLIP(el, $store$, id),
-  render: (ctx, img, id) => [image, img, id]
-}
-
-const image = ({ $store$ }, img, id) => [
+const image = (ctx, img) => [
   "img",
   {
     src: img,
-    style: id
-      ? { height: "100px", width: "100%", "object-fit": "cover" }
-      : { width: "100%", "object-fit": "cover" },
-    flip: `${$store$.value.route_path.join("/")}${id ? "/" + id : ""}`
+    style: { "object-fit": "cover", "min-height": "100%", "min-width": "100%" }
+    // style: { height: "600px", width: "600px" }
   }
 ]
 
+const FLIP_img = {
+  init: (el, { $store$ }, img) => initFLIP(el, $store$, img),
+  render: (ctx, img) => [image, img]
+}
+
+const div = (ctx, uid, sz, ...args) => [
+  "div",
+  {
+    style:
+      sz === "sm"
+        ? {
+            height: "100px",
+            overflow: "hidden"
+          }
+        : {
+            height: "80vh",
+            overflow: "hidden"
+          }
+  },
+  ...args
+]
+
+const FLIP_div = {
+  init: (el, { $store$ }, uid, ...args) => initFLIP(el, $store$, uid),
+  render: (ctx, id, ...args) => [div, id, ...args]
+}
+
 const component = sz => {
-  return (ctx, img, fields, id) => [
+  return (ctx, img, fields) => [
     "div",
     { class: "flip" },
-    sz === "lg" ? [FLIP_img, img] : [FLIP_img, img, id],
+    [FLIP_div, [img, "div"].join("."), sz, [FLIP_img, img]],
     ["p", { class: "title" }, fields]
   ]
 }
@@ -202,8 +219,7 @@ const page = (ctx, payload) => {
           ...payload.map(({ img, text }) => [
             component("sm"),
             img,
-            fields(text),
-            text.id
+            fields(text)
           ])
         ]
       : [

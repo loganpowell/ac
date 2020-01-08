@@ -21398,12 +21398,11 @@ const getRect = element => {
   };
 };
 
-const initFLIP = (el, state, flip_id) => {
-  let path = flip_id ? state.value.route_path.concat(flip_id.toString()) : state.value.route_path;
+const initFLIP = (el, state, uid) => {
+  let lens = ["flip_map", uid];
   console.log({
-    path
-  });
-  let lens = ["flip_map", ...path]; // prettier-ignore
+    lens
+  }); // prettier-ignore
 
   let config = {
     top: 0,
@@ -21426,13 +21425,14 @@ const initFLIP = (el, state, flip_id) => {
     F_flip_map,
     L_flip_map
   });
+  el.style.transformOrigin = "top left";
   el.style.transition = "";
   let trans = `translate(${tX}px, ${tY}px) scale(${sX}, ${sY})`; // console.log(transform)
 
   el.style.transform = trans;
   requestAnimationFrame(() => {
     el.style.transition = "transform .5s";
-    el.style.transform = "";
+    el.style.transform = "none";
   });
   (0, _store.set$tate)(lens, L_flip_map);
 };
@@ -24990,37 +24990,46 @@ const field = (ctx, key, val) => ["li", {
   style: {
     padding: "0 0.5rem"
   }
-}, val]]; // 📌 TODO: convert to containers rather than image warps:
-// 📌 clip-path: https://css-tricks.com/clipping-masking-css/
-// 📌 clip-path: https://www.youtube.com/watch?v=F4kJXbaunUg
+}, val]];
 
+const image = (ctx, img) => ["img", {
+  src: img,
+  style: {
+    "object-fit": "cover",
+    "min-height": "100%",
+    "min-width": "100%" // style: { height: "600px", width: "600px" }
+
+  }
+}];
 
 const FLIP_img = {
   init: (el, {
     $store$
-  }, img, id) => initFLIP(el, $store$, id),
-  render: (ctx, img, id) => [image, img, id]
+  }, img) => initFLIP(el, $store$, img),
+  render: (ctx, img) => [image, img]
 };
 
-const image = ({
-  $store$
-}, img, id) => ["img", {
-  src: img,
-  style: id ? {
+const div = (ctx, uid, sz, ...args) => ["div", {
+  style: sz === "sm" ? {
     height: "100px",
-    width: "100%",
-    "object-fit": "cover"
+    overflow: "hidden"
   } : {
-    width: "100%",
-    "object-fit": "cover"
-  },
-  flip: `${$store$.value.route_path.join("/")}${id ? "/" + id : ""}`
-}];
+    height: "80vh",
+    overflow: "hidden"
+  }
+}, ...args];
+
+const FLIP_div = {
+  init: (el, {
+    $store$
+  }, uid, ...args) => initFLIP(el, $store$, uid),
+  render: (ctx, id, ...args) => [div, id, ...args]
+};
 
 const component = sz => {
-  return (ctx, img, fields, id) => ["div", {
+  return (ctx, img, fields) => ["div", {
     class: "flip"
-  }, sz === "lg" ? [FLIP_img, img] : [FLIP_img, img, id], ["p", {
+  }, [FLIP_div, [img, "div"].join("."), sz, [FLIP_img, img]], ["p", {
     class: "title"
   }, fields]];
 };
@@ -25036,7 +25045,7 @@ const page = (ctx, payload) => {
   }, (0, _checks.isArray)(payload) ? ["div", ...payload.map(({
     img,
     text
-  }) => [component("sm"), img, fields(text), text.id])] : [component("lg"), payload && payload.img ? payload.img : "n/a", payload && payload.text ? fields(payload.text.company || payload.text) : "n/a"]];
+  }) => [component("sm"), img, fields(text)])] : [component("lg"), payload && payload.img ? payload.img : "n/a", payload && payload.text ? fields(payload.text.company || payload.text) : "n/a"]];
 };
 
 (0, _hdom.start)( // 📌 page component that chooses a template based on the spec returned
@@ -25078,7 +25087,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58592" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64372" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
