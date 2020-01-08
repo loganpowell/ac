@@ -8,7 +8,7 @@
   "scripts": {
     "clean": "rm -rf .cache dist",
     "prep": "npm run clean && mkdir dist",
-    "build": "cross-env NODE_ENV=production npm run prep && parcel build test/index.html -d dist --public-url /ac --no-source-maps --no-cache",
+    "build": "cross-env NODE_ENV=production npm run prep && parcel build test/index.html -d dist --public-url /ac/ --no-source-maps --no-cache",
     "start": "cross-env NODE_ENV=development parcel test/index.html -d dist",
     "serve": "node dist/server.js",
     "docs": "jsdoc --configure jsdoc.json --verbose",
@@ -39,6 +39,7 @@
     "@babel/plugin-transform-runtime": "^7.7.6",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "babel-preset-env": "^1.7.0",
+    "browserslist": "^4.8.3",
     "cross-env": "^6.0.3",
     "cssnano": "^4.1.10",
     "dotenv": "^8.2.0",
@@ -50,9 +51,9 @@
   "author": "Logan Powell",
   "license": "MIT",
   "browserslist": [
-    "last 1 version",
+    "last 2 versions",
     "> 1%",
-    "IE 8"
+    "IE 11"
   ],
   "prettier": {
     "endOfLine": "lf",
