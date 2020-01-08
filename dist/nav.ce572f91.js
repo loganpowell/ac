@@ -22594,91 +22594,7 @@ const _NOTIFY_PRERENDER_DOM = (0, _register.registerCMD)({
 });
 
 exports._NOTIFY_PRERENDER_DOM = _NOTIFY_PRERENDER_DOM;
-},{"../register":"../src/register/index.js","../store":"../src/store/index.js","../utils":"../src/utils/index.js","../streams":"../src/streams/index.js"}],"../src/commands/FLIP.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports._FLIP_F__FLIP_L_DOM = exports._DOM__FLIP_F = void 0;
-
-var _register = require("../register");
-
-var rand = _interopRequireWildcard(require("@thi.ng/random"));
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
-
-/**
- * We need a way to get from first -> last and back again
- *
- * This is complicated by the fact that we clear any
- * `visited` links when we navigate from one page to
- * another.
- *
- * So, how do we cache the last `flip_key`, in a way that
- * allows us to 'zoom out' so-to-speak...
- *
- * pseudo:
- * ```
- * - naive (no flip_key in cache) nav
- * - now there's a flip_key in cache
- * - use that flip_key to target the new frame
- * - user hits back button, use the same flip_key? (!DOM.document)
- * - use an Atom with the current `route_path` as the lens?
- */
-const FLIP_EL = a => {
-  // start simply with first sib with flip-key attr
-  let target = a.closest(".flip");
-  let scope = target.querySelector("[flip]");
-  let flip_key = scope.attributes.flip.value;
-  let FLIP_F = scope.getBoundingClientRect();
-  return {
-    FLIP_F,
-    flip_key
-  };
-};
-
-const _DOM__FLIP_F = (0, _register.registerCMD)({
-  sub$: "_DOM__FLIP_F",
-  args: ({
-    DOM
-  }) => !DOM.document ? FLIP_EL(DOM) : {
-    DOM
-  },
-  handler: console.log
-});
-
-exports._DOM__FLIP_F = _DOM__FLIP_F;
-
-const RAFPromise = () => new Promise(resolve => requestAnimationFrame(resolve));
-
-const FLIP_DOM = (FLIP_F, flip_key) => {
-  // start simply with first sib with flip-key attr
-  let scope = document.querySelector(`[flip="${flip_key}"]`); // let target = parent
-  // let FLIP_DOM = scope.getBoundingClientRect()
-  // let FLIP_DOM = await RAFPromise()
-  //   .then(() => scope.getBoundingClientRect())
-
-  let FLIP_DOM = scope.getBoundingClientRect();
-  return {
-    FLIP_F,
-    FLIP_DOM
-  };
-};
-
-const _FLIP_F__FLIP_L_DOM = (0, _register.registerCMD)({
-  sub$: "_FLIP_F__FLIP_L_DOM",
-  args: ({
-    FLIP_F,
-    flip_key
-  }) => FLIP_DOM(FLIP_F, flip_key),
-  // reso: (acc, { FLIP_F, FLIP_DOM }) => ({ FLIP_F, FLIP_DOM }),
-  // erro: (acc, e) => console.warn(e),
-  handler: console.log
-});
-
-exports._FLIP_F__FLIP_L_DOM = _FLIP_F__FLIP_L_DOM;
-},{"../register":"../src/register/index.js","@thi.ng/random":"../node_modules/@thi.ng/random/index.js"}],"../src/commands/index.js":[function(require,module,exports) {
+},{"../register":"../src/register/index.js","../store":"../src/store/index.js","../utils":"../src/utils/index.js","../streams":"../src/streams/index.js"}],"../src/commands/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -22696,19 +22612,7 @@ Object.keys(_routing).forEach(function (key) {
     }
   });
 });
-
-var _FLIP = require("./FLIP");
-
-Object.keys(_FLIP).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _FLIP[key];
-    }
-  });
-});
-},{"./routing":"../src/commands/routing.js","./FLIP":"../src/commands/FLIP.js"}],"../src/index.js":[function(require,module,exports) {
+},{"./routing":"../src/commands/routing.js"}],"../src/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25174,7 +25078,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58446" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58592" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
