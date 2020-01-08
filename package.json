@@ -4,6 +4,7 @@
   "description": "AC is a framework for leveraging `@thi.ng/umbrella` for web apps",
   "main": "index.js",
   "repository": "https://github.com/loganpowell/ac",
+  "homepage": "https://github.com/loganpowell/ac",
   "scripts": {
     "clean": "rm -rf .cache dist",
     "prep": "npm run clean && mkdir dist",
@@ -11,7 +12,7 @@
     "start": "cross-env NODE_ENV=development parcel test/index.html -d dist",
     "serve": "node dist/server.js",
     "docs": "jsdoc --configure jsdoc.json --verbose",
-    "pages": "git subtree push --prefix dist origin gh-pages"
+    "pages": "gh-pages -d dist"
   },
   "keywords": [
     "thi.ng"
@@ -43,6 +44,7 @@
     "cssnano": "^4.1.10",
     "dotenv": "^8.2.0",
     "eslint": "^6.7.2",
+    "gh-pages": "^2.2.0",
     "jsdoc": "^3.6.3",
     "node-fetch": "^2.6.0"
   },
@@ -51,7 +53,7 @@
   "browserslist": [
     "last 1 version",
     "> 1%",
-    "IE 10"
+    "IE 11"
   ],
   "prettier": {
     "endOfLine": "lf",
