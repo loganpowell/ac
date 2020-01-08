@@ -11,7 +11,6 @@ import { isArray, isObject } from "@thi.ng/checks"
 import { start } from "@thi.ng/hdom"
 import { EquivMap } from "@thi.ng/associative"
 
-import "whatwg-fetch"
 // import fetch from "node-fetch"
 
 traceStream("run$ ->", run$)
