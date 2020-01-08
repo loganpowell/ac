@@ -8,7 +8,7 @@
   "scripts": {
     "clean": "rm -rf .cache dist",
     "prep": "npm run clean && mkdir dist",
-    "build": "cross-env NODE_ENV=production npm run prep && parcel build test/index.html -d dist --public-url ./ --no-source-maps --no-cache",
+    "build": "cross-env NODE_ENV=production npm run prep && parcel build test/index.html -d dist --public-url /ac --no-source-maps --no-cache",
     "start": "cross-env NODE_ENV=development parcel test/index.html -d dist",
     "serve": "node dist/server.js",
     "docs": "jsdoc --configure jsdoc.json --verbose",
