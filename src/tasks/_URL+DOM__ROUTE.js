@@ -1,3 +1,4 @@
+import { isNode } from "@thi.ng/checks"
 import { parse_URL, msTaskDelay } from "../utils"
 import {
   _HREF_PUSHSTATE_DOM,
@@ -5,9 +6,7 @@ import {
   _SET_LINK_ATTRS_DOM,
   _SET_ROUTER_LOADING_STATE,
   _SET_ROUTER_PATH,
-  _SET_PAGE_STATE,
-  _DOM__FLIP_F,
-  _FLIP_F__FLIP_L_DOM
+  _SET_PAGE_STATE
 } from "../commands"
 // import { log$ } from "../streams"
 
@@ -36,25 +35,16 @@ import {
  *
  */
 export const _URL_DOM__ROUTE = router => {
-  // instantiate router configuration on registration
+  // instantiate router
   let match = _URL__ROUTE(router)
-  // Task signature is either a straight Array of Commands
-  // or a function that returns an Array of Commands
   return ({ URL, DOM }) => [
-    { args: { DOM } },
-    // _DOM__FLIP_F,
     { ..._HREF_PUSHSTATE_DOM, args: { URL, DOM } },
     // example Subtask injection
     ({ URL }) => match({ URL }),
     // example ad-hoc stream injection
     // { sub$: log$, args: () => ({ DOM }) },
-    { ..._SET_LINK_ATTRS_DOM, args: { DOM } },
-    // { args: requestAnimationFrame(() => {}) },
-    { args: msTaskDelay(200) },
-
-    // _FLIP_F__FLIP_L_DOM,
-
-    // just use default args
+    _SET_LINK_ATTRS_DOM,
+    // { args: msTaskDelay(200) },
     _NOTIFY_PRERENDER_DOM
   ]
 }
@@ -82,21 +72,15 @@ export const _URL_DOM__ROUTE = router => {
  * ```
  */
 export const _URL__ROUTE = router => ({ URL }) => [
-  // use default args
   _SET_ROUTER_LOADING_STATE,
   {
     args: router(URL),
     reso: (acc, { page, data }) => ({ page, data }),
     erro: (acc, err) => console.warn(err)
   },
-  // inject a delay
-  // { args: delay(100) },
   { args: parse_URL(URL) },
-  { ..._SET_ROUTER_PATH, args: ({ URL_path }) => ({ URL_path }) },
-  {
-    ..._SET_PAGE_STATE,
-    args: ({ URL_path, page, data }) => ({ data, URL_path, page })
-  },
-  // if you need to wait on any pending promises, use a unary function
+  _SET_ROUTER_PATH,
+  _SET_PAGE_STATE,
+  // wait on pending promise(s) w/a non-nullary fn (+)=>
   { ..._SET_ROUTER_LOADING_STATE, args: _ => false }
 ]

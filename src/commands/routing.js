@@ -1,5 +1,5 @@
 import { registerCMD } from "../register"
-import { setState } from "../store"
+import { set$tate } from "../store"
 import { parse_URL } from "../utils"
 import { DOMnavigated$ } from "../streams"
 
@@ -43,9 +43,9 @@ export const clickEventHandlerDOM = e => {
  */
 export const _SET_PAGE_STATE = registerCMD({
   sub$: "_SET_PAGE_STATE",
-  args: x => x,
-  handler: ({ data, URL_path, page }) => (
-    setState(URL_path, data), setState("page", page)
+  args: ({ URL_path, page, data }) => ({ URL_path, page, data }),
+  handler: ({ URL_path, page, data }) => (
+    set$tate(URL_path, data), set$tate("page", page)
   )
 })
 
@@ -64,7 +64,7 @@ export const _SET_PAGE_STATE = registerCMD({
 export const _SET_ROUTER_LOADING_STATE = registerCMD({
   sub$: "_SET_ROUTER_LOADING_STATE",
   args: true,
-  handler: x => setState("route_loading", x)
+  handler: x => set$tate("route_loading", x)
 })
 
 /**
@@ -83,8 +83,8 @@ export const _SET_ROUTER_LOADING_STATE = registerCMD({
  */
 export const _SET_ROUTER_PATH = registerCMD({
   sub$: "_SET_ROUTER_PATH",
-  args: x => x,
-  handler: ({ URL_path }) => setState("route_path", URL_path)
+  args: ({ URL_path }) => ({ URL_path }),
+  handler: ({ URL_path }) => set$tate("route_path", URL_path)
 })
 
 const setLinkAttrs = target => {
@@ -115,7 +115,7 @@ const setLinkAttrs = target => {
  */
 export const _SET_LINK_ATTRS_DOM = registerCMD({
   sub$: "_SET_LINK_ATTRS_DOM",
-  args: x => x,
+  args: ({ DOM }) => ({ DOM }),
   handler: ({ DOM }) => setLinkAttrs(DOM)
 })
 
@@ -135,7 +135,7 @@ export const _SET_LINK_ATTRS_DOM = registerCMD({
  */
 export const _HREF_PUSHSTATE_DOM = registerCMD({
   sub$: "_HREF_PUSHSTATE_DOM",
-  args: x => x,
+  args: ({ URL, DOM }) => ({ URL, DOM }),
   handler: ({ URL, DOM }) =>
     !DOM.document ? history.pushState(parse_URL(URL), null, URL) : null
 })

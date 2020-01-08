@@ -2,15 +2,12 @@ import { register, commands, utils, store } from "../src"
 
 const { registerRouterDOM } = register
 const { clickEventHandlerDOM } = commands
-const { parse_URL, traceStream } = utils
-const { $routePath$: $routePath$, $store$, setState } = store
+const { parse_URL, traceStream, initFLIP } = utils
+const { $routePath$: $routePath$, $store$, set$tate } = store
 
-import { updateDOM } from "@thi.ng/transducers-hdom"
-import { fromAtom } from "@thi.ng/rstream"
 import { getIn } from "@thi.ng/paths"
-import { run$, out$, command$, task$, DOMnavigated$ } from "../src/streams"
+import { run$ } from "../src/streams"
 import { isArray, isObject } from "@thi.ng/checks"
-import { deepTransform } from "@thi.ng/transducers"
 import { start } from "@thi.ng/hdom"
 import { EquivMap } from "@thi.ng/associative"
 
@@ -71,14 +68,14 @@ const getSomeJSON = async (path, b) => {
 const router = async url => {
   let match = parse_URL(url)
   let {
-    URL,
-    URL_subdomain, // array
-    URL_domain, // array
-    URL_path, // array
-    URL_query, // object
-    URL_hash // string
+    // URL,
+    // URL_subdomain, // array
+    // URL_domain, // array
+    // URL_query, // object
+    // URL_hash, // string
+    URL_path // array
   } = match
-  let [p_a, p_b] = URL_path
+  let [_, p_b] = URL_path
 
   let { data, page } = new EquivMap([
     [
@@ -139,22 +136,12 @@ links.forEach(x => {
 //
 //
 
-// TODO
-// {
-//   "img": "https://i.picsum.photos/id/1/600/600.jpg",
-//   "text": {
-//     "userId": 1,
-//     "id": 1,
-//     "title": "delectus aut autem",
-//     "completed": false
-//   }
-// }
-const S = JSON.stringify
+// const S = JSON.stringify
 
-const link = ({ state }, id, text) => [
+const link = ({ $store$ }, id, text) => [
   "a",
   {
-    href: `${state.value.route_path}/${id}`,
+    href: `${$store$.value.route_path}/${id}`,
     onclick: e => clickEventHandlerDOM(e)
   },
   text
@@ -170,74 +157,23 @@ const field = (ctx, key, val) => [
     ? ["ul", ...Object.entries(val).map(([k, v]) => [field, k, v])]
     : ["p", { style: { padding: "0 0.5rem" } }, val]
 ]
-const getRect = element => {
-  var rect = element.getBoundingClientRect()
-  return {
-    top: rect.top,
-    right: rect.right,
-    bottom: rect.bottom,
-    left: rect.left,
-    width: rect.width,
-    height: rect.height,
-    x: rect.x,
-    y: rect.y
-  }
-}
 
+// 📌 TODO: convert to containers rather than image warps:
+// 📌 clip-path: https://css-tricks.com/clipping-masking-css/
+// 📌 clip-path: https://www.youtube.com/watch?v=F4kJXbaunUg
 const FLIP_img = {
-  init: (el, { state }, img, id) => {
-    let path = id
-      ? state.value.route_path.concat(id.toString())
-      : state.value.route_path
-
-    console.log({ path })
-    let lens = ["flip_map", ...path]
-
-    // prettier-ignore
-    let config = {
-      top    : 0,
-      right  : 0,
-      bottom : 0,
-      left   : 0,
-      width  : 0,
-      height : 0,
-      x      : 0,
-      y      : 0
-    }
-
-    if (!getIn(state.deref(), lens)) return setState(lens, config)
-    let F_flip_map = getIn(state.deref(), lens)
-    let L_flip_map = getRect(el)
-
-    let tX = F_flip_map.left - L_flip_map.left
-    let tY = F_flip_map.top - L_flip_map.top
-    let sX = F_flip_map.width / L_flip_map.width
-    let sY = F_flip_map.height / L_flip_map.height
-
-    console.log({ F_flip_map, L_flip_map })
-
-    el.style.transition = ""
-    let transform = `translate(${tX}px, ${tY}px) scale(${sX}, ${sY})`
-    console.log(transform)
-    el.style.transform = transform
-    requestAnimationFrame(() => {
-      el.style.transition = "transform .5s"
-      el.style.transform = ""
-    })
-
-    setState(lens, L_flip_map)
-  },
+  init: (el, { $store$ }, img, id) => initFLIP(el, $store$, id),
   render: (ctx, img, id) => [image, img, id]
 }
 
-const image = ({ state }, img, id) => [
+const image = ({ $store$ }, img, id) => [
   "img",
   {
     src: img,
     style: id
       ? { height: "100px", width: "100%", "object-fit": "cover" }
       : { width: "100%", "object-fit": "cover" },
-    flip: `${state.value.route_path.join("/")}${id ? "/" + id : ""}`
+    flip: `${$store$.value.route_path.join("/")}${id ? "/" + id : ""}`
   }
 ]
 
@@ -279,24 +215,13 @@ const page = (ctx, payload) => {
         ]
   ]
 }
-// return ["pre", JSON.stringify(state, null, 2)]
-
-//
-//        /           d8b
-//  e88~88e  e88~-_  !Y88!
-//  888 888 d888   i  Y8Y
-//  "88_88" 8888   |   8
-//   /      Y888   '   e
-//  Cb       "88_-~   "8"
-//   Y8""8D
-//
 
 start(
   // 📌 page component that chooses a template based on the spec returned
-  ({ run$, state }) => [page, getIn(state.deref(), $routePath$.deref())],
+  ({ $store$ }) => [page, getIn($store$.deref(), $routePath$.deref())],
   {
     root: document.getElementById("app"),
-    ctx: { run$, state: $store$ },
+    ctx: { run$, $store$ },
     span: false
   }
 )

@@ -20,7 +20,6 @@
     "@thi.ng/rstream": "latest",
     "@thi.ng/transducers-hdom": "^2.0.32",
     "abort-controller": "^3.0.0",
-    "flipping": "^1.1.0",
     "querystring": "^0.2.0"
   },
   "peerDependencies": {
@@ -37,7 +36,6 @@
     "cssnano": "^4.1.10",
     "dotenv": "^8.2.0",
     "eslint": "^6.7.2",
-    "flip-toolkit": "^7.0.7",
     "jsdoc": "^3.6.3",
     "node-fetch": "^2.6.0"
   },

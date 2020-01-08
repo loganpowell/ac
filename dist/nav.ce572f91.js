@@ -21341,7 +21341,104 @@ const unknown_key_ERR = (str, c, unknown, sub$, index) => {
 };
 
 exports.unknown_key_ERR = unknown_key_ERR;
-},{}],"../src/utils/index.js":[function(require,module,exports) {
+},{}],"../src/store/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.$page$ = exports.$routePath$ = exports.$routeLoading$ = exports.set$tate = exports.$store$ = void 0;
+
+var _paths = require("@thi.ng/paths");
+
+var _atom = require("@thi.ng/atom");
+
+// Global State Container from [@thi.ng/atom](http://thi.ng/atom)
+const $store$ = new _atom.Atom({
+  route_path: [],
+  route_loading: false,
+  page: ""
+}); // sets a value within the global atom by path/lens
+
+exports.$store$ = $store$;
+
+const set$tate = (path, val) => $store$.swap(state => (0, _paths.setIn)(state, path, val));
+
+exports.set$tate = set$tate;
+const $routeLoading$ = $store$.addView("route_loading");
+exports.$routeLoading$ = $routeLoading$;
+const $routePath$ = $store$.addView("route_path");
+exports.$routePath$ = $routePath$;
+const $page$ = $store$.addView("page");
+exports.$page$ = $page$;
+},{"@thi.ng/paths":"../node_modules/@thi.ng/paths/index.js","@thi.ng/atom":"../node_modules/@thi.ng/atom/index.js"}],"../src/utils/effectsDOM.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.initFLIP = void 0;
+
+var _paths = require("@thi.ng/paths");
+
+var _store = require("../store");
+
+const getRect = element => {
+  var rect = element.getBoundingClientRect(); // prettier-ignore
+
+  return {
+    top: rect.top,
+    right: rect.right,
+    bottom: rect.bottom,
+    left: rect.left,
+    width: rect.width,
+    height: rect.height,
+    x: rect.x,
+    y: rect.y
+  };
+};
+
+const initFLIP = (el, state, flip_id) => {
+  let path = flip_id ? state.value.route_path.concat(flip_id.toString()) : state.value.route_path;
+  console.log({
+    path
+  });
+  let lens = ["flip_map", ...path]; // prettier-ignore
+
+  let config = {
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    width: 0,
+    height: 0,
+    x: 0,
+    y: 0
+  };
+  if (!(0, _paths.getIn)(state.deref(), lens)) return (0, _store.set$tate)(lens, config);
+  let F_flip_map = (0, _paths.getIn)(state.deref(), lens);
+  let L_flip_map = getRect(el);
+  let tX = F_flip_map.left - L_flip_map.left;
+  let tY = F_flip_map.top - L_flip_map.top;
+  let sX = F_flip_map.width / L_flip_map.width;
+  let sY = F_flip_map.height / L_flip_map.height;
+  console.log({
+    F_flip_map,
+    L_flip_map
+  });
+  el.style.transition = "";
+  let trans = `translate(${tX}px, ${tY}px) scale(${sX}, ${sY})`; // console.log(transform)
+
+  el.style.transform = trans;
+  requestAnimationFrame(() => {
+    el.style.transition = "transform .5s";
+    el.style.transform = "";
+  });
+  (0, _store.set$tate)(lens, L_flip_map);
+};
+
+exports.initFLIP = initFLIP;
+},{"@thi.ng/paths":"../node_modules/@thi.ng/paths/index.js","../store":"../src/store/index.js"}],"../src/utils/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21404,10 +21501,23 @@ Object.keys(_unknownKey).forEach(function (key) {
   });
 });
 
+var _effectsDOM = require("./effectsDOM");
+
+Object.keys(_effectsDOM).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _effectsDOM[key];
+    }
+  });
+});
+
 const msTaskDelay = t => new Promise(resolve => setTimeout(resolve, t));
 
 exports.msTaskDelay = msTaskDelay;
-},{"./parse_URL":"../src/utils/parse_URL.js","./stringify_type":"../src/utils/stringify_type.js","./traceStream":"../src/utils/traceStream.js","./unknownKey":"../src/utils/unknownKey.js"}],"../src/spool/index.js":[function(require,module,exports) {
+},{"./parse_URL":"../src/utils/parse_URL.js","./stringify_type":"../src/utils/stringify_type.js","./traceStream":"../src/utils/traceStream.js","./unknownKey":"../src/utils/unknownKey.js","./effectsDOM":"../src/utils/effectsDOM.js"}],"../src/spool/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21927,6 +22037,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports._URL__ROUTE = exports._URL_DOM__ROUTE = void 0;
 
+var _checks = require("@thi.ng/checks");
+
 var _utils = require("../utils");
 
 var _commands = require("../commands");
@@ -21958,20 +22070,13 @@ var _commands = require("../commands");
  *
  */
 const _URL_DOM__ROUTE = router => {
-  // instantiate router configuration on registration
-  let match = _URL__ROUTE(router); // Task signature is either a straight Array of Commands
-  // or a function that returns an Array of Commands
-
+  // instantiate router
+  let match = _URL__ROUTE(router);
 
   return ({
     URL,
     DOM
-  }) => [{
-    args: {
-      DOM
-    }
-  }, // _DOM__FLIP_F,
-  { ..._commands._HREF_PUSHSTATE_DOM,
+  }) => [{ ..._commands._HREF_PUSHSTATE_DOM,
     args: {
       URL,
       DOM
@@ -21983,15 +22088,7 @@ const _URL_DOM__ROUTE = router => {
     URL
   }), // example ad-hoc stream injection
   // { sub$: log$, args: () => ({ DOM }) },
-  { ..._commands._SET_LINK_ATTRS_DOM,
-    args: {
-      DOM
-    }
-  }, // { args: requestAnimationFrame(() => {}) },
-  {
-    args: (0, _utils.msTaskDelay)(200)
-  }, // _FLIP_F__FLIP_L_DOM,
-  // just use default args
+  _commands._SET_LINK_ATTRS_DOM, // { args: msTaskDelay(200) },
   _commands._NOTIFY_PRERENDER_DOM];
 };
 /**
@@ -22022,8 +22119,7 @@ exports._URL_DOM__ROUTE = _URL_DOM__ROUTE;
 
 const _URL__ROUTE = router => ({
   URL
-}) => [// use default args
-_commands._SET_ROUTER_LOADING_STATE, {
+}) => [_commands._SET_ROUTER_LOADING_STATE, {
   args: router(URL),
   reso: (acc, {
     page,
@@ -22033,33 +22129,15 @@ _commands._SET_ROUTER_LOADING_STATE, {
     data
   }),
   erro: (acc, err) => console.warn(err)
-}, // inject a delay
-// { args: delay(100) },
-{
+}, {
   args: (0, _utils.parse_URL)(URL)
-}, { ..._commands._SET_ROUTER_PATH,
-  args: ({
-    URL_path
-  }) => ({
-    URL_path
-  })
-}, { ..._commands._SET_PAGE_STATE,
-  args: ({
-    URL_path,
-    page,
-    data
-  }) => ({
-    data,
-    URL_path,
-    page
-  })
-}, // if you need to wait on any pending promises, use a unary function
+}, _commands._SET_ROUTER_PATH, _commands._SET_PAGE_STATE, // wait on pending promise(s) w/a non-nullary fn (+)=>
 { ..._commands._SET_ROUTER_LOADING_STATE,
   args: _ => false
 }];
 
 exports._URL__ROUTE = _URL__ROUTE;
-},{"../utils":"../src/utils/index.js","../commands":"../src/commands/index.js"}],"../src/tasks/index.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js","../utils":"../src/utils/index.js","../commands":"../src/commands/index.js"}],"../src/tasks/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -22292,37 +22370,7 @@ const registerRouter = router => {
 };
 
 exports.registerRouter = registerRouter;
-},{"../streams":"../src/streams/index.js","@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js","../tasks":"../src/tasks/index.js","../utils":"../src/utils/index.js"}],"../src/store/index.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.$page$ = exports.$routePath$ = exports.$routeLoading$ = exports.setState = exports.$store$ = void 0;
-
-var _paths = require("@thi.ng/paths");
-
-var _atom = require("@thi.ng/atom");
-
-// Global State Container from [@thi.ng/atom](http://thi.ng/atom)
-const $store$ = new _atom.Atom({
-  route_path: [],
-  route_loading: false,
-  page: ""
-}); // sets a value within the global atom by path/lens
-
-exports.$store$ = $store$;
-
-const setState = (path, val) => $store$.swap(state => (0, _paths.setIn)(state, path, val));
-
-exports.setState = setState;
-const $routeLoading$ = $store$.addView("route_loading");
-exports.$routeLoading$ = $routeLoading$;
-const $routePath$ = $store$.addView("route_path");
-exports.$routePath$ = $routePath$;
-const $page$ = $store$.addView("page");
-exports.$page$ = $page$;
-},{"@thi.ng/paths":"../node_modules/@thi.ng/paths/index.js","@thi.ng/atom":"../node_modules/@thi.ng/atom/index.js"}],"../src/commands/routing.js":[function(require,module,exports) {
+},{"../streams":"../src/streams/index.js","@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js","../tasks":"../src/tasks/index.js","../utils":"../src/utils/index.js"}],"../src/commands/routing.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -22385,12 +22433,20 @@ exports.clickEventHandlerDOM = clickEventHandlerDOM;
 
 const _SET_PAGE_STATE = (0, _register.registerCMD)({
   sub$: "_SET_PAGE_STATE",
-  args: x => x,
-  handler: ({
-    data,
+  args: ({
     URL_path,
-    page
-  }) => ((0, _store.setState)(URL_path, data), (0, _store.setState)("page", page))
+    page,
+    data
+  }) => ({
+    URL_path,
+    page,
+    data
+  }),
+  handler: ({
+    URL_path,
+    page,
+    data
+  }) => ((0, _store.set$tate)(URL_path, data), (0, _store.set$tate)("page", page))
 });
 /**
  * ## `_SET_ROUTER_LOADING_STATE`
@@ -22411,7 +22467,7 @@ exports._SET_PAGE_STATE = _SET_PAGE_STATE;
 const _SET_ROUTER_LOADING_STATE = (0, _register.registerCMD)({
   sub$: "_SET_ROUTER_LOADING_STATE",
   args: true,
-  handler: x => (0, _store.setState)("route_loading", x)
+  handler: x => (0, _store.set$tate)("route_loading", x)
 });
 /**
  * ## `_SET_ROUTER_PATH`
@@ -22433,10 +22489,14 @@ exports._SET_ROUTER_LOADING_STATE = _SET_ROUTER_LOADING_STATE;
 
 const _SET_ROUTER_PATH = (0, _register.registerCMD)({
   sub$: "_SET_ROUTER_PATH",
-  args: x => x,
+  args: ({
+    URL_path
+  }) => ({
+    URL_path
+  }),
   handler: ({
     URL_path
-  }) => (0, _store.setState)("route_path", URL_path)
+  }) => (0, _store.set$tate)("route_path", URL_path)
 });
 
 exports._SET_ROUTER_PATH = _SET_ROUTER_PATH;
@@ -22470,7 +22530,11 @@ const setLinkAttrs = target => {
 
 const _SET_LINK_ATTRS_DOM = (0, _register.registerCMD)({
   sub$: "_SET_LINK_ATTRS_DOM",
-  args: x => x,
+  args: ({
+    DOM
+  }) => ({
+    DOM
+  }),
   handler: ({
     DOM
   }) => setLinkAttrs(DOM)
@@ -22495,7 +22559,13 @@ exports._SET_LINK_ATTRS_DOM = _SET_LINK_ATTRS_DOM;
 
 const _HREF_PUSHSTATE_DOM = (0, _register.registerCMD)({
   sub$: "_HREF_PUSHSTATE_DOM",
-  args: x => x,
+  args: ({
+    URL,
+    DOM
+  }) => ({
+    URL,
+    DOM
+  }),
   handler: ({
     URL,
     DOM
@@ -24801,81 +24871,7 @@ Object.keys(_utils).forEach(function (key) {
     }
   });
 });
-},{"./api":"../node_modules/@thi.ng/hdom/api.js","./default":"../node_modules/@thi.ng/hdom/default.js","./diff":"../node_modules/@thi.ng/hdom/diff.js","./dom":"../node_modules/@thi.ng/hdom/dom.js","./normalize":"../node_modules/@thi.ng/hdom/normalize.js","./render-once":"../node_modules/@thi.ng/hdom/render-once.js","./start":"../node_modules/@thi.ng/hdom/start.js","./utils":"../node_modules/@thi.ng/hdom/utils.js"}],"../node_modules/@thi.ng/transducers-hdom/index.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.updateDOM = void 0;
-
-var _hdom = require("@thi.ng/hdom");
-
-var _hiccup = require("@thi.ng/hiccup");
-
-var _transducers = require("@thi.ng/transducers");
-
-/**
- * Side-effecting & stateful transducer which receives @thi.ng/hdom
- * component trees, diffs each against previous value and applies
- * required changes to browser DOM starting at given root element.
- *
- * By default, incoming values are first normalized using hdom's
- * `normalizeTree()` function and a copy of the given (optional) `ctx`
- * object is provided to all embedded component functions in the tree.
- * If the `autoDerefKeys` option is given, attempts to auto-expand/deref
- * the given keys in the user supplied context object (`ctx` option)
- * prior to *each* tree normalization. All of these values should
- * implement the thi.ng/api `IDeref` interface (e.g. atoms, cursors,
- * views, rstreams etc.). This feature can be used to define dynamic
- * contexts linked to the main app state, e.g. using derived views
- * provided by thi.ng/atom.
- *
- * If the `hydrate` option is given, the first received tree is only
- * used to inject event listeners and initialize components with
- * lifecycle `init()` methods and expects an otherwise identical,
- * pre-existing DOM. All succeeding trees are diffed then as usual.
- *
- * This transducer is primarily intended for @thi.ng/rstream dataflow
- * graph based applications, where it can be used as final leaf
- * subscription to reactively reflect UI changes back to the user,
- * without using the usual RAF update loop used by hdom by default. In
- * this setup, DOM updates will only be performed when the stream this
- * transducer is attached to emits new values (i.e. hdom component
- * trees).
- *
- * Please see here for further details:
- * https://github.com/thi-ng/umbrella/blob/master/packages/hdom/src/start.ts
- *
- * @param opts hdom options
- */
-const updateDOM = (opts = {}, impl = _hdom.DEFAULT_IMPL) => {
-  const _opts = Object.assign({
-    root: "app"
-  }, opts);
-
-  const root = (0, _hdom.resolveRoot)(_opts.root, impl);
-  return (0, _transducers.scan)([() => [], acc => acc, (prev, curr) => {
-    _opts.ctx = (0, _hiccup.derefContext)(opts.ctx, _opts.autoDerefKeys);
-    curr = impl.normalizeTree(_opts, curr);
-
-    if (curr != null) {
-      if (_opts.hydrate) {
-        impl.hydrateTree(_opts, root, curr);
-        _opts.hydrate = false;
-      } else {
-        impl.diffTree(_opts, root, prev, curr, 0);
-      }
-
-      return curr;
-    }
-
-    return prev;
-  }]);
-};
-
-exports.updateDOM = updateDOM;
-},{"@thi.ng/hdom":"../node_modules/@thi.ng/hdom/index.js","@thi.ng/hiccup":"../node_modules/@thi.ng/hiccup/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js"}],"../node_modules/node-fetch/browser.js":[function(require,module,exports) {
+},{"./api":"../node_modules/@thi.ng/hdom/api.js","./default":"../node_modules/@thi.ng/hdom/default.js","./diff":"../node_modules/@thi.ng/hdom/diff.js","./dom":"../node_modules/@thi.ng/hdom/dom.js","./normalize":"../node_modules/@thi.ng/hdom/normalize.js","./render-once":"../node_modules/@thi.ng/hdom/render-once.js","./start":"../node_modules/@thi.ng/hdom/start.js","./utils":"../node_modules/@thi.ng/hdom/utils.js"}],"../node_modules/node-fetch/browser.js":[function(require,module,exports) {
 
 "use strict"; // ref: https://github.com/tc39/proposal-global
 
@@ -24910,17 +24906,11 @@ exports.Response = global.Response;
 
 var _src = require("../src");
 
-var _transducersHdom = require("@thi.ng/transducers-hdom");
-
-var _rstream = require("@thi.ng/rstream");
-
 var _paths = require("@thi.ng/paths");
 
 var _streams = require("../src/streams");
 
 var _checks = require("@thi.ng/checks");
-
-var _transducers = require("@thi.ng/transducers");
 
 var _hdom = require("@thi.ng/hdom");
 
@@ -24938,12 +24928,13 @@ const {
 } = _src.commands;
 const {
   parse_URL,
-  traceStream
+  traceStream,
+  initFLIP
 } = _src.utils;
 const {
   $routePath$: $routePath$,
   $store$,
-  setState
+  set$tate
 } = _src.store;
 
 // traceStream("run$ ->", run$)
@@ -25002,19 +24993,15 @@ const getSomeJSON = async (path, b) => {
 const router = async url => {
   let match = parse_URL(url);
   let {
-    URL,
-    URL_subdomain,
-    // array
-    URL_domain,
-    // array
-    URL_path,
-    // array
-    URL_query,
-    // object
-    URL_hash // string
+    // URL,
+    // URL_subdomain, // array
+    // URL_domain, // array
+    // URL_query, // object
+    // URL_hash, // string
+    URL_path // array
 
   } = match;
-  let [p_a, p_b] = URL_path;
+  let [_, p_b] = URL_path;
   let {
     data,
     page
@@ -25078,23 +25065,12 @@ links.forEach(x => {
 //   "8__/  888
 //
 //
-// TODO
-// {
-//   "img": "https://i.picsum.photos/id/1/600/600.jpg",
-//   "text": {
-//     "userId": 1,
-//     "id": 1,
-//     "title": "delectus aut autem",
-//     "completed": false
-//   }
-// }
-
-const S = JSON.stringify;
+// const S = JSON.stringify
 
 const link = ({
-  state
+  $store$
 }, id, text) => ["a", {
-  href: `${state.value.route_path}/${id}`,
+  href: `${$store$.value.route_path}/${id}`,
   onclick: e => clickEventHandlerDOM(e)
 }, text];
 
@@ -25110,68 +25086,20 @@ const field = (ctx, key, val) => ["li", {
   style: {
     padding: "0 0.5rem"
   }
-}, val]];
+}, val]]; // 📌 TODO: convert to containers rather than image warps:
+// 📌 clip-path: https://css-tricks.com/clipping-masking-css/
+// 📌 clip-path: https://www.youtube.com/watch?v=F4kJXbaunUg
 
-const getRect = element => {
-  var rect = element.getBoundingClientRect();
-  return {
-    top: rect.top,
-    right: rect.right,
-    bottom: rect.bottom,
-    left: rect.left,
-    width: rect.width,
-    height: rect.height,
-    x: rect.x,
-    y: rect.y
-  };
-};
 
 const FLIP_img = {
   init: (el, {
-    state
-  }, img, id) => {
-    let path = id ? state.value.route_path.concat(id.toString()) : state.value.route_path;
-    console.log({
-      path
-    });
-    let lens = ["flip_map", ...path]; // prettier-ignore
-
-    let config = {
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
-      width: 0,
-      height: 0,
-      x: 0,
-      y: 0
-    };
-    if (!(0, _paths.getIn)(state.deref(), lens)) return setState(lens, config);
-    let F_flip_map = (0, _paths.getIn)(state.deref(), lens);
-    let L_flip_map = getRect(el);
-    let tX = F_flip_map.left - L_flip_map.left;
-    let tY = F_flip_map.top - L_flip_map.top;
-    let sX = F_flip_map.width / L_flip_map.width;
-    let sY = F_flip_map.height / L_flip_map.height;
-    console.log({
-      F_flip_map,
-      L_flip_map
-    });
-    el.style.transition = "";
-    let transform = `translate(${tX}px, ${tY}px) scale(${sX}, ${sY})`;
-    console.log(transform);
-    el.style.transform = transform;
-    requestAnimationFrame(() => {
-      el.style.transition = "transform .5s";
-      el.style.transform = "";
-    });
-    setState(lens, L_flip_map);
-  },
+    $store$
+  }, img, id) => initFLIP(el, $store$, id),
   render: (ctx, img, id) => [image, img, id]
 };
 
 const image = ({
-  state
+  $store$
 }, img, id) => ["img", {
   src: img,
   style: id ? {
@@ -25182,7 +25110,7 @@ const image = ({
     width: "100%",
     "object-fit": "cover"
   },
-  flip: `${state.value.route_path.join("/")}${id ? "/" + id : ""}`
+  flip: `${$store$.value.route_path.join("/")}${id ? "/" + id : ""}`
 }];
 
 const component = sz => {
@@ -25205,31 +25133,20 @@ const page = (ctx, payload) => {
     img,
     text
   }) => [component("sm"), img, fields(text), text.id])] : [component("lg"), payload && payload.img ? payload.img : "n/a", payload && payload.text ? fields(payload.text.company || payload.text) : "n/a"]];
-}; // return ["pre", JSON.stringify(state, null, 2)]
-//
-//        /           d8b
-//  e88~88e  e88~-_  !Y88!
-//  888 888 d888   i  Y8Y
-//  "88_88" 8888   |   8
-//   /      Y888   '   e
-//  Cb       "88_-~   "8"
-//   Y8""8D
-//
-
+};
 
 (0, _hdom.start)( // 📌 page component that chooses a template based on the spec returned
 ({
-  run$,
-  state
-}) => [page, (0, _paths.getIn)(state.deref(), $routePath$.deref())], {
+  $store$
+}) => [page, (0, _paths.getIn)($store$.deref(), $routePath$.deref())], {
   root: document.getElementById("app"),
   ctx: {
     run$: _streams.run$,
-    state: $store$
+    $store$
   },
   span: false
 });
-},{"../src":"../src/index.js","@thi.ng/transducers-hdom":"../node_modules/@thi.ng/transducers-hdom/index.js","@thi.ng/rstream":"../node_modules/@thi.ng/rstream/index.js","@thi.ng/paths":"../node_modules/@thi.ng/paths/index.js","../src/streams":"../src/streams/index.js","@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js","@thi.ng/hdom":"../node_modules/@thi.ng/hdom/index.js","@thi.ng/associative":"../node_modules/@thi.ng/associative/index.js","node-fetch":"../node_modules/node-fetch/browser.js"}],"../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"../src":"../src/index.js","@thi.ng/paths":"../node_modules/@thi.ng/paths/index.js","../src/streams":"../src/streams/index.js","@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js","@thi.ng/hdom":"../node_modules/@thi.ng/hdom/index.js","@thi.ng/associative":"../node_modules/@thi.ng/associative/index.js","node-fetch":"../node_modules/node-fetch/browser.js"}],"../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -25257,7 +25174,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53310" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58446" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

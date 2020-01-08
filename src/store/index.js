@@ -9,7 +9,7 @@ export const $store$ = new Atom({
 })
 
 // sets a value within the global atom by path/lens
-export const setState = (path, val) =>
+export const set$tate = (path, val) =>
   $store$.swap(state => setIn(state, path, val))
 
 export const $routeLoading$ = $store$.addView("route_loading")
