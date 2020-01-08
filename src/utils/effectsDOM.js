@@ -20,19 +20,7 @@ export const initFLIP = (el, state, uid) => {
   let lens = ["flip_map", uid]
   console.log({ lens })
 
-  // prettier-ignore
-  let config = {
-    top    : 0,
-    right  : 0,
-    bottom : 0,
-    left   : 0,
-    width  : 0,
-    height : 0,
-    x      : 0,
-    y      : 0
-  }
-
-  if (!getIn(state.deref(), lens)) return set$tate(lens, config)
+  if (!getIn(state.deref(), lens)) return set$tate(lens, getRect(el))
   let F_flip_map = getIn(state.deref(), lens)
   let L_flip_map = getRect(el)
 

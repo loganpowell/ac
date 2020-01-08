@@ -21402,19 +21402,8 @@ const initFLIP = (el, state, uid) => {
   let lens = ["flip_map", uid];
   console.log({
     lens
-  }); // prettier-ignore
-
-  let config = {
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    width: 0,
-    height: 0,
-    x: 0,
-    y: 0
-  };
-  if (!(0, _paths.getIn)(state.deref(), lens)) return (0, _store.set$tate)(lens, config);
+  });
+  if (!(0, _paths.getIn)(state.deref(), lens)) return (0, _store.set$tate)(lens, getRect(el));
   let F_flip_map = (0, _paths.getIn)(state.deref(), lens);
   let L_flip_map = getRect(el);
   let tX = F_flip_map.left - L_flip_map.left;
@@ -25087,7 +25076,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64372" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62029" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
