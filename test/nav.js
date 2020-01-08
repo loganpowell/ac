@@ -11,7 +11,13 @@ import { isArray, isObject } from "@thi.ng/checks"
 import { start } from "@thi.ng/hdom"
 import { EquivMap } from "@thi.ng/associative"
 
-// import fetch from "node-fetch"
+import Promise from "promise-polyfill"
+import "whatwg-fetch"
+
+// To add to window
+if (!window.Promise) {
+  window.Promise = Promise
+}
 
 traceStream("run$ ->", run$)
 traceStream("command$ ->", command$)

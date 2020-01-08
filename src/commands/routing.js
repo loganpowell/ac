@@ -42,7 +42,9 @@ export const clickEventHandlerDOM = e => {
  */
 export const _SET_PAGE_STATE = registerCMD({
   sub$: "_SET_PAGE_STATE",
-  args: ({ URL_path, page, data }) => ({ URL_path, page, data }),
+  args: ({ URL_path, page, data }) => (
+    console.log({ URL_path, page, data }), { URL_path, page, data }
+  ),
   handler: ({ URL_path, page, data }) => (set$tate(URL_path, data), set$tate("page", page))
 })
 
