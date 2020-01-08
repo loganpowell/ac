@@ -120,7 +120,6 @@ let links = document.querySelectorAll("a")
 
 links.forEach(x => {
   x.addEventListener("click", e => {
-    e.preventDefault()
     console.log("STATE:", $store$.deref())
     clickEventHandlerDOM(e)
   })

@@ -11,7 +11,7 @@ import { DOMnavigated$ } from "../streams"
  * transforms
  */
 export const clickEventHandlerDOM = e => {
-  e.preventDefault ? e.preventDefault() : (e.returnValue = false)
+  e.preventDefault()
   let href = e.target.href
   let w_href = window.location.href
   if (w_href === href) return
@@ -20,7 +20,6 @@ export const clickEventHandlerDOM = e => {
     target: { location: { href } },
     currentTarget: e.currentTarget
   })
-  return e
 }
 
 // source = TRIGGER
