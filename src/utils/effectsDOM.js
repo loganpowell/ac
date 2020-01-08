@@ -1,18 +1,36 @@
 import { getIn } from "@thi.ng/paths"
-import { set$tate } from "../store"
+import { set$tate, $routePath$, $store$ } from "../store"
 
-const getRect = element => {
-  var rect = element.getBoundingClientRect()
-  // prettier-ignore
+const rootID = getIn($store$, "_root")
+const _root = document.getElementById("app")
+
+const _frame_HTML = `<div id="frame" 
+  style="width: 100vw; 
+  height: 100vh; 
+  position: fixed; 
+  pointer-events: none">
+  </div>`
+_root.insertAdjacentHTML("beforebegin", _frame_HTML)
+const _frame = document.getElementById("frame")
+
+export function getRect(element, frame) {
+  const { top, bottom, left, right, width, height } = element.getBoundingClientRect()
+
+  const parentRect = frame ? frame.getBoundingClientRect() : undefined
+
   return {
-    top    : rect.top,
-    right  : rect.right,
-    bottom : rect.bottom,
-    left   : rect.left,
-    width  : rect.width,
-    height : rect.height,
-    x      : rect.x,
-    y      : rect.y
+    top: top - (parentRect ? parentRect.top : 0),
+    bottom,
+    left: left - (parentRect ? parentRect.left : 0),
+    right,
+    width,
+    height,
+    get transform() {
+      return getComputedStyle(element).transform || undefined
+    },
+    get my_height() {
+      return this.height
+    }
   }
 }
 
@@ -20,10 +38,11 @@ export const initFLIP = (el, state, uid) => {
   let lens = ["flip_map", uid]
   console.log({ lens })
 
-  if (!getIn(state.deref(), lens)) return set$tate(lens, getRect(el))
+  if (!getIn(state.deref(), lens)) return set$tate(lens, getRect(el, _frame))
   let F_flip_map = getIn(state.deref(), lens)
-  let L_flip_map = getRect(el)
+  let L_flip_map = getRect(el, _frame)
 
+  console.log("getter: my_height ->", L_flip_map.my_height)
   let tX = F_flip_map.left - L_flip_map.left
   let tY = F_flip_map.top - L_flip_map.top
   let sX = F_flip_map.width / L_flip_map.width

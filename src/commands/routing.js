@@ -44,13 +44,11 @@ export const clickEventHandlerDOM = e => {
 export const _SET_PAGE_STATE = registerCMD({
   sub$: "_SET_PAGE_STATE",
   args: ({ URL_path, page, data }) => ({ URL_path, page, data }),
-  handler: ({ URL_path, page, data }) => (
-    set$tate(URL_path, data), set$tate("page", page)
-  )
+  handler: ({ URL_path, page, data }) => (set$tate(URL_path, data), set$tate("page", page))
 })
 
 /**
- * ## `_SET_ROUTER_LOADING_STATE`
+ * ## `_SET_ROUTER_LOADING_STATE`cod
  *
  * Routing Command: Universal
  *
@@ -136,8 +134,7 @@ export const _SET_LINK_ATTRS_DOM = registerCMD({
 export const _HREF_PUSHSTATE_DOM = registerCMD({
   sub$: "_HREF_PUSHSTATE_DOM",
   args: ({ URL, DOM }) => ({ URL, DOM }),
-  handler: ({ URL, DOM }) =>
-    !DOM.document ? history.pushState(parse_URL(URL), null, URL) : null
+  handler: ({ URL, DOM }) => (!DOM.document ? history.pushState(parse_URL(URL), null, URL) : null)
 })
 
 /**

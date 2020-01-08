@@ -1,23 +1,24 @@
-import { register, commands, utils, store } from "../src"
+import { register, commands, utils, store, streams } from "../src"
 
+const { run$, command$, task$, out$, DOMnavigated$ } = streams
 const { registerRouterDOM } = register
 const { clickEventHandlerDOM } = commands
 const { parse_URL, traceStream, initFLIP } = utils
 const { $routePath$: $routePath$, $store$, set$tate } = store
 
 import { getIn } from "@thi.ng/paths"
-import { run$ } from "../src/streams"
 import { isArray, isObject } from "@thi.ng/checks"
 import { start } from "@thi.ng/hdom"
 import { EquivMap } from "@thi.ng/associative"
 
-import fetch from "node-fetch"
+import "whatwg-fetch"
+// import fetch from "node-fetch"
 
-// traceStream("run$ ->", run$)
-// traceStream("command$ ->", command$)
-// traceStream("task$ ->", task$)
-// traceStream("out$ ->", out$)
-// traceStream("navigated$ ->", DOMnavigated$)
+traceStream("run$ ->", run$)
+traceStream("command$ ->", command$)
+traceStream("task$ ->", task$)
+traceStream("out$ ->", out$)
+traceStream("navigated$ ->", DOMnavigated$)
 
 //
 //    d8                      d8
@@ -99,13 +100,11 @@ const router = async url => {
     page: "bloop"
   } // should probably be a 404... also need a match for an empty path: []
 
-  console.log("router called")
+  console.log("router called", { page, data: await data() })
   return { page, data: await data() }
 }
 
 // router({ hurl: "/todos/1" }) //?
-
-registerRouterDOM(router)
 
 //
 //                        ,d
@@ -150,12 +149,17 @@ const link = ({ $store$ }, id, text) => [
 const field = (ctx, key, val) => [
   "li",
   { style: { display: "flex" } },
-  key === "id"
-    ? [link, val, val]
-    : ["p", { style: { padding: "0 0.5rem" } }, key],
+  key === "id" ? [link, val, val] : ["p", { style: { padding: "0 0.5rem" } }, key],
   isObject(val)
     ? ["ul", ...Object.entries(val).map(([k, v]) => [field, k, v])]
     : ["p", { style: { padding: "0 0.5rem" } }, val]
+]
+
+const fields = payload => [
+  "ul",
+  ...Object.entries(payload)
+    .slice(0, 4)
+    .map(([k, v]) => [field, k, v])
 ]
 
 const image = (ctx, img) => [
@@ -168,7 +172,7 @@ const image = (ctx, img) => [
 ]
 
 const FLIP_img = {
-  init: (el, { $store$ }, img) => initFLIP(el, $store$, img),
+  init: (el, { $store$ }, uid) => initFLIP(el, $store$, uid),
   render: (ctx, img) => [image, img]
 }
 
@@ -198,45 +202,41 @@ const component = sz => {
   return (ctx, img, fields) => [
     "div",
     { class: "flip" },
-    [FLIP_div, [img, "div"].join("."), sz, [FLIP_img, img]],
+    [FLIP_div, img + "div", sz, [FLIP_img, img]],
     ["p", { class: "title" }, fields]
   ]
 }
 
-const fields = payload => [
-  "ul",
-  ...Object.entries(payload)
-    .slice(0, 4)
-    .map(([k, v]) => [field, k, v])
-]
 const page = (ctx, payload) => {
   return [
     "div",
-    { style: { "max-width": "40rem", margin: "auto" } },
+    { style: { "max-width": "30rem", margin: "auto" } },
     isArray(payload)
-      ? [
-          "div",
-          ...payload.map(({ img, text }) => [
-            component("sm"),
-            img,
-            fields(text)
-          ])
-        ]
+      ? ["div", ...payload.map(({ img, text }) => [component("sm"), img, fields(text)])]
       : [
           component("lg"),
-          payload && payload.img ? payload.img : "n/a",
-          payload && payload.text
-            ? fields(payload.text.company || payload.text)
-            : "n/a"
+          payload && payload.img ? payload.img : "https://i.picsum.photos/id/111/600/600.jpg",
+          payload && payload.text ? fields(payload.text.company || payload.text) : null
         ]
   ]
 }
 
+registerRouterDOM(router)
+
+// ✈ MOVE to register/ ✈
+const registerRootByID = id => {
+  set$tate("_root", id)
+  return document.getElementById(id)
+}
+const root = registerRootByID("app")
+
+// consider abstracting this (just hand it a `router` Map,
+// `page` object and an "id")
 start(
   // 📌 page component that chooses a template based on the spec returned
   ({ $store$ }) => [page, getIn($store$.deref(), $routePath$.deref())],
   {
-    root: document.getElementById("app"),
+    root,
     ctx: { run$, $store$ },
     span: false
   }
