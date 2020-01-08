@@ -52,7 +52,7 @@
   "browserslist": [
     "last 1 version",
     "> 1%",
-    "IE 11"
+    "IE 8"
   ],
   "prettier": {
     "endOfLine": "lf",
