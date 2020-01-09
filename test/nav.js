@@ -1,15 +1,25 @@
 import { register, commands, utils, store, streams } from '../src'
 
+import { getIn } from '@thi.ng/paths'
+import { isArray, isObject } from '@thi.ng/checks'
+import { start } from '@thi.ng/hdom'
+import { EquivMap } from '@thi.ng/associative'
+
 const { run$, command$, task$, out$, DOMnavigated$ } = streams
 const { registerRouterDOM } = register
 const { clickEventHandlerDOM } = commands
 const { parse_URL, traceStream, FLIP } = utils
 const { $routePath$: $routePath$, $store$, set$State, set$Root } = store
 
-import { getIn } from '@thi.ng/paths'
-import { isArray, isObject } from '@thi.ng/checks'
-import { start } from '@thi.ng/hdom'
-import { EquivMap } from '@thi.ng/associative'
+//
+//    d8
+//  _d88__ 888-~\   /~~~8e   e88~~\  e88~~8e
+//   888   888          88b d888    d888  88b
+//   888   888     e88~-888 8888    8888__888
+//   888   888    C888  888 Y888    Y888    ,
+//   "88_/ 888     "88_-888  "88__/  "88___/
+//
+//
 
 // traceStream("run$ ->", run$)
 traceStream('command$ ->', command$)
@@ -18,12 +28,13 @@ traceStream('command$ ->', command$)
 // traceStream("navigated$ ->", DOMnavigated$)
 
 //
-//    d8                      d8
-//  _d88__  e88~~8e   d88~\ _d88__
-//   888   d888  88b C888    888
-//   888   8888__888  Y88b   888
-//   888   Y888    ,   888D  888
-//   "88_/  "88___/  \_88P   "88_/
+//                             d8
+//  888-~\  e88~-_  888  888 _d88__  e88~~8e  888-~\
+//  888    d888   i 888  888  888   d888  88b 888
+//  888    8888   | 888  888  888   8888__888 888
+//  888    Y888   ' 888  888  888   Y888    , 888
+//  888     "88_-~  "88_-888  "88_/  "88___/  888
+//
 //
 
 const getSomeJSON = async (path, b) => {
@@ -56,9 +67,9 @@ const getSomeJSON = async (path, b) => {
  * exposes the underlying dependency of `EquivMap` from
  * `@thi.ng/associative`, is as beautiful as it gets. It's
  * what the JavaScript Map should have been and I wanted the
- * users to not only see that beauty, but also be made aware
- * of this powerful dependency, so they could take it with
- * them to put up against other problems.
+ * users to not only see that beauty, but also get a sense
+ * of the potential of pattern matching in JS, so they could
+ * take it with them to put up against related problems.
  *
  * Value semantics have so many benefits. As a router,
  * here's one.
@@ -100,27 +111,6 @@ const router = async url => {
   // console.log("router called", { page, data: await data() })
   return { page, data: await data() }
 }
-
-// router({ hurl: "/todos/1" }) //?
-
-//
-//                        ,d
-//   e88~~8e  Y88b  /  ,d888
-//  d888  88b  Y88b/     888
-//  8888__888   Y88b     888
-//  Y888    ,   /Y88b    888
-//   "88___/   /  Y88b   888
-//
-//
-
-let links = document.querySelectorAll('a')
-
-links.forEach(x => {
-  x.addEventListener('click', e => {
-    console.log('STATE:', $store$.deref())
-    clickEventHandlerDOM(e)
-  })
-})
 
 //
 //  888   | 888
@@ -250,6 +240,16 @@ const page = (ctx, payload) => {
         ]
   ]
 }
+
+//
+//       e      888~-_   888  _-~88e
+//      d8b     888   \  888 /   88"
+//     /Y88b    888    | 888 `   8P
+//    /  Y88b   888   /  888     `
+//   /____Y88b  888_-~   888   d88b
+//  /      Y88b 888      888   Y88P
+//
+//
 
 registerRouterDOM(router)
 
