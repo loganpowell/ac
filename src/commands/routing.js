@@ -1,7 +1,8 @@
-import { registerCMD } from "../register"
-import { set$tate } from "../store"
-import { parse_URL } from "../utils"
-import { DOMnavigated$ } from "../streams"
+import { registerCMD } from '../register'
+import { set$State, set$Route, set$Loading, set$Page, $store$ } from '../store'
+import { parse_URL } from '../utils'
+import { DOMnavigated$ } from '../streams'
+import { getIn } from '@thi.ng/paths'
 
 /**
  * we need to transform the payload to align with the
@@ -41,11 +42,11 @@ export const clickEventHandlerDOM = e => {
  *
  */
 export const _SET_PAGE_STATE = registerCMD({
-  sub$: "_SET_PAGE_STATE",
-  args: ({ URL_path, page, data }) => (
-    console.log({ URL_path, page, data }), { URL_path, page, data }
-  ),
-  handler: ({ URL_path, page, data }) => (set$tate(URL_path, data), set$tate("page", page))
+  sub$: '_SET_PAGE_STATE',
+  args: ({ URL_path, page, data }) => ({ URL_path, page, data }),
+  handler: ({ URL_path, page, data }) => (
+    set$State(URL_path, data), set$Page(page)
+  )
 })
 
 /**
@@ -61,9 +62,9 @@ export const _SET_PAGE_STATE = registerCMD({
  *
  */
 export const _SET_ROUTER_LOADING_STATE = registerCMD({
-  sub$: "_SET_ROUTER_LOADING_STATE",
+  sub$: '_SET_ROUTER_LOADING_STATE',
   args: true,
-  handler: x => set$tate("route_loading", x)
+  handler: x => set$Loading(x)
 })
 
 /**
@@ -81,19 +82,19 @@ export const _SET_ROUTER_LOADING_STATE = registerCMD({
  *
  */
 export const _SET_ROUTER_PATH = registerCMD({
-  sub$: "_SET_ROUTER_PATH",
+  sub$: '_SET_ROUTER_PATH',
   args: ({ URL_path }) => ({ URL_path }),
-  handler: ({ URL_path }) => set$tate("route_path", URL_path)
+  handler: ({ URL_path }) => set$Route(URL_path)
 })
 
 const setLinkAttrs = target => {
-  document.body.querySelectorAll("a[visited]").forEach(el => {
-    if (el.href === window.location.href) el.setAttribute("active", "")
-    else el.removeAttribute("active")
+  document.body.querySelectorAll('a[visited]').forEach(el => {
+    if (el.href === window.location.href) el.setAttribute('active', '')
+    else el.removeAttribute('active')
   })
   if (target.setAttribute) {
-    target.setAttribute("visited", "")
-    target.setAttribute("active", "")
+    target.setAttribute('visited', '')
+    target.setAttribute('active', '')
   }
 }
 
@@ -113,7 +114,7 @@ const setLinkAttrs = target => {
  *
  */
 export const _SET_LINK_ATTRS_DOM = registerCMD({
-  sub$: "_SET_LINK_ATTRS_DOM",
+  sub$: '_SET_LINK_ATTRS_DOM',
   args: ({ DOM }) => ({ DOM }),
   handler: ({ DOM }) => setLinkAttrs(DOM)
 })
@@ -133,9 +134,10 @@ export const _SET_LINK_ATTRS_DOM = registerCMD({
  *
  */
 export const _HREF_PUSHSTATE_DOM = registerCMD({
-  sub$: "_HREF_PUSHSTATE_DOM",
+  sub$: '_HREF_PUSHSTATE_DOM',
   args: ({ URL, DOM }) => ({ URL, DOM }),
-  handler: ({ URL, DOM }) => (!DOM.document ? history.pushState(parse_URL(URL), null, URL) : null)
+  handler: ({ URL, DOM }) =>
+    !DOM.document ? history.pushState(parse_URL(URL), null, URL) : null
 })
 
 /**
@@ -150,8 +152,33 @@ export const _HREF_PUSHSTATE_DOM = registerCMD({
  *
  */
 export const _NOTIFY_PRERENDER_DOM = registerCMD({
-  sub$: "_NOTIFY_PRERENDER_DOM",
+  sub$: '_NOTIFY_PRERENDER_DOM',
   args: true,
   //👀 for prerenderer,
-  handler: () => document.dispatchEvent(new Event("rendered"))
+  handler: () => document.dispatchEvent(new Event('rendered'))
 })
+
+//
+//  888~~  888     888 888~-_    _-~88e
+//  888___ 888     888 888   \  /   88"
+//  888    888     888 888    | `   8P
+//  888    888     888 888   /      `
+//  888    888     888 888_-~     d88b
+//  888    888____ 888 888        Y88P
+//
+//
+
+// export const _FLIP_FIRST = registerCMD({
+//   sub$: "_FLIP_FIRST",
+//   args: true,
+//   handler: () =>
+//     $store$.deref()._flip_els.forEach(el => (el.recordBeforeUpdate(), $store$.deref(), el.update()))
+
+//   // console.log($store$.deref()._flip_els.forEach((v, k, d) => console.log("key:", k, "val", v))) // console.log(getIn($store$, "_flip_els")) // .forEach(el => el.recordBeforeUpdate())
+// })
+
+// export const _FLIP_PLAY = registerCMD({
+//   sub$: "_FLIP_PLAY",
+//   args: true,
+//   handler: console.log // () => $store$.deref()._flip_els.forEach(el => el.update())
+// })

@@ -269,7 +269,7 @@ export const spool = task_array =>
     // error, but no error handler
     if (result instanceof Error) {
       console.warn(err_str, result)
-      return
+      return acc
       // throw new Error(result)
     }
     if (result !== Object(result)) {

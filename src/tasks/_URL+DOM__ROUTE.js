@@ -7,6 +7,8 @@ import {
   _SET_ROUTER_LOADING_STATE,
   _SET_ROUTER_PATH,
   _SET_PAGE_STATE
+  // _FLIP_FIRST,
+  // _FLIP_PLAY
 } from "../commands"
 // import { log$ } from "../streams"
 
@@ -41,10 +43,15 @@ export const _URL_DOM__ROUTE = router => {
     { ..._HREF_PUSHSTATE_DOM, args: { URL, DOM } },
     // example Subtask injection
     ({ URL }) => match({ URL }),
+    // { args: msTaskDelay(2000) },
+    // _FLIP_FIRST,
+    _SET_PAGE_STATE,
+    // _FLIP_PLAY,
+    // wait on pending promise(s) w/a non-nullary fn (+)=>
+    { ..._SET_ROUTER_LOADING_STATE, args: _ => false },
     // example ad-hoc stream injection
     // { sub$: log$, args: () => ({ DOM }) },
     _SET_LINK_ATTRS_DOM,
-    // { args: msTaskDelay(200) },
     _NOTIFY_PRERENDER_DOM
   ]
 }
@@ -79,8 +86,5 @@ export const _URL__ROUTE = router => ({ URL }) => [
     erro: (acc, err) => console.warn(err)
   },
   { args: parse_URL(URL) },
-  _SET_ROUTER_PATH,
-  _SET_PAGE_STATE,
-  // wait on pending promise(s) w/a non-nullary fn (+)=>
-  { ..._SET_ROUTER_LOADING_STATE, args: _ => false }
+  _SET_ROUTER_PATH
 ]

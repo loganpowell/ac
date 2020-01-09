@@ -1,29 +1,21 @@
-import { register, commands, utils, store, streams } from "../src"
+import { register, commands, utils, store, streams } from '../src'
 
 const { run$, command$, task$, out$, DOMnavigated$ } = streams
 const { registerRouterDOM } = register
 const { clickEventHandlerDOM } = commands
-const { parse_URL, traceStream, initFLIP } = utils
-const { $routePath$: $routePath$, $store$, set$tate } = store
+const { parse_URL, traceStream, FLIP } = utils
+const { $routePath$: $routePath$, $store$, set$State, set$Root } = store
 
-import { getIn } from "@thi.ng/paths"
-import { isArray, isObject } from "@thi.ng/checks"
-import { start } from "@thi.ng/hdom"
-import { EquivMap } from "@thi.ng/associative"
+import { getIn } from '@thi.ng/paths'
+import { isArray, isObject } from '@thi.ng/checks'
+import { start } from '@thi.ng/hdom'
+import { EquivMap } from '@thi.ng/associative'
 
-import Promise from "promise-polyfill"
-import "whatwg-fetch"
-
-// To add to window
-if (!window.Promise) {
-  window.Promise = Promise
-}
-
-traceStream("run$ ->", run$)
-traceStream("command$ ->", command$)
-traceStream("task$ ->", task$)
-traceStream("out$ ->", out$)
-traceStream("navigated$ ->", DOMnavigated$)
+// traceStream("run$ ->", run$)
+traceStream('command$ ->', command$)
+// traceStream("task$ ->", task$)
+// traceStream("out$ ->", out$)
+// traceStream("navigated$ ->", DOMnavigated$)
 
 //
 //    d8                      d8
@@ -35,7 +27,7 @@ traceStream("navigated$ ->", DOMnavigated$)
 //
 
 const getSomeJSON = async (path, b) => {
-  const text_base = "https://jsonplaceholder.typicode.com/"
+  const text_base = 'https://jsonplaceholder.typicode.com/'
   const img_base = id => `https://i.picsum.photos/id/${id}/600/600.jpg`
 
   const data = b
@@ -85,27 +77,27 @@ const router = async url => {
 
   let { data, page } = new EquivMap([
     [
-      { ...match, URL_path: ["todos"] },
-      { data: () => getSomeJSON("todos"), page: "todos" }
+      { ...match, URL_path: ['todos'] },
+      { data: () => getSomeJSON('todos'), page: 'todos' }
     ],
     [
-      { ...match, URL_path: ["todos", p_b] },
-      { data: () => getSomeJSON("todos", p_b), page: "todo" }
+      { ...match, URL_path: ['todos', p_b] },
+      { data: () => getSomeJSON('todos', p_b), page: 'todo' }
     ],
     [
-      { ...match, URL_path: ["users"] },
-      { data: () => getSomeJSON("users"), page: "users" }
+      { ...match, URL_path: ['users'] },
+      { data: () => getSomeJSON('users'), page: 'users' }
     ],
     [
-      { ...match, URL_path: ["users", p_b] },
-      { data: () => getSomeJSON("users", p_b), page: "user" }
+      { ...match, URL_path: ['users', p_b] },
+      { data: () => getSomeJSON('users', p_b), page: 'user' }
     ]
   ]).get(match) || {
-    data: () => ({ home: "page" }),
-    page: "bloop"
+    data: () => ({ home: 'page' }),
+    page: 'bloop'
   } // should probably be a 404... also need a match for an empty path: []
 
-  console.log("router called", { page, data: await data() })
+  // console.log("router called", { page, data: await data() })
   return { page, data: await data() }
 }
 
@@ -121,11 +113,11 @@ const router = async url => {
 //
 //
 
-let links = document.querySelectorAll("a")
+let links = document.querySelectorAll('a')
 
 links.forEach(x => {
-  x.addEventListener("click", e => {
-    console.log("STATE:", $store$.deref())
+  x.addEventListener('click', e => {
+    console.log('STATE:', $store$.deref())
     clickEventHandlerDOM(e)
   })
 })
@@ -142,86 +134,119 @@ links.forEach(x => {
 
 // const S = JSON.stringify
 
-const link = ({ $store$ }, id, text) => [
-  "a",
+const pathLink = (ctx, id, text) => [
+  'a',
   {
-    href: `${$store$.value.route_path}/${id}`,
+    href: `${$routePath$.deref()}/${id}`,
     onclick: e => clickEventHandlerDOM(e)
   },
   text
 ]
 
 const field = (ctx, key, val) => [
-  "li",
-  { style: { display: "flex" } },
-  key === "id" ? [link, val, val] : ["p", { style: { padding: "0 0.5rem" } }, key],
+  'li',
+  { style: { display: 'flex' } },
+  key === 'id'
+    ? [pathLink, val, val]
+    : ['p', { style: { padding: '0 0.5rem' } }, key],
   isObject(val)
-    ? ["ul", ...Object.entries(val).map(([k, v]) => [field, k, v])]
-    : ["p", { style: { padding: "0 0.5rem" } }, val]
+    ? ['ul', ...Object.entries(val).map(([k, v]) => [field, k, v])]
+    : ['p', { style: { padding: '0 0.5rem' } }, val]
 ]
 
 const fields = payload => [
-  "ul",
+  'ul',
   ...Object.entries(payload)
     .slice(0, 4)
     .map(([k, v]) => [field, k, v])
 ]
 
 const image = (ctx, img) => [
-  "img",
+  'img',
   {
     src: img,
-    style: { "object-fit": "cover", "min-height": "100%", "min-width": "100%" }
+    style: {
+      'object-fit': 'cover',
+      'min-height': '100%',
+      'min-width': '100%',
+      'object-position': '50% 50%'
+    }
     // style: { height: "600px", width: "600px" }
   }
 ]
 
 const FLIP_img = {
-  init: (el, { $store$ }, uid) => initFLIP(el, $store$, uid),
+  init: (el, { $store$ }, uid) => FLIP(el, $store$, uid),
   render: (ctx, img) => [image, img]
 }
 
 const div = (ctx, uid, sz, ...args) => [
-  "div",
+  'div',
   {
     style:
-      sz === "sm"
+      sz === 'sm'
         ? {
-            height: "100px",
-            overflow: "hidden"
+            height: '100px',
+            overflow: 'hidden'
           }
         : {
-            height: "80vh",
-            overflow: "hidden"
+            height: '80vh',
+            overflow: 'hidden'
           }
   },
   ...args
 ]
 
 const FLIP_div = {
-  init: (el, { $store$ }, uid, ...args) => initFLIP(el, $store$, uid),
+  init: (el, { $store$ }, uid, ...args) => FLIP(el, $store$, uid),
   render: (ctx, id, ...args) => [div, id, ...args]
 }
 
 const component = sz => {
   return (ctx, img, fields) => [
-    "div",
-    { class: "flip" },
-    [FLIP_div, img + "div", sz, [FLIP_img, img]],
-    ["p", { class: "title" }, fields]
+    'div',
+    {},
+    [FLIP_div, img + 'div', sz, [FLIP_img, img]],
+    ['p', { class: 'title' }, fields]
   ]
 }
 
+const link = (ctx, path, ...args) => [
+  'a',
+  {
+    href: '/' + path.join('/'),
+    onclick: e => clickEventHandlerDOM(e)
+  },
+  ...args
+]
+
 const page = (ctx, payload) => {
   return [
-    "div",
-    { style: { "max-width": "30rem", margin: "auto" } },
+    'div',
+    { style: { 'max-width': '30rem', margin: 'auto' } },
+    ...[['users'], ['todos', 2], ['users', 9]].map(path => [
+      link,
+      path,
+      `${path[0]} ${path[1] ? '->' + path[1] : ''}`,
+      ['br']
+    ]),
     isArray(payload)
-      ? ["div", ...payload.map(({ img, text }) => [component("sm"), img, fields(text)])]
+      ? [
+          'div',
+          ...payload.map(({ img, text }) => [
+            component('sm'),
+            img,
+            fields(text)
+          ])
+        ]
       : [
-          component("lg"),
-          payload && payload.img ? payload.img : "https://i.picsum.photos/id/111/600/600.jpg",
-          payload && payload.text ? fields(payload.text.company || payload.text) : null
+          component('lg'),
+          payload && payload.img
+            ? payload.img
+            : 'https://i.picsum.photos/id/111/600/600.jpg',
+          payload && payload.text
+            ? fields(payload.text.company || payload.text)
+            : null
         ]
   ]
 }
@@ -230,11 +255,10 @@ registerRouterDOM(router)
 
 // ✈ MOVE to register/ ✈
 const registerRootByID = id => {
-  set$tate("_root", id)
+  set$Root(id)
   return document.getElementById(id)
 }
-const root = registerRootByID("app")
-
+const root = registerRootByID('app')
 // consider abstracting this (just hand it a `router` Map,
 // `page` object and an "id")
 start(
