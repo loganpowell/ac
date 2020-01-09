@@ -5,11 +5,13 @@ import { isArray, isObject } from '@thi.ng/checks'
 import { start } from '@thi.ng/hdom'
 import { EquivMap } from '@thi.ng/associative'
 
-const { run$, command$, task$, out$, DOMnavigated$ } = streams
+// ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
+const { run$, command$ } = streams
 const { registerRouterDOM } = register
 const { clickEventHandlerDOM } = commands
 const { parse_URL, traceStream, FLIP } = utils
-const { $routePath$: $routePath$, $store$, set$State, set$Root } = store
+const { $routePath$, $store$, set$Root } = store
+// ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
 
 //
 //    d8
@@ -68,8 +70,9 @@ const getSomeJSON = async (path, b) => {
  * `@thi.ng/associative`, is as beautiful as it gets. It's
  * what the JavaScript Map should have been and I wanted the
  * users to not only see that beauty, but also get a sense
- * of the potential of pattern matching in JS, so they could
- * take it with them to put up against related problems.
+ * of the potential of __pattern matching__ in JS, so they
+ * could take it with them to put up against related
+ * problems.
  *
  * Value semantics have so many benefits. As a router,
  * here's one.
@@ -84,7 +87,7 @@ const router = async url => {
     // URL_hash, // string
     URL_path // array
   } = match
-  let [_, p_b] = URL_path
+  let [, p_b] = URL_path
 
   let { data, page } = new EquivMap([
     [
@@ -188,7 +191,7 @@ const div = (ctx, uid, sz, ...args) => [
 ]
 
 const FLIP_div = {
-  init: (el, { $store$ }, uid, ...args) => FLIP(el, $store$, uid),
+  init: (el, { $store$ }, uid) => FLIP(el, $store$, uid),
   render: (ctx, id, ...args) => [div, id, ...args]
 }
 
