@@ -221,12 +221,6 @@ export const FLIP_last_invert_play = (el, state, uid) => {
 
   let clicked = getIn(state.deref(), clicks) || null
 
-  // NO first_frame => NAV CAUSED RENDER
-  if (!clicked) {
-    console.log(ID, "FLIP'ed on navigated")
-  } else {
-    console.log(ID, "FLIP'ed on click! 👆")
-  }
   el.scrollIntoView()
   let L_flip_map = getRect(el)
 
@@ -256,7 +250,20 @@ export const FLIP_last_invert_play = (el, state, uid) => {
     el.style.transition = "all .4s cubic-bezier(.54,-0.29,.17,1.11)"
     el.style.transform = "none"
   })
-  state.resetIn(rects, L_flip_map)
+  /**
+   * remove this if/else if it's desireable to continue
+   * tracking element through multiple non-clicked
+   * navigations (e.g., back/fowards)
+   *
+   * ie, always state.resetIn(recs, L_flip_map)
+   */
+  if (!clicked) {
+    console.log(ID, "FLIP'ed on navigated")
+    state.resetIn(rects, null)
+  } else {
+    console.log(ID, "FLIP'ed on click! 👆")
+    state.resetIn(rects, L_flip_map)
+  }
   // remove click frame
   state.resetIn(clicks, null)
 }

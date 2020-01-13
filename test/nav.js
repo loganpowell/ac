@@ -377,12 +377,8 @@ const page = (ctx, payload) => {
 registerRouterDOM(router)
 
 // ✈ MOVE to register/ ✈
-const registerRootByID = id => {
-  set$Root(id)
-  return document.getElementById(id)
-}
 
-const root = registerRootByID("app")
+const root = document.getElementById("app")
 // consider abstracting this (just hand it a `router` Map,
 // `page` object and an "id")
 console.log("starting...")
