@@ -1,0 +1,21 @@
+{
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel index.html -d dist"
+  },
+  "keywords": [
+    "thi.ng"
+  ],
+  "browserslist": [
+    "last 2 Chrome versions"
+  ],
+  "prettier": {
+    "endOfLine": "lf",
+    "printWidth": 80,
+    "semi": false
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.0",
+    "abort-controller": "^3.0.0"
+  }
+}
