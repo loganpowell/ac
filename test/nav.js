@@ -290,6 +290,7 @@ const div = (ctx, attrs, img, sz, ...args) => [
 //   ]
 // }
 
+const FLIP_nav_zoom_API = (ctx, attrs) => ({})
 const FLIP_div = {
   render: ({ $store$ }, img, ...args) => [
     div,
