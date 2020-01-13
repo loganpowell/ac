@@ -2,7 +2,7 @@
   "name": "reduce.ac",
   "version": "0.1.2",
   "description": "AC is a framework for leveraging `@thi.ng/umbrella` for web apps",
-  "main": "index.js",
+  "main": "browser",
   "repository": "https://github.com/loganpowell/ac",
   "homepage": "https://github.com/loganpowell/ac",
   "scripts": {
@@ -24,19 +24,22 @@
     "@thi.ng/rstream": "latest",
     "@thi.ng/transducers-hdom": "^2.0.32",
     "abort-controller": "^3.0.0",
-    "querystring": "^0.2.0"
+    "querystring": "^0.2.0",
+    "tinyscroll": "^3.1.0"
   },
   "peerDependencies": {
     "@thi.ng/associative": "latest",
     "@thi.ng/transducers": "latest",
     "@thi.ng/checks": "latest",
     "@thi.ng/paths": "latest",
-    "@thi.ng/atom": "latest"
+    "@thi.ng/atom": "latest",
+    "@thi.ng/arrays": "latest"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
     "@babel/plugin-transform-runtime": "^7.7.6",
     "@babel/preset-env": "^7.7.7",
+    "@mapbox/scroll-restorer": "^1.0.0",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "babel-preset-env": "^1.7.0",
     "cross-env": "^6.0.3",
@@ -54,6 +57,6 @@
     "endOfLine": "lf",
     "printWidth": 80,
     "semi": false,
-    "singleQuote": true
+    "singleQuote": false
   }
 }

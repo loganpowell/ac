@@ -4,10 +4,8 @@
 import { fromDOMEvent, merge, pubsub, stream, trace } from "@thi.ng/rstream"
 import { map } from "@thi.ng/transducers"
 import { spool } from "../spool"
-import { unknown_key_ERR } from "../utils"
 
 export const log$ = stream().subscribe(trace("log$ -> "), { id: "log$" })
-const err_str = "Command"
 /**
  * # Stream Architecture:
  *

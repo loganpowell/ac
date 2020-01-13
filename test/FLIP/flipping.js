@@ -20,12 +20,14 @@ export function getRect(element, ancestor) {
     }
   }
 }
+
 export function getStyles(element) {
   const computedStyle = getComputedStyle(element)
   return {
     radius: computedStyle.borderRadius || 0
   }
 }
+
 const NO_DELTA = {
   x: 0,
   y: 0,
@@ -38,6 +40,7 @@ const NO_DELTA = {
   widthRatio: 1,
   heightRatio: 1
 }
+
 export function getDelta(firstRect, lastRect) {
   const dx = lastRect.left - firstRect.left
   const dy = lastRect.top - firstRect.top
@@ -56,6 +59,7 @@ export function getDelta(firstRect, lastRect) {
     heightRatio: lastRect.height / firstRect.height
   }
 }
+
 export function getInverse(delta) {
   return {
     x: -1 * delta.x,
@@ -70,6 +74,7 @@ export function getInverse(delta) {
     heightRatio: 1 / delta.heightRatio
   }
 }
+
 export function isVisible(element) {
   if (!element) {
     return false
@@ -77,6 +82,7 @@ export function isVisible(element) {
   const { width, height } = getRect(element)
   return !(width === 0 && height === 0)
 }
+
 export class Flipping {
   constructor(config = Flipping.defaultConfig) {
     this.data = {}
@@ -116,19 +122,30 @@ export class Flipping {
     const distX = Math.abs(data.delta.left)
     const distY = Math.abs(data.delta.top)
 
-    const inverseXY = `translate(${data.inverse.left}px, ${data.inverse.top}px)`
-    const inverseScale = `scale(${data.inverse.widthRatio}, ${data.inverse.heightRatio})`
+    const inverseXY = `translate(
+      ${data.inverse.left}px, 
+      ${data.inverse.top}px
+    )`
+    const inverseScale = `scale(
+      ${data.inverse.widthRatio}, 
+      ${data.inverse.heightRatio}
+    )`
 
-    const a = `translate(${data.inverse.left + data.inverse.top}px, ${
-      data.inverse.top
-    }px) rotate(-90deg) translateY(${
-      data.delta.top
-    }px) rotate(90deg) ${inverseScale}`
-    const aa = `translate(${data.inverse.left + data.inverse.top}px, ${
-      data.inverse.top
-    }px) rotate(0deg) translate(${data.delta.left + data.delta.top}px, ${
-      data.delta.top
-    }px) rotate(0deg) scale(1)`
+    const a = `translate(
+      ${data.inverse.left + data.inverse.top}px, 
+      ${data.inverse.top}px
+    ) rotate(-90deg) translateY(
+      ${data.delta.top}px
+    ) rotate(90deg) ${inverseScale}`
+
+    const aa = `translate(
+      ${data.inverse.left + data.inverse.top}px, 
+      ${data.inverse.top}px
+    ) rotate(0deg) translate(
+      ${data.delta.left + data.delta.top}px, 
+      ${data.delta.top}px
+    ) rotate(0deg) scale(1)`
+
     Flipping.style(
       data,
       {
@@ -163,6 +180,7 @@ export class Flipping {
       { px: true }
     )
   }
+
   static style(
     data,
     styles,
@@ -312,12 +330,20 @@ export class Flipping {
     [data-flip-state="pre-move"] {
       transition: none;
       transform: var(--flip-inverse-xy);
-      --clip-path: polygon(0% 0%, calc(var(--flip-iw-ratio) * 100%) 0, calc(var(--flip-iw-ratio) * 100%) calc(var(--flip-ih-ratio) * 100%), 0 calc(var(--flip-ih-ratio) * 100%));
+      --clip-path: polygon(0% 0%, 
+        calc(var(--flip-iw-ratio) * 100%) 0, 
+        calc(var(--flip-iw-ratio) * 100%) calc(var(--flip-ih-ratio) * 100%),
+        0 calc(var(--flip-ih-ratio) * 100%)
+      );
     }
     [data-flip-state="move"] {
       transition: all .6s ease;
       transform: none;
-      --clip-path: polygon(0% 0%, 100% 0, 100% 100%, 0 100%);
+      --clip-path: polygon(0% 0%, 
+        100% 0, 
+        100% 100%, 
+        0 100%
+      );
     }
   `
     const elStyle = document.createElement("style")
@@ -325,6 +351,7 @@ export class Flipping {
     document.head.appendChild(elStyle)
   }
 }
+
 Flipping.prefix = "flip"
 Flipping.keyAttr = "data-flip-key"
 Flipping.defaultConfig = {
@@ -338,4 +365,5 @@ Flipping.defaultConfig = {
     return key
   }
 }
+
 export const create = Flipping.create

@@ -43,8 +43,8 @@ export const _URL_DOM__ROUTE = router => {
     { ..._HREF_PUSHSTATE_DOM, args: { URL, DOM } },
     // example Subtask injection
     ({ URL }) => match({ URL }),
-    // { args: msTaskDelay(2000) },
     // _FLIP_FIRST,
+    // { args: msTaskDelay(2000) },
     _SET_PAGE_STATE,
     // _FLIP_PLAY,
     // wait on pending promise(s) w/a non-nullary fn (+)=>

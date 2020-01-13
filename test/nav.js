@@ -1,15 +1,33 @@
-import { register, commands, utils, store, streams } from '../src'
+import { register, commands, utils, store, streams } from "../src"
 
-import { getIn } from '@thi.ng/paths'
-import { isArray, isObject } from '@thi.ng/checks'
-import { start } from '@thi.ng/hdom'
-import { EquivMap } from '@thi.ng/associative'
+import { getIn } from "@thi.ng/paths"
+import { isArray, isObject } from "@thi.ng/checks"
+import { Atom } from "@thi.ng/atom"
+import { start } from "@thi.ng/hdom"
+import { EquivMap } from "@thi.ng/associative"
+import scrolly from "@mapbox/scroll-restorer"
 
+scrolly.start()
+
+/**
+ *
+ * Note for Parcel (package.json):
+ *
+ * TRY PARCEL 2.alpha
+ *
+ */
 // ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
 const { run$, command$ } = streams
 const { registerRouterDOM } = register
-const { clickEventHandlerDOM } = commands
-const { parse_URL, traceStream, FLIP } = utils
+const { emitHREF } = commands
+const {
+  parse_URL,
+  traceStream,
+  FLIP,
+  FLIP_last_invert_play,
+  FLIP_last,
+  FLIP_first
+} = utils
 const { $routePath$, $store$, set$Root } = store
 // ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
 
@@ -24,7 +42,7 @@ const { $routePath$, $store$, set$Root } = store
 //
 
 // traceStream("run$ ->", run$)
-traceStream('command$ ->', command$)
+// traceStream("command$ ->", command$)
 // traceStream("task$ ->", task$)
 // traceStream("out$ ->", out$)
 // traceStream("navigated$ ->", DOMnavigated$)
@@ -40,7 +58,7 @@ traceStream('command$ ->', command$)
 //
 
 const getSomeJSON = async (path, b) => {
-  const text_base = 'https://jsonplaceholder.typicode.com/'
+  const text_base = "https://jsonplaceholder.typicode.com/"
   const img_base = id => `https://i.picsum.photos/id/${id}/600/600.jpg`
 
   const data = b
@@ -91,24 +109,24 @@ const router = async url => {
 
   let { data, page } = new EquivMap([
     [
-      { ...match, URL_path: ['todos'] },
-      { data: () => getSomeJSON('todos'), page: 'todos' }
+      { ...match, URL_path: ["todos"] },
+      { data: () => getSomeJSON("todos"), page: "todos" }
     ],
     [
-      { ...match, URL_path: ['todos', p_b] },
-      { data: () => getSomeJSON('todos', p_b), page: 'todo' }
+      { ...match, URL_path: ["todos", p_b] },
+      { data: () => getSomeJSON("todos", p_b), page: "todo" }
     ],
     [
-      { ...match, URL_path: ['users'] },
-      { data: () => getSomeJSON('users'), page: 'users' }
+      { ...match, URL_path: ["users"] },
+      { data: () => getSomeJSON("users"), page: "users" }
     ],
     [
-      { ...match, URL_path: ['users', p_b] },
-      { data: () => getSomeJSON('users', p_b), page: 'user' }
+      { ...match, URL_path: ["users", p_b] },
+      { data: () => getSomeJSON("users", p_b), page: "user" }
     ]
   ]).get(match) || {
-    data: () => ({ home: 'page' }),
-    page: 'bloop'
+    data: () => ({ home: "page" }),
+    page: "bloop"
   } // should probably be a 404... also need a match for an empty path: []
 
   // console.log("router called", { page, data: await data() })
@@ -127,44 +145,44 @@ const router = async url => {
 
 // const S = JSON.stringify
 
-const pathLink = (ctx, id, text) => [
-  'a',
+const pathLink = (ctx, id, ...args) => [
+  "a",
   {
     href: `${$routePath$.deref()}/${id}`,
-    onclick: e => clickEventHandlerDOM(e)
+    onclick: e => emitHREF(e)
   },
-  text
+  ...args
 ]
 
 const field = (ctx, key, val) => [
-  'li',
-  { style: { display: 'flex' } },
-  key === 'id'
+  "li",
+  { style: { display: "flex" } },
+  key === "id"
     ? [pathLink, val, val]
-    : ['p', { style: { padding: '0 0.5rem' } }, key],
+    : ["p", { style: { padding: "0 0.5rem" } }, key],
   isObject(val)
-    ? ['ul', ...Object.entries(val).map(([k, v]) => [field, k, v])]
-    : ['p', { style: { padding: '0 0.5rem' } }, val]
+    ? ["ul", ...Object.entries(val).map(([k, v]) => [field, k, v])]
+    : ["p", { style: { padding: "0 0.5rem" } }, val]
 ]
 
 const fields = payload => [
-  'ul',
+  "ul",
   ...Object.entries(payload)
     .slice(0, 4)
     .map(([k, v]) => [field, k, v])
 ]
 
 const image = (ctx, img) => [
-  'img',
+  "img",
   {
-    src: img,
+    src: "https://via.placeholder.com/400x400.png",
     style: {
-      'object-fit': 'cover',
-      'min-height': '100%',
-      'min-width': '100%',
-      'object-position': '50% 50%'
-    }
-    // style: { height: "600px", width: "600px" }
+      "object-fit": "cover",
+      "object-position": "center",
+      "min-height": "100%",
+      "min-width": "100%"
+    },
+    scale: false
   }
 ]
 
@@ -173,70 +191,157 @@ const FLIP_img = {
   render: (ctx, img) => [image, img]
 }
 
-const div = (ctx, uid, sz, ...args) => [
-  'div',
+const div = (ctx, attrs, img, sz, ...args) => [
+  "img",
   {
+    ...attrs,
+    src: img,
     style:
-      sz === 'sm'
+      sz === "sm"
         ? {
-            height: '100px',
-            overflow: 'hidden'
+            height: "100px",
+            width: "100px",
+            overflow: "hidden"
+            // "background-image": `url('${img}')`
+            // "background-size": "cover"
           }
         : {
-            height: '80vh',
-            overflow: 'hidden'
-          }
+            height: "600px",
+            width: "600px",
+            overflow: "hidden"
+            // "background-image": `url('${img}')`
+            // "background-size": "cover"
+          },
+    scale: true
   },
   ...args
 ]
 
+// const FLIP_div = {
+//   init: (el, { $store$, run$ }, img) => FLIP(el, $store$, img + "_div"),
+//   render: (ctx, img, ...args) => [div, {}, img, ...args]
+// }
+
+// 📌 handle second image appearance... only working on click...
+/**
+ * There're only 3 lifecycle hooks. render is called for
+ * every update and is just providing the actual hiccup for
+ * that component. if that component is used the first time,
+ * the order is normalizeTree ->  render -> diff ->  init.
+ * The actual DOM element is only known when init is called,
+ * NEVER during render (though you could cache it as local
+ * component state). If during diffing it turns out the
+ * component is not used anymore, then release will be
+ * called
+ *
+ * if the object identity of your life cycle component
+ * changes with every update then that count as full
+ * replacement and would trigger init each time:
+ *
+ * https://github.com/thi-ng/umbrella/wiki/Higher-order-components
+ *
+ * init is called in so called "post-order", i.e. when it
+ * executes all children are already present in the DOM (and
+ * might have had their init hooks called) first time = 1st
+ * frame the component appears in the DOM
+ *
+ */
+// const FLIP_div = {
+//   render: ({ run$ }, img, sz) => [
+//     "a",
+//     {
+//       href: `${$routePath$.deref()}/${/id\/(\d+)/g.exec(img)[1]}`,
+//       onclick: ev => {
+//         console.log({ store: $store$.deref() })
+//         ev.preventDefault()
+//         let proxy = {
+//           preventDefault: () => null,
+//           target: {
+//             href: `${$routePath$.deref()}/${/id\/(\d+)/g.exec(img)[1]}`
+//           },
+//           currentTarget: { document: null }
+//         }
+//         // let matches = /id\/(\d+)/g.exec(img)
+//         // console.log({ matches })
+//         // let id = matches[1]
+//         emitHREF(proxy)
+//         run$.next({
+//           ..._FLIP,
+//           args: { flip_el: ev.target, flip_id: img }
+//         })
+//       }
+//     },
+//     [div, {}, img, sz]
+//   ]
+// }
+
 const FLIP_div = {
-  init: (el, { $store$ }, uid) => FLIP(el, $store$, uid),
-  render: (ctx, id, ...args) => [div, id, ...args]
+  render: ({ $store$ }, img, ...args) => [
+    div,
+    {
+      onclick: e => {
+        e.preventDefault()
+        let proxy = {
+          preventDefault: () => null,
+          target: {
+            href: `${$routePath$.deref()}/${/id\/(\d+)/g.exec(img)[1]}`
+          },
+          currentTarget: { document: null }
+        }
+        FLIP_first($store$, img + "_div", e)
+        emitHREF(proxy)
+      }
+    },
+    img,
+    ...args
+  ],
+  init: (el, { $store$ }, img) =>
+    FLIP_last_invert_play(el, $store$, img + "_div"),
+  release: ({ $store$ }, img) => FLIP_last($store$, img)
 }
 
 const component = sz => {
   return (ctx, img, fields) => [
-    'div',
+    "div",
     {},
-    [FLIP_div, img + 'div', sz, [FLIP_img, img]],
-    ['p', { class: 'title' }, fields]
+    [FLIP_div, img, sz], //[FLIP_img, img]],
+    ["p", { class: "title" }, fields]
   ]
 }
 
 const link = (ctx, path, ...args) => [
-  'a',
+  "a",
   {
-    href: '/' + path.join('/'),
-    onclick: e => clickEventHandlerDOM(e)
+    href: "/" + path.join("/"),
+    onclick: e => emitHREF(e)
   },
   ...args
 ]
 
 const page = (ctx, payload) => {
   return [
-    'div',
-    { style: { 'max-width': '30rem', margin: 'auto' } },
-    ...[['users'], ['todos', 2], ['users', 9]].map(path => [
+    "div",
+    { style: { "max-width": "30rem", margin: "auto" } },
+    ...[["users"], ["todos", 2], ["users", 9]].map(path => [
       link,
       path,
-      `${path[0]} ${path[1] ? '->' + path[1] : ''}`,
-      ['br']
+      `${path[0]} ${path[1] ? "->" + path[1] : ""}`,
+      ["br"]
     ]),
     isArray(payload)
       ? [
-          'div',
+          "div",
           ...payload.map(({ img, text }) => [
-            component('sm'),
+            component("sm"),
             img,
             fields(text)
           ])
         ]
       : [
-          component('lg'),
+          component("lg"),
           payload && payload.img
             ? payload.img
-            : 'https://i.picsum.photos/id/111/600/600.jpg',
+            : "https://i.picsum.photos/id/111/600/600.jpg",
           payload && payload.text
             ? fields(payload.text.company || payload.text)
             : null
@@ -261,9 +366,11 @@ const registerRootByID = id => {
   set$Root(id)
   return document.getElementById(id)
 }
-const root = registerRootByID('app')
+
+const root = registerRootByID("app")
 // consider abstracting this (just hand it a `router` Map,
 // `page` object and an "id")
+console.log("starting...")
 start(
   // 📌 page component that chooses a template based on the spec returned
   ({ $store$ }) => [page, getIn($store$.deref(), $routePath$.deref())],

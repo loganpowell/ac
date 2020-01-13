@@ -1,8 +1,8 @@
-import { registerCMD } from '../register'
-import { set$State, set$Route, set$Loading, set$Page, $store$ } from '../store'
-import { parse_URL } from '../utils'
-import { DOMnavigated$ } from '../streams'
-import { getIn } from '@thi.ng/paths'
+import { registerCMD } from "../register"
+import { set$State, set$Route, set$Loading, set$Page, $store$ } from "../store"
+import { parse_URL } from "../utils"
+import { DOMnavigated$ } from "../streams"
+import { getIn } from "@thi.ng/paths"
 
 /**
  * we need to transform the payload to align with the
@@ -11,8 +11,9 @@ import { getIn } from '@thi.ng/paths'
  * transformed correctly by the `navigated$` stream
  * transforms
  */
-export const clickEventHandlerDOM = e => {
+export const emitHREF = e => {
   e.preventDefault()
+  // console.log({ e })
   let href = e.target.href
   let w_href = window.location.href
   if (w_href === href) return
@@ -21,6 +22,7 @@ export const clickEventHandlerDOM = e => {
     target: { location: { href } },
     currentTarget: e.currentTarget
   })
+  return e
 }
 
 // source = TRIGGER
@@ -42,11 +44,12 @@ export const clickEventHandlerDOM = e => {
  *
  */
 export const _SET_PAGE_STATE = registerCMD({
-  sub$: '_SET_PAGE_STATE',
+  sub$: "_SET_PAGE_STATE",
   args: ({ URL_path, page, data }) => ({ URL_path, page, data }),
-  handler: ({ URL_path, page, data }) => (
-    set$State(URL_path, data), set$Page(page)
-  )
+  handler: ({ URL_path, page, data }) => {
+    let path = URL_path.length === 0 ? ["home"] : URL_path
+    set$State(path, data), set$Page(page)
+  }
 })
 
 /**
@@ -62,7 +65,7 @@ export const _SET_PAGE_STATE = registerCMD({
  *
  */
 export const _SET_ROUTER_LOADING_STATE = registerCMD({
-  sub$: '_SET_ROUTER_LOADING_STATE',
+  sub$: "_SET_ROUTER_LOADING_STATE",
   args: true,
   handler: x => set$Loading(x)
 })
@@ -82,19 +85,19 @@ export const _SET_ROUTER_LOADING_STATE = registerCMD({
  *
  */
 export const _SET_ROUTER_PATH = registerCMD({
-  sub$: '_SET_ROUTER_PATH',
+  sub$: "_SET_ROUTER_PATH",
   args: ({ URL_path }) => ({ URL_path }),
   handler: ({ URL_path }) => set$Route(URL_path)
 })
 
 const setLinkAttrs = target => {
-  document.body.querySelectorAll('a[visited]').forEach(el => {
-    if (el.href === window.location.href) el.setAttribute('active', '')
-    else el.removeAttribute('active')
+  document.body.querySelectorAll("a[visited]").forEach(el => {
+    if (el.href === window.location.href) el.setAttribute("active", "")
+    else el.removeAttribute("active")
   })
   if (target.setAttribute) {
-    target.setAttribute('visited', '')
-    target.setAttribute('active', '')
+    target.setAttribute("visited", "")
+    target.setAttribute("active", "")
   }
 }
 
@@ -114,7 +117,7 @@ const setLinkAttrs = target => {
  *
  */
 export const _SET_LINK_ATTRS_DOM = registerCMD({
-  sub$: '_SET_LINK_ATTRS_DOM',
+  sub$: "_SET_LINK_ATTRS_DOM",
   args: ({ DOM }) => ({ DOM }),
   handler: ({ DOM }) => setLinkAttrs(DOM)
 })
@@ -132,9 +135,14 @@ export const _SET_LINK_ATTRS_DOM = registerCMD({
  * `history.pushState` to add the clicked URL (plus the
  * parsed URL from `parse_URL(URL)`) to the `history` object
  *
+ * export const DOMnavigated$ = merge({
+ *   src: [popstate$, DOMContentLoaded$]
+ * }).transform(map(x => ({ URL: x.target.location.href, DOM: x.currentTarget })))
+ *
+ *
  */
 export const _HREF_PUSHSTATE_DOM = registerCMD({
-  sub$: '_HREF_PUSHSTATE_DOM',
+  sub$: "_HREF_PUSHSTATE_DOM",
   args: ({ URL, DOM }) => ({ URL, DOM }),
   handler: ({ URL, DOM }) =>
     !DOM.document ? history.pushState(parse_URL(URL), null, URL) : null
@@ -152,10 +160,10 @@ export const _HREF_PUSHSTATE_DOM = registerCMD({
  *
  */
 export const _NOTIFY_PRERENDER_DOM = registerCMD({
-  sub$: '_NOTIFY_PRERENDER_DOM',
+  sub$: "_NOTIFY_PRERENDER_DOM",
   args: true,
   //👀 for prerenderer,
-  handler: () => document.dispatchEvent(new Event('rendered'))
+  handler: () => document.dispatchEvent(new Event("rendered"))
 })
 
 //
