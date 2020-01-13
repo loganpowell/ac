@@ -7,19 +7,7 @@ export const getScrollPosition = () => ({
 })
 
 const boundingClientProxy = { getBoundingClientRect: getScrollPosition }
-/** 📌
- *
- * TODO:
- * - before flipping to next page, scroll the current page
- *   to a predictable location for returning smoothly,
- *   perhaps use a hash in the router to kill two with one:
- *
- *  0. add func to ROUTER command handler to sniff for hash
- *  1. clicking on the link first adds a hash to the history
- *  2. scroll the top of the target to the top of the page
- *  3. animate to next page <-> any back button would be
- *     centered
- */
+
 export function getRect(element, frame) {
   const {
     top,
@@ -76,7 +64,6 @@ let is_framed = false
  * -
  */
 
-/*
 export const FLIP_all = (el, state, uid) => {
   console.log({ state })
   let frame = is_framed
@@ -113,12 +100,11 @@ export const FLIP_all = (el, state, uid) => {
   })
 }
 
-*/
 /**
  *
  * order:
  * normalizeTree -> render -> diff -> init -> release
- *                 | hdom |         | dom |
+ *                 | hdom |         | dom  | post-dom
  *
  * have to think backwards:
  * 1. el mounted (init): look for existing flip map for id
@@ -130,6 +116,86 @@ export const FLIP_all = (el, state, uid) => {
  *  - if first !== last, nav change (store rect for id)
  */
 
+const css_fade = {
+  fold: `{
+  display: block;
+
+  -webkit-animation: fadeInFromNone 0.5s ease-out;
+  -moz-animation: fadeInFromNone 0.5s ease-out;
+  -o-animation: fadeInFromNone 0.5s ease-out;
+  animation: fadeInFromNone 0.5s ease-out;
+}
+
+@-webkit-keyframes fadeInFromNone {
+  0% {
+      display: none;
+      opacity: 0;
+  }
+
+  1% {
+      display: block;
+      opacity: 0;
+  }
+
+  100% {
+      display: block;
+      opacity: 1;
+  }
+}
+
+@-moz-keyframes fadeInFromNone {
+  0% {
+      display: none;
+      opacity: 0;
+  }
+
+  1% {
+      display: block;
+      opacity: 0;
+  }
+
+  100% {
+      display: block;
+      opacity: 1;
+  }
+}
+
+@-o-keyframes fadeInFromNone {
+  0% {
+      display: none;
+      opacity: 0;
+  }
+
+  1% {
+      display: block;
+      opacity: 0;
+  }
+
+  100% {
+      display: block;
+      opacity: 1;
+  }
+}
+
+@keyframes fadeInFromNone {
+  0% {
+      display: none;
+      opacity: 0;
+  }
+
+  1% {
+      display: block;
+      opacity: 0;
+  }
+
+  100% {
+      display: block;
+      opacity: 1;
+  }
+}
+`
+}
+
 const paths = uid => ({
   rects: ["_FLIP", "rects", uid],
   elems: ["_FLIP", "elems", uid],
@@ -139,31 +205,29 @@ const paths = uid => ({
 export const FLIP_first = (state, uid, ev) => {
   console.log(/id\/(\d+)/g.exec(uid)[1], "WAS CLICKED")
 
-  let { rects, clicks, elems } = paths(uid)
+  let { rects, clicks } = paths(uid)
 
   // registers component as having been clicked (active)
 
   // sets the rect in state for next el init to sniff
-  let flip_map = getRect(ev.target)
+  let target = ev.target
+  let flip_map = getRect(target)
   state.resetIn(rects, flip_map)
-  state.resetIn(elems, ev.target)
+  // console.log({ target })
 
   // notify others
   state.resetIn(clicks, true)
 
-  console.log({
-    F: { flip_map, BCR: boundingClientProxy.getBoundingClientRect() }
-  })
+  // console.log({
+  //   F: { flip_map, BCR: boundingClientProxy.getBoundingClientRect() }
+  // })
 }
 
 export const FLIP_last = (state, uid) => {
-  let { elems } = paths(uid)
-
-  let element = getIn(state.deref(), elems) || null
-  console.log("releasing", /id\/(\d+)/g.exec(uid)[1])
-
-  // do stuff just before removal of the el...
-  // element.style.transition = "opacity 0.4s"
+  // do stuff after removal of the element from DOM...
+  // let { elems } = paths(uid) <- This
+  // doesn't exist in the DOM on release
+  // console.log("releasing", /id\/(\d+)/g.exec(uid)[1])
 }
 
 export const FLIP_last_invert_play = (el, state, uid) => {
@@ -209,7 +273,7 @@ export const FLIP_last_invert_play = (el, state, uid) => {
   let Sx = F_flip_map.width / L_flip_map.width
   let Sy = F_flip_map.height / L_flip_map.height
 
-  console.log({ LIP: { F_flip_map, L_flip_map } })
+  // console.log({ LIP: { F_flip_map, L_flip_map } })
 
   el.style.transformOrigin = "0 0"
   el.style.transition = ""
@@ -220,7 +284,8 @@ export const FLIP_last_invert_play = (el, state, uid) => {
 
   // play
   requestAnimationFrame(() => {
-    el.style.transition = "all .4s cubic-bezier(.65,.22,.38,.77)"
+    // just baffle them with 💩 GE: https://cubic-bezier.com/
+    el.style.transition = "all .4s cubic-bezier(.54,-0.29,.17,1.11)"
     el.style.transform = "none"
   })
   state.resetIn(rects, L_flip_map)

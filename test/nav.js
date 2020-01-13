@@ -201,14 +201,16 @@ const div = (ctx, attrs, img, sz, ...args) => [
         ? {
             height: "100px",
             width: "100px",
-            overflow: "hidden"
+            overflow: "hidden",
+            opacity: 1
             // "background-image": `url('${img}')`
             // "background-size": "cover"
           }
         : {
             height: "600px",
             width: "600px",
-            overflow: "hidden"
+            overflow: "hidden",
+            opacity: 1
             // "background-image": `url('${img}')`
             // "background-size": "cover"
           },

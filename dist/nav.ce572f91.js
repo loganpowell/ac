@@ -26162,11 +26162,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getRect = getRect;
-exports.FLIP_last_invert_play = exports.FLIP_last = exports.FLIP_first = exports.getScrollPosition = void 0;
+exports.FLIP_last_invert_play = exports.FLIP_last = exports.FLIP_first = exports.FLIP_all = exports.getScrollPosition = void 0;
 
 var _concat = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/instance/concat"));
 
-var _paths4 = require("@thi.ng/paths");
+var _paths3 = require("@thi.ng/paths");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -26181,19 +26181,6 @@ exports.getScrollPosition = getScrollPosition;
 var boundingClientProxy = {
   getBoundingClientRect: getScrollPosition
 };
-/** 📌
- *
- * TODO:
- * - before flipping to next page, scroll the current page
- *   to a predictable location for returning smoothly,
- *   perhaps use a hash in the router to kill two with one:
- *
- *  0. add func to ROUTER command handler to sniff for hash
- *  1. clicking on the link first adds a hash to the history
- *  2. scroll the top of the target to the top of the page
- *  3. animate to next page <-> any back button would be
- *     centered
- */
 
 function getRect(element, frame) {
   var _element$getBoundingC = element.getBoundingClientRect(),
@@ -26244,50 +26231,40 @@ var is_framed = false; // 📌 turn into a Command/Task (only track DOM nodes th
  * -
  */
 
-/*
-export const FLIP_all = (el, state, uid) => {
-  console.log({ state })
-  let frame = is_framed
-    ? document.getElementById("_frame")
-    : ((is_framed = true), view(state))
+var FLIP_all = function FLIP_all(el, state, uid) {
+  var _context, _context2, _context3;
 
-  let rect_path = ["_flip_map", uid]
-  // console.log({ rect_path })
+  console.log({
+    state: state
+  });
+  var frame = is_framed ? document.getElementById("_frame") : (is_framed = true, view(state));
+  var rect_path = ["_flip_map", uid]; // console.log({ rect_path })
 
-  if (!getIn(state.deref(), rect_path))
-    return state.resetIn(rect_path, getRect(el, frame))
-  let F_flip_map = getIn(state.deref(), rect_path)
-  let L_flip_map = getRect(el, frame)
+  if (!(0, _paths3.getIn)(state.deref(), rect_path)) return state.resetIn(rect_path, getRect(el, frame));
+  var F_flip_map = (0, _paths3.getIn)(state.deref(), rect_path);
+  var L_flip_map = getRect(el, frame); // console.log("getter: my_height ->", L_flip_map.my_height)
 
-  // console.log("getter: my_height ->", L_flip_map.my_height)
-  let Tx = F_flip_map.left - L_flip_map.left
-  let Ty = F_flip_map.top - L_flip_map.top
-  let Sx = F_flip_map.width / L_flip_map.width
-  let Sy = F_flip_map.height / L_flip_map.height
-
-  // console.log({ F_flip_map, L_flip_map })
-
+  var Tx = F_flip_map.left - L_flip_map.left;
+  var Ty = F_flip_map.top - L_flip_map.top;
+  var Sx = F_flip_map.width / L_flip_map.width;
+  var Sy = F_flip_map.height / L_flip_map.height; // console.log({ F_flip_map, L_flip_map })
   // el.style.transformOrigin = "top left"
-  el.style.transition = ""
-  let trans = `translate(${Tx}px, ${Ty}px) scale(${Sx}, ${Sy})`
-  // console.log(transform)
-  el.style.transform = trans
 
-  state.resetIn(rect_path, L_flip_map)
+  el.style.transition = "";
+  var trans = (0, _concat.default)(_context = (0, _concat.default)(_context2 = (0, _concat.default)(_context3 = "translate(".concat(Tx, "px, ")).call(_context3, Ty, "px) scale(")).call(_context2, Sx, ", ")).call(_context, Sy, ")"); // console.log(transform)
 
-  requestAnimationFrame(() => {
-    el.style.transition = "all .6s cubic-bezier(.65,.22,.38,.77)"
-    el.style.transform = "none"
-  })
-}
-
-*/
-
+  el.style.transform = trans;
+  state.resetIn(rect_path, L_flip_map);
+  requestAnimationFrame(function () {
+    el.style.transition = "all .6s cubic-bezier(.65,.22,.38,.77)";
+    el.style.transform = "none";
+  });
+};
 /**
  *
  * order:
  * normalizeTree -> render -> diff -> init -> release
- *                 | hdom |         | dom |
+ *                 | hdom |         | dom  | post-dom
  *
  * have to think backwards:
  * 1. el mounted (init): look for existing flip map for id
@@ -26298,6 +26275,12 @@ export const FLIP_all = (el, state, uid) => {
  *  - if first === last, no change (on nav e.g.)
  *  - if first !== last, nav change (store rect for id)
  */
+
+
+exports.FLIP_all = FLIP_all;
+var css_fade = {
+  fold: "{\n  display: block;\n\n  -webkit-animation: fadeInFromNone 0.5s ease-out;\n  -moz-animation: fadeInFromNone 0.5s ease-out;\n  -o-animation: fadeInFromNone 0.5s ease-out;\n  animation: fadeInFromNone 0.5s ease-out;\n}\n\n@-webkit-keyframes fadeInFromNone {\n  0% {\n      display: none;\n      opacity: 0;\n  }\n\n  1% {\n      display: block;\n      opacity: 0;\n  }\n\n  100% {\n      display: block;\n      opacity: 1;\n  }\n}\n\n@-moz-keyframes fadeInFromNone {\n  0% {\n      display: none;\n      opacity: 0;\n  }\n\n  1% {\n      display: block;\n      opacity: 0;\n  }\n\n  100% {\n      display: block;\n      opacity: 1;\n  }\n}\n\n@-o-keyframes fadeInFromNone {\n  0% {\n      display: none;\n      opacity: 0;\n  }\n\n  1% {\n      display: block;\n      opacity: 0;\n  }\n\n  100% {\n      display: block;\n      opacity: 1;\n  }\n}\n\n@keyframes fadeInFromNone {\n  0% {\n      display: none;\n      opacity: 0;\n  }\n\n  1% {\n      display: block;\n      opacity: 0;\n  }\n\n  100% {\n      display: block;\n      opacity: 1;\n  }\n}\n"
+};
 
 var paths = function paths(uid) {
   return {
@@ -26312,47 +26295,40 @@ var FLIP_first = function FLIP_first(state, uid, ev) {
 
   var _paths = paths(uid),
       rects = _paths.rects,
-      clicks = _paths.clicks,
-      elems = _paths.elems; // registers component as having been clicked (active)
+      clicks = _paths.clicks; // registers component as having been clicked (active)
   // sets the rect in state for next el init to sniff
 
 
-  var flip_map = getRect(ev.target);
-  state.resetIn(rects, flip_map);
-  state.resetIn(elems, ev.target); // notify others
+  var target = ev.target;
+  var flip_map = getRect(target);
+  state.resetIn(rects, flip_map); // console.log({ target })
+  // notify others
 
-  state.resetIn(clicks, true);
-  console.log({
-    F: {
-      flip_map: flip_map,
-      BCR: boundingClientProxy.getBoundingClientRect()
-    }
-  });
+  state.resetIn(clicks, true); // console.log({
+  //   F: { flip_map, BCR: boundingClientProxy.getBoundingClientRect() }
+  // })
 };
 
 exports.FLIP_first = FLIP_first;
 
-var FLIP_last = function FLIP_last(state, uid) {
-  var _paths2 = paths(uid),
-      elems = _paths2.elems;
-
-  var element = (0, _paths4.getIn)(state.deref(), elems) || null;
-  console.log("releasing", /id\/(\d+)/g.exec(uid)[1]); // do stuff just before removal of the el...
-  // element.style.transition = "opacity 0.4s"
+var FLIP_last = function FLIP_last(state, uid) {// do stuff after removal of the element from DOM...
+  // let { elems } = paths(uid) <- This
+  // doesn't exist in the DOM on release
+  // console.log("releasing", /id\/(\d+)/g.exec(uid)[1])
 };
 
 exports.FLIP_last = FLIP_last;
 
 var FLIP_last_invert_play = function FLIP_last_invert_play(el, state, uid) {
-  var _context, _context2, _context3;
+  var _context4, _context5, _context6;
 
   var ID = /id\/(\d+)/g.exec(uid)[1]; // console.log("FLIP init")
   // a frame will be present if any FLIP item has been activated
   // provide frame if attr is present
 
-  var _paths3 = paths(uid),
-      rects = _paths3.rects,
-      clicks = _paths3.clicks;
+  var _paths2 = paths(uid),
+      rects = _paths2.rects,
+      clicks = _paths2.clicks;
   /**
    * 1. if it has been clicked (frame available) that means
    *    the last thing that happened was a click that
@@ -26364,9 +26340,9 @@ var FLIP_last_invert_play = function FLIP_last_invert_play(el, state, uid) {
   // NO RECT => NOT CLICKED
 
 
-  var F_flip_map = (0, _paths4.getIn)(state.deref(), rects) || null;
+  var F_flip_map = (0, _paths3.getIn)(state.deref(), rects) || null;
   if (!F_flip_map) return;
-  var clicked = (0, _paths4.getIn)(state.deref(), clicks) || null; // NO first_frame => NAV CAUSED RENDER
+  var clicked = (0, _paths3.getIn)(state.deref(), clicks) || null; // NO first_frame => NAV CAUSED RENDER
 
   if (!clicked) {
     console.log(ID, "FLIP'ed on navigated");
@@ -26382,21 +26358,17 @@ var FLIP_last_invert_play = function FLIP_last_invert_play(el, state, uid) {
   // if (Tx + Ty < 0.01) return
 
   var Sx = F_flip_map.width / L_flip_map.width;
-  var Sy = F_flip_map.height / L_flip_map.height;
-  console.log({
-    LIP: {
-      F_flip_map: F_flip_map,
-      L_flip_map: L_flip_map
-    }
-  });
+  var Sy = F_flip_map.height / L_flip_map.height; // console.log({ LIP: { F_flip_map, L_flip_map } })
+
   el.style.transformOrigin = "0 0";
   el.style.transition = "";
-  var trans = (0, _concat.default)(_context = (0, _concat.default)(_context2 = (0, _concat.default)(_context3 = "translate(".concat(Tx, "px, ")).call(_context3, Ty, "px) scale(")).call(_context2, Sx, ", ")).call(_context, Sy, ")");
+  var trans = (0, _concat.default)(_context4 = (0, _concat.default)(_context5 = (0, _concat.default)(_context6 = "translate(".concat(Tx, "px, ")).call(_context6, Ty, "px) scale(")).call(_context5, Sx, ", ")).call(_context4, Sy, ")");
   el.style.transform = trans; // set new rect in state
   // play
 
   requestAnimationFrame(function () {
-    el.style.transition = "all .4s cubic-bezier(.65,.22,.38,.77)";
+    // just baffle them with 💩 GE: https://cubic-bezier.com/
+    el.style.transition = "all .4s cubic-bezier(.54,-0.29,.17,1.11)";
     el.style.transform = "none";
   });
   state.resetIn(rects, L_flip_map); // remove click frame
@@ -30654,13 +30626,15 @@ var div = function div(ctx, attrs, img, sz) {
     style: sz === "sm" ? {
       height: "100px",
       width: "100px",
-      overflow: "hidden" // "background-image": `url('${img}')`
+      overflow: "hidden",
+      opacity: 1 // "background-image": `url('${img}')`
       // "background-size": "cover"
 
     } : {
       height: "600px",
       width: "600px",
-      overflow: "hidden" // "background-image": `url('${img}')`
+      overflow: "hidden",
+      opacity: 1 // "background-image": `url('${img}')`
       // "background-size": "cover"
 
     },
@@ -30869,7 +30843,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53899" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57046" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
