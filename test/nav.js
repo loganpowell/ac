@@ -149,7 +149,8 @@ const pathLink = (ctx, id, ...args) => [
   "a",
   {
     href: `${$routePath$.deref()}/${id}`,
-    onclick: e => emitHREF(e)
+    onclick: e => emitHREF(e),
+    style: { "font-size": ".5rem" }
   },
   ...args
 ]
@@ -159,7 +160,19 @@ const field = (ctx, key, val) => [
   { style: { display: "flex" } },
   key === "id"
     ? [pathLink, val, val]
-    : ["p", { style: { padding: "0 0.5rem" } }, key],
+    : [
+        "p",
+        {
+          style: {
+            padding: "0 0.5rem",
+            display: "table-cell",
+            width: "80px",
+            "font-size": ".5rem",
+            "vertical-align": "middle"
+          }
+        },
+        key
+      ],
   isObject(val)
     ? ["ul", ...Object.entries(val).map(([k, v]) => [field, k, v])]
     : ["p", { style: { padding: "0 0.5rem" } }, val]

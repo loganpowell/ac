@@ -1,12 +1,4 @@
 import { getIn } from "@thi.ng/paths"
-// import { set$State, $routePath$, $store$, set$FLIP } from "../store"
-
-export const getScrollPosition = () => ({
-  top: window.pageYOffset || document.documentElement.scrollTop,
-  left: window.pageXOffset || document.documentElement.scrollLeft
-})
-
-const boundingClientProxy = { getBoundingClientRect: getScrollPosition }
 
 export function getRect(element, frame) {
   const {
@@ -33,27 +25,6 @@ export function getRect(element, frame) {
   }
 }
 
-const view = state => {
-  const rootID = state.value._root
-
-  const _root = document.getElementById(rootID)
-
-  const _frame_HTML = `<div 
-    id="_frame"
-    style="width: 100vw;
-      height: 100vh;
-      position: fixed;
-      pointer-events: none"
-  >
-  </div>`
-  _root.insertAdjacentHTML("beforebegin", _frame_HTML)
-  const _frame = document.getElementById("_frame")
-  // console.log("Frame prepended", _frame)
-  return _frame
-}
-
-let is_framed = false
-
 // 📌 turn into a Command/Task (only track DOM nodes that
 // are clicked)
 /**
@@ -64,19 +35,22 @@ let is_framed = false
  * -
  */
 
-export const FLIP_all = (el, state, uid) => {
+const paths = uid => ({
+  rects: ["_FLIP", "rects", uid],
+  elems: ["_FLIP", "elems", uid],
+  clicks: ["_FLIP", "clicks", uid]
+})
+
+export const FLIP_all = (el, state, uid, frameDOMel) => {
   console.log({ state })
-  let frame = is_framed
-    ? document.getElementById("_frame")
-    : ((is_framed = true), view(state))
 
-  let rect_path = ["_flip_map", uid]
-  // console.log({ rect_path })
+  let { rects } = paths(uid)
+  // console.log({ rects })
 
-  if (!getIn(state.deref(), rect_path))
-    return state.resetIn(rect_path, getRect(el, frame))
-  let F_flip_map = getIn(state.deref(), rect_path)
-  let L_flip_map = getRect(el, frame)
+  if (!getIn(state.deref(), rects))
+    return state.resetIn(rects, getRect(el, frameDOMel))
+  let F_flip_map = getIn(state.deref(), rects)
+  let L_flip_map = getRect(el, frameDOMel)
 
   // console.log("getter: my_height ->", L_flip_map.my_height)
   let Tx = F_flip_map.left - L_flip_map.left
@@ -86,16 +60,16 @@ export const FLIP_all = (el, state, uid) => {
 
   // console.log({ F_flip_map, L_flip_map })
 
-  // el.style.transformOrigin = "top left"
+  el.style.transformOrigin = "0 0"
   el.style.transition = ""
   let trans = `translate(${Tx}px, ${Ty}px) scale(${Sx}, ${Sy})`
   // console.log(transform)
   el.style.transform = trans
 
-  state.resetIn(rect_path, L_flip_map)
+  state.resetIn(rects, L_flip_map)
 
   requestAnimationFrame(() => {
-    el.style.transition = "all .6s cubic-bezier(.65,.22,.38,.77)"
+    el.style.transition = "all .4s cubic-bezier(.54,-0.29,.17,1.11)"
     el.style.transform = "none"
   })
 }
@@ -195,12 +169,6 @@ const css_fade = {
 }
 `
 }
-
-const paths = uid => ({
-  rects: ["_FLIP", "rects", uid],
-  elems: ["_FLIP", "elems", uid],
-  clicks: ["_FLIP", "clicks", uid]
-})
 
 export const FLIP_first = (state, uid, ev) => {
   console.log(/id\/(\d+)/g.exec(uid)[1], "WAS CLICKED")
