@@ -230,7 +230,7 @@ const zoomOnNav = (ctx, img, sz) => [
 const component = sz => {
   return (ctx, img, fields) => [
     "div",
-    {},
+    { class: "card" },
     [zoomOnNav, img, sz], //[FLIP_img, img]],
     ["p", { class: "title" }, fields]
   ]
