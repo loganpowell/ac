@@ -20,14 +20,7 @@ scrolly.start()
 const { run$, command$ } = streams
 const { registerRouterDOM } = register
 const { emitHREF } = commands
-const {
-  parse_URL,
-  traceStream,
-  FLIP,
-  FLIP_last_invert_play,
-  FLIP_last,
-  FLIP_first
-} = utils
+const { parse_URL, traceStream, navFLIPzoom } = utils
 const { $routePath$, $store$, set$Root } = store
 // ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
 
@@ -143,7 +136,7 @@ const router = async url => {
 //
 //
 
-// const S = JSON.stringify
+// const S = JSON.stringify // <- handy for adornment phase
 
 const pathLink = (ctx, id, ...args) => [
   "a",
@@ -185,25 +178,16 @@ const fields = payload => [
     .map(([k, v]) => [field, k, v])
 ]
 
-const image = (ctx, img) => [
-  "img",
-  {
-    src: "https://via.placeholder.com/400x400.png",
-    style: {
-      "object-fit": "cover",
-      "object-position": "center",
-      "min-height": "100%",
-      "min-width": "100%"
-    },
-    scale: false
-  }
-]
-
-const FLIP_img = {
-  init: (el, { $store$ }, uid) => FLIP(el, $store$, uid),
-  render: (ctx, img) => [image, img]
-}
-
+//
+//       e      888~-_   888
+//      d8b     888   \  888
+//     /Y88b    888    | 888
+//    /  Y88b   888   /  888
+//   /____Y88b  888_-~   888
+//  /      Y88b 888      888
+//
+//
+// CHILD DEF: sig = (ctx, attrs, ...any)
 const div = (ctx, attrs, img, sz, ...args) => [
   "img",
   {
@@ -232,95 +216,22 @@ const div = (ctx, attrs, img, sz, ...args) => [
   ...args
 ]
 
-// const FLIP_div = {
-//   init: (el, { $store$, run$ }, img) => FLIP(el, $store$, img + "_div"),
-//   render: (ctx, img, ...args) => [div, {}, img, ...args]
-// }
-
-// 📌 handle second image appearance... only working on click...
-/**
- * There're only 3 lifecycle hooks. render is called for
- * every update and is just providing the actual hiccup for
- * that component. if that component is used the first time,
- * the order is normalizeTree ->  render -> diff ->  init.
- * The actual DOM element is only known when init is called,
- * NEVER during render (though you could cache it as local
- * component state). If during diffing it turns out the
- * component is not used anymore, then release will be
- * called
- *
- * if the object identity of your life cycle component
- * changes with every update then that count as full
- * replacement and would trigger init each time:
- *
- * https://github.com/thi-ng/umbrella/wiki/Higher-order-components
- *
- * init is called in so called "post-order", i.e. when it
- * executes all children are already present in the DOM (and
- * might have had their init hooks called) first time = 1st
- * frame the component appears in the DOM
- *
- */
-// const FLIP_div = {
-//   render: ({ run$ }, img, sz) => [
-//     "a",
-//     {
-//       href: `${$routePath$.deref()}/${/id\/(\d+)/g.exec(img)[1]}`,
-//       onclick: ev => {
-//         console.log({ store: $store$.deref() })
-//         ev.preventDefault()
-//         let proxy = {
-//           preventDefault: () => null,
-//           target: {
-//             href: `${$routePath$.deref()}/${/id\/(\d+)/g.exec(img)[1]}`
-//           },
-//           currentTarget: { document: null }
-//         }
-//         // let matches = /id\/(\d+)/g.exec(img)
-//         // console.log({ matches })
-//         // let id = matches[1]
-//         emitHREF(proxy)
-//         run$.next({
-//           ..._FLIP,
-//           args: { flip_el: ev.target, flip_id: img }
-//         })
-//       }
-//     },
-//     [div, {}, img, sz]
-//   ]
-// }
-
-const FLIP_nav_zoom_API = (ctx, attrs) => ({})
-const FLIP_div = {
-  render: ({ $store$ }, img, ...args) => [
-    div,
-    {
-      onclick: e => {
-        e.preventDefault()
-        let proxy = {
-          preventDefault: () => null,
-          target: {
-            href: `${$routePath$.deref()}/${/id\/(\d+)/g.exec(img)[1]}`
-          },
-          currentTarget: { document: null }
-        }
-        FLIP_first($store$, img + "_div", e)
-        emitHREF(proxy)
-      }
-    },
-    img,
-    ...args
-  ],
-  init: (el, { $store$ }, img) =>
-    FLIP_last_invert_play(el, $store$, img + "_div"),
-  release: ({ $store$ }, img) => FLIP_last($store$, img)
-}
+// HOF COMPONENT:
+const zoomOnNav = (ctx, img, sz) => [
+  navFLIPzoom(
+    `${$routePath$.deref()}/${/id\/(\d+)/g.exec(img)[1]}`,
+    img + "_div",
+    div
+  ),
+  img,
+  sz
+]
 
 const component = sz => {
   return (ctx, img, fields) => [
     "div",
     {},
-    [FLIP_div, img, sz], //[FLIP_img, img]],
+    [zoomOnNav, img, sz], //[FLIP_img, img]],
     ["p", { class: "title" }, fields]
   ]
 }

@@ -1,4 +1,6 @@
 import { getIn } from "@thi.ng/paths"
+import { isObject } from "@thi.ng/checks"
+import { Atom } from "@thi.ng/atom"
 
 export function getRect(element, frame) {
   const {
@@ -189,13 +191,6 @@ export const FLIP_first = (state, uid, ev) => {
   // console.log({
   //   F: { flip_map, BCR: boundingClientProxy.getBoundingClientRect() }
   // })
-}
-
-export const FLIP_last = (state, uid) => {
-  // do stuff after removal of the element from DOM...
-  // let { elems } = paths(uid) <- This
-  // doesn't exist in the DOM on release
-  // console.log("releasing", /id\/(\d+)/g.exec(uid)[1])
 }
 
 export const FLIP_last_invert_play = (el, state, uid) => {
