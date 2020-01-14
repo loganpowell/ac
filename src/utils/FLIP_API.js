@@ -36,8 +36,6 @@ export const navFLIPzoom = (href, id, child) => {
   //   `🔥 No 'id' parameter parameter provided for FLIP tracking.`
   // )
   let attrs = {
-    id,
-    href,
     onclick: e => {
       e.preventDefault()
       // if (!id) return warning
