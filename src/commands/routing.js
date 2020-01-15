@@ -11,7 +11,7 @@ import { getIn } from "@thi.ng/paths"
  * transformed correctly by the `navigated$` stream
  * transforms
  */
-export const emitHREF = e => {
+export const _HURL = e => {
   e.preventDefault()
   // console.log({ e })
   let href = e.target.href
@@ -47,6 +47,8 @@ export const _SET_PAGE_STATE = registerCMD({
   sub$: "_SET_PAGE_STATE",
   args: ({ URL_path, page, data }) => ({ URL_path, page, data }),
   handler: ({ URL_path, page, data }) => {
+    // 📌 remove ["home"] and just match for empty path in
+    // router EquivMap
     let path = URL_path.length === 0 ? ["home"] : URL_path
     set$State(path, data), set$Page(page)
   }

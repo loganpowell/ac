@@ -1,8 +1,8 @@
 import { fromDOMEvent, merge, stream, trace } from "@thi.ng/rstream"
 import { map } from "@thi.ng/transducers"
-import { registerCMD } from "../src/register"
-import { parse_URL, discard$ } from "../src/utils"
-import { run$, task$, out$, command$, cancel$ } from "../src/streams"
+import { registerCMD } from "../../src/register"
+import { parse_URL, discard$ } from "../../src/utils"
+import { run$, task$, out$, command$, cancel$ } from "../../src/streams"
 import { setIn } from "@thi.ng/paths"
 import { Atom } from "@thi.ng/atom"
 

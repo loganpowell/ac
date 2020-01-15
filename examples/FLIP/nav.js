@@ -1,4 +1,4 @@
-import { register, commands, utils, store, streams } from "../src"
+import { register, commands, utils, store, streams } from "../../src"
 
 import { getIn } from "@thi.ng/paths"
 import { isArray, isObject } from "@thi.ng/checks"
@@ -19,7 +19,7 @@ scrolly.start()
 // ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
 const { run$, command$ } = streams
 const { registerRouterDOM } = register
-const { emitHREF } = commands
+const { _HURL, _HEAD_META } = commands
 const { parse_URL, traceStream, navFLIPzoom } = utils
 const { $routePath$, $store$, set$Root } = store
 // ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
@@ -50,19 +50,28 @@ const { $routePath$, $store$, set$Root } = store
 //
 //
 
-const getSomeJSON = async (path, b) => {
+const getSomeJSON = async (path, uid) => {
   const text_base = "https://jsonplaceholder.typicode.com/"
-  const img_base = id => `https://i.picsum.photos/id/${id}/600/600.jpg`
+  const img_base = (id, sz) =>
+    `https://i.picsum.photos/id/${id}/${sz}/${sz}.jpg`
 
-  const data = b
+  const data = uid
     ? {
-        img: img_base(b),
+        // lesson -> don't use the actual url as the uid (not flexible)
+        img: img_base(uid, 600),
         // this needs fixin' 📌
-        text: await fetch(`${text_base}${path}/${b}`).then(r => r.json())
+        text: await fetch(`${text_base}${path}/${uid}`).then(r => r.json()),
+        uid,
+        path
       }
     : (async () => {
         let list = await fetch(`${text_base}${path}/`).then(r => r.json())
-        return list.map((c, i) => ({ img: img_base(i + 1), text: c }))
+        return list.map((c, i) => ({
+          img: img_base(i + 1, 600),
+          text: c,
+          uid: i + 1,
+          path
+        }))
       })()
   return data
 }
@@ -142,7 +151,18 @@ const pathLink = (ctx, id, ...args) => [
   "a",
   {
     href: `${$routePath$.deref()}/${id}`,
-    onclick: e => emitHREF(e),
+    onclick: e => {
+      e.preventDefault()
+      _HURL(e)
+      // ⚠ NTS: Head metadata is persisted across nav:
+      // ⚠ consider batching all such mutations into a component
+      ctx.run$.next({
+        ..._HEAD_META,
+        args: {
+          HEAD_meta: { "og:description": `${$routePath$.deref()} -> ${id}` }
+        }
+      })
+    },
     style: { "font-size": ".5rem" }
   },
   ...args
@@ -192,6 +212,15 @@ const div = (ctx, attrs, img, sz, ...args) => [
   "img",
   {
     ...attrs,
+    onclick(e) {
+      attrs.onclick(e)
+      ctx.run$.next({
+        ..._HEAD_META,
+        args: {
+          HEAD_meta: { "og:image": img }
+        }
+      })
+    },
     src: img,
     style:
       sz === "sm"
@@ -216,22 +245,22 @@ const div = (ctx, attrs, img, sz, ...args) => [
   ...args
 ]
 
-// HOF COMPONENT:
-const zoomOnNav = (ctx, img, sz) => [
-  navFLIPzoom(
-    `${$routePath$.deref()}/${/id\/(\d+)/g.exec(img)[1]}`,
-    img + "_div",
-    div
-  ),
+/* ⚙ HOF COMPONENT ⚙ */
+const zoomOnNav = (ctx, uid, path, img, sz) => [
+  navFLIPzoom({
+    id: img + "_div",
+    href: `${[path, uid].join("/")}`,
+    target: div
+  }),
   img,
   sz
 ]
 
 const component = sz => {
-  return (ctx, img, fields) => [
+  return (ctx, uid, path, img, fields) => [
     "div",
     { class: "card" },
-    [zoomOnNav, img, sz], //[FLIP_img, img]],
+    [zoomOnNav, uid, path, img, sz], //[FLIP_img, img]],
     ["p", { class: "title" }, fields]
   ]
 }
@@ -258,18 +287,22 @@ const page = (ctx, payload) => {
     isArray(payload)
       ? [
           "div",
-          ...payload.map(({ img, text }) => [
+          ...payload.map(({ img, text, uid, path }) => [
             component("sm"),
+            uid,
+            path,
             img,
             fields(text)
           ])
         ]
       : [
           component("lg"),
-          payload && payload.img
+          payload.uid,
+          payload.path,
+          getIn(payload, "img")
             ? payload.img
             : "https://i.picsum.photos/id/111/600/600.jpg",
-          payload && payload.text
+          getIn(payload, "text")
             ? fields(payload.text.company || payload.text)
             : null
         ]

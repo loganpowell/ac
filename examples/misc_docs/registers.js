@@ -1,8 +1,8 @@
 import { stream } from "@thi.ng/rstream"
-import { registerCMD } from "../src/register"
-import { traceStream, parse_href } from "../src/utils"
+import { registerCMD } from "../../src/register"
+import { traceStream, parse_href } from "../../src/utils"
 import { isFunction } from "@thi.ng/checks"
-import { command$, run$, task$, out$ } from "../src/streams"
+import { command$, run$, task$, out$ } from "../../src/streams"
 import fetch from "node-fetch"
 
 // traceStream("run$ -> ", run$)

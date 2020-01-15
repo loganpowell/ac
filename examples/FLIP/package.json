@@ -15,6 +15,6 @@
     "semi": false
   },
   "devDependencies": {
-    "abort-controller": "^3.0.0"
+    "@babel/core": "^7.8.3"
   }
 }

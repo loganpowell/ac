@@ -1,6 +1,17 @@
 import { getIn } from "@thi.ng/paths"
-import { isObject } from "@thi.ng/checks"
 import { Atom } from "@thi.ng/atom"
+import { _HURL } from "../commands"
+
+//
+//    d8                  888
+//  _d88__  e88~-_   e88~\888  e88~-_
+//   888   d888   i d888  888 d888   i
+//   888   8888   | 8888  888 8888   |
+//   888   Y888   ' Y888  888 Y888   '
+//   "88_/  "88_-~   "88_/888  "88_-~
+//
+//
+// add before/after transition hooks for support animations
 
 export function getRect(element, frame) {
   const {
@@ -21,21 +32,8 @@ export function getRect(element, frame) {
     right,
     width,
     height
-    // get transform() {
-    //   return getComputedStyle(element).transform || undefined
-    // }
   }
 }
-
-// 📌 turn into a Command/Task (only track DOM nodes that
-// are clicked)
-/**
- *
- * deps:
- * - flip target (not necessarily the clicked `el` here)
- * - current location within the viewport (snapshot Command)
- * -
- */
 
 const paths = uid => ({
   rects: ["_FLIP", "rects", uid],
@@ -43,29 +41,26 @@ const paths = uid => ({
   clicks: ["_FLIP", "clicks", uid]
 })
 
-export const FLIP_all = (el, state, uid, frameDOMel) => {
-  console.log({ state })
-
+export const FLIP_all = (el, state, uid, frameDOMel = null) => {
   let { rects } = paths(uid)
-  // console.log({ rects })
 
   if (!getIn(state.deref(), rects))
     return state.resetIn(rects, getRect(el, frameDOMel))
+
   let F_flip_map = getIn(state.deref(), rects)
   let L_flip_map = getRect(el, frameDOMel)
+  // console.log({ F_flip_map, L_flip_map })
 
-  // console.log("getter: my_height ->", L_flip_map.my_height)
   let Tx = F_flip_map.left - L_flip_map.left
   let Ty = F_flip_map.top - L_flip_map.top
   let Sx = F_flip_map.width / L_flip_map.width
   let Sy = F_flip_map.height / L_flip_map.height
 
-  // console.log({ F_flip_map, L_flip_map })
-
   el.style.transformOrigin = "0 0"
   el.style.transition = ""
+
   let trans = `translate(${Tx}px, ${Ty}px) scale(${Sx}, ${Sy})`
-  // console.log(transform)
+
   el.style.transform = trans
 
   state.resetIn(rects, L_flip_map)
@@ -91,93 +86,8 @@ export const FLIP_all = (el, state, uid, frameDOMel) => {
  *  - if first === last, no change (on nav e.g.)
  *  - if first !== last, nav change (store rect for id)
  */
-
-const css_fade = {
-  fold: `{
-  display: block;
-
-  -webkit-animation: fadeInFromNone 0.5s ease-out;
-  -moz-animation: fadeInFromNone 0.5s ease-out;
-  -o-animation: fadeInFromNone 0.5s ease-out;
-  animation: fadeInFromNone 0.5s ease-out;
-}
-
-@-webkit-keyframes fadeInFromNone {
-  0% {
-      display: none;
-      opacity: 0;
-  }
-
-  1% {
-      display: block;
-      opacity: 0;
-  }
-
-  100% {
-      display: block;
-      opacity: 1;
-  }
-}
-
-@-moz-keyframes fadeInFromNone {
-  0% {
-      display: none;
-      opacity: 0;
-  }
-
-  1% {
-      display: block;
-      opacity: 0;
-  }
-
-  100% {
-      display: block;
-      opacity: 1;
-  }
-}
-
-@-o-keyframes fadeInFromNone {
-  0% {
-      display: none;
-      opacity: 0;
-  }
-
-  1% {
-      display: block;
-      opacity: 0;
-  }
-
-  100% {
-      display: block;
-      opacity: 1;
-  }
-}
-
-@keyframes fadeInFromNone {
-  0% {
-      display: none;
-      opacity: 0;
-  }
-
-  1% {
-      display: block;
-      opacity: 0;
-  }
-
-  100% {
-      display: block;
-      opacity: 1;
-  }
-}
-`
-}
-
 export const FLIP_first = (state, uid, ev) => {
-  console.log(/id\/(\d+)/g.exec(uid)[1], "WAS CLICKED")
-
   let { rects, clicks } = paths(uid)
-
-  // registers component as having been clicked (active)
 
   // sets the rect in state for next el init to sniff
   let target = ev.target
@@ -185,48 +95,31 @@ export const FLIP_first = (state, uid, ev) => {
   state.resetIn(rects, flip_map)
   // console.log({ target })
 
-  // notify others
+  // registers component as having been clicked (focused)
   state.resetIn(clicks, true)
-
-  // console.log({
-  //   F: { flip_map, BCR: boundingClientProxy.getBoundingClientRect() }
-  // })
 }
 
+/**
+ * 1. if it has been clicked that means the last thing
+ *    that happened was a click that triggered this init
+ *    so we do the calcs
+ *
+ * 2. if a back/nav (no frame) event was what triggered
+ *    the init do the calcs with no frame
+ */
 export const FLIP_last_invert_play = (el, state, uid) => {
-  let ID = /id\/(\d+)/g.exec(uid)[1]
-  // console.log("FLIP init")
-  // a frame will be present if any FLIP item has been activated
-  // provide frame if attr is present
-
   let { rects, clicks } = paths(uid)
 
-  /**
-   * 1. if it has been clicked (frame available) that means
-   *    the last thing that happened was a click that
-   *    triggered this init so we do the calcs
-   *
-   * 2. if a back/nav (no frame) event was what triggered
-   *    the init (after a click) do the calcs with no frame
-   */
-
-  // NO RECT => NOT CLICKED
   let F_flip_map = getIn(state.deref(), rects) || null
+  // NO RECT => NOT CLICKED
   if (!F_flip_map) return
 
-  let clicked = getIn(state.deref(), clicks) || null
-
   el.scrollIntoView()
-  let L_flip_map = getRect(el)
 
-  // made it through = navigated with clicked item in view
+  let L_flip_map = getRect(el)
 
   let Tx = F_flip_map.left - L_flip_map.left
   let Ty = F_flip_map.top - L_flip_map.top
-
-  // if there's no diff, just return (no change)
-  // if (Tx + Ty < 0.01) return
-
   let Sx = F_flip_map.width / L_flip_map.width
   let Sy = F_flip_map.height / L_flip_map.height
 
@@ -239,24 +132,21 @@ export const FLIP_last_invert_play = (el, state, uid) => {
 
   // set new rect in state
 
-  // play
+  // PLAY
   requestAnimationFrame(() => {
-    // just baffle them with 💩 GE: https://cubic-bezier.com/
+    // just baffle them with https://cubic-bezier.com/
     el.style.transition = "all .4s cubic-bezier(.54,-0.29,.17,1.11)"
     el.style.transform = "none"
   })
-  /**
-   * remove this if/else if it's desireable to continue
-   * tracking element through multiple non-clicked
-   * navigations (e.g., back/fowards)
-   *
-   * ie, always state.resetIn(recs, L_flip_map)
-   */
+
+  let clicked = getIn(state.deref(), clicks) || null
+
   if (!clicked) {
-    console.log(ID, "FLIP'ed on navigated")
+    // console.log(uid, "FLIP'ed on navigated")
     state.resetIn(rects, null)
   } else {
-    console.log(ID, "FLIP'ed on click! 👆")
+    // made it through = navigated with clicked item in view
+    // console.log(uid, "FLIP'ed on click! 👆")
     state.resetIn(rects, L_flip_map)
   }
   // remove click frame
@@ -274,3 +164,50 @@ export const FLIP_last_invert_play = (el, state, uid) => {
  *  - uses rect & frame to calc diff
  *  - PLAY
  */
+
+const $FLIP$ = new Atom({})
+
+/**
+ * There're only 3 lifecycle hooks. render is called for
+ * every update and is just providing the actual hiccup for
+ * that component. if that component is used the first time,
+ * the order is normalizeTree ->  render -> diff ->  init.
+ * The actual DOM element is only known when init is called,
+ * NEVER during render (though you could cache it as local
+ * component state). If during diffing it turns out the
+ * component is not used anymore, then release will be
+ * called
+ *
+ * if the object identity of your life cycle component
+ * changes with every update then that count as full
+ * replacement and would trigger init each time:
+ *
+ * https://github.com/thi-ng/umbrella/wiki/Higher-order-components
+ *
+ * init is called in so called "post-order", i.e. when it
+ * executes all children are already present in the DOM (and
+ * might have had their init hooks called) first time = 1st
+ * frame the component appears in the DOM
+ *
+ */
+export const navFLIPzoom = ({ href, id, target }) => {
+  let proxy = {
+    preventDefault: () => null,
+    currentTarget: { document: null },
+    target: {
+      href
+    }
+  }
+
+  let attrs = {
+    onclick: e => {
+      e.preventDefault()
+      FLIP_first($FLIP$, id, e)
+      _HURL(proxy)
+    }
+  }
+
+  let render = (ctx, ...args) => [target, attrs, ...args]
+  let init = el => FLIP_last_invert_play(el, $FLIP$, id)
+  return { init, render }
+}
