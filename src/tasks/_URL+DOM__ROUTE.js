@@ -1,14 +1,12 @@
-import { isNode } from "@thi.ng/checks"
+import { isNode, isObject } from "@thi.ng/checks"
 import { parse_URL, msTaskDelay } from "../utils"
 import {
-  _HREF_PUSHSTATE_DOM,
-  _NOTIFY_PRERENDER_DOM,
-  _SET_LINK_ATTRS_DOM,
-  _SET_ROUTER_LOADING_STATE,
-  _SET_ROUTER_PATH,
-  _SET_PAGE_STATE
-  // _FLIP_FIRST,
-  // _FLIP_PLAY
+  __HREF_PUSHSTATE_DOM,
+  __NOTIFY_PRERENDER_DOM,
+  __SET_LINK_ATTRS_DOM,
+  __SET_ROUTER_LOADING_STATE,
+  __SET_ROUTER_PATH,
+  __SET_PAGE_STATE
 } from "../commands"
 // import { log$ } from "../streams"
 
@@ -35,24 +33,28 @@ import {
  * ]
  * ```
  *
+ * reserved Command keys:
+ * - `URL`
+ * - `DOM`
+ * - `URL_page`
+ * - `URL_path`
+ * - `URL_data`
  */
-export const _URL_DOM__ROUTE = router => {
+export const __URL_DOM__ROUTE = routerCfg => {
   // instantiate router
-  let match = _URL__ROUTE(router)
+  let match = __URL__ROUTE(routerCfg)
   return ({ URL, DOM }) => [
-    { ..._HREF_PUSHSTATE_DOM, args: { URL, DOM } },
+    { ...__HREF_PUSHSTATE_DOM, args: { URL, DOM } },
     // example Subtask injection
     ({ URL }) => match({ URL }),
-    // _FLIP_FIRST,
     // { args: msTaskDelay(2000) },
-    _SET_PAGE_STATE,
-    // _FLIP_PLAY,
+    __SET_PAGE_STATE,
     // wait on pending promise(s) w/a non-nullary fn (+)=>
-    { ..._SET_ROUTER_LOADING_STATE, args: _ => false },
+    { ...__SET_ROUTER_LOADING_STATE, args: _ => false },
     // example ad-hoc stream injection
     // { sub$: log$, args: () => ({ DOM }) },
-    _SET_LINK_ATTRS_DOM,
-    _NOTIFY_PRERENDER_DOM
+    __SET_LINK_ATTRS_DOM,
+    __NOTIFY_PRERENDER_DOM
   ]
 }
 
@@ -77,14 +79,36 @@ export const _URL_DOM__ROUTE = router => {
  * - once promise(s) resolved, set `router_loading` to `false`
  * ]
  * ```
+ * reserved Command keys:
+ * - `URL_page`
+ * - `URL_data`
+ * - `URL_path`
+ * - `URL`
+ * - `DOM`
  */
-export const _URL__ROUTE = router => ({ URL }) => [
-  _SET_ROUTER_LOADING_STATE,
-  {
-    args: router(URL),
-    reso: (acc, { page, data }) => ({ page, data }),
-    erro: (acc, err) => console.warn(err)
-  },
-  { args: parse_URL(URL) },
-  _SET_ROUTER_PATH
-]
+export const __URL__ROUTE = routerCfg => {
+  let _router, _pre, _post
+  if (isObject(routerCfg)) {
+    let { router, pre, post } = routerCfg
+    // console.log({ router, pre, post })
+    _router = router
+    _pre = isObject(pre) ? [pre] : pre || []
+    _post = isObject(post) ? [post] : post || []
+  } else {
+    _router = routerCfg
+    _pre = []
+    _post = []
+  }
+  return ({ URL }) => [
+    ..._pre,
+    __SET_ROUTER_LOADING_STATE,
+    {
+      args: _router(URL),
+      reso: (acc, { URL_page, URL_data }) => ({ URL_page, URL_data }),
+      erro: (acc, err) => console.warn(err)
+    },
+    { args: parse_URL(URL) },
+    __SET_ROUTER_PATH,
+    ..._post
+  ]
+}

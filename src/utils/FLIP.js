@@ -1,6 +1,6 @@
 import { getIn } from "@thi.ng/paths"
 import { Atom } from "@thi.ng/atom"
-import { _HURL } from "../commands"
+import { HURL } from "../commands"
 
 //
 //    d8                  888
@@ -93,7 +93,6 @@ export const FLIP_first = (state, uid, ev) => {
   let target = ev.target
   let flip_map = getRect(target)
   state.resetIn(rects, flip_map)
-  // console.log({ target })
 
   // registers component as having been clicked (focused)
   state.resetIn(clicks, true)
@@ -145,7 +144,6 @@ export const FLIP_last_invert_play = (el, state, uid) => {
     // console.log(uid, "FLIP'ed on navigated")
     state.resetIn(rects, null)
   } else {
-    // made it through = navigated with clicked item in view
     // console.log(uid, "FLIP'ed on click! 👆")
     state.resetIn(rects, L_flip_map)
   }
@@ -202,8 +200,8 @@ export const navFLIPzoom = ({ href, id, target }) => {
   let attrs = {
     onclick: e => {
       e.preventDefault()
+      HURL(proxy)
       FLIP_first($FLIP$, id, e)
-      _HURL(proxy)
     }
   }
 

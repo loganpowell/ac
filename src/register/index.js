@@ -4,7 +4,7 @@
 import { command$, out$, run$, DOMnavigated$ } from "../streams"
 import { isFunction } from "@thi.ng/checks"
 import { map, comp, pluck, selectKeys } from "@thi.ng/transducers"
-import { _URL_DOM__ROUTE, _URL__ROUTE } from "../tasks"
+import { __URL_DOM__ROUTE, __URL__ROUTE } from "../tasks"
 import { unknown_key_ERR } from "../utils"
 
 const err_str = "registerCMD"
@@ -105,8 +105,11 @@ const feedCMD$fromSource$ = ({ sub$, args, source$ }) => {
  *
  * ```
  *
- * @param {Command} command an object with three required
- * keys (`sub$`, `args`, `handler`)
+ * @param {Command} command an object with four keys:
+ *  1. `sub$` (required)
+ *  2. `handler` (required)
+ *  3. `args` (optional, sets default) during registration
+ *  4. `source$` (optional, enables stream to feed Command)
  *
  */
 export const registerCMD = command => {
@@ -136,10 +139,17 @@ export const registerCMD = command => {
   return CMD
 }
 
+/**
+ *
+ * expects payload of
+ * ```
+ * { target: { location: { href } }, currentTarget }
+ * ```
+ */
 export const registerRouterDOM = router => {
   console.log("DOM Router Registered")
 
-  const taskFrom = _URL_DOM__ROUTE(router)
+  const taskFrom = __URL_DOM__ROUTE(router)
   return registerCMD({
     source$: DOMnavigated$,
     sub$: "_URL_NAVIGATED$_DOM",
@@ -151,9 +161,10 @@ export const registerRouterDOM = router => {
 export const registerRouter = router => {
   console.log("Router Registered")
 
-  const taskFrom = _URL__ROUTE(router)
+  const taskFrom = __URL__ROUTE(router)
   return registerCMD({
     sub$: "_URL_NAVIGATED$",
+    // 📌 TODO: add source for API access/server source$
     source$: DOMnavigated$,
     args: x => x,
     handler: ({ URL, DOM }) => run$.next(taskFrom({ URL, DOM }))

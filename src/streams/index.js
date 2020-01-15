@@ -146,6 +146,9 @@ export const DOMContentLoaded$ = fromDOMEvent(window, "DOMContentLoaded")
  * for raw events, we can just transform them, but for link
  * clicking we need to convert/wrap it to align with the
  * destructuring of the others
+ *
+ * see _HURL in `/commands/routing.js` for ad-hoc stream
+ * injection example
  */
 export const DOMnavigated$ = merge({
   src: [popstate$, DOMContentLoaded$]
