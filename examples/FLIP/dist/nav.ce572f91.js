@@ -24434,8 +24434,7 @@ const FLIP_first = (state, uid, ev) => {
 
   let target = ev.target;
   let flip_map = getRect(target);
-  state.resetIn(rects, flip_map); // console.log({ target })
-  // registers component as having been clicked (focused)
+  state.resetIn(rects, flip_map); // registers component as having been clicked (focused)
 
   state.resetIn(clicks, true);
 };
@@ -24483,7 +24482,6 @@ const FLIP_last_invert_play = (el, state, uid) => {
     // console.log(uid, "FLIP'ed on navigated")
     state.resetIn(rects, null);
   } else {
-    // made it through = navigated with clicked item in view
     // console.log(uid, "FLIP'ed on click! 👆")
     state.resetIn(rects, L_flip_map);
   } // remove click frame
@@ -24547,8 +24545,8 @@ const navFLIPzoom = ({
   let attrs = {
     onclick: e => {
       e.preventDefault();
+      (0, _commands.HURL)(proxy);
       FLIP_first($FLIP$, id, e);
-      (0, _commands._HURL)(proxy);
     }
   };
 
@@ -25157,6 +25155,9 @@ const DOMContentLoaded$ = (0, _rstream.fromDOMEvent)(window, "DOMContentLoaded")
  * for raw events, we can just transform them, but for link
  * clicking we need to convert/wrap it to align with the
  * destructuring of the others
+ *
+ * see _HURL in `/commands/routing.js` for ad-hoc stream
+ * injection example
  */
 
 exports.DOMContentLoaded$ = DOMContentLoaded$;
@@ -25173,7 +25174,7 @@ exports.DOMnavigated$ = DOMnavigated$;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports._URL__ROUTE = exports._URL_DOM__ROUTE = void 0;
+exports.__URL__ROUTE = exports.__URL_DOM__ROUTE = void 0;
 
 var _checks = require("@thi.ng/checks");
 
@@ -25181,14 +25182,14 @@ var _utils = require("../utils");
 
 var _commands = require("../commands");
 
-const _URL_DOM__ROUTE = router => {
+const __URL_DOM__ROUTE = routerCfg => {
   // instantiate router
-  let match = _URL__ROUTE(router);
+  let match = __URL__ROUTE(routerCfg);
 
   return ({
     URL,
     DOM
-  }) => [{ ..._commands._HREF_PUSHSTATE_DOM,
+  }) => [{ ..._commands.__HREF_PUSHSTATE_DOM,
     args: {
       URL,
       DOM
@@ -25198,15 +25199,13 @@ const _URL_DOM__ROUTE = router => {
     URL
   }) => match({
     URL
-  }), // _FLIP_FIRST,
-  // { args: msTaskDelay(2000) },
-  _commands._SET_PAGE_STATE, // _FLIP_PLAY,
-  // wait on pending promise(s) w/a non-nullary fn (+)=>
-  { ..._commands._SET_ROUTER_LOADING_STATE,
+  }), // { args: msTaskDelay(2000) },
+  _commands.__SET_PAGE_STATE, // wait on pending promise(s) w/a non-nullary fn (+)=>
+  { ..._commands.__SET_ROUTER_LOADING_STATE,
     args: _ => false
   }, // example ad-hoc stream injection
   // { sub$: log$, args: () => ({ DOM }) },
-  _commands._SET_LINK_ATTRS_DOM, _commands._NOTIFY_PRERENDER_DOM];
+  _commands.__SET_LINK_ATTRS_DOM, _commands.__NOTIFY_PRERENDER_DOM];
 };
 /**
  *
@@ -25229,28 +25228,54 @@ const _URL_DOM__ROUTE = router => {
  * - once promise(s) resolved, set `router_loading` to `false`
  * ]
  * ```
+ * reserved Command keys:
+ * - `URL_page`
+ * - `URL_data`
+ * - `URL_path`
+ * - `URL`
+ * - `DOM`
  */
 
 
-exports._URL_DOM__ROUTE = _URL_DOM__ROUTE;
+exports.__URL_DOM__ROUTE = __URL_DOM__ROUTE;
 
-const _URL__ROUTE = router => ({
-  URL
-}) => [_commands._SET_ROUTER_LOADING_STATE, {
-  args: router(URL),
-  reso: (acc, {
-    page,
-    data
-  }) => ({
-    page,
-    data
-  }),
-  erro: (acc, err) => console.warn(err)
-}, {
-  args: (0, _utils.parse_URL)(URL)
-}, _commands._SET_ROUTER_PATH];
+const __URL__ROUTE = routerCfg => {
+  let _router, _pre, _post;
 
-exports._URL__ROUTE = _URL__ROUTE;
+  if ((0, _checks.isObject)(routerCfg)) {
+    let {
+      router,
+      pre,
+      post
+    } = routerCfg; // console.log({ router, pre, post })
+
+    _router = router;
+    _pre = (0, _checks.isObject)(pre) ? [pre] : pre || [];
+    _post = (0, _checks.isObject)(post) ? [post] : post || [];
+  } else {
+    _router = routerCfg;
+    _pre = [];
+    _post = [];
+  }
+
+  return ({
+    URL
+  }) => [..._pre, _commands.__SET_ROUTER_LOADING_STATE, {
+    args: _router(URL),
+    reso: (acc, {
+      URL_page,
+      URL_data
+    }) => ({
+      URL_page,
+      URL_data
+    }),
+    erro: (acc, err) => console.warn(err)
+  }, {
+    args: (0, _utils.parse_URL)(URL)
+  }, _commands.__SET_ROUTER_PATH, ..._post];
+};
+
+exports.__URL__ROUTE = __URL__ROUTE;
 },{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","../utils":"../../src/utils/index.js","../commands":"../../src/commands/index.js"}],"../../src/tasks/index.js":[function(require,module,exports) {
 "use strict";
 
@@ -25402,8 +25427,11 @@ const feedCMD$fromSource$ = ({
  *
  * ```
  *
- * @param {Command} command an object with three required
- * keys (`sub$`, `args`, `handler`)
+ * @param {Command} command an object with four keys:
+ *  1. `sub$` (required)
+ *  2. `handler` (required)
+ *  3. `args` (optional, sets default) during registration
+ *  4. `source$` (optional, enables stream to feed Command)
  *
  */
 
@@ -25448,12 +25476,20 @@ const registerCMD = command => {
   };
   return CMD;
 };
+/**
+ *
+ * expects payload of
+ * ```
+ * { target: { location: { href } }, currentTarget }
+ * ```
+ */
+
 
 exports.registerCMD = registerCMD;
 
 const registerRouterDOM = router => {
   console.log("DOM Router Registered");
-  const taskFrom = (0, _tasks._URL_DOM__ROUTE)(router);
+  const taskFrom = (0, _tasks.__URL_DOM__ROUTE)(router);
   return registerCMD({
     source$: _streams.DOMnavigated$,
     sub$: "_URL_NAVIGATED$_DOM",
@@ -25472,9 +25508,10 @@ exports.registerRouterDOM = registerRouterDOM;
 
 const registerRouter = router => {
   console.log("Router Registered");
-  const taskFrom = (0, _tasks._URL__ROUTE)(router);
+  const taskFrom = (0, _tasks.__URL__ROUTE)(router);
   return registerCMD({
     sub$: "_URL_NAVIGATED$",
+    // 📌 TODO: add source for API access/server source$
     source$: _streams.DOMnavigated$,
     args: x => x,
     handler: ({
@@ -25542,7 +25579,7 @@ exports.set$Root = set$Root;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports._NOTIFY_PRERENDER_DOM = exports._HREF_PUSHSTATE_DOM = exports._SET_LINK_ATTRS_DOM = exports._SET_ROUTER_PATH = exports._SET_ROUTER_LOADING_STATE = exports._SET_PAGE_STATE = exports._HURL = void 0;
+exports.__NOTIFY_PRERENDER_DOM = exports.__HREF_PUSHSTATE_DOM = exports.__SET_LINK_ATTRS_DOM = exports.__SET_ROUTER_PATH = exports.__SET_ROUTER_LOADING_STATE = exports.__SET_PAGE_STATE = exports.HURL = void 0;
 
 var _forEach = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/instance/for-each"));
 
@@ -25554,11 +25591,9 @@ var _utils = require("../utils");
 
 var _streams = require("../streams");
 
-var _paths = require("@thi.ng/paths");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const _HURL = e => {
+const HURL = e => {
   e.preventDefault(); // console.log({ e })
 
   let href = e.target.href;
@@ -25583,6 +25618,10 @@ const _HURL = e => {
  * Routing Command: Universal
  *
  * ### Payload: function
+ * default payload `args` signature:
+ * ```
+ * args: ({ URL_path, URL_page, URL_data }) => ({ URL_path, URL_page, URL_data }),
+ * ```
  * takes the result from two sources: the user-provided
  * `router` ([@thi.ng/associative:
  * EquivMap](http://thi.ng/associative)) and the `URL_path`
@@ -25595,28 +25634,28 @@ const _HURL = e => {
  */
 
 
-exports._HURL = _HURL;
+exports.HURL = HURL;
 
-const _SET_PAGE_STATE = (0, _register.registerCMD)({
-  sub$: "_SET_PAGE_STATE",
+const __SET_PAGE_STATE = (0, _register.registerCMD)({
+  sub$: "__SET_PAGE_STATE",
   args: ({
     URL_path,
-    page,
-    data
+    URL_page,
+    URL_data
   }) => ({
     URL_path,
-    page,
-    data
+    URL_page,
+    URL_data
   }),
   handler: ({
     URL_path,
-    page,
-    data
+    URL_page,
+    URL_data
   }) => {
     // 📌 remove ["home"] and just match for empty path in
     // router EquivMap
     let path = URL_path.length === 0 ? ["home"] : URL_path;
-    (0, _store.set$State)(path, data), (0, _store.set$Page)(page);
+    (0, _store.set$State)(path, URL_data), (0, _store.set$Page)(URL_page);
   }
 });
 /**
@@ -25625,6 +25664,10 @@ const _SET_PAGE_STATE = (0, _register.registerCMD)({
  * Routing Command: Universal
  *
  * ### Payload: static
+ * default payload `args` signature:
+ * ```
+ * args: true,
+ * ```
  * Simple true or false payload to alert handler
  *
  * ### Handler: side-effecting
@@ -25633,10 +25676,10 @@ const _SET_PAGE_STATE = (0, _register.registerCMD)({
  */
 
 
-exports._SET_PAGE_STATE = _SET_PAGE_STATE;
+exports.__SET_PAGE_STATE = __SET_PAGE_STATE;
 
-const _SET_ROUTER_LOADING_STATE = (0, _register.registerCMD)({
-  sub$: "_SET_ROUTER_LOADING_STATE",
+const __SET_ROUTER_LOADING_STATE = (0, _register.registerCMD)({
+  sub$: "__SET_ROUTER_LOADING_STATE",
   args: true,
   handler: x => (0, _store.set$Loading)(x)
 });
@@ -25646,6 +25689,10 @@ const _SET_ROUTER_LOADING_STATE = (0, _register.registerCMD)({
  * Routing Command: Universal
  *
  * ### Payload: function
+ * default payload `args` signature:
+ * ```
+ * args: ({ URL_path }) => ({ URL_path }),
+ * ```
  * Consumes the `URL_path` property from a `parse_URL`
  * object, handed off from a prior Command
  *
@@ -25656,10 +25703,10 @@ const _SET_ROUTER_LOADING_STATE = (0, _register.registerCMD)({
  */
 
 
-exports._SET_ROUTER_LOADING_STATE = _SET_ROUTER_LOADING_STATE;
+exports.__SET_ROUTER_LOADING_STATE = __SET_ROUTER_LOADING_STATE;
 
-const _SET_ROUTER_PATH = (0, _register.registerCMD)({
-  sub$: "_SET_ROUTER_PATH",
+const __SET_ROUTER_PATH = (0, _register.registerCMD)({
+  sub$: "__SET_ROUTER_PATH",
   args: ({
     URL_path
   }) => ({
@@ -25670,7 +25717,7 @@ const _SET_ROUTER_PATH = (0, _register.registerCMD)({
   }) => (0, _store.set$Route)(URL_path)
 });
 
-exports._SET_ROUTER_PATH = _SET_ROUTER_PATH;
+exports.__SET_ROUTER_PATH = __SET_ROUTER_PATH;
 
 const setLinkAttrs = target => {
   var _context;
@@ -25690,6 +25737,10 @@ const setLinkAttrs = target => {
  * Routing Command: DOM-specific
  *
  * ### Payload: function
+ * default payload `args` signature:
+ * ```
+ * args: ({ DOM }) => ({ DOM }),
+ * ```
  * Input = DOM node reference
  *
  * ### Handler: side-effecting
@@ -25701,8 +25752,8 @@ const setLinkAttrs = target => {
  */
 
 
-const _SET_LINK_ATTRS_DOM = (0, _register.registerCMD)({
-  sub$: "_SET_LINK_ATTRS_DOM",
+const __SET_LINK_ATTRS_DOM = (0, _register.registerCMD)({
+  sub$: "__SET_LINK_ATTRS_DOM",
   args: ({
     DOM
   }) => ({
@@ -25718,6 +25769,10 @@ const _SET_LINK_ATTRS_DOM = (0, _register.registerCMD)({
  * Routing Command: DOM-specific
  *
  * ### Payload: function
+ * default payload `args` signature:
+ * ```
+ * args: ({ URL, DOM }) => ({ URL, DOM }),
+ * ```
  * Takes a URL and a DOM reference
  *
  * ### Handler: side-effecting
@@ -25733,10 +25788,10 @@ const _SET_LINK_ATTRS_DOM = (0, _register.registerCMD)({
  */
 
 
-exports._SET_LINK_ATTRS_DOM = _SET_LINK_ATTRS_DOM;
+exports.__SET_LINK_ATTRS_DOM = __SET_LINK_ATTRS_DOM;
 
-const _HREF_PUSHSTATE_DOM = (0, _register.registerCMD)({
-  sub$: "_HREF_PUSHSTATE_DOM",
+const __HREF_PUSHSTATE_DOM = (0, _register.registerCMD)({
+  sub$: "__HREF_PUSHSTATE_DOM",
   args: ({
     URL,
     DOM
@@ -25753,7 +25808,10 @@ const _HREF_PUSHSTATE_DOM = (0, _register.registerCMD)({
  * ## `_NOTIFY_PRERENDER_DOM`
  *
  * ### Payload: static
- *
+ * default payload `args` signature
+ * ```
+ * args: true,
+ * ```
  * ### Handler: side-effecting
  * Routing Command: DOM-specific (used for manually
  * triggering `rendertron` prerenderer for bots/web-crawlers
@@ -25762,50 +25820,39 @@ const _HREF_PUSHSTATE_DOM = (0, _register.registerCMD)({
  */
 
 
-exports._HREF_PUSHSTATE_DOM = _HREF_PUSHSTATE_DOM;
+exports.__HREF_PUSHSTATE_DOM = __HREF_PUSHSTATE_DOM;
 
-const _NOTIFY_PRERENDER_DOM = (0, _register.registerCMD)({
-  sub$: "_NOTIFY_PRERENDER_DOM",
+const __NOTIFY_PRERENDER_DOM = (0, _register.registerCMD)({
+  sub$: "__NOTIFY_PRERENDER_DOM",
   args: true,
   //👀 for prerenderer,
   handler: () => document.dispatchEvent(new Event("rendered"))
-}); //
-//  888~~  888     888 888~-_    _-~88e
-//  888___ 888     888 888   \  /   88"
-//  888    888     888 888    | `   8P
-//  888    888     888 888   /      `
-//  888    888     888 888_-~     d88b
-//  888    888____ 888 888        Y88P
-//
-//
-// export const _FLIP_FIRST = registerCMD({
-//   sub$: "_FLIP_FIRST",
-//   args: true,
-//   handler: () =>
-//     $store$.deref()._flip_els.forEach(el => (el.recordBeforeUpdate(), $store$.deref(), el.update()))
-//   // console.log($store$.deref()._flip_els.forEach((v, k, d) => console.log("key:", k, "val", v))) // console.log(getIn($store$, "_flip_els")) // .forEach(el => el.recordBeforeUpdate())
-// })
-// export const _FLIP_PLAY = registerCMD({
-//   sub$: "_FLIP_PLAY",
-//   args: true,
-//   handler: console.log // () => $store$.deref()._flip_els.forEach(el => el.update())
-// })
+});
 
-
-exports._NOTIFY_PRERENDER_DOM = _NOTIFY_PRERENDER_DOM;
-},{"@babel/runtime-corejs3/core-js-stable/instance/for-each":"../../node_modules/@babel/runtime-corejs3/core-js-stable/instance/for-each.js","../register":"../../src/register/index.js","../store":"../../src/store/index.js","../utils":"../../src/utils/index.js","../streams":"../../src/streams/index.js","@thi.ng/paths":"../../node_modules/@thi.ng/paths/index.js"}],"../../src/commands/head.js":[function(require,module,exports) {
+exports.__NOTIFY_PRERENDER_DOM = __NOTIFY_PRERENDER_DOM;
+},{"@babel/runtime-corejs3/core-js-stable/instance/for-each":"../../node_modules/@babel/runtime-corejs3/core-js-stable/instance/for-each.js","../register":"../../src/register/index.js","../store":"../../src/store/index.js","../utils":"../../src/utils/index.js","../streams":"../../src/streams/index.js"}],"../../src/commands/head.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports._HEAD_META = exports.replaceMeta = exports.injectMeta = void 0;
+exports.INJECT_HEAD_CMD = exports.HEAD_CMD = exports.replaceMeta = exports.injectMeta = void 0;
 
 var _entries = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/object/entries"));
 
 var _forEach = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/instance/for-each"));
 
 var _checks = require("@thi.ng/checks");
+
+var _rstream = require("@thi.ng/rstream");
+
+var _transducers = require("@thi.ng/transducers");
+
+var _arrays = require("@thi.ng/arrays");
+
+var _store = require("../store");
+
+var _streams = require("../streams");
 
 var _register = require("../register");
 
@@ -25831,8 +25878,8 @@ const injectMeta = (type, content, prop) => {
     }[type]();
   } catch (e) {
     console.warn("no <head> `injectMeta` handler for prop:", type, `
-    supported properties: HEAD_meta, HEAD_title
-    `);
+      supported properties: HEAD_meta, HEAD_title
+      `);
   }
 };
 
@@ -25857,8 +25904,8 @@ const replaceMeta = (obj = base_cfg) => {
       }[key]();
     } catch (e) {
       console.warn("no <head> `replaceMeta` handler for prop:", key, `
-      supported properties: HEAD_meta, HEAD_title
-      `);
+        supported properties: HEAD_meta, HEAD_title
+        `);
     }
   });
 };
@@ -25877,18 +25924,60 @@ const replaceMeta = (obj = base_cfg) => {
  * })
  *
  */
+// const routing$ = pubsub({// topic = test decides what the
+//   topic is topic: x => !!x, id: "route_loading"
+// })
+// const isRouteLoading$ =
+//   fromAtom($routeLoading$).subscribe(map(x =>
+//   routeIsLoading$.next(x))
+// )
+// const pushToHead$ = "userland" const routeIsLoading$ =
+// routing$ .subscribeTopic(true)
+// .subscribe(sidechainPartition(pushToHead$))
+// .transform(map(peek))
 
 
 exports.replaceMeta = replaceMeta;
 
-const _HEAD_META = (0, _register.registerCMD)({
-  sub$: "_HEAD_META",
-  args: x => x,
-  handler: replaceMeta
+const HEAD_CMD = ({
+  title,
+  description,
+  image
+}) => ({
+  HEAD_meta: {
+    "og:title": title,
+    "og:type": "website",
+    "og:description": description,
+    "og:image:width": "1600",
+    "og:image:height": "900",
+    "og:image": image
+  },
+  HEAD_title: title
 });
 
-exports._HEAD_META = _HEAD_META;
-},{"@babel/runtime-corejs3/core-js-stable/object/entries":"../../node_modules/@babel/runtime-corejs3/core-js-stable/object/entries.js","@babel/runtime-corejs3/core-js-stable/instance/for-each":"../../node_modules/@babel/runtime-corejs3/core-js-stable/instance/for-each.js","@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","../register":"../../src/register/index.js"}],"../../src/commands/index.js":[function(require,module,exports) {
+exports.HEAD_CMD = HEAD_CMD;
+const INJECT_HEAD_CMD = (0, _register.registerCMD)({
+  // source$: DOMnavigated$,
+  sub$: "INJECT_HEAD_CMD",
+  args: ({
+    URL_data
+  }) => ({
+    title: URL_data.head.title,
+    description: URL_data.head.description,
+    image: URL_data.head.image
+  }),
+  handler: ({
+    title,
+    description,
+    image
+  }) => replaceMeta(HEAD_CMD({
+    title,
+    description,
+    image
+  }))
+});
+exports.INJECT_HEAD_CMD = INJECT_HEAD_CMD;
+},{"@babel/runtime-corejs3/core-js-stable/object/entries":"../../node_modules/@babel/runtime-corejs3/core-js-stable/object/entries.js","@babel/runtime-corejs3/core-js-stable/instance/for-each":"../../node_modules/@babel/runtime-corejs3/core-js-stable/instance/for-each.js","@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","@thi.ng/rstream":"../../node_modules/@thi.ng/rstream/index.js","@thi.ng/transducers":"../../node_modules/@thi.ng/transducers/index.js","@thi.ng/arrays":"../../node_modules/@thi.ng/arrays/index.js","../store":"../../src/store/index.js","../streams":"../../src/streams/index.js","../register":"../../src/register/index.js"}],"../../src/commands/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28325,25 +28414,26 @@ _scrollRestorer.default.start();
 
 
 const {
-  run$,
-  command$
+  run$
+  /* command$, task$ */
+
 } = _src.streams;
 const {
   registerRouterDOM
 } = _src.register;
 const {
-  _HURL,
-  _HEAD_META
+  HURL,
+  INJECT_HEAD_CMD
 } = _src.commands;
 const {
   parse_URL,
-  traceStream,
   navFLIPzoom
+  /* traceStream */
+
 } = _src.utils;
 const {
   $routePath$,
-  $store$,
-  set$Root
+  $store$
 } = _src.store; // ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
 //
 //    d8
@@ -28375,20 +28465,34 @@ const getSomeJSON = async (path, uid) => {
   const img_base = (id, sz) => `https://i.picsum.photos/id/${id}/${sz}/${sz}.jpg`;
 
   const data = uid ? {
-    // lesson -> don't use the actual url as the uid (not flexible)
-    img: img_base(uid, 600),
-    // this needs fixin' 📌
-    text: await fetch(`${text_base}${path}/${uid}`).then(r => r.json()),
-    uid,
-    path
+    head: {
+      title: `User ${uid} Details`,
+      description: `Detail page for user ${uid}`,
+      image: img_base(uid, 600)
+    },
+    body: {
+      // lesson -> don't use the actual url as the uid (not flexible)
+      img: img_base(uid, 600),
+      // this needs fixin' 📌
+      text: await fetch(`${text_base}${path}/${uid}`).then(r => r.json()),
+      uid,
+      path
+    }
   } : (async () => {
     let list = await fetch(`${text_base}${path}/`).then(r => r.json());
-    return (0, _map.default)(list).call(list, (c, i) => ({
-      img: img_base(i + 1, 600),
-      text: c,
-      uid: i + 1,
-      path
-    }));
+    return {
+      head: {
+        title: `${path.replace(/^\w/, c => c.toUpperCase())} list`,
+        description: `List page for ${path}`,
+        image: img_base(222, 600)
+      },
+      body: (0, _map.default)(list).call(list, (c, i) => ({
+        img: img_base(i + 1, 600),
+        text: c,
+        uid: i + 1,
+        path
+      }))
+    };
   })();
   return data;
 };
@@ -28415,7 +28519,7 @@ const getSomeJSON = async (path, uid) => {
  */
 
 
-const router = async url => {
+const routerCfg = async url => {
   let match = parse_URL(url);
   let {
     // URL,
@@ -28428,40 +28532,52 @@ const router = async url => {
   } = match;
   let [, p_b] = URL_path;
   let {
-    data,
-    page
+    URL_data,
+    URL_page
   } = new _associative.EquivMap([[{ ...match,
     URL_path: ["todos"]
   }, {
-    data: () => getSomeJSON("todos"),
-    page: "todos"
+    URL_data: () => getSomeJSON("todos"),
+    URL_page: "todos"
   }], [{ ...match,
     URL_path: ["todos", p_b]
   }, {
-    data: () => getSomeJSON("todos", p_b),
-    page: "todo"
+    URL_data: () => getSomeJSON("todos", p_b),
+    URL_page: "todo"
   }], [{ ...match,
     URL_path: ["users"]
   }, {
-    data: () => getSomeJSON("users"),
-    page: "users"
+    URL_data: () => getSomeJSON("users"),
+    URL_page: "users"
   }], [{ ...match,
     URL_path: ["users", p_b]
   }, {
-    data: () => getSomeJSON("users", p_b),
-    page: "user"
+    URL_data: () => getSomeJSON("users", p_b),
+    URL_page: "user"
   }]]).get(match) || {
-    data: () => ({
-      home: "page"
+    URL_data: () => ({
+      head: {
+        title: `Demo Home Page`,
+        description: `Welcome to the Demo`,
+        image: "https://i.picsum.photos/id/222/600/600.jpg"
+      },
+      body: {
+        home: "homepage"
+      }
     }),
-    page: "bloop"
+    URL_page: "bloop"
   }; // should probably be a 404... also need a match for an empty path: []
   // console.log("router called", { page, data: await data() })
 
   return {
-    page,
-    data: await data()
+    URL_page,
+    URL_data: await URL_data()
   };
+};
+
+const router = {
+  router: routerCfg,
+  post: INJECT_HEAD_CMD
 }; //
 //  888   | 888
 //  888   | 888
@@ -28473,23 +28589,12 @@ const router = async url => {
 //
 // const S = JSON.stringify // <- handy for adornment phase
 
-
 const pathLink = (ctx, id, ...args) => ["a", {
   href: `${$routePath$.deref()}/${id}`,
   onclick: e => {
     e.preventDefault();
-
-    _HURL(e); // ⚠ NTS: Head metadata is persisted across nav:
+    HURL(e); // ⚠ NTS: Head metadata is persisted across nav:
     // ⚠ consider batching all such mutations into a component
-
-
-    ctx.run$.next({ ..._HEAD_META,
-      args: {
-        HEAD_meta: {
-          "og:description": `${$routePath$.deref()} -> ${id}`
-        }
-      }
-    });
   },
   style: {
     "font-size": ".5rem"
@@ -28538,13 +28643,6 @@ const div = (ctx, attrs, img, sz, ...args) => ["img", { ...attrs,
 
   onclick(e) {
     attrs.onclick(e);
-    ctx.run$.next({ ..._HEAD_META,
-      args: {
-        HEAD_meta: {
-          "og:image": img
-        }
-      }
-    });
   },
 
   src: img,
@@ -28585,10 +28683,12 @@ const component = sz => {
 
 const link = (ctx, path, ...args) => ["a", {
   href: "/" + path.join("/"),
-  onclick: e => emitHREF(e)
+  onclick: e => HURL(e)
 }, ...args];
 
-const page = (ctx, payload) => {
+const page = (ctx, {
+  body
+}) => {
   var _context4;
 
   return ["div", {
@@ -28596,12 +28696,12 @@ const page = (ctx, payload) => {
       "max-width": "30rem",
       margin: "auto"
     }
-  }, ...(0, _map.default)(_context4 = [["users"], ["todos", 2], ["users", 9]]).call(_context4, path => [link, path, `${path[0]} ${path[1] ? "->" + path[1] : ""}`, ["br"]]), (0, _checks.isArray)(payload) ? ["div", ...(0, _map.default)(payload).call(payload, ({
+  }, ...(0, _map.default)(_context4 = [["users"], ["todos", 2], ["users", 9]]).call(_context4, path => [link, path, `${path[0]} ${path[1] ? "->" + path[1] : ""}`, ["br"]]), (0, _checks.isArray)(body) ? ["div", ...(0, _map.default)(body).call(body, ({
     img,
     text,
     uid,
     path
-  }) => [component("sm"), uid, path, img, fields(text)])] : [component("lg"), payload.uid, payload.path, (0, _paths.getIn)(payload, "img") ? payload.img : "https://i.picsum.photos/id/111/600/600.jpg", (0, _paths.getIn)(payload, "text") ? fields(payload.text.company || payload.text) : null]];
+  }) => [component("sm"), uid, path, img, fields(text)])] : [component("lg"), (0, _paths.getIn)(body, "uid"), (0, _paths.getIn)(body, "path"), (0, _paths.getIn)(body, "img") ? body.img : "https://i.picsum.photos/id/111/600/600.jpg", (0, _paths.getIn)(body, "text") ? fields(body.text.company || body.text) : null]];
 }; //
 //       e      888~-_   888  _-~88e
 //      d8b     888   \  888 /   88"
@@ -28658,7 +28758,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50603" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58580" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -17,11 +17,11 @@ scrolly.start()
  *
  */
 // ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
-const { run$, command$ } = streams
+const { run$ /* command$, task$ */ } = streams
 const { registerRouterDOM } = register
-const { _HURL, _HEAD_META } = commands
-const { parse_URL, traceStream, navFLIPzoom } = utils
-const { $routePath$, $store$, set$Root } = store
+const { HURL, INJECT_HEAD_CMD } = commands
+const { parse_URL, navFLIPzoom /* traceStream */ } = utils
+const { $routePath$, $store$ } = store
 // ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
 
 //
@@ -57,21 +57,35 @@ const getSomeJSON = async (path, uid) => {
 
   const data = uid
     ? {
-        // lesson -> don't use the actual url as the uid (not flexible)
-        img: img_base(uid, 600),
-        // this needs fixin' 📌
-        text: await fetch(`${text_base}${path}/${uid}`).then(r => r.json()),
-        uid,
-        path
+        head: {
+          title: `User ${uid} Details`,
+          description: `Detail page for user ${uid}`,
+          image: img_base(uid, 600)
+        },
+        body: {
+          // lesson -> don't use the actual url as the uid (not flexible)
+          img: img_base(uid, 600),
+          // this needs fixin' 📌
+          text: await fetch(`${text_base}${path}/${uid}`).then(r => r.json()),
+          uid,
+          path
+        }
       }
     : (async () => {
         let list = await fetch(`${text_base}${path}/`).then(r => r.json())
-        return list.map((c, i) => ({
-          img: img_base(i + 1, 600),
-          text: c,
-          uid: i + 1,
-          path
-        }))
+        return {
+          head: {
+            title: `${path.replace(/^\w/, c => c.toUpperCase())} list`,
+            description: `List page for ${path}`,
+            image: img_base(222, 600)
+          },
+          body: list.map((c, i) => ({
+            img: img_base(i + 1, 600),
+            text: c,
+            uid: i + 1,
+            path
+          }))
+        }
       })()
   return data
 }
@@ -97,7 +111,7 @@ const getSomeJSON = async (path, uid) => {
  * Value semantics have so many benefits. As a router,
  * here's one.
  */
-const router = async url => {
+const routerCfg = async url => {
   let match = parse_URL(url)
   let {
     // URL,
@@ -109,30 +123,42 @@ const router = async url => {
   } = match
   let [, p_b] = URL_path
 
-  let { data, page } = new EquivMap([
+  let { URL_data, URL_page } = new EquivMap([
     [
       { ...match, URL_path: ["todos"] },
-      { data: () => getSomeJSON("todos"), page: "todos" }
+      { URL_data: () => getSomeJSON("todos"), URL_page: "todos" }
     ],
     [
       { ...match, URL_path: ["todos", p_b] },
-      { data: () => getSomeJSON("todos", p_b), page: "todo" }
+      { URL_data: () => getSomeJSON("todos", p_b), URL_page: "todo" }
     ],
     [
       { ...match, URL_path: ["users"] },
-      { data: () => getSomeJSON("users"), page: "users" }
+      { URL_data: () => getSomeJSON("users"), URL_page: "users" }
     ],
     [
       { ...match, URL_path: ["users", p_b] },
-      { data: () => getSomeJSON("users", p_b), page: "user" }
+      { URL_data: () => getSomeJSON("users", p_b), URL_page: "user" }
     ]
   ]).get(match) || {
-    data: () => ({ home: "page" }),
-    page: "bloop"
+    URL_data: () => ({
+      head: {
+        title: `Demo Home Page`,
+        description: `Welcome to the Demo`,
+        image: "https://i.picsum.photos/id/222/600/600.jpg"
+      },
+      body: { home: "homepage" }
+    }),
+    URL_page: "bloop"
   } // should probably be a 404... also need a match for an empty path: []
 
   // console.log("router called", { page, data: await data() })
-  return { page, data: await data() }
+  return { URL_page, URL_data: await URL_data() }
+}
+
+const router = {
+  router: routerCfg,
+  post: INJECT_HEAD_CMD
 }
 
 //
@@ -153,15 +179,9 @@ const pathLink = (ctx, id, ...args) => [
     href: `${$routePath$.deref()}/${id}`,
     onclick: e => {
       e.preventDefault()
-      _HURL(e)
+      HURL(e)
       // ⚠ NTS: Head metadata is persisted across nav:
       // ⚠ consider batching all such mutations into a component
-      ctx.run$.next({
-        ..._HEAD_META,
-        args: {
-          HEAD_meta: { "og:description": `${$routePath$.deref()} -> ${id}` }
-        }
-      })
     },
     style: { "font-size": ".5rem" }
   },
@@ -214,12 +234,6 @@ const div = (ctx, attrs, img, sz, ...args) => [
     ...attrs,
     onclick(e) {
       attrs.onclick(e)
-      ctx.run$.next({
-        ..._HEAD_META,
-        args: {
-          HEAD_meta: { "og:image": img }
-        }
-      })
     },
     src: img,
     style:
@@ -269,12 +283,12 @@ const link = (ctx, path, ...args) => [
   "a",
   {
     href: "/" + path.join("/"),
-    onclick: e => emitHREF(e)
+    onclick: e => HURL(e)
   },
   ...args
 ]
 
-const page = (ctx, payload) => {
+const page = (ctx, { body }) => {
   return [
     "div",
     { style: { "max-width": "30rem", margin: "auto" } },
@@ -284,10 +298,10 @@ const page = (ctx, payload) => {
       `${path[0]} ${path[1] ? "->" + path[1] : ""}`,
       ["br"]
     ]),
-    isArray(payload)
+    isArray(body)
       ? [
           "div",
-          ...payload.map(({ img, text, uid, path }) => [
+          ...body.map(({ img, text, uid, path }) => [
             component("sm"),
             uid,
             path,
@@ -297,14 +311,12 @@ const page = (ctx, payload) => {
         ]
       : [
           component("lg"),
-          payload.uid,
-          payload.path,
-          getIn(payload, "img")
-            ? payload.img
+          getIn(body, "uid"),
+          getIn(body, "path"),
+          getIn(body, "img")
+            ? body.img
             : "https://i.picsum.photos/id/111/600/600.jpg",
-          getIn(payload, "text")
-            ? fields(payload.text.company || payload.text)
-            : null
+          getIn(body, "text") ? fields(body.text.company || body.text) : null
         ]
   ]
 }
