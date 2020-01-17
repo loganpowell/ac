@@ -31466,7 +31466,7 @@ module.exports = {
   getSavedScroll: getSavedScroll
 };
 
-},{"debounce":"../../node_modules/debounce/index.js","xtend":"../../node_modules/xtend/immutable.js","./util/get_window":"../../node_modules/@mapbox/scroll-restorer/util/get_window.js"}],"nav.js":[function(require,module,exports) {
+},{"debounce":"../../node_modules/debounce/index.js","xtend":"../../node_modules/xtend/immutable.js","./util/get_window":"../../node_modules/@mapbox/scroll-restorer/util/get_window.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _slice = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/instance/slice"));
@@ -31852,7 +31852,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62531" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54747" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -32028,5 +32028,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel/src/builtins/hmr-runtime.js","nav.js"], null)
-//# sourceMappingURL=/nav.ce572f91.js.map
+},{}]},{},["../../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel/src/builtins/hmr-runtime.js","index.js"], null)
+//# sourceMappingURL=/FLIP.e31bb0bc.js.map

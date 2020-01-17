@@ -1,10 +1,9 @@
-import { register, commands, utils, store, streams } from "../../src"
-
 import { getIn } from "@thi.ng/paths"
 import { isArray, isObject } from "@thi.ng/checks"
-import { Atom } from "@thi.ng/atom"
-import { start } from "@thi.ng/hdom"
 import { EquivMap } from "@thi.ng/associative"
+import { start } from "@thi.ng/hdom"
+
+import { register, commands, utils, store, streams } from "../../src"
 import scrolly from "@mapbox/scroll-restorer"
 
 scrolly.start()
@@ -41,12 +40,12 @@ const { $routePath$, $store$ } = store
 // traceStream("navigated$ ->", DOMnavigated$)
 
 //
-//                             d8
-//  888-~\  e88~-_  888  888 _d88__  e88~~8e  888-~\
-//  888    d888   i 888  888  888   d888  88b 888
-//  888    8888   | 888  888  888   8888__888 888
-//  888    Y888   ' 888  888  888   Y888    , 888
-//  888     "88_-~  "88_-888  "88_/  "88___/  888
+//        888             d8
+//   e88~\888   /~~~8e  _d88__   /~~~8e
+//  d888  888       88b  888         88b
+//  8888  888  e88~-888  888    e88~-888
+//  Y888  888 C888  888  888   C888  888
+//   "88_/888  "88_-888  "88_/  "88_-888
 //
 //
 
@@ -90,6 +89,15 @@ const getSomeJSON = async (path, uid) => {
   return data
 }
 
+//
+//                             d8
+//  888-~\  e88~-_  888  888 _d88__  e88~~8e  888-~\
+//  888    d888   i 888  888  888   d888  88b 888
+//  888    8888   | 888  888  888   8888__888 888
+//  888    Y888   ' 888  888  888   Y888    , 888
+//  888     "88_-~  "88_-888  "88_/  "88___/  888
+//
+//
 /**
  * You know, this API warrants a little bit of a story. I
  * began the process of abstracting this part of the API
@@ -156,11 +164,6 @@ const routerCfg = async url => {
   return { URL_page, URL_data: await URL_data() }
 }
 
-const router = {
-  router: routerCfg,
-  post: INJECT_HEAD_CMD
-}
-
 //
 //  888   | 888
 //  888   | 888
@@ -183,7 +186,7 @@ const pathLink = (ctx, id, ...args) => [
       // ⚠ NTS: Head metadata is persisted across nav:
       // ⚠ consider batching all such mutations into a component
     },
-    style: { "font-size": ".5rem" }
+    style: { "font-size": ".5rem", "background-color": "white", padding: "3px" }
   },
   ...args
 ]
@@ -199,9 +202,10 @@ const field = (ctx, key, val) => [
           style: {
             padding: "0 0.5rem",
             display: "table-cell",
-            width: "80px",
+            width: "100px",
             "font-size": ".5rem",
-            "vertical-align": "middle"
+            "vertical-align": "middle",
+            "margin-bottom": "20px"
           }
         },
         key
@@ -218,15 +222,8 @@ const fields = payload => [
     .map(([k, v]) => [field, k, v])
 ]
 
-//
-//       e      888~-_   888
-//      d8b     888   \  888
-//     /Y88b    888    | 888
-//    /  Y88b   888   /  888
-//   /____Y88b  888_-~   888
-//  /      Y88b 888      888
-//
-//
+//////////////////// FLIP API 🔻 //////////////////////////
+
 // CHILD DEF: sig = (ctx, attrs, ...any)
 const div = (ctx, attrs, img, sz, ...args) => [
   "img",
@@ -242,7 +239,9 @@ const div = (ctx, attrs, img, sz, ...args) => [
             height: "100px",
             width: "100px",
             overflow: "hidden",
-            opacity: 1
+            opacity: 1,
+            // overlapping siblings
+            "margin-bottom": "-20px"
             // "background-image": `url('${img}')`
             // "background-size": "cover"
           }
@@ -269,6 +268,8 @@ const zoomOnNav = (ctx, uid, path, img, sz) => [
   img,
   sz
 ]
+
+//////////////////// FLIP API 🔺  //////////////////////////
 
 const component = sz => {
   return (ctx, uid, path, img, fields) => [
@@ -322,14 +323,19 @@ const page = (ctx, { body }) => {
 }
 
 //
-//       e      888~-_   888  _-~88e
-//      d8b     888   \  888 /   88"
-//     /Y88b    888    | 888 `   8P
-//    /  Y88b   888   /  888     `
-//   /____Y88b  888_-~   888   d88b
-//  /      Y88b 888      888   Y88P
 //
+//    /~~~8e  888-~88e  888-~88e
+//        88b 888  888b 888  888b
+//   e88~-888 888  8888 888  8888
+//  C888  888 888  888P 888  888P
+//   "88_-888 888-_88"  888-_88"
+//            888       888
 //
+
+const router = {
+  router: routerCfg,
+  post: INJECT_HEAD_CMD
+}
 
 registerRouterDOM(router)
 

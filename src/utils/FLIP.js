@@ -1,7 +1,7 @@
 import { getIn } from "@thi.ng/paths"
 import { Atom } from "@thi.ng/atom"
 import { HURL } from "../commands"
-
+import { scrollIntoCenter } from "./scrollIntoCenter"
 //
 //    d8                  888
 //  _d88__  e88~-_   e88~\888  e88~-_
@@ -35,14 +35,12 @@ export function getRect(element, frame) {
   }
 }
 
-const paths = uid => ({
-  rects: ["_FLIP", "rects", uid],
-  elems: ["_FLIP", "elems", uid],
-  clicks: ["_FLIP", "clicks", uid]
+const shuffle_paths = uid => ({
+  rects: ["_FLIP_shuffle", "rects", uid],
+  elems: ["_FLIP_shuffle", "elems", uid]
 })
-
 export const FLIP_all = (el, state, uid, frameDOMel = null) => {
-  let { rects } = paths(uid)
+  let { rects } = shuffle_paths(uid)
 
   if (!getIn(state.deref(), rects))
     return state.resetIn(rects, getRect(el, frameDOMel))
@@ -71,6 +69,12 @@ export const FLIP_all = (el, state, uid, frameDOMel = null) => {
   })
 }
 
+const zoom_paths = uid => ({
+  rects: ["_FLIP_zoom", "rects", uid],
+  elems: ["_FLIP_zoom", "elems", uid],
+  clicks: ["_FLIP_zoom", "clicks", uid]
+})
+
 /**
  *
  * order:
@@ -87,7 +91,7 @@ export const FLIP_all = (el, state, uid, frameDOMel = null) => {
  *  - if first !== last, nav change (store rect for id)
  */
 export const FLIP_first = (state, uid, ev) => {
-  let { rects, clicks } = paths(uid)
+  let { rects, clicks } = zoom_paths(uid)
 
   // sets the rect in state for next el init to sniff
   let target = ev.target
@@ -99,6 +103,11 @@ export const FLIP_first = (state, uid, ev) => {
 }
 
 /**
+ * https://coder-coder.com/z-index-isnt-working/
+ */
+const zIndex = (el, idx) => (el.style.zIndex = idx)
+
+/**
  * 1. if it has been clicked that means the last thing
  *    that happened was a click that triggered this init
  *    so we do the calcs
@@ -107,13 +116,18 @@ export const FLIP_first = (state, uid, ev) => {
  *    the init do the calcs with no frame
  */
 export const FLIP_last_invert_play = (el, state, uid) => {
-  let { rects, clicks } = paths(uid)
+  el.setAttribute("flip", "")
+  let { rects, clicks } = zoom_paths(uid)
 
   let F_flip_map = getIn(state.deref(), rects) || null
   // NO RECT => NOT CLICKED
   if (!F_flip_map) return
 
-  el.scrollIntoView()
+  el.scrollIntoView() // 👀
+  // this may cause issues for parrallel anims append this
+  // to a specific target using:
+  // Array.from(el.querySelectorAll("[flip]")).forEach(x=>
+  // 🔥 if i last... el.scrollIntoView())
 
   let L_flip_map = getRect(el)
 
@@ -136,7 +150,12 @@ export const FLIP_last_invert_play = (el, state, uid) => {
     // just baffle them with https://cubic-bezier.com/
     el.style.transition = "all .4s cubic-bezier(.54,-0.29,.17,1.11)"
     el.style.transform = "none"
+    // 💩 hack for removing zIndex after animation is complete
+    setTimeout(() => zIndex(el, 0), 200)
   })
+  // move element to front
+  zIndex(el, 1)
+  // 🔍 consider exposing in the API
 
   let clicked = getIn(state.deref(), clicks) || null
 
@@ -147,6 +166,7 @@ export const FLIP_last_invert_play = (el, state, uid) => {
     // console.log(uid, "FLIP'ed on click! 👆")
     state.resetIn(rects, L_flip_map)
   }
+
   // remove click frame
   state.resetIn(clicks, null)
 }

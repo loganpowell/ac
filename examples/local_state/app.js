@@ -14,9 +14,62 @@ import { DEFAULT_IMPL, normalizeTree, replaceChild } from "@thi.ng/hdom"
 import { memoize1 } from "@thi.ng/memoize"
 import { fromInterval, sync } from "@thi.ng/rstream"
 import { cycle, map } from "@thi.ng/transducers"
-import { updateDOM } from "@thi.ng/transducers-hdom"
-// infinite cyclic sequence of colors
-const COLORS = cycle(["dark-red", "black", "dark-pink", "dark-blue"])
+import { updateDOM } from "@thi.ng/transducers-hdom" //
+
+//
+//  888                          888
+//  888  e88~-_    /~~~8e   e88~\888  e88~~8e  888-~\  d88~\
+//  888 d888   i       88b d888  888 d888  88b 888    C888
+//  888 8888   |  e88~-888 8888  888 8888__888 888     Y88b
+//  888 Y888   ' C888  888 Y888  888 Y888    , 888      888D
+//  888  "88_-~   "88_-888  "88_/888  "88___/  888    \_88P
+//
+//
+/**
+ *
+ * Three-part components:
+ * 1. animation input(s) <- from load$ `pubsub` stream
+ *    component registers (`stream.deref()`)
+ * 2. output -> sends fetch/axios Command/Task (`run$.next()`)
+ * 3. Command/Task handler to put them together
+ *
+ * This component-type listens to the progress of
+ * up/download events the listener is disposed of on
+ * `release`
+ *
+ *
+ */
+
+/*/// js
+
+var w = 0;
+setInterval(function() {
+  w = w % 100 + 10;
+
+  $('#animate').width(w + '%').text(w + '%')
+}, 1000);
+
+*/
+
+/* css
+.progress-bar-purple {
+  background-color: purple !important;
+  font-size: 24px !important;
+  line-height: 240px !important;
+  font-family: "Times New Roman"
+}
+.progress.tall {
+  min-height: 240px;
+  max-width: 240px;
+  background-color: blue;
+}
+.progress-bar-orange {
+  background-color: orange !important;
+}
+*/
+
+// infinite cyclic sequence of colors const COLORS =
+cycle(["dark-red", "black", "dark-pink", "dark-blue"])
 /**
  * Abstract base class for components with local state which
  * can re-render themselves on demand, without requiring a
@@ -66,7 +119,7 @@ const LocalReRenderable = {
 
 const Foo = id => ({
   ...LocalReRenderable,
-  id: id,
+  id,
   col: COLORS.next().value,
   render(ctx, time) {
     this.time = time
@@ -87,7 +140,6 @@ const Foo = id => ({
   }
 })
 
-Foo("test") //?
 // Memoized component factory. This is needed to preserve
 // local state and avoid the infectious behavior of HOF
 // component initialization propagating up the component

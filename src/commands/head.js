@@ -1,9 +1,3 @@
-import { isObject } from "@thi.ng/checks"
-import { stream, sidechainPartition, fromAtom, pubsub } from "@thi.ng/rstream"
-import { map } from "@thi.ng/transducers"
-import { peek } from "@thi.ng/arrays"
-import { $routeLoading$ } from "../store"
-import { DOMnavigated$ } from "../streams"
 import { registerCMD } from "../register"
 
 const base_cfg = {
@@ -28,6 +22,7 @@ export const injectMeta = (type, content, prop) => {
     }[type]()
   } catch (e) {
     console.warn(
+      e,
       "no <head> `injectMeta` handler for prop:",
       type,
       `
@@ -51,6 +46,7 @@ export const replaceMeta = (obj = base_cfg) => {
       }[key]()
     } catch (e) {
       console.warn(
+        e,
         "no <head> `replaceMeta` handler for prop:",
         key,
         `
@@ -104,10 +100,14 @@ export const HEAD_CMD = ({ title, description, image }) => ({
 export const INJECT_HEAD_CMD = registerCMD({
   // source$: DOMnavigated$,
   sub$: "INJECT_HEAD_CMD",
-  args: ({ URL_data }) => ({
-    title: URL_data.head.title,
-    description: URL_data.head.description,
-    image: URL_data.head.image
+  args: ({
+    URL_data: {
+      head: { title, description, image }
+    }
+  }) => ({
+    title,
+    description,
+    image
   }),
   handler: ({ title, description, image }) =>
     replaceMeta(HEAD_CMD({ title, description, image }))
