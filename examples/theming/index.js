@@ -78,10 +78,10 @@ const getSomeJSON = async (path, uid) => {
           head: {
             title: `${path.replace(/^\w/, c => c.toUpperCase())} list`,
             description: `List page for ${path}`,
-            image: { src: img_base(222, 600) }
+            image: { src: img_base(222, 200) }
           },
           body: list.map((c, i) => ({
-            img: img_base(i + 1, 600),
+            img: img_base(i + 1, 200),
             text: c,
             uid: i + 1,
             path
@@ -154,7 +154,7 @@ const routerCfg = async url => {
       // home page (empty path)
       [
         { ...match, URL_path: [] },
-        { URL_data: () => getSomeJSON("users", 1), URL_page: "user" }
+        { URL_data: () => getSomeJSON("users", 126), URL_page: "user" }
       ]
     ]).get(match) || fourOfour // should probably be a 404... also need a match for an empty path: []
 
@@ -251,7 +251,7 @@ const div = (ctx, attrs, img, sz, ...args) => [
 /* ⚙ HOF COMPONENT ⚙ */
 const zoomOnNav = (ctx, uid, path, img, sz) => [
   navFLIPzoom({
-    id: img + "_div",
+    id: /\/id\/(\d+)/.exec(img)[1] + "_div",
     href: `${[path, uid].join("/")}`,
     target: div
   }),

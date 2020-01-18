@@ -91,6 +91,8 @@ const zoom_paths = uid => ({
  *  - if first !== last, nav change (store rect for id)
  */
 export const FLIP_first = (state, uid, ev) => {
+  // 📌 TODO: GOOD PLACE FOR AN `onStart` hook animation/callback
+
   let { rects, clicks } = zoom_paths(uid)
 
   // sets the rect in state for next el init to sniff
@@ -116,7 +118,7 @@ const zIndex = (el, idx) => (el.style.zIndex = idx)
  *    the init do the calcs with no frame
  */
 export const FLIP_last_invert_play = (el, state, uid) => {
-  el.setAttribute("flip", "")
+  el.setAttribute("flip", uid)
   let { rects, clicks } = zoom_paths(uid)
 
   let F_flip_map = getIn(state.deref(), rects) || null
@@ -151,6 +153,7 @@ export const FLIP_last_invert_play = (el, state, uid) => {
     el.style.transition = "all .4s cubic-bezier(.54,-0.29,.17,1.11)"
     el.style.transform = "none"
     // 💩 hack for removing zIndex after animation is complete
+    // 📌 TODO:    🔽 GOOD PLACE FOR AN `onComplete` hook animation/callback
     setTimeout(() => zIndex(el, 0), 200)
   })
   // move element to front
