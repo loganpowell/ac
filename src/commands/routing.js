@@ -1,11 +1,5 @@
 import { registerCMD } from "../register"
-import {
-  set$State,
-  set$Route,
-  set$Loading,
-  set$Template,
-  $store$
-} from "../store"
+import { set$State, set$Route, set$Loading } from "../store"
 import { parse_URL } from "../utils"
 import { DOMnavigated$ } from "../streams"
 
@@ -61,7 +55,6 @@ export const __SET_PAGE_STATE = registerCMD({
   }),
   handler: ({ URL_path, URL_data, URL_page }) => {
     set$State(URL_path, { URL_data, URL_page })
-    // set$Template(URL_page)
   }
 })
 
