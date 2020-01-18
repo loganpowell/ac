@@ -1,7 +1,10 @@
 {
   "main": "index.js",
   "scripts": {
-    "start": "parcel index.html -d dist"
+    "clean": "rm -rf .cache dist",
+    "prep": "npm run clean && mkdir dist",
+    "build": "cross-env NODE_ENV=production && npm run prep && parcel build index.html -d dist --public-url ./ --no-source-maps --no-cache",
+    "start": "cross-env NODE_ENV=development parcel index.html -d dist"
   },
   "keywords": [
     "thi.ng"
@@ -15,7 +18,8 @@
     "semi": false
   },
   "devDependencies": {
-    "@babel/core": "^7.8.3"
+    "@babel/core": "^7.8.3",
+    "cross-env": "^6.0.3"
   },
   "dependencies": {
     "styled-system-hdom": "^0.1.4"

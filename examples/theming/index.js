@@ -1,9 +1,13 @@
 import { getIn } from "@thi.ng/paths"
-import { isArray, isObject } from "@thi.ng/checks"
+import { isArray, isObject, isFunction } from "@thi.ng/checks"
 import { EquivMap } from "@thi.ng/associative"
 import { start } from "@thi.ng/hdom"
 
 import { register, commands, utils, store, streams } from "../../src"
+import { button, button_x } from "./components"
+import { THEME } from "./theme"
+import { memoize1 } from "@thi.ng/memoize"
+
 import scrolly from "@mapbox/scroll-restorer"
 
 scrolly.start()
@@ -19,8 +23,13 @@ scrolly.start()
 const { run$ /* command$, task$ */ } = streams
 const { registerRouterDOM } = register
 const { HURL, INJECT_HEAD_CMD } = commands
-const { parse_URL, navFLIPzoom /* traceStream */ } = utils
-const { $routePath$, $store$ } = store
+const {
+  parse_URL,
+  navFLIPzoom,
+  insulated,
+  stringify_w_functions /* traceStream */
+} = utils
+const { $routePath$, $store$, set$Template, $template$ } = store
 // ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
 
 //
@@ -59,7 +68,7 @@ const getSomeJSON = async (path, uid) => {
         head: {
           title: `User ${uid} Details`,
           description: `Detail page for user ${uid}`,
-          image: img_base(uid, 600)
+          image: { src: img_base(uid, 600) }
         },
         body: {
           // lesson -> don't use the actual url as the uid (not flexible)
@@ -76,7 +85,7 @@ const getSomeJSON = async (path, uid) => {
           head: {
             title: `${path.replace(/^\w/, c => c.toUpperCase())} list`,
             description: `List page for ${path}`,
-            image: img_base(222, 600)
+            image: { src: img_base(222, 600) }
           },
           body: list.map((c, i) => ({
             img: img_base(i + 1, 600),
@@ -131,37 +140,61 @@ const routerCfg = async url => {
   } = match
   let [, p_b] = URL_path
 
-  let { URL_data, URL_page } = new EquivMap([
-    [
-      { ...match, URL_path: ["todos"] },
-      { URL_data: () => getSomeJSON("todos"), URL_page: "todos" }
-    ],
-    [
-      { ...match, URL_path: ["todos", p_b] },
-      { URL_data: () => getSomeJSON("todos", p_b), URL_page: "todo" }
-    ],
-    [
-      { ...match, URL_path: ["users"] },
-      { URL_data: () => getSomeJSON("users"), URL_page: "users" }
-    ],
-    [
-      { ...match, URL_path: ["users", p_b] },
-      { URL_data: () => getSomeJSON("users", p_b), URL_page: "user" }
-    ]
-  ]).get(match) || {
-    URL_data: () => ({
-      head: {
-        title: `Demo Home Page`,
-        description: `Welcome to the Demo`,
-        image: "https://i.picsum.photos/id/222/600/600.jpg"
-      },
-      body: { home: "homepage" }
-    }),
-    URL_page: "bloop"
-  } // should probably be a 404... also need a match for an empty path: []
+  let { URL_data, URL_page } =
+    new EquivMap([
+      [
+        { ...match, URL_path: ["todos"] },
+        {
+          URL_data: () => getSomeJSON("todos"),
+          URL_page: "todos"
+        }
+      ],
+      [
+        { ...match, URL_path: ["todos", p_b] },
+        {
+          URL_data: () => getSomeJSON("todos", p_b),
+          URL_page: "todo"
+        }
+      ],
+      [
+        { ...match, URL_path: ["users"] },
+        {
+          URL_data: () => getSomeJSON("users"),
+          URL_page: "users"
+        }
+      ],
+      [
+        { ...match, URL_path: ["users", p_b] },
+        {
+          URL_data: () => getSomeJSON("users", p_b),
+          URL_page: "user"
+        }
+      ],
+      [
+        // home page (empty path)
+        { ...match, URL_path: [] },
+        {
+          URL_data: () => getSomeJSON("users", 1),
+          URL_page: "user"
+        }
+      ]
+    ]).get(match) || fourOfour // should probably be a 404... also need a match for an empty path: []
 
   // console.log("router called", { page, data: await data() })
-  return { URL_page, URL_data: await URL_data() }
+  return { URL_data: await URL_data(), URL_page }
+}
+
+const fourOfour = {
+  URL_data: () => ({
+    head: {
+      title: `Demo Home Page`,
+      description: `Welcome to the Demo`,
+      image: { src: "https://i.picsum.photos/id/222/600/600.jpg" },
+      favicon: "https://www.favicon.cc/favicon/685/754/favicon.png"
+    },
+    body: { home: "homepage" }
+  }),
+  URL_page: "todo"
 }
 
 //
@@ -176,40 +209,43 @@ const routerCfg = async url => {
 
 // const S = JSON.stringify // <- handy for adornment phase
 
+// declare button before using in-site (prevent re-registration on RAF)
+
+const btn_outline = button_x({ tag: "a" }, "buttons.outline")
+
+// const outlined_button = (i = 0) => () => [
+//   btn_outline,
+//   // add button behavior in-situ
+//   { onclick: e => (e.preventDefault(), i++) },
+//   `clicks: ${i}`
+// ]
+
+// const app = ctx => [
+//   "div",
+//   { style: { padding: "20px" } },
+//   ["div", outlined_button(), [button, "👀 console"], [button, { disabled: true }, "sorry"]]
+// ]
+
 const pathLink = (ctx, id, ...args) => [
-  "a",
-  {
-    href: `${$routePath$.deref()}/${id}`,
-    onclick: e => {
-      e.preventDefault()
-      HURL(e)
-      // ⚠ NTS: Head metadata is persisted across nav:
-      // ⚠ consider batching all such mutations into a component
-    },
-    style: { "font-size": ".5rem", "background-color": "white", padding: "3px" }
-  },
+  btn_outline,
+  id === 3
+    ? { disabled: true }
+    : {
+        href: `${$routePath$.deref()}/${id}`,
+        onclick: e => {
+          e.preventDefault()
+          HURL(e)
+          // ⚠ NTS: Head metadata is persisted across nav:
+          // ⚠ consider batching all such mutations into a component
+        }
+      },
   ...args
 ]
 
 const field = (ctx, key, val) => [
   "li",
   { style: { display: "flex" } },
-  key === "id"
-    ? [pathLink, val, val]
-    : [
-        "p",
-        {
-          style: {
-            padding: "0 0.5rem",
-            display: "table-cell",
-            width: "100px",
-            "font-size": ".5rem",
-            "vertical-align": "middle",
-            "margin-bottom": "20px"
-          }
-        },
-        key
-      ],
+  key === "id" ? [pathLink, val, val] : ["p", key],
   isObject(val)
     ? ["ul", ...Object.entries(val).map(([k, v]) => [field, k, v])]
     : ["p", { style: { padding: "0 0.5rem" } }, val]
@@ -237,21 +273,11 @@ const div = (ctx, attrs, img, sz, ...args) => [
       sz === "sm"
         ? {
             height: "100px",
-            width: "100px",
-            overflow: "hidden",
-            opacity: 1,
-            // overlapping siblings
-            "margin-bottom": "-20px"
-            // "background-image": `url('${img}')`
-            // "background-size": "cover"
+            width: "100px"
           }
         : {
             height: "600px",
-            width: "600px",
-            overflow: "hidden",
-            opacity: 1
-            // "background-image": `url('${img}')`
-            // "background-size": "cover"
+            width: "600px"
           },
     scale: true
   },
@@ -271,10 +297,16 @@ const zoomOnNav = (ctx, uid, path, img, sz) => [
 
 //////////////////// FLIP API 🔺  //////////////////////////
 
+/**
+ * higher order components should only take static parameters
+ * so that they can be cached. I.e., in this case a string
+ * Do not nest an HDOM functional component within another
+ * in an attempt to pass state between components. Use an atom,
+ * which is deref'able for that
+ */
 const component = sz => {
   return (ctx, uid, path, img, fields) => [
     "div",
-    { class: "card" },
     [zoomOnNav, uid, path, img, sz], //[FLIP_img, img]],
     ["p", { class: "title" }, fields]
   ]
@@ -289,36 +321,49 @@ const link = (ctx, path, ...args) => [
   ...args
 ]
 
-const page = (ctx, { body }) => {
+const single = (ctx, body) => [
+  component("lg"),
+  getIn(body, "uid"),
+  getIn(body, "path"),
+  getIn(body, "img") || "https://i.picsum.photos/id/111/600/600.jpg",
+  getIn(body, "text") ? fields(body.text.company || body.text) : null
+]
+
+const set = (ctx, bodies) => [
+  "div",
+  ...bodies.map(({ img, text, uid, path }) => [
+    component("sm"),
+    uid,
+    path,
+    img,
+    fields(text)
+  ])
+]
+
+const page = (ctx, { body }, page) => {
+  // console.log({ body, page })
   return [
     "div",
-    { style: { "max-width": "30rem", margin: "auto" } },
+    { style: { "max-width": "30rem", margin: "auto", padding: "2rem" } },
     ...[["users"], ["todos", 2], ["users", 9]].map(path => [
       link,
       path,
       `${path[0]} ${path[1] ? "->" + path[1] : ""}`,
       ["br"]
     ]),
-    isArray(body)
-      ? [
-          "div",
-          ...body.map(({ img, text, uid, path }) => [
-            component("sm"),
-            uid,
-            path,
-            img,
-            fields(text)
-          ])
-        ]
-      : [
-          component("lg"),
-          getIn(body, "uid"),
-          getIn(body, "path"),
-          getIn(body, "img")
-            ? body.img
-            : "https://i.picsum.photos/id/111/600/600.jpg",
-          getIn(body, "text") ? fields(body.text.company || body.text) : null
-        ]
+    [
+      // page selection logic
+      page === "todo"
+        ? single
+        : page === "todos"
+        ? set
+        : page === "user"
+        ? single
+        : page === "users"
+        ? set
+        : "div",
+      body
+    ]
   ]
 }
 
@@ -344,13 +389,18 @@ registerRouterDOM(router)
 const root = document.getElementById("app")
 // consider abstracting this (just hand it a `router` Map,
 // `page` object and an "id")
-console.log("starting...")
 start(
-  // 📌 page component that chooses a template based on the spec returned
-  ({ $store$ }) => [page, getIn($store$.deref(), $routePath$.deref())],
+  ({ state }) => [
+    page,
+    // set defaults with || operators (needed before hydration)
+    getIn(state.deref(), $routePath$.deref()).URL_data || { body: {} },
+    getIn(state.deref(), $routePath$.deref()).URL_page || ""
+  ],
   {
     root,
-    ctx: { run$, $store$ },
+    ctx: { run$, state: $store$, theme: THEME },
     span: false
   }
 )
+
+console.log("starting...")

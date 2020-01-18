@@ -1,11 +1,26 @@
 import { registerCMD } from "../register"
 
-const base_cfg = {
-  meta: {
-    "og:title": "default title from head.js",
-    "og:image": "oh dirty dirty"
-  },
-  title: "Spankin'!"
+/**
+
+;(function() {
+  var link =
+    document.querySelector("link[rel*='icon']") ||
+    document.createElement("link")
+  link.type = "image/x-icon"
+  link.rel = "shortcut icon"
+  link.href = "https://thi.ng/favicon.ico"
+  document.getElementsByTagName("head")[0].appendChild(link)
+})()
+    */
+
+export const setFavicon = href => {
+  let link =
+    document.querySelector("link[rel*='icon']") ||
+    document.createElement("link")
+  link.type = "image/x-icon"
+  link.rel = "shortcut icon"
+  link.href = href
+  document.getElementsByTagName("head")[0].appendChild(link)
 }
 
 export const injectMeta = (type, content, prop) => {
@@ -18,7 +33,8 @@ export const injectMeta = (type, content, prop) => {
       },
       HEAD_title: () => {
         document.title = content
-      }
+      },
+      HEAD_favicon: () => setFavicon(content)
     }[type]()
   } catch (e) {
     console.warn(
@@ -26,23 +42,23 @@ export const injectMeta = (type, content, prop) => {
       "no <head> `injectMeta` handler for prop:",
       type,
       `
-      supported properties: HEAD_meta, HEAD_title
+    supported properties: HEAD_meta, HEAD_title
       `
     )
   }
 }
-export const replaceMeta = (obj = base_cfg) => {
+
+export const replaceMeta = (obj = cfg) => {
   Object.entries(obj).forEach(([key, val]) => {
     try {
       return {
-        HEAD_title: () => {
-          injectMeta(key, val)
-        },
+        HEAD_title: () => injectMeta(key, val),
         HEAD_meta: () => {
           Object.entries(val).forEach(([prop, content]) => {
             injectMeta(key, content, prop)
           })
-        }
+        },
+        HEAD_favicon: () => injectMeta(key, val)
       }[key]()
     } catch (e) {
       console.warn(
@@ -57,58 +73,50 @@ export const replaceMeta = (obj = base_cfg) => {
   })
 }
 
-/**
- *
- * @example
- * run$.next({
- *   ..._HEAD_META,
- *   args: {
- *     HEAD_meta: {
- *       "og:title": "just a test content injection",
- *       "og:image": "https://i.imgur.com/BOdIBQz.gif"
- *     },
- *     HEAD_title: "A new title"
- *   }
- * })
- *
- */
+const cfg = {
+  meta: {
+    "og:title": "My thi.ng",
+    "og:image":
+      "https://pbs.twimg.com/profile_images/628007635867037696/fmPqne2U_400x400.png",
+    "og:image:width": 400,
+    "og:image:height": 400,
+    "og:description": "web app",
+    "og:type": "website"
+  },
+  title: "My thi.ng",
+  favicon: "https://thi.ng/favicon.ico"
+}
 
-// const routing$ = pubsub({// topic = test decides what the
-//   topic is topic: x => !!x, id: "route_loading"
-// })
-// const isRouteLoading$ =
-//   fromAtom($routeLoading$).subscribe(map(x =>
-//   routeIsLoading$.next(x))
-// )
-
-// const pushToHead$ = "userland" const routeIsLoading$ =
-// routing$ .subscribeTopic(true)
-// .subscribe(sidechainPartition(pushToHead$))
-// .transform(map(peek))
-export const HEAD_CMD = ({ title, description, image }) => ({
+export const HEAD_CMD = ({
+  title = cfg.meta.title,
+  description = cfg.meta["og:description"],
+  image: {
+    url = cfg.meta["og:image"],
+    height = cfg.meta["og:image:height"],
+    width = cfg.meta["og:image:width"]
+  },
+  favicon = cfg.favicon,
+  type = cfg.meta["og:type"]
+}) => ({
   HEAD_meta: {
     "og:title": title,
-    "og:type": "website",
+    "og:type": type,
     "og:description": description,
-    "og:image:width": "1600",
-    "og:image:height": "900",
-    "og:image": image
+    "og:image:width": width,
+    "og:image:height": height,
+    "og:image": url
   },
-  HEAD_title: title
+  HEAD_title: title,
+  HEAD_favicon: favicon
 })
 
 export const INJECT_HEAD_CMD = registerCMD({
   // source$: DOMnavigated$,
   sub$: "INJECT_HEAD_CMD",
-  args: ({
+  args: ({ URL_data }) => ({ URL_data }),
+  handler: ({
     URL_data: {
-      head: { title, description, image }
+      head: { title, description, image, favicon, type }
     }
-  }) => ({
-    title,
-    description,
-    image
-  }),
-  handler: ({ title, description, image }) =>
-    replaceMeta(HEAD_CMD({ title, description, image }))
+  }) => replaceMeta(HEAD_CMD({ title, description, image, favicon, type }))
 })

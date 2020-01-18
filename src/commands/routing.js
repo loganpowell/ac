@@ -1,5 +1,11 @@
 import { registerCMD } from "../register"
-import { set$State, set$Route, set$Loading, set$Page, $store$ } from "../store"
+import {
+  set$State,
+  set$Route,
+  set$Loading,
+  set$Template,
+  $store$
+} from "../store"
 import { parse_URL } from "../utils"
 import { DOMnavigated$ } from "../streams"
 
@@ -47,17 +53,15 @@ export const HURL = e => {
  *
  */
 export const __SET_PAGE_STATE = registerCMD({
-  sub$: "__SET_PAGE_STATE",
+  sub$: "__SET_PAGE_TEMPLATE",
   args: ({ URL_path, URL_page, URL_data }) => ({
     URL_path,
     URL_page,
     URL_data
   }),
-  handler: ({ URL_path, URL_page, URL_data }) => {
-    // 📌 remove ["home"] and just match for empty path in
-    // router EquivMap
-    let path = URL_path.length === 0 ? ["home"] : URL_path
-    set$State(path, URL_data), set$Page(URL_page)
+  handler: ({ URL_path, URL_data, URL_page }) => {
+    set$State(URL_path, { URL_data, URL_page })
+    // set$Template(URL_page)
   }
 })
 

@@ -13,13 +13,13 @@ export const $store$ = new Atom({
 
 export const $routeLoading$ = new Cursor($store$, "_route_loading")
 export const $routePath$ = $store$.addView("_route_path")
-export const $page$ = $store$.addView("_page")
+export const $template$ = $store$.addView("template")
 
 export const set$State = (path, val) =>
   $store$.swap(state => setIn(state, path, val))
 export const set$Route = val => set$State("_route_path", val)
 export const set$Loading = val => $routeLoading$.reset(val)
-export const set$Page = val => set$State("_page", val)
+export const set$Template = val => set$State("template", val)
 export const set$Root = val => set$State("_root", val)
 
 // export const set$FLIP = ([k, v]) =>

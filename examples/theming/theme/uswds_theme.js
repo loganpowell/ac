@@ -904,8 +904,6 @@ export const styles = {
   img: {
     display: "block",
     my: [2, 3],
-    width: "100%",
-    maxHeight: "500px",
     objectFit: "cover",
     borderRadius: "default"
   }
