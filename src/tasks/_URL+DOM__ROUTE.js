@@ -1,4 +1,5 @@
-import { isNode, isObject } from "@thi.ng/checks"
+import { isNode, isObject, isPromise } from "@thi.ng/checks"
+import { set$Page } from "../store"
 import { parse_URL, msTaskDelay } from "../utils"
 import {
   __HREF_PUSHSTATE_DOM,
@@ -9,54 +10,7 @@ import {
   __SET_PAGE_STATE
 } from "../commands"
 // import { log$ } from "../streams"
-
-/**
- *
- * `_URL__ROUTE_DOM`
- *
- * DOM Router that contains a cross-platform routing Subtask
- * `_URL__ROUTE`
- *
- *
- * Subtask HOF for router registration. Takes a
- * `@thi.ng/associative` `EquivMap` route matching function,
- * registers that router as a member of a Task for following
- * Commands to leverage the returned data (`{ data, page }`)
- *
- * Pseudo
- * ```
- * ( router ) => ({ URL, DOM event }) => [
- * - if href, push to `history.pushState`
- * - SUBTASK: _URL__ROUTE (universal router)
- * - remove `active` attribute from visited links except current
- * - notify rendertron (TBD) of new page
- * ]
- * ```
- *
- * reserved Command keys:
- * - `URL`
- * - `DOM`
- * - `URL_page`
- * - `URL_path`
- * - `URL_data`
- */
-export const __URL_DOM__ROUTE = routerCfg => {
-  // instantiate router
-  let match = __URL__ROUTE(routerCfg)
-  return ({ URL, DOM }) => [
-    { ...__HREF_PUSHSTATE_DOM, args: { URL, DOM } },
-    // example Subtask injection
-    ({ URL }) => match({ URL }),
-    // { args: msTaskDelay(2000) },
-    __SET_PAGE_STATE,
-    // wait on pending promise(s) w/a non-nullary fn (+)=>
-    { ...__SET_ROUTER_LOADING_STATE, args: _ => false },
-    // example ad-hoc stream injection
-    // { sub$: log$, args: () => ({ DOM }) },
-    __SET_LINK_ATTRS_DOM,
-    __NOTIFY_PRERENDER_DOM
-  ]
-}
+import scrolly from "@mapbox/scroll-restorer"
 
 /**
  *
@@ -100,7 +54,7 @@ export const __URL__ROUTE = routerCfg => {
     _post = []
   }
   return ({ URL }) => [
-    ..._pre,
+    ..._pre, // 📌 enable progress observation
     __SET_ROUTER_LOADING_STATE,
     {
       args: _router(URL),
@@ -110,5 +64,57 @@ export const __URL__ROUTE = routerCfg => {
     { args: parse_URL(URL) },
     __SET_ROUTER_PATH,
     ..._post
+  ]
+}
+
+/**
+ *
+ * `_URL__ROUTE_DOM`
+ *
+ * DOM Router that contains a cross-platform routing Subtask
+ * `_URL__ROUTE`
+ *
+ *
+ * Subtask HOF for router registration. Takes a
+ * `@thi.ng/associative` `EquivMap` route matching function,
+ * registers that router as a member of a Task for following
+ * Commands to leverage the returned data (`{ data, page }`)
+ *
+ * Pseudo
+ * ```
+ * ( router ) => ({ URL, DOM event }) => [
+ * - if href, push to `history.pushState`
+ * - SUBTASK: _URL__ROUTE (universal router)
+ * - remove `active` attribute from visited links except current
+ * - notify rendertron (TBD) of new page
+ * ]
+ * ```
+ *
+ * reserved Command keys:
+ * - `URL`
+ * - `DOM`
+ * - `URL_page`
+ * - `URL_path`
+ * - `URL_data`
+ */
+export const __URL_DOM__ROUTE = routerCfg => {
+  // autoscroll view into position
+  scrolly.start()
+
+  // instantiate router
+  let match = __URL__ROUTE(routerCfg)
+
+  return ({ URL, DOM }) => [
+    { ...__HREF_PUSHSTATE_DOM, args: { URL, DOM } },
+    // example Subtask injection
+    ({ URL }) => match({ URL }),
+    // { args: msTaskDelay(2000) },
+    __SET_PAGE_STATE,
+    // wait on pending promise(s) w/a non-nullary fn (+)=>
+    { ...__SET_ROUTER_LOADING_STATE, args: _ => false },
+    // example ad-hoc stream injection
+    // { sub$: log$, args: () => ({ DOM }) },
+    __SET_LINK_ATTRS_DOM,
+    __NOTIFY_PRERENDER_DOM
   ]
 }

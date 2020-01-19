@@ -48,7 +48,7 @@ export const injectMeta = (type, content, prop) => {
   }
 }
 
-export const replaceMeta = (obj = cfg) => {
+export const replaceMeta = (obj = defalt_cfg) => {
   Object.entries(obj).forEach(([key, val]) => {
     try {
       return {
@@ -73,7 +73,7 @@ export const replaceMeta = (obj = cfg) => {
   })
 }
 
-const cfg = {
+const defalt_cfg = {
   meta: {
     "og:title": "My thi.ng",
     "og:image":
@@ -88,17 +88,27 @@ const cfg = {
 }
 
 export const HEAD_CMD = ({
-  title = cfg.meta.title,
-  description = cfg.meta["og:description"],
+  title = defalt_cfg.meta.title,
+  description = defalt_cfg.meta["og:description"],
   image: {
-    url = cfg.meta["og:image"],
-    height = cfg.meta["og:image:height"],
-    width = cfg.meta["og:image:width"]
+    url = defalt_cfg.meta["og:image"],
+    height = defalt_cfg.meta["og:image:height"],
+    width = defalt_cfg.meta["og:image:width"]
   },
-  favicon = cfg.favicon,
-  type = cfg.meta["og:type"]
+  favicon = defalt_cfg.favicon,
+  type = defalt_cfg.meta["og:type"]
 }) => ({
   HEAD_meta: {
+    /**
+     *
+     * TODO: consider prerendering only open graph header
+     *
+     * og:url can tell scrapers to ignore the page and
+     * scrape this instead. Would save scraping the whole
+     * page and might be friendlier for `jsdom`
+     *
+     */
+    // "og:url": history.state.URL,
     "og:title": title,
     "og:type": type,
     "og:description": description,

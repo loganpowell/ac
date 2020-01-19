@@ -113,7 +113,7 @@ const test_path = {
  * Needed when the `args` value is either a Promise or a
  * Promise-returning function... more on this later...
  *
- * 📌 TODO: put this doc into the `Streams` module above
+ * TODO: put this doc into the `Streams` module above
  * `task$`
  *
  * Tasks are one of the big value propositions of the

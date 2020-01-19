@@ -1,5 +1,5 @@
 import { registerCMD } from "../register"
-import { set$State, set$Route, set$Loading } from "../store"
+import { set$State, set$Route, set$Loading, set$Page } from "../store"
 import { parse_URL } from "../utils"
 import { DOMnavigated$ } from "../streams"
 
@@ -15,7 +15,10 @@ export const HURL = e => {
   // console.log({ e })
   let href = e.target.href
   let w_href = window.location.href
-  if (w_href === href) return
+  let { URL_path } = parse_URL(w_href)
+  let w_path = `/${URL_path.join("/")}`
+  // handle both absolute and root relative paths
+  if (href === w_href || href === w_path) return
 
   DOMnavigated$.next({
     target: { location: { href } },
@@ -23,6 +26,12 @@ export const HURL = e => {
   })
   return e
 }
+
+export const HURL_CMD = registerCMD({
+  sub$: "HURL_CMD",
+  args: e => e,
+  handler: HURL
+})
 
 // source = TRIGGER
 
@@ -54,7 +63,9 @@ export const __SET_PAGE_STATE = registerCMD({
     URL_data
   }),
   handler: ({ URL_path, URL_data, URL_page }) => {
-    set$State(URL_path, { URL_data, URL_page })
+    // console.log({ URL_page })
+    set$Page(URL_page)
+    set$State(URL_path, URL_data)
   }
 })
 
@@ -181,6 +192,19 @@ export const __HREF_PUSHSTATE_DOM = registerCMD({
  * ### Handler: side-effecting
  * Routing Command: DOM-specific (used for manually
  * triggering `rendertron` prerenderer for bots/web-crawlers
+ *
+ *
+ * TODO: `jsdom` prerender testing
+ *
+ * basic `http` server that returns static content for
+ * certain user-agents
+ *
+ * import { JSDOM } from "jsdom"
+ *
+ * const document = (new JSDOM(...)).window.document
+ * document.addEventListener("rendered", () => {...scrape
+ * stuff here...
+ * })
  *
  *
  */
