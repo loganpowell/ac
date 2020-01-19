@@ -2,8 +2,14 @@ import { getIn } from "@thi.ng/paths"
 import { isObject, isFunction } from "@thi.ng/checks"
 import { EquivMap } from "@thi.ng/associative"
 import { start } from "@thi.ng/hdom"
-import { stream } from "@thi.ng/rstream"
+import { stream, fromAtom, sidechainPartition, fromRAF } from "@thi.ng/rstream"
 import { Atom } from "@thi.ng/atom"
+import { peek } from "@thi.ng/arrays"
+import { map } from "@thi.ng/transducers"
+import { updateDOM } from "@thi.ng/transducers-hdom"
+
+// import scrolly from "@mapbox/scroll-restorer"
+// scrolly.start()
 
 import { register, commands, utils, store, streams } from "../../src"
 import { button_x } from "./components"
@@ -61,7 +67,7 @@ const getSomeJSON = async (path, uid) => {
         head: {
           title: `User ${uid} Details`,
           description: `Detail page for user ${uid}`,
-          image: { src: img_base(uid, 600) }
+          image: { url: img_base(uid, 600) }
         },
         body: {
           // lesson -> don't use the actual url as the uid (not flexible)
@@ -78,7 +84,7 @@ const getSomeJSON = async (path, uid) => {
           head: {
             title: `${path.replace(/^\w/, c => c.toUpperCase())} list`,
             description: `List page for ${path}`,
-            image: { src: img_base(222, 200) }
+            image: { url: img_base(222, 200) }
           },
           body: list.map((c, i) => ({
             img: img_base(i + 1, 200),
@@ -115,7 +121,7 @@ const pathLink = (ctx, id, ...args) => [
         href: `/${$routePath$.deref()}/${id}`,
         onclick: e => {
           e.preventDefault()
-          ctx.run$.next({ ...HURL_CMD, args: e })
+          ctx.run.next({ ...HURL_CMD, args: e })
         }
       },
   ...args
@@ -193,11 +199,11 @@ const component = sz => {
   ]
 }
 
-const link = ({ run$ }, path, ...args) => [
+const link = (ctx, path, ...args) => [
   "a",
   {
     href: "/" + path.join("/"),
-    onclick: e => run$.next({ ...HURL_CMD, args: e })
+    onclick: e => ctx.run.next({ ...HURL_CMD, args: e })
   },
   ...args
 ]
@@ -348,23 +354,32 @@ registerRouterDOM(router)
 const root = document.getElementById("app")
 // consider abstracting this (just hand it a `router` Map,
 // `page` object and an "id")
-start(
-  ctx => [
-    shell,
-    // set defaults with || operators (needed before hydration)
-    getIn(ctx.state.deref(), ctx.path.deref()) || { body: {} }
-  ],
-  {
+
+const state = fromAtom($store$)
+
+const app = ctx =>
+  ctx._route_loading
+    ? null
+    : [
+        shell,
+        // set defaults with || operators (needed before hydration)
+        getIn(ctx, ctx._route_path) || { body: {} }
+      ]
+
+state.subscribe(sidechainPartition(fromRAF())).transform(
+  map(peek),
+  map(app),
+  updateDOM({
     root,
+    span: false,
     ctx: {
-      run$,
+      run: run$,
       state: $store$,
       theme: THEME,
-      path: $routePath$,
-      page: $page$
-    },
-    span: false
-  }
+      page: $page$,
+      path: $routePath$
+    }
+  })
 )
 
 console.log("starting...")

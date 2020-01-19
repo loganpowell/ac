@@ -1,7 +1,7 @@
 import { getIn } from "@thi.ng/paths"
 import { Atom } from "@thi.ng/atom"
 import { HURL } from "../commands"
-import { scrollIntoCenter } from "./scrollIntoCenter"
+
 //
 //    d8                  888
 //  _d88__  e88~-_   e88~\888  e88~-_
@@ -125,35 +125,44 @@ export const FLIP_last_invert_play = (el, state, uid) => {
   // NO RECT => NOT CLICKED
   if (!F_flip_map) return
 
-  el.scrollIntoView() // 👀
-  // this may cause issues for parrallel anims append this
-  // to a specific target using:
-  // Array.from(el.querySelectorAll("[flip]")).forEach(x=>
-  // 🔥 if i last... el.scrollIntoView())
-
+  // 🕛 if flip active, scroll element on init
+  el.scrollIntoView()
+  /**
+   * 🔥 this may cause issues for parrallel anims append this
+   * to a specific target using:
+   * Array.from(el.querySelectorAll("[flip]")).forEach(x=>
+   * if i last... el.scrollIntoView())
+   *
+   */
+  // 🕞 then calculate location and size
   let L_flip_map = getRect(el)
-
   let Tx = F_flip_map.left - L_flip_map.left
   let Ty = F_flip_map.top - L_flip_map.top
   let Sx = F_flip_map.width / L_flip_map.width
   let Sy = F_flip_map.height / L_flip_map.height
 
-  // console.log({ LIP: { F_flip_map, L_flip_map } })
+  // 🕕 just before "Last", scroll element to middle of page
+  let top = L_flip_map.top + window.pageYOffset
+  let middle = top - window.innerHeight / 2
+  window.scrollTo(0, middle)
+
+  // console.log({ F_flip_map, L_flip_map, middle })
 
   el.style.transformOrigin = "0 0"
   el.style.transition = ""
   let trans = `translate(${Tx}px, ${Ty}px) scale(${Sx}, ${Sy})`
   el.style.transform = trans
 
-  // set new rect in state
-
   // PLAY
   requestAnimationFrame(() => {
+    // 🕤 just before animating, scroll to new location
+    window.scrollTo(0, middle)
+
     // just baffle them with https://cubic-bezier.com/
-    el.style.transition = "all .4s cubic-bezier(.54,-0.29,.17,1.11)"
+    el.style.transition = "all .4s ease-in-out" //cubic-bezier(.54,-0.29,.17,1.11)"
     el.style.transform = "none"
     // 💩 hack for removing zIndex after animation is complete
-    // 📌 TODO:    🔽 GOOD PLACE FOR AN `onComplete` hook animation/callback
+    // 📌 TODO:    🔻 GOOD PLACE FOR AN `onComplete` hook animation/callback
     setTimeout(() => zIndex(el, 0), 200)
   })
   // move element to front

@@ -10,7 +10,7 @@ import {
   __SET_PAGE_STATE
 } from "../commands"
 // import { log$ } from "../streams"
-import scrolly from "@mapbox/scroll-restorer"
+// import scrolly from "@mapbox/scroll-restorer"
 
 /**
  *
@@ -99,7 +99,7 @@ export const __URL__ROUTE = routerCfg => {
  */
 export const __URL_DOM__ROUTE = routerCfg => {
   // autoscroll view into position
-  scrolly.start()
+  // scrolly.start()
 
   // instantiate router
   let match = __URL__ROUTE(routerCfg)

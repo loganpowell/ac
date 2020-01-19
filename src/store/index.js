@@ -5,7 +5,7 @@ import { Atom, Cursor } from "@thi.ng/atom"
 export const $store$ = new Atom({
   _route_path: [], // home page / defaults to empty path
   _route_loading: false,
-  _page_template: "div", // defaults to plain <div>
+  _page_template: "", // defaults to plain <div>
   _root: ""
 })
 

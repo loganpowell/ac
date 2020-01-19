@@ -123,7 +123,7 @@ fetch("https://api.census.gov/data/2018/acs/acs1?get=B00001_001E&for=county:*")
     // recursion
     reader.read().then(function process({ done, value }) {
       if (done) {
-        console.log("Fetch complete")
+        console.log("Fetch complete!:", value)
         return
       }
       bytesReceived += value.length

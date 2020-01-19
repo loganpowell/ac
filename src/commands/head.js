@@ -37,14 +37,7 @@ export const injectMeta = (type, content, prop) => {
       HEAD_favicon: () => setFavicon(content)
     }[type]()
   } catch (e) {
-    console.warn(
-      e,
-      "no <head> `injectMeta` handler for prop:",
-      type,
-      `
-    supported properties: HEAD_meta, HEAD_title
-      `
-    )
+    console.warn(e)
   }
 }
 
@@ -61,14 +54,7 @@ export const replaceMeta = (obj = defalt_cfg) => {
         HEAD_favicon: () => injectMeta(key, val)
       }[key]()
     } catch (e) {
-      console.warn(
-        e,
-        "no <head> `replaceMeta` handler for prop:",
-        key,
-        `
-        supported properties: HEAD_meta, HEAD_title
-        `
-      )
+      console.warn(e)
     }
   })
 }
