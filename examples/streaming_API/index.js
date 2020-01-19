@@ -43,7 +43,7 @@ const { $routePath$, $store$, $page$ } = store
 const log = console.log
 
 // traceStream("run$ ->", run$)
-traceStream("command$ ->", command$)
+// traceStream("command$ ->", command$)
 // traceStream("task$ ->", task$)
 // traceStream("out$ ->", out$)
 // traceStream("navigated$ ->", DOMnavigated$)

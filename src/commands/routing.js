@@ -11,7 +11,6 @@ import { DOMnavigated$ } from "../streams"
  * transforms
  */
 export const HURL = e => {
-  e.preventDefault()
   // console.log({ e })
   let href = e.target.href
   let w_href = window.location.href
@@ -29,7 +28,7 @@ export const HURL = e => {
 
 export const HURL_CMD = registerCMD({
   sub$: "HURL_CMD",
-  args: e => e,
+  args: e => (e.preventDefault(), e),
   handler: HURL
 })
 
