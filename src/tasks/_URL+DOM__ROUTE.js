@@ -59,7 +59,8 @@ export const __URL__ROUTE = routerCfg => {
     {
       args: _router(URL),
       reso: (acc, { URL_page, URL_data }) => ({ URL_page, URL_data }),
-      erro: (acc, err) => console.warn(err)
+      erro: (acc, err) =>
+        console.warn("Error in __URL__ROUTE:", err, "constructed:", acc)
     },
     { args: parse_URL(URL) },
     __SET_ROUTER_PATH,

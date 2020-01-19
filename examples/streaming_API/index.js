@@ -23,10 +23,10 @@ import { THEME } from "./theme"
  *
  */
 // ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
-const { run$ /* command$, task$ */ } = streams
+const { run$, command$, task$ } = streams
 const { registerRouterDOM } = register
 const { INJECT_HEAD_CMD, HURL_CMD } = commands
-const { parse_URL, navFLIPzoom /* traceStream */ } = utils
+const { parse_URL, navFLIPzoom, traceStream } = utils
 const { $routePath$, $store$, $page$ } = store
 // ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
 
@@ -43,7 +43,7 @@ const { $routePath$, $store$, $page$ } = store
 const log = console.log
 
 // traceStream("run$ ->", run$)
-// traceStream("command$ ->", command$)
+traceStream("command$ ->", command$)
 // traceStream("task$ ->", task$)
 // traceStream("out$ ->", out$)
 // traceStream("navigated$ ->", DOMnavigated$)
@@ -224,7 +224,7 @@ const single = (ctx, body) => [
   component("lg"),
   getIn(body, "uid"),
   getIn(body, "path"),
-  getIn(body, "img") || "https://i.picsum.photos/id/111/600/600.jpg",
+  getIn(body, "img") || "https://i.picsum.photos/id/1/600/600.jpg",
   getIn(body, "text") ? fields(body.text.company || body.text) : null
 ]
 
@@ -238,7 +238,7 @@ const fourOfour = {
     head: {
       title: `Demo Home Page`,
       description: `Welcome to the Demo`,
-      image: { src: "https://i.picsum.photos/id/222/600/600.jpg" }
+      image: { src: "https://i.picsum.photos/id/1/600/600.jpg" }
     },
     body: { text: 404 }
   }),
@@ -308,7 +308,7 @@ const routerCfg = async url => {
       // home page (empty path)
       [
         { ...match, URL_path: [] },
-        { URL_data: () => getSomeJSON("users", 111), URL_page: single }
+        { URL_data: () => getSomeJSON("users", 1), URL_page: single }
       ]
     ]).get(match) || fourOfour
 

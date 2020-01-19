@@ -223,7 +223,7 @@ export const spool = task_array =>
       // if thunk, dispatch to ad-hoc stream, return acc
       // as-is ⚠ this command will not be waited on
       result = args()
-      console.log(`dispatching to custom stream: ${sub$.id}`)
+      console.log(`dispatching to ad-hoc stream: ${sub$.id}`)
       sub$.next(result) // 💃
       return acc
     }
@@ -270,7 +270,6 @@ export const spool = task_array =>
     if (result instanceof Error) {
       console.warn(err_str, result)
       return acc
-      // throw new Error(result)
     }
     if (result !== Object(result)) {
       if (!sub$) {
