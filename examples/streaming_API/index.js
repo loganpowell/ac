@@ -23,7 +23,7 @@ import { THEME } from "./theme"
  *
  */
 // ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
-const { run$, command$, task$ } = streams
+const { run$, command$, task$, DOMnavigated$ } = streams
 const { registerRouterDOM } = register
 const { INJECT_HEAD_CMD, HURL_CMD } = commands
 const { parse_URL, navFLIPzoom, traceStream } = utils
@@ -46,7 +46,7 @@ const log = console.log
 // traceStream("command$ ->", command$)
 // traceStream("task$ ->", task$)
 // traceStream("out$ ->", out$)
-// traceStream("navigated$ ->", DOMnavigated$)
+traceStream("navigated$ ->", DOMnavigated$)
 
 //
 //        888             d8
@@ -287,30 +287,29 @@ const routerCfg = async url => {
   } = match
   let [, p_b] = URL_path
 
-  let { URL_data, URL_page } =
-    new EquivMap([
-      [
-        { ...match, URL_path: ["todos"] },
-        { URL_data: () => getSomeJSON("todos"), URL_page: set }
-      ],
-      [
-        { ...match, URL_path: ["todos", p_b] },
-        { URL_data: () => getSomeJSON("todos", p_b), URL_page: single }
-      ],
-      [
-        { ...match, URL_path: ["users"] },
-        { URL_data: () => getSomeJSON("users"), URL_page: set }
-      ],
-      [
-        { ...match, URL_path: ["users", p_b] },
-        { URL_data: () => getSomeJSON("users", p_b), URL_page: single }
-      ],
-      // home page (empty path)
-      [
-        { ...match, URL_path: [] },
-        { URL_data: () => getSomeJSON("users", 1), URL_page: single }
-      ]
-    ]).get(match) || fourOfour
+  let { URL_data, URL_page } = new EquivMap([
+    [
+      { ...match, URL_path: ["todos"] },
+      { URL_data: () => getSomeJSON("todos"), URL_page: set }
+    ],
+    [
+      { ...match, URL_path: ["todos", p_b] },
+      { URL_data: () => getSomeJSON("todos", p_b), URL_page: single }
+    ],
+    [
+      { ...match, URL_path: ["users"] },
+      { URL_data: () => getSomeJSON("users"), URL_page: set }
+    ],
+    [
+      { ...match, URL_path: ["users", p_b] },
+      { URL_data: () => getSomeJSON("users", p_b), URL_page: single }
+    ],
+    // home page (empty path)
+    [
+      { ...match, URL_path: [] },
+      { URL_data: () => getSomeJSON("users", 1), URL_page: single }
+    ]
+  ]).get(match) || { URL_data: () => getSomeJSON("users", 2), URL_page: single }
 
   return { URL_data: await URL_data(), URL_page }
 }
