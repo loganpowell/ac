@@ -203,7 +203,7 @@ const link = (ctx, path, ...args) => [
   "a",
   {
     href: "/" + path.join("/"),
-    onclick: e => ctx.run.next({ ...HURL_CMD, args: e })
+    onclick: e => (e.preventDefault(), ctx.run.next({ ...HURL_CMD, args: e }))
   },
   ...args
 ]

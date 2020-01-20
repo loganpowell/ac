@@ -62,15 +62,14 @@ export const replaceMeta = (obj = defalt_cfg) => {
 const defalt_cfg = {
   meta: {
     "og:title": "My thi.ng",
-    "og:image":
-      "https://pbs.twimg.com/profile_images/628007635867037696/fmPqne2U_400x400.png",
+    "og:image": "/assets/thing400x400.png",
     "og:image:width": 400,
     "og:image:height": 400,
     "og:description": "web app",
     "og:type": "website"
   },
   title: "My thi.ng",
-  favicon: "https://thi.ng/favicon.ico"
+  favicon: "/assets/favicon.ico"
 }
 
 export const HEAD_CMD = ({

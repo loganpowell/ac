@@ -2,7 +2,7 @@
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf .cache dist",
-    "prep": "npm run clean && mkdir dist",
+    "prep": "npm run clean && mkdir dist && cp -r assets dist ",
     "build": "cross-env NODE_ENV=production && npm run prep && parcel build index.html -d dist --public-url ./ --no-source-maps --no-cache",
     "start": "cross-env NODE_ENV=development parcel index.html -d dist"
   },
