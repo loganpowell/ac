@@ -233,18 +233,6 @@ const set = (ctx, bodies) => [
   ...bodies.map(({ img, text, uid, path }) => [component("sm"), uid, path, img, fields(text)])
 ]
 
-const fourOfour = {
-  URL_data: () => ({
-    head: {
-      title: `Demo Home Page`,
-      description: `Welcome to the Demo`,
-      image: { src: "https://i.picsum.photos/id/1/600/600.jpg" }
-    },
-    body: { text: 404 }
-  }),
-  URL_page: (ctx, { text }) => ["div", { style: { "font-size": "5rem" } }, text]
-}
-
 //
 //                             d8
 //  888-~\  e88~-_  888  888 _d88__  e88~~8e  888-~\
@@ -308,7 +296,7 @@ const routerCfg = async url => {
     [
       { ...match, URL_path: [] },
       { URL_data: () => getSomeJSON("users", 1), URL_page: single }
-    ]
+    ] // get match || 404 data
   ]).get(match) || { URL_data: () => getSomeJSON("users", 2), URL_page: single }
 
   return { URL_data: await URL_data(), URL_page }
@@ -325,14 +313,15 @@ const routerCfg = async url => {
 //
 
 const shell = (ctx, { body }) => {
+  console.log("shell:", { ctx })
   // log({ body, page })
   return [
     "div",
     { style: { "max-width": "30rem", margin: "auto", padding: "2rem" } },
-    ...[["users"], ["todos", 2], ["users", 9]].map(path => [
+    ...[["users"], ["todos"], ["todos", 2], ["users", 9]].map(path => [
       link,
       path,
-      `${path[0]} ${path[1] ? "->" + path[1] : ""}`,
+      `/${path[0]} ${path[1] ? "/" + path[1] : ""}`,
       ["br"]
     ]),
     // default to homepage `single` shell during
@@ -341,6 +330,7 @@ const shell = (ctx, { body }) => {
   ]
 }
 
+// TODO: add default / 404 page here?
 const router = {
   router: routerCfg,
   post: INJECT_HEAD_CMD
@@ -354,18 +344,20 @@ const root = document.getElementById("app")
 // consider abstracting this (just hand it a `router` Map,
 // `page` object and an "id")
 
-const state = fromAtom($store$)
-
-const app = ctx =>
-  ctx._route_loading
+const app = state$ => (
+  console.log({ state$ }),
+  state$.route_loading
     ? null
     : [
         shell,
         // set defaults with || operators (needed before hydration)
-        getIn(ctx, ctx._route_path) || { body: {} }
+        getIn(state$, state$.route_path) || { body: {} }
       ]
+)
 
-state.subscribe(sidechainPartition(fromRAF())).transform(
+const state$ = fromAtom($store$)
+
+state$.subscribe(sidechainPartition(fromRAF())).transform(
   map(peek),
   map(app),
   updateDOM({
@@ -376,7 +368,8 @@ state.subscribe(sidechainPartition(fromRAF())).transform(
       state: $store$,
       theme: THEME,
       page: $page$,
-      path: $routePath$
+      path: $routePath$,
+      params: parse_URL(window.location.href)
     }
   })
 )

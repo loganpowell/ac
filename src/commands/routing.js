@@ -55,7 +55,7 @@ export const HURL_CMD = registerCMD({
  *
  */
 export const __SET_PAGE_STATE = registerCMD({
-  sub$: "__SET_PAGE_TEMPLATE",
+  sub$: "__SET_PAGE_STATE",
   args: ({ URL_path, URL_page, URL_data }) => ({
     URL_path,
     URL_page,

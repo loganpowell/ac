@@ -1,18 +1,5 @@
 import { registerCMD } from "../register"
 
-/**
-
-;(function() {
-  var link =
-    document.querySelector("link[rel*='icon']") ||
-    document.createElement("link")
-  link.type = "image/x-icon"
-  link.rel = "shortcut icon"
-  link.href = "https://thi.ng/favicon.ico"
-  document.getElementsByTagName("head")[0].appendChild(link)
-})()
-    */
-
 export const setFavicon = href => {
   let link =
     document.querySelector("link[rel*='icon']") ||
@@ -62,14 +49,15 @@ export const replaceMeta = (obj = defalt_cfg) => {
 const defalt_cfg = {
   meta: {
     "og:title": "My thi.ng",
-    "og:image": "/assets/thing400x400.png",
+    "og:image":
+      "https://github.com/loganpowell/ac/raw/master/assets/thing400x400.png",
     "og:image:width": 400,
     "og:image:height": 400,
     "og:description": "web app",
     "og:type": "website"
   },
   title: "My thi.ng",
-  favicon: "/assets/favicon.ico"
+  favicon: "https://github.com/loganpowell/ac/raw/master/assets/favicon.ico"
 }
 
 export const HEAD_CMD = ({
@@ -85,13 +73,9 @@ export const HEAD_CMD = ({
 }) => ({
   HEAD_meta: {
     /**
-     *
-     * TODO: consider prerendering only open graph header
-     *
      * og:url can tell scrapers to ignore the page and
      * scrape this instead. Would save scraping the whole
      * page and might be friendlier for `jsdom`
-     *
      */
     // "og:url": history.state.URL,
     "og:title": title,
