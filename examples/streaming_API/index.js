@@ -139,7 +139,8 @@ const getSomeJSON = async (path, uid) => {
           img: img_base(uid, 600),
           // this needs fixin' 📌
           text: await fetch(`${text_base}${path}/${uid}`).then(r => r.json()),
-          uid
+          uid,
+          path
         }
       }
     : (async () => {
@@ -153,7 +154,8 @@ const getSomeJSON = async (path, uid) => {
           body: list.map((c, i) => ({
             img: img_base(i + 1, 200),
             text: c,
-            uid: i + 1
+            uid: i + 1,
+            path
           }))
         }
       })()
@@ -175,13 +177,14 @@ const getSomeJSON = async (path, uid) => {
 const single = (ctx, body) => [
   component("lg"),
   getIn(body, "uid"),
+  getIn(body, "path"),
   getIn(body, "img") || "https://i.picsum.photos/id/1/600/600.jpg",
   getIn(body, "text") ? fields(body.text.company || body.text) : null
 ]
 
 const set = (ctx, bodies) => [
   "div",
-  ...bodies.map(({ img, text, uid }) => [component("sm"), uid, img, fields(text)])
+  ...bodies.map(({ img, text, uid, path }) => [component("sm"), uid, path, img, fields(text)])
 ]
 
 /**
@@ -192,10 +195,10 @@ const set = (ctx, bodies) => [
  * which is deref'able for that
  */
 const component = sz => {
-  return (ctx, uid, img, fields) => [
+  return (ctx, uid, path, img, fields) => [
     "div",
     { style: { "margin-bottom": "30px" } },
-    [zoomOnNav, uid, img, sz], //[FLIP_img, img]],
+    [zoomOnNav, uid, path, img, sz], //[FLIP_img, img]],
     ["p", { class: "title" }, fields]
   ]
 }
@@ -234,10 +237,10 @@ const div = (ctx, attrs, img, sz, ...args) => [
 ]
 
 /* ⚙ HOF COMPONENT ⚙ */
-const zoomOnNav = (ctx, uid, img, sz) => [
+const zoomOnNav = (ctx, uid, path, img, sz) => [
   FLIPonClick({
     id: /\/id\/(\d+)/.exec(img)[1] + "_div",
-    href: `/${[...ctx.params.URL_path, uid].join("/")}`,
+    href: `/${[path, uid].join("/")}`,
     target: div
   }),
   img,
