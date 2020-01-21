@@ -239,7 +239,7 @@ const div = (ctx, attrs, img, sz, ...args) => [
 const zoomOnNav = (ctx, id, img, sz) => [
   FLIPonClick({
     id,
-    href: `/${ctx.params.URL_path}/${id}`,
+    href: `/${ctx.parseURL().URL_path}/${id}`,
     target: div
   }),
   img,
@@ -259,7 +259,7 @@ const pathLink = (ctx, uid, ...args) => [
   uid === 3
     ? { disabled: true }
     : {
-        href: `/${ctx.params.URL_path}/${uid}`,
+        href: `/${ctx.parseURL().URL_path}/${uid}`,
         onclick: e => {
           e.preventDefault()
           ctx.run({ ...HURL_CMD, args: e })
@@ -374,9 +374,10 @@ state$.subscribe(sidechainPartition(fromRAF())).transform(
       state: $store$, // TODO: example of using cursors for local state
       theme: THEME,
       // remove any staging path components (e.g., gh-pages)
-      params: parse_URL(window.location.href.replace(/ac\//g, ""))
+      parseURL: () => parse_URL(window.location.href.replace(/ac\//g, ""))
     }
   })
 )
 
+console.log({ parse_URL: parse_URL(window.location.href) })
 console.log("starting...")
