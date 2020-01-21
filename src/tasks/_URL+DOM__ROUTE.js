@@ -1,5 +1,4 @@
-import { isNode, isObject, isPromise } from "@thi.ng/checks"
-import { set$Page } from "../store"
+import { isObject } from "@thi.ng/checks"
 import { parse_URL, msTaskDelay } from "../utils"
 import {
   __HREF_PUSHSTATE_DOM,

@@ -220,7 +220,7 @@ const $FLIP$ = new Atom({})
  * frame the component appears in the DOM
  *
  */
-export const navFLIPzoom = ({ href, id, target }) => {
+export const FLIPonClick = ({ href, id, target }) => {
   let proxy = {
     preventDefault: () => null,
     currentTarget: { document: null },

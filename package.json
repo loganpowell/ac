@@ -25,6 +25,7 @@
     "@thi.ng/transducers-hdom": "^2.0.32",
     "abort-controller": "^3.0.0",
     "axios": "^0.19.1",
+    "nanographql": "^2.0.0",
     "querystring": "^0.2.0",
     "tinyscroll": "^3.1.0"
   },

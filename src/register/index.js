@@ -3,7 +3,7 @@
  */
 import { command$, out$, run$, DOMnavigated$ } from "../streams"
 import { isFunction } from "@thi.ng/checks"
-import { map, comp, pluck, selectKeys } from "@thi.ng/transducers"
+import { map } from "@thi.ng/transducers"
 import { __URL_DOM__ROUTE, __URL__ROUTE } from "../tasks"
 import { unknown_key_ERR } from "../utils"
 

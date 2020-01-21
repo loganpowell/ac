@@ -1,12 +1,13 @@
 import { getIn } from "@thi.ng/paths"
 import { isObject, isFunction } from "@thi.ng/checks"
 import { EquivMap } from "@thi.ng/associative"
-import { start } from "@thi.ng/hdom"
-import { stream, fromAtom, sidechainPartition, fromRAF } from "@thi.ng/rstream"
-import { Atom } from "@thi.ng/atom"
+import { fromAtom, sidechainPartition, fromRAF } from "@thi.ng/rstream"
 import { peek } from "@thi.ng/arrays"
 import { map } from "@thi.ng/transducers"
 import { updateDOM } from "@thi.ng/transducers-hdom"
+
+// TODO: example of local state
+import { Atom } from "@thi.ng/atom"
 
 // import scrolly from "@mapbox/scroll-restorer"
 // scrolly.start()
@@ -23,11 +24,11 @@ import { THEME } from "./theme"
  *
  */
 // ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
-const { run$, command$, task$, DOMnavigated$ } = streams
+const { run$ } = streams
 const { registerRouterDOM } = register
 const { INJECT_HEAD_CMD, HURL_CMD } = commands
-const { parse_URL, navFLIPzoom, traceStream } = utils
-const { $routePath$, $store$, $page$ } = store
+const { parse_URL, FLIPonClick, traceStream } = utils
+const { $routePath, $store$, $page } = store
 // ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
 
 //
@@ -43,10 +44,6 @@ const { $routePath$, $store$, $page$ } = store
 const log = console.log
 
 // traceStream("run$ ->", run$)
-// traceStream("command$ ->", command$)
-// traceStream("task$ ->", task$)
-// traceStream("out$ ->", out$)
-traceStream("navigated$ ->", DOMnavigated$)
 
 //
 //        888             d8
@@ -118,10 +115,10 @@ const pathLink = (ctx, id, ...args) => [
   id === 3
     ? { disabled: true }
     : {
-        href: `/${$routePath$.deref()}/${id}`,
+        href: `/${ctx.params.URL_path}/${id}`,
         onclick: e => {
           e.preventDefault()
-          ctx.run.next({ ...HURL_CMD, args: e })
+          ctx.run({ ...HURL_CMD, args: e })
         }
       },
   ...args
@@ -151,9 +148,6 @@ const div = (ctx, attrs, img, sz, ...args) => [
   "img",
   {
     ...attrs,
-    onclick(e) {
-      attrs.onclick(e)
-    },
     src: img,
     style:
       sz === "sm"
@@ -172,7 +166,7 @@ const div = (ctx, attrs, img, sz, ...args) => [
 
 /* ⚙ HOF COMPONENT ⚙ */
 const zoomOnNav = (ctx, uid, path, img, sz) => [
-  navFLIPzoom({
+  FLIPonClick({
     id: /\/id\/(\d+)/.exec(img)[1] + "_div",
     href: `/${[path, uid].join("/")}`,
     target: div
@@ -203,7 +197,9 @@ const link = (ctx, path, ...args) => [
   "a",
   {
     href: "/" + path.join("/"),
-    onclick: e => (e.preventDefault(), ctx.run.next({ ...HURL_CMD, args: e }))
+    // regular href just works if there's no extra paths in
+    // URL (e.g., gh-pages URLs will break these)...
+    onclick: e => (e.preventDefault(), ctx.run({ ...HURL_CMD, args: e }))
   },
   ...args
 ]
@@ -262,6 +258,8 @@ const set = (ctx, bodies) => [
  *
  * Value semantics have so many benefits. As a router,
  * here's one.
+ *
+ * TODO: Graphql Example
  */
 const routerCfg = async url => {
   let match = parse_URL(url)
@@ -321,12 +319,12 @@ const shell = (ctx, { body }) => {
     ...[["users"], ["todos"], ["todos", 2], ["users", 9]].map(path => [
       link,
       path,
-      `/${path[0]} ${path[1] ? "/" + path[1] : ""}`,
+      `/${path[0]}${path[1] ? "/" + path[1] : ""}`,
       ["br"]
     ]),
     // default to homepage `single` shell during
     // hydration/start (before any async is done)
-    [ctx.page.deref() || single, body]
+    [$page.deref() || single, body]
   ]
 }
 
@@ -346,12 +344,12 @@ const root = document.getElementById("app")
 
 const app = state$ => (
   console.log({ state$ }),
-  state$.route_loading
+  state$.ROUTE_LOADING
     ? null
     : [
         shell,
         // set defaults with || operators (needed before hydration)
-        getIn(state$, state$.route_path) || { body: {} }
+        getIn(state$, state$.ROUTE_PATH) || { body: {} }
       ]
 )
 
@@ -364,11 +362,9 @@ state$.subscribe(sidechainPartition(fromRAF())).transform(
     root,
     span: false,
     ctx: {
-      run: run$,
+      run: x => run$.next(x),
       state: $store$,
       theme: THEME,
-      page: $page$,
-      path: $routePath$,
       params: parse_URL(window.location.href)
     }
   })
