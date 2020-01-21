@@ -1,13 +1,10 @@
 import { getIn } from "@thi.ng/paths"
-import { isObject, isFunction } from "@thi.ng/checks"
+import { isObject } from "@thi.ng/checks"
 import { EquivMap } from "@thi.ng/associative"
 import { fromAtom, sidechainPartition, fromRAF } from "@thi.ng/rstream"
 import { peek } from "@thi.ng/arrays"
 import { map } from "@thi.ng/transducers"
 import { updateDOM } from "@thi.ng/transducers-hdom"
-
-// TODO: example of local state
-import { Atom } from "@thi.ng/atom"
 
 // import scrolly from "@mapbox/scroll-restorer"
 // scrolly.start()
@@ -28,7 +25,7 @@ const { run$ } = streams
 const { registerRouterDOM } = register
 const { INJECT_HEAD_CMD, HURL_CMD } = commands
 const { parse_URL, FLIPonClick, traceStream } = utils
-const { $routePath, $store$, $page } = store
+const { $store$, $page } = store
 // ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
 
 //
@@ -44,190 +41,6 @@ const { $routePath, $store$, $page } = store
 const log = console.log
 
 // traceStream("run$ ->", run$)
-
-//
-//        888             d8
-//   e88~\888   /~~~8e  _d88__   /~~~8e
-//  d888  888       88b  888         88b
-//  8888  888  e88~-888  888    e88~-888
-//  Y888  888 C888  888  888   C888  888
-//   "88_/888  "88_-888  "88_/  "88_-888
-//
-//
-
-const getSomeJSON = async (path, uid) => {
-  const text_base = "https://jsonplaceholder.typicode.com/"
-  const img_base = (id, sz) => `https://i.picsum.photos/id/${id}/${sz}/${sz}.jpg`
-
-  const data = uid
-    ? {
-        head: {
-          title: `User ${uid} Details`,
-          description: `Detail page for user ${uid}`,
-          image: { url: img_base(uid, 600) }
-        },
-        body: {
-          // lesson -> don't use the actual url as the uid (not flexible)
-          img: img_base(uid, 600),
-          // this needs fixin' 📌
-          text: await fetch(`${text_base}${path}/${uid}`).then(r => r.json()),
-          uid,
-          path
-        }
-      }
-    : (async () => {
-        let list = await fetch(`${text_base}${path}/`).then(r => r.json())
-        return {
-          head: {
-            title: `${path.replace(/^\w/, c => c.toUpperCase())} list`,
-            description: `List page for ${path}`,
-            image: { url: img_base(222, 200) }
-          },
-          body: list.map((c, i) => ({
-            img: img_base(i + 1, 200),
-            text: c,
-            uid: i + 1,
-            path
-          }))
-        }
-      })()
-  return data
-}
-
-//
-//  888   | 888
-//  888   | 888
-//  888   | 888
-//  888   | 888
-//  Y88   | 888
-//   "8__/  888
-//
-//
-
-// const S = JSON.stringify // <- handy for adornment phase
-
-// declare button before using in-site (prevent re-registration on RAF)
-
-const btn_outline = button_x({ tag: "a" }, "buttons.outline")
-
-const pathLink = (ctx, id, ...args) => [
-  btn_outline,
-  id === 3
-    ? { disabled: true }
-    : {
-        href: `/${ctx.params.URL_path}/${id}`,
-        onclick: e => {
-          e.preventDefault()
-          ctx.run({ ...HURL_CMD, args: e })
-        }
-      },
-  ...args
-]
-
-const field = (ctx, key, val) => [
-  "li",
-  { style: { display: "flex" } },
-  key === "id"
-    ? [pathLink, val, val]
-    : isObject(val)
-    ? ["ul", ...Object.entries(val).map(([k, v]) => [field, k, v])]
-    : ["p", { style: { padding: "0 0.5rem" } }, val]
-]
-
-const fields = payload => [
-  "ul",
-  ...Object.entries(payload)
-    .slice(0, 4)
-    .map(([k, v]) => [field, k, v])
-]
-
-//////////////////// FLIP API 🔻 //////////////////////////
-
-// CHILD DEF: sig = (ctx, attrs, ...any)
-const div = (ctx, attrs, img, sz, ...args) => [
-  "img",
-  {
-    ...attrs,
-    src: img,
-    style:
-      sz === "sm"
-        ? {
-            height: "100px",
-            width: "100px"
-          }
-        : {
-            height: "600px",
-            width: "600px"
-          },
-    scale: true
-  },
-  ...args
-]
-
-/* ⚙ HOF COMPONENT ⚙ */
-const zoomOnNav = (ctx, uid, path, img, sz) => [
-  FLIPonClick({
-    id: /\/id\/(\d+)/.exec(img)[1] + "_div",
-    href: `/${[path, uid].join("/")}`,
-    target: div
-  }),
-  img,
-  sz
-]
-
-//////////////////// FLIP API 🔺  //////////////////////////
-
-/**
- * higher order components should only take static parameters
- * so that they can be cached. I.e., in this case a string
- * Do not nest an HDOM functional component within another
- * in an attempt to pass state between components. Use an atom,
- * which is deref'able for that
- */
-const component = sz => {
-  return (ctx, uid, path, img, fields) => [
-    "div",
-    { style: { "margin-bottom": "30px" } },
-    [zoomOnNav, uid, path, img, sz], //[FLIP_img, img]],
-    ["p", { class: "title" }, fields]
-  ]
-}
-
-const link = (ctx, path, ...args) => [
-  "a",
-  {
-    href: "/" + path.join("/"),
-    // regular href just works if there's no extra paths in
-    // URL (e.g., gh-pages URLs will break these)...
-    onclick: e => (e.preventDefault(), ctx.run({ ...HURL_CMD, args: e }))
-  },
-  ...args
-]
-
-//
-//                            /
-//  888-~88e    /~~~8e  e88~88e  e88~~8e   d88~\
-//  888  888b       88b 888 888 d888  88b C888
-//  888  8888  e88~-888 "88_88" 8888__888  Y88b
-//  888  888P C888  888  /      Y888    ,   888D
-//  888-_88"   "88_-888 Cb       "88___/  \_88P
-//  888                  Y8""8D
-//
-
-// babel/core-js will complain if pages aren't defined
-// before they're used even though eslint will allow it
-const single = (ctx, body) => [
-  component("lg"),
-  getIn(body, "uid"),
-  getIn(body, "path"),
-  getIn(body, "img") || "https://i.picsum.photos/id/1/600/600.jpg",
-  getIn(body, "text") ? fields(body.text.company || body.text) : null
-]
-
-const set = (ctx, bodies) => [
-  "div",
-  ...bodies.map(({ img, text, uid, path }) => [component("sm"), uid, path, img, fields(text)])
-]
 
 //
 //                             d8
@@ -301,6 +114,187 @@ const routerCfg = async url => {
 }
 
 //
+//        888             d8
+//   e88~\888   /~~~8e  _d88__   /~~~8e
+//  d888  888       88b  888         88b
+//  8888  888  e88~-888  888    e88~-888
+//  Y888  888 C888  888  888   C888  888
+//   "88_/888  "88_-888  "88_/  "88_-888
+//
+//
+
+const getSomeJSON = async (path, uid) => {
+  const text_base = "https://jsonplaceholder.typicode.com/"
+  const img_base = (id, sz) => `https://i.picsum.photos/id/${id}/${sz}/${sz}.jpg`
+
+  const data = uid
+    ? {
+        head: {
+          title: `User ${uid} Details`,
+          description: `Detail page for user ${uid}`,
+          image: { url: img_base(uid, 600) }
+        },
+        body: {
+          // lesson -> don't use the actual url as the uid (not flexible)
+          img: img_base(uid, 600),
+          // this needs fixin' 📌
+          text: await fetch(`${text_base}${path}/${uid}`).then(r => r.json()),
+          uid
+        }
+      }
+    : (async () => {
+        let list = await fetch(`${text_base}${path}/`).then(r => r.json())
+        return {
+          head: {
+            title: `${path.replace(/^\w/, c => c.toUpperCase())} list`,
+            description: `List page for ${path}`,
+            image: { url: img_base(222, 200) }
+          },
+          body: list.map((c, i) => ({
+            img: img_base(i + 1, 200),
+            text: c,
+            uid: i + 1
+          }))
+        }
+      })()
+  return data
+}
+
+//
+//                            /
+//  888-~88e    /~~~8e  e88~88e  e88~~8e   d88~\
+//  888  888b       88b 888 888 d888  88b C888
+//  888  8888  e88~-888 "88_88" 8888__888  Y88b
+//  888  888P C888  888  /      Y888    ,   888D
+//  888-_88"   "88_-888 Cb       "88___/  \_88P
+//  888                  Y8""8D
+//
+
+// babel/core-js will complain if pages aren't defined
+// before they're used even though eslint will allow it
+const single = (ctx, body) => [
+  component("lg"),
+  getIn(body, "uid"),
+  getIn(body, "img") || "https://i.picsum.photos/id/1/600/600.jpg",
+  getIn(body, "text") ? fields(body.text.company || body.text) : null
+]
+
+const set = (ctx, bodies) => [
+  "div",
+  ...bodies.map(({ img, text, uid }) => [component("sm"), uid, img, fields(text)])
+]
+
+/**
+ * higher order components should only take static parameters
+ * so that they can be cached. I.e., in this case a string
+ * Do not nest an HDOM functional component within another
+ * in an attempt to pass state between components. Use an atom,
+ * which is deref'able for that
+ */
+const component = sz => {
+  return (ctx, uid, img, fields) => [
+    "div",
+    { style: { "margin-bottom": "30px" } },
+    [zoomOnNav, uid, img, sz], //[FLIP_img, img]],
+    ["p", { class: "title" }, fields]
+  ]
+}
+
+//
+//  888   | 888
+//  888   | 888
+//  888   | 888
+//  888   | 888
+//  Y88   | 888
+//   "8__/  888
+//
+//
+
+//////////////////// FLIP API 🔻 //////////////////////////
+
+// CHILD DEF: sig = (ctx, attrs, ...any)
+const div = (ctx, attrs, img, sz, ...args) => [
+  "img",
+  {
+    ...attrs,
+    src: img,
+    style:
+      sz === "sm"
+        ? {
+            height: "100px",
+            width: "100px"
+          }
+        : {
+            height: "600px",
+            width: "600px"
+          },
+    scale: true
+  },
+  ...args
+]
+
+/* ⚙ HOF COMPONENT ⚙ */
+const zoomOnNav = (ctx, uid, img, sz) => [
+  FLIPonClick({
+    id: /\/id\/(\d+)/.exec(img)[1] + "_div",
+    href: `/${[...ctx.params.URL_path, uid].join("/")}`,
+    target: div
+  }),
+  img,
+  sz
+]
+
+//////////////////// FLIP API 🔺  //////////////////////////
+
+// const S = JSON.stringify // <- handy for adornment phase
+
+// declare button before using in-site (prevent re-registration on RAF)
+
+const btn_outline = button_x({ tag: "a" }, "buttons.outline")
+
+const pathLink = (ctx, id, ...args) => [
+  btn_outline,
+  id === 3
+    ? { disabled: true }
+    : {
+        href: `/${ctx.params.URL_path}/${id}`,
+        onclick: e => {
+          e.preventDefault()
+          ctx.run({ ...HURL_CMD, args: e })
+        }
+      },
+  ...args
+]
+
+const field = (ctx, key, val) => [
+  "li",
+  { style: { display: "flex" } },
+  key === "id"
+    ? [pathLink, val, val]
+    : isObject(val)
+    ? ["ul", ...Object.entries(val).map(([k, v]) => [field, k, v])]
+    : ["p", { style: { padding: "0 0.5rem" } }, val]
+]
+
+const fields = payload => [
+  "ul",
+  ...Object.entries(payload)
+    .slice(0, 4)
+    .map(([k, v]) => [field, k, v])
+]
+
+const link = (ctx, path, ...args) => [
+  "a",
+  {
+    href: "/" + path.join("/"),
+    // regular href just works if there's no extra paths in
+    // URL (e.g., gh-pages URLs will break these)...
+    onclick: e => (e.preventDefault(), ctx.run({ ...HURL_CMD, args: e }))
+  },
+  ...args
+]
+
+//
 //
 //    /~~~8e  888-~88e  888-~88e
 //        88b 888  888b 888  888b
@@ -310,25 +304,28 @@ const routerCfg = async url => {
 //            888       888
 //
 
-const shell = (ctx, { body }) => {
-  console.log("shell:", { ctx })
-  // log({ body, page })
-  return [
-    "div",
-    { style: { "max-width": "30rem", margin: "auto", padding: "2rem" } },
-    ...[["users"], ["todos"], ["todos", 2], ["users", 9]].map(path => [
-      link,
-      path,
-      `/${path[0]}${path[1] ? "/" + path[1] : ""}`,
-      ["br"]
-    ]),
-    // default to homepage `single` shell during
-    // hydration/start (before any async is done)
-    [$page.deref() || single, body]
-  ]
-}
+/**
+ *
+ *  Part I: Needs to be a functional component to accept the
+ *  `ctx` object to pass it to children
+ */
+const shell = (ctx, { body }) => [
+  "div",
+  { style: { "max-width": "30rem", margin: "auto", padding: "2rem" } },
+  ...[["users"], ["todos"], ["todos", 2], ["users", 9]].map(path => [
+    link,
+    path,
+    `/${path[0]}${path[1] ? "/" + path[1] : ""}`,
+    ["br"]
+  ]),
+  // default to homepage `single` shell during
+  // hydration/start (before any async is done)
+  [$page.deref() || single, body]
+]
 
-// TODO: add default / 404 page here?
+////////////////////////////////////////////
+
+// TODO: add default / 404 page here (could help the ugly $page.deref() ||...)
 const router = {
   router: routerCfg,
   post: INJECT_HEAD_CMD
@@ -336,14 +333,17 @@ const router = {
 
 registerRouterDOM(router)
 
-// ✈ MOVE to register/ ✈
+////////////////////////////////////////////
 
-const root = document.getElementById("app")
 // consider abstracting this (just hand it a `router` Map,
 // `page` object and an "id")
-
-const app = state$ => (
-  console.log({ state$ }),
+/**
+ *
+ * Part II: Takes the root RAF stream and updates the shell
+ * on every global state mutation
+ *
+ */
+const app = state$ =>
   state$.ROUTE_LOADING
     ? null
     : [
@@ -351,10 +351,16 @@ const app = state$ => (
         // set defaults with || operators (needed before hydration)
         getIn(state$, state$.ROUTE_PATH) || { body: {} }
       ]
-)
 
 const state$ = fromAtom($store$)
+const root = document.getElementById("app")
 
+/**
+ *
+ * Part III: Connects the app shell to the state stream,
+ * which is triggered by any updates to the global `$store$`
+ *
+ */
 state$.subscribe(sidechainPartition(fromRAF())).transform(
   map(peek),
   map(app),
@@ -363,7 +369,7 @@ state$.subscribe(sidechainPartition(fromRAF())).transform(
     span: false,
     ctx: {
       run: x => run$.next(x),
-      state: $store$,
+      state: $store$, // TODO: example of using cursors for local state
       theme: THEME,
       params: parse_URL(window.location.href)
     }
