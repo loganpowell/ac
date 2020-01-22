@@ -10,35 +10,21 @@ export const setFavicon = href => {
   document.getElementsByTagName("head")[0].appendChild(link)
 }
 
-export const injectMeta = (type, content, prop) => {
-  try {
-    return {
-      HEAD_meta: () => {
-        document.head.querySelector(
-          `meta[property="${prop}"]`
-        ).content = content
-      },
-      HEAD_title: () => {
-        document.title = content
-      },
-      HEAD_favicon: () => setFavicon(content)
-    }[type]()
-  } catch (e) {
-    console.warn(e)
-  }
-}
-
 export const replaceMeta = (obj = defalt_cfg) => {
   Object.entries(obj).forEach(([key, val]) => {
     try {
       return {
-        HEAD_title: () => injectMeta(key, val),
+        HEAD_title: () => {
+          document.title = val
+        },
         HEAD_meta: () => {
           Object.entries(val).forEach(([prop, content]) => {
-            injectMeta(key, content, prop)
+            document.head.querySelector(
+              `meta[property="${prop}"]`
+            ).content = content
           })
         },
-        HEAD_favicon: () => injectMeta(key, val)
+        HEAD_favicon: () => setFavicon(val)
       }[key]()
     } catch (e) {
       console.warn(e)
@@ -95,7 +81,7 @@ export const INJECT_HEAD_CMD = registerCMD({
   args: ({ URL_data }) => ({ URL_data }),
   handler: ({
     URL_data: {
-      head: { title, description, image, favicon, type }
+      HEAD: { title, description, image, favicon, type }
     }
   }) => replaceMeta(HEAD_CMD({ title, description, image, favicon, type }))
 })

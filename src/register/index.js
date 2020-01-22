@@ -194,7 +194,8 @@ export const kickstart = ({
   app = "pre",
   prefix = "",
   router,
-  theme
+  theme,
+  state = $store$
 }) => {
   set$Root(root)
   const escaped = string => string.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&")
@@ -211,8 +212,8 @@ export const kickstart = ({
       : [
           app, // <- 🔍
           // set defaults with || operators (needed before hydration)
-          // TODO: 🤔 about { body : {} } hardcode
-          getIn(state$, state$[ROUTE_PATH]) || { body: {} }
+          // TODO: 🤔 about { BODY : {} } hardcode
+          getIn(state$, state$[ROUTE_PATH]) || {}
         ]
 
   state$.subscribe(sidechainPartition(fromRAF())).transform(
@@ -223,7 +224,7 @@ export const kickstart = ({
       span: false,
       ctx: {
         run: x => run$.next(x),
-        state: $store$,
+        state,
         theme, // <- 🔍
         // remove any staging path components (e.g., gh-pages)
         parseURL: () => parse_URL(window.location.href.replace(rgx, "")) // <- 🔍

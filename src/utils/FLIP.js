@@ -90,13 +90,12 @@ const zoom_paths = uid => ({
  *  - if first === last, no change (on nav e.g.)
  *  - if first !== last, nav change (store rect for id)
  */
-export const FLIP_first = ({ state, id, ev }) => {
+export const FLIP_first = ({ state, id, target }) => {
   // 📌 TODO: GOOD PLACE FOR AN `onStart` hook animation/callback
 
   let { rects, clicks } = zoom_paths(id)
 
   // sets the rect in state for next el init to sniff
-  let target = ev.target
   let flip_map = getRect(target)
   state.resetIn(rects, flip_map)
 
@@ -225,27 +224,52 @@ const $FLIP$ = new Atom({})
  * frame the component appears in the DOM
  *
  */
-export const FLIPonClick = ({ href, id, target }) => {
-  let proxy = {
-    preventDefault: () => null,
-    currentTarget: { document: null },
-    target: {
-      href
-    }
+
+const err_str = prop => `
+No '${prop}' property found on FLIPkid firstChild. 
+Ensure you are providing FLIPkid a component with an 
+attributes object as its second argument with a ${prop}
+property for proper FLIP routing.
+`
+
+// const [tag, attrs, ..._args] = kid(ctx, ...args)
+// const { href } = attrs
+
+const proxyFrom = href => ({
+  preventDefault: () => null,
+  currentTarget: { document: null },
+  target: {
+    href
   }
+})
 
-  let attrs = href
-    ? {
-        onclick: ev => {
-          ev.preventDefault()
-          HURL(proxy)
-          FLIP_first({ state: $FLIP$, id, ev })
-        },
-        href
-      }
-    : {}
+let attrs = {
+  onclick: ev => {
+    ev.preventDefault()
+    const target = ev.target
+    const href = target.getAttribute("href")
+    // console.log({ target, href })
+    if (!href) return new Error(err_str("href"))
+    HURL(proxyFrom(href))
+    FLIP_first({
+      state: $FLIP$,
+      id: href,
+      target
+    })
+  }
+}
 
-  let render = (ctx, ...args) => [target, attrs, ...args]
-  let init = el => FLIP_last_invert_play({ el, state: $FLIP$, id })
-  return { init, render }
+export const FLIPkid = {
+  render: (ctx, ...args) => ["a", attrs, ...args],
+  init: el =>
+    // console.log({
+    //   el,
+    //   firstChild: el.firstChild,
+    //   id: el.firstChild.getAttribute("href")
+    // }),
+    FLIP_last_invert_play({
+      el: el.firstChild,
+      state: $FLIP$,
+      id: el.firstChild.getAttribute("href")
+    })
 }

@@ -10,9 +10,10 @@ import { DOMnavigated$ } from "../streams"
  * transformed correctly by the `navigated$` stream
  * transforms
  */
-export const HURL = e => {
+export const HURL = ev => {
+  ev.preventDefault()
   // console.log({ e })
-  let href = e.target.href
+  let href = ev.target.href
   let w_href = window.location.href
   let { URL_path } = parse_URL(w_href)
   let w_path = `/${URL_path.join("/")}`
@@ -21,14 +22,14 @@ export const HURL = e => {
 
   DOMnavigated$.next({
     target: { location: { href } },
-    currentTarget: e.currentTarget
+    currentTarget: ev.currentTarget
   })
-  return e
+  return ev
 }
 
 export const HURL_CMD = registerCMD({
   sub$: "HURL_CMD",
-  args: e => (e.preventDefault(), e),
+  args: ev => ev,
   handler: HURL
 })
 
@@ -62,7 +63,10 @@ export const __SET_PAGE_STATE = registerCMD({
     URL_data
   }),
   handler: ({ URL_path, URL_data, URL_page }) => {
-    // console.log({ URL_page })
+    // console.log({ URL_page, URL_data })
+    const { BODY } = URL_data
+
+    if (BODY) URL_data = BODY
     set$Page(URL_page)
     set$State(URL_path, URL_data)
   }

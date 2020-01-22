@@ -8,6 +8,7 @@ import { EquivMap } from "@thi.ng/associative"
 import { register, commands, utils, store, streams } from "../../src"
 import { button_x } from "./components"
 import { THEME } from "./theme"
+import { $store$ } from "../../src/store"
 
 /**
  *
@@ -20,7 +21,7 @@ import { THEME } from "./theme"
 const { run$ } = streams
 const { kickstart } = register
 const { INJECT_HEAD_CMD, HURL_CMD } = commands
-const { parse_URL, FLIPonClick, traceStream } = utils
+const { parse_URL, FLIPonClick, FLIPkid, traceStream } = utils
 const { $page } = store
 // ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
 
@@ -37,6 +38,71 @@ const { $page } = store
 const log = console.log
 
 // traceStream("run$ ->", run$)
+
+//
+//        888             d8
+//   e88~\888   /~~~8e  _d88__   /~~~8e
+//  d888  888       88b  888         88b
+//  8888  888  e88~-888  888    e88~-888
+//  Y888  888 C888  888  888   C888  888
+//   "88_/888  "88_-888  "88_/  "88_-888
+//
+//
+
+/**
+ *
+ * When using a router config object (rather than a plain
+ * router function), payloads can also separate display data
+ * under a `BODY` key to separate the content from any
+ * metadata you may want to use in `pre`/`post`
+ * Commands/Tasks. For example, the built-in
+ * `INJECT_HEAD_CMD` pulls from a `HEAD` key in the payload.
+ *
+ * Regarding state MGMT: The payload (value) will be
+ * destructured from the `BODY` to keep your lenses (paths)
+ * and state clean. I.e., you do not have to destructure
+ * this from your page/app template manually. However,
+ * within a `pre`/`post` Command/Task, the user can/must
+ * use/destructure `HEAD`/`POST` payloads for their own
+ * needs
+ *
+ */
+const getSomeJSON = async (path, uid) => {
+  const text_base = "https://jsonplaceholder.typicode.com/"
+  const img_base = (id, sz) => `https://i.picsum.photos/id/${id}/${sz}/${sz}.jpg`
+
+  const data = uid
+    ? {
+        HEAD: {
+          title: `User ${uid} Details`,
+          description: `Detail page for user ${uid}`,
+          image: { url: img_base(uid, 600) }
+        },
+        BODY: {
+          // lesson -> don't use the actual url as the uid (not flexible)
+          img: img_base(uid, 600),
+          // this needs fixin' 📌
+          text: await fetch(`${text_base}${path}/${uid}`).then(r => r.json()),
+          uid
+        }
+      }
+    : (async () => {
+        let list = await fetch(`${text_base}${path}/`).then(r => r.json())
+        return {
+          HEAD: {
+            title: `${path.replace(/^\w/, c => c.toUpperCase())} list`,
+            description: `List page for ${path}`,
+            image: { url: img_base(222, 200) }
+          },
+          BODY: list.map((c, i) => ({
+            img: img_base(i + 1, 200),
+            text: c,
+            uid: i + 1
+          }))
+        }
+      })()
+  return data
+}
 
 //
 //                             d8
@@ -110,75 +176,43 @@ const routerCfg = async url => {
 }
 
 //
-//        888             d8
-//   e88~\888   /~~~8e  _d88__   /~~~8e
-//  d888  888       88b  888         88b
-//  8888  888  e88~-888  888    e88~-888
-//  Y888  888 C888  888  888   C888  888
-//   "88_/888  "88_-888  "88_/  "88_-888
+//  888            888
+//  888-~88e  e88~\888  e88~-_  888-~88e-~88e
+//  888  888 d888  888 d888   i 888  888  888
+//  888  888 8888  888 8888   | 888  888  888
+//  888  888 Y888  888 Y888   ' 888  888  888
+//  888  888  "88_/888  "88_-~  888  888  888
 //
 //
 
-const getSomeJSON = async (path, uid) => {
-  const text_base = "https://jsonplaceholder.typicode.com/"
-  const img_base = (id, sz) => `https://i.picsum.photos/id/${id}/${sz}/${sz}.jpg`
+//////////////////// FLIP API 🔻 //////////////////////////
 
-  const data = uid
-    ? {
-        head: {
-          title: `User ${uid} Details`,
-          description: `Detail page for user ${uid}`,
-          image: { url: img_base(uid, 600) }
-        },
-        body: {
-          // lesson -> don't use the actual url as the uid (not flexible)
-          img: img_base(uid, 600),
-          // this needs fixin' 📌
-          text: await fetch(`${text_base}${path}/${uid}`).then(r => r.json()),
-          uid
-        }
-      }
-    : (async () => {
-        let list = await fetch(`${text_base}${path}/`).then(r => r.json())
-        return {
-          head: {
-            title: `${path.replace(/^\w/, c => c.toUpperCase())} list`,
-            description: `List page for ${path}`,
-            image: { url: img_base(222, 200) }
+// CHILD DEF: sig = (ctx, attrs, ...any)
+
+const child = (ctx, id, img, sz, ...args) => [
+  "img",
+  {
+    src: img,
+    style:
+      sz === "sm"
+        ? {
+            height: "100px",
+            width: "100px",
+            cursor: "pointer"
+          }
+        : {
+            height: "600px",
+            width: "600px"
           },
-          body: list.map((c, i) => ({
-            img: img_base(i + 1, 200),
-            text: c,
-            uid: i + 1
-          }))
-        }
-      })()
-  return data
-}
-
-//
-//  888   | 888
-//  888   | 888
-//  888   | 888
-//  888   | 888
-//  Y88   | 888
-//   "8__/  888
-//
-//
-
-// babel/core-js will complain if pages aren't defined
-// before they're used even though eslint will allow it
-const single = (ctx, body) => [
-  component("lg"),
-  getIn(body, "uid"),
-  getIn(body, "img") || "https://i.picsum.photos/id/1/600/600.jpg",
-  getIn(body, "text") ? fields(body.text.company || body.text) : null
+    href:
+      sz === "sm" ? `/${ctx.parseURL().URL_path}/${id}` : `/${ctx.parseURL().URL_path.join("/")}`
+  },
+  ...args
 ]
 
-const set = (ctx, bodies) => [
-  "div",
-  ...bodies.map(({ img, text, uid }) => [component("sm"), uid, img, fields(text)])
-]
+const zoomOnNav = (ctx, id, img, sz) => [FLIPkid, [child, id, img, sz]]
+
+//////////////////// FLIP API 🔺  //////////////////////////
 
 /**
  * higher order components should only take static parameters
@@ -196,43 +230,19 @@ const component = sz => {
   ]
 }
 
-//////////////////// FLIP API 🔻 //////////////////////////
-
-// CHILD DEF: sig = (ctx, attrs, ...any)
-const div = (ctx, attrs, img, sz, ...args) => [
-  "img",
-  {
-    ...attrs,
-    src: img,
-    style:
-      sz === "sm"
-        ? {
-            height: "100px",
-            width: "100px",
-            cursor: "pointer"
-          }
-        : {
-            height: "600px",
-            width: "600px",
-            cursor: "pointer"
-          },
-    scale: true
-  },
-  ...args
+// babel/core-js will complain if pages aren't defined
+// before they're used even though eslint will allow it
+const single = (ctx, body) => [
+  component("lg"),
+  getIn(body, "uid"),
+  getIn(body, "img") || "https://i.picsum.photos/id/1/600/600.jpg",
+  getIn(body, "text") ? fields(body.text.company || body.text) : null
 ]
 
-/* ⚙ HOF COMPONENT ⚙ */
-const zoomOnNav = (ctx, id, img, sz) => [
-  FLIPonClick({
-    id,
-    href: sz === "sm" ? `/${ctx.parseURL().URL_path}/${id}` : null,
-    target: div
-  }),
-  img,
-  sz
+const set = (ctx, bodies) => [
+  "div",
+  ...bodies.map(({ img, text, uid }) => [component("sm"), uid, img, fields(text)])
 ]
-
-//////////////////// FLIP API 🔺  //////////////////////////
 
 // const S = JSON.stringify // <- handy for adornment phase
 
@@ -292,7 +302,7 @@ const link = (ctx, path, ...args) => [
 //            888       888
 //
 // TODO: example of using cursors for local state
-const app = (ctx, { body }) => (
+const app = (ctx, body) => (
   console.log(ctx.state),
   [
     "div",
@@ -322,7 +332,8 @@ const setup = {
   root,
   app,
   prefix: "ac/",
-  theme: THEME
+  theme: THEME,
+  state: $store$
 }
 
 kickstart(setup)
