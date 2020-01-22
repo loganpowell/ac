@@ -1,11 +1,17 @@
 /**
  * @module registerCMD
  */
-import { command$, out$, run$, DOMnavigated$ } from "../streams"
-import { isFunction } from "@thi.ng/checks"
+import { fromAtom, sidechainPartition, fromRAF } from "@thi.ng/rstream"
+import { peek } from "@thi.ng/arrays"
 import { map } from "@thi.ng/transducers"
+import { updateDOM } from "@thi.ng/transducers-hdom"
+import { isFunction } from "@thi.ng/checks"
+import { getIn } from "@thi.ng/paths"
+
+import { command$, out$, run$, DOMnavigated$ } from "../streams"
+import { $store$, set$Root, ROUTE_LOADING, ROUTE_PATH } from "../store"
 import { __URL_DOM__ROUTE, __URL__ROUTE } from "../tasks"
-import { unknown_key_ERR } from "../utils"
+import { unknown_key_ERR, parse_URL } from "../utils"
 
 const err_str = "registerCMD"
 
@@ -169,4 +175,59 @@ export const registerRouter = router => {
     args: x => x,
     handler: ({ URL, DOM }) => run$.next(taskFrom({ URL, DOM }))
   })
+}
+
+/**
+ *
+ *  Part I: Needs to be a functional component to accept the
+ *  `ctx` object to pass it to children
+ *
+ *  Part II: Takes the root RAF stream and updates the shell
+ *  on every global state mutation
+ *
+ *  Part III: Connects the app shell to the state stream,
+ *  which is triggered by any updates to the global
+ *  `$store$`
+ */
+export const kickstart = ({
+  root = document.body,
+  app = "pre",
+  prefix = "",
+  router,
+  theme
+}) => {
+  set$Root(root)
+  const escaped = string => string.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&")
+
+  const rgx = new RegExp(escaped(prefix), "g")
+
+  if (router) registerRouterDOM(router)
+
+  const state$ = fromAtom($store$)
+
+  const shell = state$ =>
+    state$[ROUTE_LOADING]
+      ? null
+      : [
+          app, // <- 🔍
+          // set defaults with || operators (needed before hydration)
+          // TODO: 🤔 about { body : {} } hardcode
+          getIn(state$, state$[ROUTE_PATH]) || { body: {} }
+        ]
+
+  state$.subscribe(sidechainPartition(fromRAF())).transform(
+    map(peek),
+    map(shell),
+    updateDOM({
+      root,
+      span: false,
+      ctx: {
+        run: x => run$.next(x),
+        state: $store$,
+        theme, // <- 🔍
+        // remove any staging path components (e.g., gh-pages)
+        parseURL: () => parse_URL(window.location.href.replace(rgx, "")) // <- 🔍
+      }
+    })
+  )
 }

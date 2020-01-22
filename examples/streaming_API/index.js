@@ -1,10 +1,6 @@
 import { getIn } from "@thi.ng/paths"
 import { isObject } from "@thi.ng/checks"
 import { EquivMap } from "@thi.ng/associative"
-import { fromAtom, sidechainPartition, fromRAF } from "@thi.ng/rstream"
-import { peek } from "@thi.ng/arrays"
-import { map } from "@thi.ng/transducers"
-import { updateDOM } from "@thi.ng/transducers-hdom"
 
 // import scrolly from "@mapbox/scroll-restorer"
 // scrolly.start()
@@ -22,10 +18,10 @@ import { THEME } from "./theme"
  */
 // ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
 const { run$ } = streams
-const { registerRouterDOM } = register
+const { kickstart } = register
 const { INJECT_HEAD_CMD, HURL_CMD } = commands
 const { parse_URL, FLIPonClick, traceStream } = utils
-const { $store$, $page } = store
+const { $page } = store
 // ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
 
 //
@@ -161,13 +157,13 @@ const getSomeJSON = async (path, uid) => {
 }
 
 //
-//                            /
-//  888-~88e    /~~~8e  e88~88e  e88~~8e   d88~\
-//  888  888b       88b 888 888 d888  88b C888
-//  888  8888  e88~-888 "88_88" 8888__888  Y88b
-//  888  888P C888  888  /      Y888    ,   888D
-//  888-_88"   "88_-888 Cb       "88___/  \_88P
-//  888                  Y8""8D
+//  888   | 888
+//  888   | 888
+//  888   | 888
+//  888   | 888
+//  Y88   | 888
+//   "8__/  888
+//
 //
 
 // babel/core-js will complain if pages aren't defined
@@ -200,16 +196,6 @@ const component = sz => {
   ]
 }
 
-//
-//  888   | 888
-//  888   | 888
-//  888   | 888
-//  888   | 888
-//  Y88   | 888
-//   "8__/  888
-//
-//
-
 //////////////////// FLIP API 🔻 //////////////////////////
 
 // CHILD DEF: sig = (ctx, attrs, ...any)
@@ -239,7 +225,7 @@ const div = (ctx, attrs, img, sz, ...args) => [
 const zoomOnNav = (ctx, id, img, sz) => [
   FLIPonClick({
     id,
-    href: `/${ctx.parseURL().URL_path}/${id}`,
+    href: sz === "sm" ? `/${ctx.parseURL().URL_path}/${id}` : null,
     target: div
   }),
   img,
@@ -305,27 +291,23 @@ const link = (ctx, path, ...args) => [
 //   "88_-888 888-_88"  888-_88"
 //            888       888
 //
-
-/**
- *
- *  Part I: Needs to be a functional component to accept the
- *  `ctx` object to pass it to children
- */
-const shell = (ctx, { body }) => [
-  "div",
-  { style: { "max-width": "30rem", margin: "auto", padding: "2rem" } },
-  ...[["users"], ["todos"], ["todos", 2], ["users", 9]].map(path => [
-    link,
-    path,
-    `/${path[0]}${path[1] ? "/" + path[1] : ""}`,
-    ["br"]
-  ]),
-  // default to homepage `single` shell during
-  // hydration/start (before any async is done)
-  [$page.deref() || single, body]
-]
-
-////////////////////////////////////////////
+// TODO: example of using cursors for local state
+const app = (ctx, { body }) => (
+  console.log(ctx.state),
+  [
+    "div",
+    { style: { "max-width": "30rem", margin: "auto", padding: "2rem" } },
+    ...[["users"], ["todos"], ["todos", 2], ["users", 9]].map(path => [
+      link,
+      path,
+      `/${path[0]}${path[1] ? "/" + path[1] : ""}`,
+      ["br"]
+    ]),
+    // default to homepage `single` shell during
+    // hydration/start (before any async is done)
+    [$page.deref() || single, body]
+  ]
+)
 
 // TODO: add default / 404 page here (could help the ugly $page.deref() ||...)
 const router = {
@@ -333,51 +315,16 @@ const router = {
   post: INJECT_HEAD_CMD
 }
 
-registerRouterDOM(router)
+const root = document.getElementById("app") // <- 🔍
 
-////////////////////////////////////////////
+const setup = {
+  router,
+  root,
+  app,
+  prefix: "ac/",
+  theme: THEME
+}
 
-// consider abstracting this (just hand it a `router` Map,
-// `page` object and an "id")
-/**
- *
- * Part II: Takes the root RAF stream and updates the shell
- * on every global state mutation
- *
- */
-const app = state$ =>
-  state$.ROUTE_LOADING
-    ? null
-    : [
-        shell,
-        // set defaults with || operators (needed before hydration)
-        getIn(state$, state$.ROUTE_PATH) || { body: {} }
-      ]
+kickstart(setup)
 
-const state$ = fromAtom($store$)
-const root = document.getElementById("app")
-
-/**
- *
- * Part III: Connects the app shell to the state stream,
- * which is triggered by any updates to the global `$store$`
- *
- */
-state$.subscribe(sidechainPartition(fromRAF())).transform(
-  map(peek),
-  map(app),
-  updateDOM({
-    root,
-    span: false,
-    ctx: {
-      run: x => run$.next(x),
-      state: $store$, // TODO: example of using cursors for local state
-      theme: THEME,
-      // remove any staging path components (e.g., gh-pages)
-      parseURL: () => parse_URL(window.location.href.replace(/ac\//g, ""))
-    }
-  })
-)
-
-console.log({ parse_URL: parse_URL(window.location.href) })
 console.log("starting...")

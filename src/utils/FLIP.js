@@ -90,10 +90,10 @@ const zoom_paths = uid => ({
  *  - if first === last, no change (on nav e.g.)
  *  - if first !== last, nav change (store rect for id)
  */
-export const FLIP_first = (state, uid, ev) => {
+export const FLIP_first = ({ state, id, ev }) => {
   // 📌 TODO: GOOD PLACE FOR AN `onStart` hook animation/callback
 
-  let { rects, clicks } = zoom_paths(uid)
+  let { rects, clicks } = zoom_paths(id)
 
   // sets the rect in state for next el init to sniff
   let target = ev.target
@@ -117,9 +117,14 @@ const zIndex = (el, idx) => (el.style.zIndex = idx)
  * 2. if a back/nav (no frame) event was what triggered
  *    the init do the calcs with no frame
  */
-export const FLIP_last_invert_play = (el, state, uid) => {
-  el.setAttribute("flip", uid)
-  let { rects, clicks } = zoom_paths(uid)
+export const FLIP_last_invert_play = ({
+  el,
+  state,
+  id,
+  transition = "all .4s cubic-bezier(.54,-0.29,.17,1.11)"
+}) => {
+  el.setAttribute("flip", id)
+  let { rects, clicks } = zoom_paths(id)
 
   let F_flip_map = getIn(state.deref(), rects) || null
   // NO RECT => NOT CLICKED
@@ -159,7 +164,7 @@ export const FLIP_last_invert_play = (el, state, uid) => {
     window.scrollTo(0, middle)
 
     // just baffle them with https://cubic-bezier.com/
-    el.style.transition = "all .4s ease-in-out" //cubic-bezier(.54,-0.29,.17,1.11)"
+    el.style.transition = transition
     el.style.transform = "none"
     // 💩 hack for removing zIndex after animation is complete
     // 📌 TODO:    🔻 GOOD PLACE FOR AN `onComplete` hook animation/callback
@@ -229,15 +234,18 @@ export const FLIPonClick = ({ href, id, target }) => {
     }
   }
 
-  let attrs = {
-    onclick: e => {
-      e.preventDefault()
-      HURL(proxy)
-      FLIP_first($FLIP$, id, e)
-    }
-  }
+  let attrs = href
+    ? {
+        onclick: ev => {
+          ev.preventDefault()
+          HURL(proxy)
+          FLIP_first({ state: $FLIP$, id, ev })
+        },
+        href
+      }
+    : {}
 
   let render = (ctx, ...args) => [target, attrs, ...args]
-  let init = el => FLIP_last_invert_play(el, $FLIP$, id)
+  let init = el => FLIP_last_invert_play({ el, state: $FLIP$, id })
   return { init, render }
 }
