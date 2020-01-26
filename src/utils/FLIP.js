@@ -72,7 +72,8 @@ export const FLIP_all = (el, state, uid, frameDOMel = null) => {
 const zoom_paths = uid => ({
   rects: ["_FLIP_zoom", "rects", uid],
   elems: ["_FLIP_zoom", "elems", uid],
-  clicks: ["_FLIP_zoom", "clicks", uid]
+  clicks: ["_FLIP_zoom", "clicks", uid],
+  scrolls: ["_FLIP_zoom", "scroll", uid]
 })
 
 /**
@@ -93,7 +94,7 @@ const zoom_paths = uid => ({
 export const FLIP_first = ({ state, id, target }) => {
   // 📌 TODO: GOOD PLACE FOR AN `onStart` hook animation/callback
 
-  let { rects, clicks } = zoom_paths(id)
+  let { rects, clicks, scrolls } = zoom_paths(id)
 
   // sets the rect in state for next el init to sniff
   let flip_map = getRect(target)
@@ -101,6 +102,7 @@ export const FLIP_first = ({ state, id, target }) => {
 
   // registers component as having been clicked (focused)
   state.resetIn(clicks, true)
+  state.resetIn(scrolls, { y: window.scrollY, x: window.scrollX })
 }
 
 /**
@@ -123,7 +125,7 @@ export const FLIP_last_invert_play = ({
   transition = "all .4s cubic-bezier(.54,-0.29,.17,1.11)"
 }) => {
   el.setAttribute("flip", id)
-  let { rects, clicks } = zoom_paths(id)
+  let { rects, clicks, scrolls } = zoom_paths(id)
 
   let F_flip_map = getIn(state.deref(), rects) || null
   // NO RECT => NOT CLICKED
@@ -146,9 +148,9 @@ export const FLIP_last_invert_play = ({
   let Sy = F_flip_map.height / L_flip_map.height
 
   // 🕕 just before "Last", scroll element to middle of page
-  let top = L_flip_map.top + window.pageYOffset
-  let middle = top - window.innerHeight / 2
-  window.scrollTo(0, middle)
+  // let top = L_flip_map.top + window.pageYOffset
+  let { x, y } = getIn(state.deref(), scrolls) // top - window.innerHeight / 2
+  window.scrollTo(x, y)
 
   // console.log({ F_flip_map, L_flip_map, middle })
 
@@ -160,7 +162,7 @@ export const FLIP_last_invert_play = ({
   // PLAY
   requestAnimationFrame(() => {
     // 🕤 just before animating, scroll to new location
-    window.scrollTo(0, middle)
+    window.scrollTo(x, y)
 
     // just baffle them with https://cubic-bezier.com/
     el.style.transition = transition

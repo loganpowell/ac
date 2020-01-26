@@ -2,8 +2,8 @@ import { getIn } from "@thi.ng/paths"
 import { isObject } from "@thi.ng/checks"
 import { EquivMap } from "@thi.ng/associative"
 
-// import scrolly from "@mapbox/scroll-restorer"
-// scrolly.start()
+import scrolly from "@mapbox/scroll-restorer"
+scrolly.start()
 
 import { register, commands, utils, store, streams } from "../../src"
 import { button_x } from "./components"
@@ -72,20 +72,27 @@ const getSomeJSON = async (path, uid) => {
   const img_base = (id, sz) => `https://i.picsum.photos/id/${id}/${sz}/${sz}.jpg`
 
   const data = uid
-    ? {
-        HEAD: {
-          title: `User ${uid} Details`,
-          description: `Detail page for user ${uid}`,
-          image: { url: img_base(uid, 600) }
-        },
-        BODY: {
-          // lesson -> don't use the actual url as the uid (not flexible)
-          img: img_base(uid, 600),
-          // this needs fixin' 📌
-          text: await fetch(`${text_base}${path}/${uid}`).then(r => r.json()),
-          uid
+    ? (async () => {
+        let detail = await fetch(`${text_base}${path}/${uid}`).then(r => r.json())
+        let {
+          name,
+          company: { catchPhrase }
+        } = detail
+        return {
+          HEAD: {
+            title: `${name}'s Details`,
+            description: `${name} handles ${catchPhrase}`,
+            image: { url: img_base(uid, 600) }
+          },
+          BODY: {
+            // lesson -> don't use the actual url as the uid (not flexible)
+            img: img_base(uid, 600),
+            // this needs fixin' 📌
+            text: detail,
+            uid
+          }
         }
-      }
+      })()
     : (async () => {
         let list = await fetch(`${text_base}${path}/`).then(r => r.json())
         return {
@@ -302,8 +309,8 @@ const link = (ctx, path, ...args) => [
 //            888       888
 //
 // TODO: example of using cursors for local state
-const app = (ctx, body) => (
-  console.log(ctx.state),
+const app = (ctx, body) =>
+  // console.log(ctx.state),
   [
     "div",
     { style: { "max-width": "30rem", margin: "auto", padding: "2rem" } },
@@ -317,7 +324,6 @@ const app = (ctx, body) => (
     // hydration/start (before any async is done)
     [$page.deref() || single, body]
   ]
-)
 
 // TODO: add default / 404 page here (could help the ugly $page.deref() ||...)
 const router = {
