@@ -84,7 +84,7 @@
       
     
 
-    <h3>Modules</h3><ul><li id="registerCMD-nav"><a href="module-registerCMD.html">registerCMD</a></li><li id="Tasks-nav"><a href="module-Tasks.html">Tasks</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#_SET_PAGE_STATE">_SET_PAGE_STATE</a></li><li><a href="global.html#_SET_ROUTER_LOADING_STATE">_SET_ROUTER_LOADING_STATE</a></li><li><a href="global.html#_SET_ROUTER_PATH">_SET_ROUTER_PATH</a></li><li><a href="global.html#_SET_LINK_ATTRS_DOM">_SET_LINK_ATTRS_DOM</a></li><li><a href="global.html#_HREF_PUSHSTATE_DOM">_HREF_PUSHSTATE_DOM</a></li><li><a href="global.html#_NOTIFY_PRERENDER_DOM">_NOTIFY_PRERENDER_DOM</a></li><li><a href="global.html#_URL__ROUTE">_URL__ROUTE</a></li><li><a href="global.html#parse_URL">parse_URL</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#stringify_w_functions">stringify_w_functions</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
+    <h3>Modules</h3><ul><li id="registerCMD-nav"><a href="module-registerCMD.html">registerCMD</a></li><li id="Tasks-nav"><a href="module-Tasks.html">Tasks</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#FLIP_first">FLIP_first</a></li><li><a href="global.html#zIndex">zIndex</a></li><li><a href="global.html#FLIP_last_invert_play">FLIP_last_invert_play</a></li><li><a href="global.html#state">state</a></li><li><a href="global.html#__SET_LINK_ATTRS_DOM">__SET_LINK_ATTRS_DOM</a></li><li><a href="global.html#__HREF_PUSHSTATE_DOM">__HREF_PUSHSTATE_DOM</a></li><li><a href="global.html#__NOTIFY_PRERENDER_DOM">__NOTIFY_PRERENDER_DOM</a></li><li><a href="global.html#set$State">set$State</a></li><li><a href="global.html#__URL_DOM__ROUTE">__URL_DOM__ROUTE</a></li><li><a href="global.html#parse_URL">parse_URL</a></li><li><a href="global.html#unparse_URL">unparse_URL</a></li><li><a href="global.html#censusURL">censusURL</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#stringify_w_functions">stringify_w_functions</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
   </nav>
 
   <div id="main">
@@ -100,6 +100,7 @@
 <section>
   <article>
     <pre class="prettyprint source linenums"><code>import qs from "querystring"
+import gql from "nanographql"
 
 let fix_jsdoc
 
@@ -227,6 +228,93 @@ export const parse_URL = URL => {
   const URL_hash = hash_str.slice(1)
   return { URL, URL_subdomain, URL_domain, URL_path, URL_query, URL_hash }
 }
+
+/**
+ *
+ * `unparse_URL`
+ *
+ * The reverse of `parse_URL` that enables talking to the
+ * router with a friendlier API than having to always
+ * construct URLs manually.
+ *
+ * TODO: testing for `unparse_URL`
+ *
+ */
+export const unparse_URL = (parsed, isAbsolute = false) => {
+  const {
+    URL: _URL,
+    URL_subdomain: _URL_subdomain,
+    URL_domain: _URL_domain,
+    URL_path: _URL_path,
+    URL_query: _URL_query,
+    URL_hash: _URL_hash
+  } = parse_URL(parsed.URL || window.location.href)
+
+  let {
+    URL = _URL,
+    URL_subdomain = _URL_subdomain,
+    URL_domain = _URL_domain,
+    URL_path = _URL_path,
+    URL_query = _URL_query,
+    URL_hash = _URL_hash
+  } = parsed
+
+  let [protocol, rest] = URL.split("//")
+  let [root] = rest.split("/")
+  let [part_one, ...other_parts] = root.split(".")
+  // console.log({ part_one, other_parts })
+
+  let domain =
+    URL_subdomain &amp;&amp; URL_domain
+      ? [...URL_subdomain, ...URL_domain]
+      : URL_subdomain &amp;&amp; other_parts.length > 1
+      ? [...URL_subdomain, ...other_parts]
+      : URL_subdomain &amp;&amp; other_parts.length === 1
+      ? [...URL_subdomain, part_one, ...other_parts]
+      : [...URL_subdomain, part_one]
+
+  const query_string = qs.encode(URL_query)
+
+  const rootRelative = `${URL_path.length > 0 ? "/" + URL_path.join("/") : ""}${
+    URL_hash ? "#" + URL_hash : null
+  }?${query_string}`
+
+  // console.log({ domain })
+  // console.log({ protocol, rest, root, domain, URL_domain })
+  return !isAbsolute
+    ? rootRelative
+    : `${protocol}//${domain.join(".")}${rootRelative}`
+}
+
+/*
+let test1 = {
+  // URL: "https://api.census.gov",
+  // URL_subdomain: ["sub"],
+  // URL_domain: ["swing", "bloop", "com"],
+  URL_path: ["lens", "path"],
+  // URL_query: {
+  //   GQL: `
+  //       query($name: String!) {
+  //         movie(name: $name) {
+  //           releaseDate
+  //         }
+  //       }
+  //     `.replace(/ |\n/g, ""),
+  //   name: "Back to the Future"
+  // },
+  URL_hash: "scroll-to"
+}
+unparse_URL(test1, true) //?
+
+parse_URL(
+  "https://poop.bloop.gov/data/wipe#something?get=NAME,B101001_10E,group(B61010)&amp;in=state:01&amp;in=county:*&amp;for=tract:*"
+)
+
+parse_URL(
+  "http://sub.swing.bloop.com/lens/path#scroll-to?GQL=query(%24name%3AString!)%7Bmovie(name%3A%24name)%7BreleaseDate%7D%7D&amp;name=Back%20to%20the%20Future"
+) //?
+
+*/
 </code></pre>
   </article>
 </section>

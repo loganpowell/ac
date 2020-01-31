@@ -84,7 +84,7 @@
       
     
 
-    <h3>Modules</h3><ul><li id="registerCMD-nav"><a href="module-registerCMD.html">registerCMD</a></li><li id="Tasks-nav"><a href="module-Tasks.html">Tasks</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#_SET_PAGE_STATE">_SET_PAGE_STATE</a></li><li><a href="global.html#_SET_ROUTER_LOADING_STATE">_SET_ROUTER_LOADING_STATE</a></li><li><a href="global.html#_SET_ROUTER_PATH">_SET_ROUTER_PATH</a></li><li><a href="global.html#_SET_LINK_ATTRS_DOM">_SET_LINK_ATTRS_DOM</a></li><li><a href="global.html#_HREF_PUSHSTATE_DOM">_HREF_PUSHSTATE_DOM</a></li><li><a href="global.html#_NOTIFY_PRERENDER_DOM">_NOTIFY_PRERENDER_DOM</a></li><li><a href="global.html#_URL__ROUTE">_URL__ROUTE</a></li><li><a href="global.html#parse_URL">parse_URL</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#stringify_w_functions">stringify_w_functions</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
+    <h3>Modules</h3><ul><li id="registerCMD-nav"><a href="module-registerCMD.html">registerCMD</a></li><li id="Tasks-nav"><a href="module-Tasks.html">Tasks</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#FLIP_first">FLIP_first</a></li><li><a href="global.html#zIndex">zIndex</a></li><li><a href="global.html#FLIP_last_invert_play">FLIP_last_invert_play</a></li><li><a href="global.html#state">state</a></li><li><a href="global.html#__SET_LINK_ATTRS_DOM">__SET_LINK_ATTRS_DOM</a></li><li><a href="global.html#__HREF_PUSHSTATE_DOM">__HREF_PUSHSTATE_DOM</a></li><li><a href="global.html#__NOTIFY_PRERENDER_DOM">__NOTIFY_PRERENDER_DOM</a></li><li><a href="global.html#set$State">set$State</a></li><li><a href="global.html#__URL_DOM__ROUTE">__URL_DOM__ROUTE</a></li><li><a href="global.html#parse_URL">parse_URL</a></li><li><a href="global.html#unparse_URL">unparse_URL</a></li><li><a href="global.html#censusURL">censusURL</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#stringify_w_functions">stringify_w_functions</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
   </nav>
 
   <div id="main">
@@ -102,11 +102,34 @@
     <pre class="prettyprint source linenums"><code>/**
  * @module registerCMD
  */
-import { command$, out$, run$, DOMnavigated$ } from "../streams"
+import { fromAtom, sidechainPartition, fromRAF } from "@thi.ng/rstream"
+import { peek } from "@thi.ng/arrays"
+import { map } from "@thi.ng/transducers"
+import { updateDOM } from "@thi.ng/transducers-hdom"
 import { isFunction } from "@thi.ng/checks"
-import { map, comp, pluck, selectKeys } from "@thi.ng/transducers"
-import { _URL_DOM__ROUTE, _URL__ROUTE } from "../tasks"
-import { unknown_key_ERR } from "../utils"
+import { getIn } from "@thi.ng/paths"
+
+import { command$, out$, run$, DOMnavigated$ } from "../streams"
+import {
+  $store$,
+  ROUTE_LOADING,
+  ROUTE_PATH,
+  ROOT,
+  PAGE_TEMPLATE,
+  DOM,
+  URL,
+  sub$,
+  args,
+  reso,
+  erro,
+  source$,
+  handler,
+  parseURL,
+  run,
+  state
+} from "../store"
+import { __URL_DOM__ROUTE, __URL__ROUTE } from "../tasks"
+import { unknown_key_ERR, parse_URL, stringify_w_functions } from "../utils"
 
 const err_str = "registerCMD"
 
@@ -206,59 +229,188 @@ const feedCMD$fromSource$ = ({ sub$, args, source$ }) => {
  *
  * ```
  *
- * @param {Command} command an object with three required
- * keys (`sub$`, `args`, `handler`)
+ * @param {Command} command an object with four keys:
+ *  1. `sub$` (required)
+ *  2. `handler` (required)
+ *  3. `args` (optional, sets default) during registration
+ *  4. `source$` (optional, enables stream to feed Command)
  *
  */
-export const registerCMD = command => {
+let registered = new Map()
+
+export function registerCMD(command) {
   // 📌 TODO: register factory function
 
-  let { sub$, args, source$, handler, ...unknown } = command
+  let _sub$ = command[sub$]
+  let _args = command[args]
+  let _erro = command[erro]
+  let _reso = command[reso]
+  let _source$ = command[source$]
+  let _handler = command[handler]
+
+  let knowns = [sub$, args, reso, erro, source$, handler]
+  let all = Object.keys(command)
+  let unknowns = all.filter(key => !knowns.includes(key))
+  // console.log({ knowns, all, unknowns })
 
   /**
    * destructure the args component out of the emissions
    * to save the user from having to do that PITA everytime
    */
-  if (Object.keys(unknown).length > 0) {
-    throw new Error(unknown_key_ERR(err_str, command, unknown, sub$, undefined))
+  if (unknowns.length > 0) {
+    throw new Error(
+      unknown_key_ERR(err_str, command, unknowns, _sub$, undefined)
+    )
   }
 
-  if (source$) feedCMD$fromSource$(command)
+  if (_source$) feedCMD$fromSource$(command)
 
   // more: https://github.com/thi-ng/umbrella/blob/develop/examples/rstream-event-loop/src/events.ts
   out$.subscribeTopic(
-    sub$,
-    { next: handler, error: console.warn },
-    map(({ args }) => args)
+    _sub$,
+    { next: _handler, error: console.warn },
+    map(emissions => emissions[args])
   )
+  let CMD = reso
+    ? { [sub$]: _sub$, [args]: _args, [reso]: _reso, [erro]: _erro }
+    : { [sub$]: _sub$, [args]: _args }
+  // Set.add not supported by IE
+  if (registered.set) {
+    if (registered.has(_sub$)) {
+      throw new Error(
+        `
 
-  let CMD = { sub$, args }
+🔥 duplicate \`sub$\` value detected in Command:
+${stringify_w_functions(CMD)}
+existing registered Commands:
+${JSON.stringify([...registered.keys()], null, 2)}
+🔥 Please use a different/unique Command \`sub$\` string
 
+🔎 Inspect existing Commands using js Map API \`registerCMD.all\`
+🔎 (\`registerCMD.all.entries()\`, \`registerCMD.all.has("X")\`, etc.)
+
+        `
+      )
+    }
+    registered.set(_sub$, CMD)
+  }
   return CMD
 }
+/**
+ * enables inspection of the existing Command registrations
+ * if using Chrome, there's an additional advantage of being
+ * able to find the `[[FunctionLocation]]` of the Command,
+ * @example
+ * registerCMD.all.entries()
+ * // => ⬇ [[Entries]]
+ * //      ⬇ 0: {"HURL_CMD" => Object}
+ * //          key: "HURL_CMD"
+ * //        ⬇ value:
+ * //            sub$: "HURL_CMD"
+ * //          ⬇ args: ev => ev
+ * //              arguments: (...)
+ * //              caller: (...)
+ * //              length: 1
+ * //              name: "args"
+ * //            ➡ __proto__: ƒ ()
+ * //              [[FunctionLocation]]: routing.js:32 (♻ Chrome)
+ * //            ➡ [[Scopes]]: Scopes[2]
+ */
+registerCMD.all = registered
 
+/**
+ *
+ * expects payload of
+ * ```
+ * { target: { location: { href } }, currentTarget }
+ * ```
+ */
 export const registerRouterDOM = router => {
   console.log("DOM Router Registered")
 
-  const taskFrom = _URL_DOM__ROUTE(router)
+  const taskFrom = __URL_DOM__ROUTE(router)
   return registerCMD({
-    sub$: "_URL_NAVIGATED$_DOM",
-    source$: DOMnavigated$,
-    args: x => x,
-    handler: ({ URL, DOM }) => run$.next(taskFrom({ URL, DOM }))
+    [source$]: DOMnavigated$,
+    [sub$]: "_URL_NAVIGATED$_DOM",
+    [args]: x => x,
+    [handler]: args =>
+      run$.next(taskFrom({ [URL]: args[URL], [DOM]: args[DOM] }))
   })
 }
 
 export const registerRouter = router => {
-  console.log("DOM Router Registered")
+  console.log("Router Registered")
 
-  const taskFrom = _URL__ROUTE(router)
+  const taskFrom = __URL__ROUTE(router)
   return registerCMD({
-    sub$: "_URL_NAVIGATED$",
-    source$: DOMnavigated$,
-    args: x => x,
-    handler: ({ URL, DOM }) => run$.next(taskFrom({ URL, DOM }))
+    [sub$]: "_URL_NAVIGATED$",
+    // 📌 TODO: add source for API access/server source$
+    [source$]: DOMnavigated$,
+    [args]: x => x,
+    [handler]: ({ URL, DOM }) => run$.next(taskFrom({ URL, DOM }))
   })
+}
+
+/**
+ *
+ *  Part I: Needs to be a functional component to accept the
+ *  `ctx` object to pass it to children
+ *
+ *  Part II: Takes the root RAF stream and updates the shell
+ *  on every global state mutation
+ *
+ *  Part III: Connects the app shell to the state stream,
+ *  which is triggered by any updates to the global
+ *  `$store$`
+ */
+export const boot = async ({
+  root = document.body,
+  app = (ctx, body) => (
+    console.log(
+      "no `app` component provided to `boot({app})`. Rendering state"
+    ),
+    ["pre", JSON.stringify(body, null, 2)]
+  ),
+  prefix = "",
+  draft,
+  router,
+  trace,
+  ...others
+}) => {
+  if (router) registerRouterDOM(router)
+
+  // console.log({ URL_page })
+
+  const escaped = string => string.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&amp;")
+
+  const RGX = new RegExp(escaped(prefix), "g")
+
+  const state$ = fromAtom($store$)
+
+  const shell = state$ => (
+    trace ? console.log(trace, state$) : null,
+    state$[ROUTE_LOADING]
+      ? null
+      : [app, [state$[PAGE_TEMPLATE], getIn(state$, state$[ROUTE_PATH])]]
+  )
+  if (draft) $store$.swap(x => ({ ...draft, ...x }))
+  $store$.resetIn(ROOT, root)
+
+  state$.subscribe(sidechainPartition(fromRAF())).transform(
+    map(peek),
+    map(shell),
+    updateDOM({
+      root,
+      span: false,
+      ctx: {
+        [run]: x => run$.next(x),
+        [state]: $store$,
+        // remove any staging path components (e.g., gh-pages)
+        [parseURL]: () => parse_URL(window.location.href.replace(RGX, "")), // &lt;- 🔍
+        ...others
+      }
+    })
+  )
 }
 </code></pre>
   </article>

@@ -1,4 +1,5 @@
 import { registerCMD } from "../register"
+import { URL_data, sub$, args, handler, HEAD } from "../store"
 
 export const setFavicon = href => {
   let link =
@@ -77,11 +78,11 @@ export const HEAD_CMD = ({
 
 export const INJECT_HEAD_CMD = registerCMD({
   // source$: DOMnavigated$,
-  sub$: "INJECT_HEAD_CMD",
-  args: ({ URL_data }) => ({ URL_data }),
-  handler: ({
-    URL_data: {
-      HEAD: { title, description, image, favicon, type }
+  [sub$]: "INJECT_HEAD_CMD",
+  [args]: acc => ({ [URL_data]: acc[URL_data] }),
+  [handler]: ({
+    [URL_data]: {
+      [HEAD]: { title, description, image, favicon, type }
     }
   }) => replaceMeta(HEAD_CMD({ title, description, image, favicon, type }))
 })

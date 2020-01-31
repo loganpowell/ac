@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>
-      registerCMD - Documentation
+      store/index.js - Documentation
   </title>
 
   <link href="https://www.braintreepayments.com/images/favicon-ccda0b14.png" rel="icon" type="image/png">
@@ -88,335 +90,87 @@
   <div id="main">
     
       <h1 class="page-title">
-        registerCMD
+        store/index.js
       </h1>
     
 
     
+      
 
 <section>
-  <header>
-    
-      
-  </header>
-
   <article>
-    <div class="container-overview">
-      
-        
+    <pre class="prettyprint source linenums"><code>import { Atom } from "@thi.ng/atom"
+import { isPlainObject, isArray } from "@thi.ng/checks"
 
-        
-      
-    </div>
+// parse_URL constants
+export const DOM = "DOM"
+export const URL = "URL"
+export const URL_path = "URL_path"
+export const URL_data = "URL_data"
+export const URL_domain = "URL_domain"
+export const URL_query = "URL_query"
+export const URL_hash = "URL_hash"
+export const URL_page = "URL_page"
 
-    
+// optional router metadata constants
+export const BODY = "BODY"
+export const HEAD = "HEAD"
+export const pre = "pre"
+export const post = "post"
+export const router = "router"
 
-    
+// state setting Command constants
+export const sub$ = "sub$"
+export const args = "args"
+export const reso = "reso"
+export const erro = "erro"
+export const handler = "handler"
+export const source$ = "source$"
+export const STATE = "STATE"
+export const PATH = "PATH"
 
-    
+// boot config constants
+export const run = "run"
+export const state = "state"
+export const parseURL = "parseURL"
 
-     
+// Global state keys/constants
+export const ROUTE_PATH = "_ROUTE_PATH"
+export const ROUTE_LOADING = "_ROUTE_LOADING"
+export const PAGE_TEMPLATE = "_PAGE_TEMPLATE"
+export const ROOT = "_ROOT"
 
-    
-
-    
-        <h3 class="subsection-title">Members</h3>
-
-        
-            
-
-<h4 class="name" id="~registered">
-  <span class="type-signature">(inner) </span>registered<span class="type-signature"></span>
-</h4>
-
-
-
-
-  <div class="description">
-    <h2><code>registerCMD</code></h2>
-<p>Takes a Command object with some additional information
-and returns a Command usable in a Task or as-is. This
-also serves the additional benefit of giving the user a
-constant to use instead of making any typos in keys
-during use.</p>
-<h3>Destructuring Behavior</h3>
-<p>During a <code>sub$</code> registration, the keys in the Command
-object are used to determine the signature of incoming
-Commands. In order to reduce the amount of boilerplate
-for Commands that only contain the <code>sub$</code> and <code>args</code> key,
-the <code>args</code> key is
-<a href="https://github.com/thi-ng/umbrella/blob/master/packages/transducers/src/xform/pluck.ts">pluck</a>ed
-from the incoming Commands. This pulls the <code>args</code> value
-out from the incoming Command objects to be used directly
-(without the need for dstructuring).</p>
-<h3>Example</h3>
-<pre class="prettyprint source lang-js"><code>import { registerCMD, run$ } from &quot;🍎&quot;
-
-const cmd_pathless = {
-  sub$: &quot;PATHLESS&quot;,
-  args: { static: &quot;payload&quot; }
+export const DEFAULT_CFG = {
+  [ROUTE_PATH]: null, // home page / defaults to empty path
+  [ROUTE_LOADING]: true,
+  [PAGE_TEMPLATE]: null,
+  [ROOT]: null
 }
+// Global $store$ Container from [@thi.ng/atom](http://thi.ng/atom)
+export let $store$ = new Atom(DEFAULT_CFG)
 
-const pathless_handler = x => console.log(&quot;pathless ->&quot;, x)
-
-const CMD_PATHLESS = registerCMD(cmd_pathless, pathless_handler)
-
-run$.next(CMD_PATHLESS) // 🏃
-// pathless -> { static: 'payload' }
-
-const cmd_path = {
-  sub$: &quot;PATH&quot;,
-  args: { static: &quot;payload&quot; },
-  path: [&quot;default&quot;, &quot;path&quot;]
-}
-
-const path_handler = x => console.log(&quot;path ->&quot;, x)
-
-const CMD_PATH = registerCMD(cmd_path, path_handler)
-
-run$.next(CMD_PATH) // 🏃
-// path -> { args: { static: 'payload' }, path: [ 'default', 'path' ] }
-
-const test_pathless = {
-  sub$: &quot;PATHLESS&quot;,
-  args: &quot;🔥&quot;
-}
-
-run$.next(test_pathless) // 🏃
-// pathless -> &quot;🔥&quot;
-// as you can see, the Command args have been plucked out
-
-const test_path = {
-  sub$: &quot;PATH&quot;,
-  args: &quot;🌊&quot;,
-  path: [&quot;new&quot;, &quot;path&quot;]
-}
-
-run$.next(test_path) // 🏃
-// path -> { args: '🌊', path: [ 'new', 'path' ] }
-// only the sub$ entry has been removed leaving the rest
-
-// NOW: Let's stick these into a Task
-let TASK_1 = [
-  { ...CMD_PATH, path: &quot;overwritten&quot; },
-  CMD_PATHLESS,
-  { ...test_path, args: &quot;🍝&quot; }
-]
-run$.next(TASK_1)
-// path -> { args: { static: 'payload' }, path: 'overwritten' }
-// pathless -> { static: 'payload' }
-// path -> { args: '🍝', path: [ 'new', 'path' ] }
-
+/**
+ *
+ *  Swaps the current value at the given path/lens into the
+ *  global store with that of the given value. Checks to see
+ *  if that value should be either spread into an existing
+ *  object or a complete replacement
+ *
+ */
+export const set$State = (path, val) =>
+  $store$.swapIn(path, x =>
+    !path.length &amp;&amp; !isPlainObject(val)
+      ? { ...x, [val]: val }
+      : isPlainObject(x) &amp;&amp; isPlainObject(val)
+      ? { ...x, ...val }
+      : val
+  )
+// $store$.resetIn(path, val)
 </code></pre>
-  </div>
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="register_index.js.html">register/index.js</a>, <a href="register_index.js.html#line138">line 138</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-          
-        
-            
-
-<h4 class="name" id=".registerRouterDOM">
-  <span class="type-signature">(static, constant) </span>registerRouterDOM<span class="type-signature"></span>
-</h4>
-
-
-
-
-  <div class="description">
-    <p>expects payload of</p>
-<pre class="prettyprint source"><code>{ target: { location: { href } }, currentTarget }
-</code></pre>
-  </div>
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="register_index.js.html">register/index.js</a>, <a href="register_index.js.html#line227">line 227</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-          
-        
-            
-
-<h4 class="name" id=".boot">
-  <span class="type-signature">(static, constant) </span>boot<span class="type-signature"></span>
-</h4>
-
-
-
-
-  <div class="description">
-    <p>Part I: Needs to be a functional component to accept the
-<code>ctx</code> object to pass it to children</p>
-<p>Part II: Takes the root RAF stream and updates the shell
-on every global state mutation</p>
-<p>Part III: Connects the app shell to the state stream,
-which is triggered by any updates to the global
-<code>$store$</code></p>
-  </div>
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="register_index.js.html">register/index.js</a>, <a href="register_index.js.html#line265">line 265</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-          
-        
-    
-
-    
-
-    
-
-    
   </article>
 </section>
 
-
+    
 
 
   </div>

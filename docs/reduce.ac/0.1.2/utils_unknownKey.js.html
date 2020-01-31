@@ -84,7 +84,7 @@
       
     
 
-    <h3>Modules</h3><ul><li id="registerCMD-nav"><a href="module-registerCMD.html">registerCMD</a></li><li id="Tasks-nav"><a href="module-Tasks.html">Tasks</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#_SET_PAGE_STATE">_SET_PAGE_STATE</a></li><li><a href="global.html#_SET_ROUTER_LOADING_STATE">_SET_ROUTER_LOADING_STATE</a></li><li><a href="global.html#_SET_ROUTER_PATH">_SET_ROUTER_PATH</a></li><li><a href="global.html#_SET_LINK_ATTRS_DOM">_SET_LINK_ATTRS_DOM</a></li><li><a href="global.html#_HREF_PUSHSTATE_DOM">_HREF_PUSHSTATE_DOM</a></li><li><a href="global.html#_NOTIFY_PRERENDER_DOM">_NOTIFY_PRERENDER_DOM</a></li><li><a href="global.html#_URL__ROUTE">_URL__ROUTE</a></li><li><a href="global.html#parse_URL">parse_URL</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#stringify_w_functions">stringify_w_functions</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
+    <h3>Modules</h3><ul><li id="registerCMD-nav"><a href="module-registerCMD.html">registerCMD</a></li><li id="Tasks-nav"><a href="module-Tasks.html">Tasks</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#FLIP_first">FLIP_first</a></li><li><a href="global.html#zIndex">zIndex</a></li><li><a href="global.html#FLIP_last_invert_play">FLIP_last_invert_play</a></li><li><a href="global.html#state">state</a></li><li><a href="global.html#__SET_LINK_ATTRS_DOM">__SET_LINK_ATTRS_DOM</a></li><li><a href="global.html#__HREF_PUSHSTATE_DOM">__HREF_PUSHSTATE_DOM</a></li><li><a href="global.html#__NOTIFY_PRERENDER_DOM">__NOTIFY_PRERENDER_DOM</a></li><li><a href="global.html#set$State">set$State</a></li><li><a href="global.html#__URL_DOM__ROUTE">__URL_DOM__ROUTE</a></li><li><a href="global.html#parse_URL">parse_URL</a></li><li><a href="global.html#unparse_URL">unparse_URL</a></li><li><a href="global.html#censusURL">censusURL</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#stringify_w_functions">stringify_w_functions</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
   </nav>
 
   <div id="main">
@@ -144,35 +144,74 @@ export const key_index_err = (c, i) => {
  * Just a  little error for people defining commands
  * that makes sure their keys don't contain typos
  */
-export const unknown_key_ERR = (str, c, unknown, sub$, index) => `
+export const unknown_key_ERR = (str, c, unknown, sub$, index) => {
+
+  let { source$ } = c
+  let count = Object.entries(c).length
+
+  return `
+
   🔥 ${ str } ERROR:
-  🔥
+  
   🔥 Unrecognized Command Key(s)
   
   FAULTY sub$: "${ sub$ }" 
-  ${ Object.keys(unknown)[0] 
+  ${ Object.keys(unknown)[0][0] 
   ? `
   ${ index ? key_index_err(c, index) : "" }
 
   The problematic entry/entries: 
 
-  🤔 ${stringify_w_functions(unknown, 2)}` 
+  🤔 ${!index &amp;&amp; count > 3 &amp;&amp; !source$ ? `${Object.entries(unknown)[0][0]}: &lt;Stream>`:   stringify_w_functions(unknown, 2)}` 
   : "" } 🤔
 
-  ACCEPTABLE ENTRY KEYS: 
-  - sub$: topic key for for registering &amp; targeting Commands ${ 
-  index ? `  
-  - args: payload for the handler of the Command  
-  - reso: converts resolved Promise payloads to Command args
-  - erro: handles rejected Promise payloads`
+  ACCEPTABLE ENTRY KEYS ${ index ? "WITHIN A COMMAND" : "DURING REGISTRATION"}: 
+
+  'sub$' 
+    - optional 
+    - topic key for for registering &amp; targeting Commands 
+    - signatures:
+      - "X"    : String: Topic key
+      - XX$    : Stream: for dispatching args to custom stream
+
+  'args' 
+    - required 
+    - payload or accumulator reshaping payload function (Promises OK)
+    - signatures:
+      - PRI    : primitive: static payload -> is NOT accumulated
+      - {?}    : object: static payload -> is accumulated 
+      - (+) => : function (non-nullary): dispatch payload from 
+                values accumulated from prior Command payloads
+      - (0) => : thunk (nullary): dispatch to custom stream
+      - {P}    : Promise or (#) => {P} Promise returning function
+      
+  'reso' 
+    - required for Promise handling 
+    - converts resolved Promise payloads to Command args
+    - signature:
+      - ({A: accumulator}, {P: resolved Promise}) =>  
+
+  'erro' 
+    - recommended for Promise rejections 
+    - handles rejected Promise payloads
+    - signature:
+      - ({A: accumulator}, {E: error object}) =>  
+  ${ index ? ``
   : `
-  - args: static payload or payload reshaping function
-  - handler: function that is called on payload's arrival
-  - source$: source stream (see http://thi.ng/rstream)`
-}
+  'handler' 
+    - required 
+    - function that is called on payload's arrival
+    - signature: 
+      - (#) => : function instruments actual side-effects/work 
+  
+  'source$' 
+    - advanced/optional 
+    - source stream (see http://thi.ng/rstream)`
+  }
 
   Hope that helps!
   `
+}
 </code></pre>
   </article>
 </section>

@@ -4,10 +4,27 @@ import {
   __HREF_PUSHSTATE_DOM,
   __NOTIFY_PRERENDER_DOM,
   __SET_LINK_ATTRS_DOM,
-  __SET_ROUTER_LOADING_STATE,
-  __SET_ROUTER_PATH,
-  __SET_PAGE_STATE
+  __SET_STATE
 } from "../commands"
+import {
+  PAGE_TEMPLATE,
+  ROUTE_LOADING,
+  ROUTE_PATH,
+  DOM,
+  URL,
+  URL_data,
+  URL_path,
+  URL_page,
+  pre,
+  post,
+  router,
+  args,
+  reso,
+  erro,
+  BODY,
+  STATE,
+  PATH
+} from "../store"
 // import { log$ } from "../streams"
 // import scrolly from "@mapbox/scroll-restorer"
 
@@ -39,31 +56,75 @@ import {
  * - `URL`
  * - `DOM`
  */
-export const __URL__ROUTE = routerCfg => {
-  let _router, _pre, _post
-  if (isObject(routerCfg)) {
-    let { router, pre, post } = routerCfg
+export const __URL__ROUTE = CFG => {
+  let __router, __pre, __post
+  if (isObject(CFG)) {
+    let _router = CFG[router]
+    let _pre = CFG[pre]
+    let _post = CFG[post]
     // console.log({ router, pre, post })
-    _router = router
-    _pre = isObject(pre) ? [pre] : pre || []
-    _post = isObject(post) ? [post] : post || []
+    __router = _router
+    __pre = isObject(_pre) ? [_pre] : _pre || []
+    __post = isObject(_post) ? [_post] : _post || []
   } else {
-    _router = routerCfg
-    _pre = []
-    _post = []
+    __router = CFG
+    __pre = []
+    __post = []
   }
   return ({ URL }) => [
-    ..._pre, // 📌 enable progress observation
-    __SET_ROUTER_LOADING_STATE,
+    ...__pre, // 📌 enable progress observation
+    /**
+     * ## `_SET_ROUTER_LOADING_STATE`cod
+     *
+     * Routing Command: Universal
+     *
+     * ### Payload: static
+     * default payload `args` signature:
+     * ```
+     * args: true,
+     * ```
+     * Simple true or false payload to alert handler
+     *
+     * ### Handler: side-effecting
+     * Sets `route_loading` path in global Atom to true || false
+     *
+     */
     {
-      args: _router(URL),
-      reso: (acc, { URL_page, URL_data }) => ({ URL_page, URL_data }),
-      erro: (acc, err) =>
+      [args]: __router(URL),
+      [reso]: (acc, res) => ({
+        [URL_page]: res[URL_page],
+        [URL_data]: res[URL_data]
+      }),
+      [erro]: (acc, err) =>
         console.warn("Error in __URL__ROUTE:", err, "constructed:", acc)
     },
-    { args: parse_URL(URL) },
-    __SET_ROUTER_PATH,
-    ..._post
+    { [args]: parse_URL(URL) },
+    /**
+     * ## `_SET_ROUTER_PATH`
+     *
+     * Routing Command: Universal
+     *
+     * ### Payload: function
+     * default payload `args` signature:
+     * ```
+     * args: ({ URL_path }) => ({ URL_path }),
+     * ```
+     * Consumes the `URL_path` property from a `parse_URL`
+     * object, handed off from a prior Command
+     *
+     * ### Handler: side-effecting
+     * Sets the current/loading router's `route_path` in the
+     * global Atom
+     *
+     */
+    {
+      ...__SET_STATE,
+      args: acc => ({
+        [STATE]: acc[URL_path],
+        [PATH]: [ROUTE_PATH]
+      })
+    },
+    ...__post
   ]
 }
 
@@ -97,24 +158,63 @@ export const __URL__ROUTE = routerCfg => {
  * - `URL_path`
  * - `URL_data`
  */
-export const __URL_DOM__ROUTE = routerCfg => {
+export const __URL_DOM__ROUTE = CFG => {
   // autoscroll view into position
   // scrolly.start()
 
   // instantiate router
-  let match = __URL__ROUTE(routerCfg)
+  let match = __URL__ROUTE(CFG)
 
-  return ({ URL, DOM }) => [
-    { ...__HREF_PUSHSTATE_DOM, args: { URL, DOM } },
+  return acc => [
+    {
+      ...__SET_STATE,
+      args: {
+        [PATH]: [ROUTE_LOADING],
+        [STATE]: true
+      }
+    },
+    { ...__HREF_PUSHSTATE_DOM, args: { [URL]: acc[URL], [DOM]: acc[DOM] } },
     // example Subtask injection
-    ({ URL }) => match({ URL }),
+    acc => match({ [URL]: acc[URL] }),
     // { args: msTaskDelay(2000) },
-    __SET_PAGE_STATE,
+    /**
+     * takes the result from two sources: the user-provided
+     * `router` ([@thi.ng/associative:
+     * EquivMap](http://thi.ng/associative)) and the `URL_path`
+     * from `parse_URL(URL)`
+     *
+     * ### Handler: side-effecting
+     * Hydrates the page state as well as the name of the active
+     * page in the global store
+     *
+     */
+    {
+      ...__SET_STATE,
+      args: acc => ({
+        [PATH]: [PAGE_TEMPLATE],
+        [STATE]: acc[URL_page]
+      })
+    },
+    {
+      ...__SET_STATE,
+      args: acc => ({
+        [PATH]: acc[URL_path],
+        [STATE]: acc[URL_data][BODY] || acc[URL_data]
+      })
+    },
     // wait on pending promise(s) w/a non-nullary fn (+)=>
-    { ...__SET_ROUTER_LOADING_STATE, args: _ => false },
+
+    // { ...__SET_ROUTER_LOADING_STATE, args: _ => false },
     // example ad-hoc stream injection
     // { sub$: log$, args: () => ({ DOM }) },
     __SET_LINK_ATTRS_DOM,
+    {
+      ...__SET_STATE,
+      args: _ => ({
+        [PATH]: [ROUTE_LOADING],
+        [STATE]: false
+      })
+    },
     __NOTIFY_PRERENDER_DOM
   ]
 }

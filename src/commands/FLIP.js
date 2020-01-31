@@ -1,7 +1,7 @@
-import { getIn } from "@thi.ng/paths"
 import { Atom } from "@thi.ng/atom"
-import { HURL } from "../commands"
-
+import { getIn } from "@thi.ng/paths"
+import { registerCMD } from "../register"
+import { sub$, args, handler } from "../store"
 //
 //    d8                  888
 //  _d88__  e88~-_   e88~\888  e88~-_
@@ -39,6 +39,7 @@ const shuffle_paths = uid => ({
   rects: ["_FLIP_shuffle", "rects", uid],
   elems: ["_FLIP_shuffle", "elems", uid]
 })
+
 export const FLIP_all = (el, state, uid, frameDOMel = null) => {
   let { rects } = shuffle_paths(uid)
 
@@ -119,12 +120,12 @@ const zIndex = (el, idx) => (el.style.zIndex = idx)
  *    the init do the calcs with no frame
  */
 export const FLIP_last_invert_play = ({
-  el,
+  element,
   state,
   id,
   transition = "all .4s cubic-bezier(.54,-0.29,.17,1.11)"
 }) => {
-  el.setAttribute("flip", id)
+  element.setAttribute("flip", id)
   let { rects, clicks, scrolls } = zoom_paths(id)
 
   let F_flip_map = getIn(state.deref(), rects) || null
@@ -132,7 +133,7 @@ export const FLIP_last_invert_play = ({
   if (!F_flip_map) return
 
   // 🕛 if flip active, scroll element on init
-  el.scrollIntoView()
+  element.scrollIntoView()
   /**
    * 🔥 this may cause issues for parrallel anims append this
    * to a specific target using:
@@ -141,7 +142,7 @@ export const FLIP_last_invert_play = ({
    *
    */
   // 🕞 then calculate location and size
-  let L_flip_map = getRect(el)
+  let L_flip_map = getRect(element)
   let Tx = F_flip_map.left - L_flip_map.left
   let Ty = F_flip_map.top - L_flip_map.top
   let Sx = F_flip_map.width / L_flip_map.width
@@ -154,10 +155,10 @@ export const FLIP_last_invert_play = ({
 
   // console.log({ F_flip_map, L_flip_map, middle })
 
-  el.style.transformOrigin = "0 0"
-  el.style.transition = ""
+  element.style.transformOrigin = "0 0"
+  element.style.transition = ""
   let trans = `translate(${Tx}px, ${Ty}px) scale(${Sx}, ${Sy})`
-  el.style.transform = trans
+  element.style.transform = trans
 
   // PLAY
   requestAnimationFrame(() => {
@@ -165,14 +166,14 @@ export const FLIP_last_invert_play = ({
     window.scrollTo(x, y)
 
     // just baffle them with https://cubic-bezier.com/
-    el.style.transition = transition
-    el.style.transform = "none"
+    element.style.transition = transition
+    element.style.transform = "none"
     // 💩 hack for removing zIndex after animation is complete
     // 📌 TODO:    🔻 GOOD PLACE FOR AN `onComplete` hook animation/callback
-    setTimeout(() => zIndex(el, 0), 200)
+    setTimeout(() => zIndex(element, 0), 200)
   })
   // move element to front
-  zIndex(el, 1)
+  zIndex(element, 1)
   // 🔍 consider exposing in the API
 
   let clicked = getIn(state.deref(), clicks) || null
@@ -201,77 +202,16 @@ export const FLIP_last_invert_play = ({
  *  - PLAY
  */
 
-const $FLIP$ = new Atom({})
+const state = new Atom({})
 
-/**
- * There're only 3 lifecycle hooks. render is called for
- * every update and is just providing the actual hiccup for
- * that component. if that component is used the first time,
- * the order is normalizeTree ->  render -> diff ->  init.
- * The actual DOM element is only known when init is called,
- * NEVER during render (though you could cache it as local
- * component state). If during diffing it turns out the
- * component is not used anymore, then release will be
- * called
- *
- * if the object identity of your life cycle component
- * changes with every update then that count as full
- * replacement and would trigger init each time:
- *
- * https://github.com/thi-ng/umbrella/wiki/Higher-order-components
- *
- * init is called in so called "post-order", i.e. when it
- * executes all children are already present in the DOM (and
- * might have had their init hooks called) first time = 1st
- * frame the component appears in the DOM
- *
- */
-
-const err_str = prop => `
-No '${prop}' property found on FLIPkid firstChild. 
-Ensure you are providing FLIPkid a component with an 
-attributes object as its second argument with a ${prop}
-property for proper FLIP routing.
-`
-
-// const [tag, attrs, ..._args] = kid(ctx, ...args)
-// const { href } = attrs
-
-const proxyFrom = href => ({
-  preventDefault: () => null,
-  currentTarget: { document: null },
-  target: {
-    href
-  }
+export const FLIP_1ST = registerCMD({
+  [sub$]: "FLIP_1ST",
+  [args]: x => x,
+  [handler]: ({ id, target }) => FLIP_first({ id, target, state })
 })
 
-let attrs = {
-  onclick: ev => {
-    ev.preventDefault()
-    const target = ev.target
-    const href = target.getAttribute("href")
-    // console.log({ target, href })
-    if (!href) return new Error(err_str("href"))
-    HURL(proxyFrom(href))
-    FLIP_first({
-      state: $FLIP$,
-      id: href,
-      target
-    })
-  }
-}
-
-export const FLIPkid = {
-  render: (ctx, ...args) => ["a", attrs, ...args],
-  init: el =>
-    // console.log({
-    //   el,
-    //   firstChild: el.firstChild,
-    //   id: el.firstChild.getAttribute("href")
-    // }),
-    FLIP_last_invert_play({
-      el: el.firstChild,
-      state: $FLIP$,
-      id: el.firstChild.getAttribute("href")
-    })
-}
+export const FLIP_LIP = registerCMD({
+  [sub$]: "FLIP_LIP",
+  [args]: x => x,
+  [handler]: ({ id, element }) => FLIP_last_invert_play({ id, element, state })
+})

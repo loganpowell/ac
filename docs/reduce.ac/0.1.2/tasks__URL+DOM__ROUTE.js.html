@@ -84,7 +84,7 @@
       
     
 
-    <h3>Modules</h3><ul><li id="registerCMD-nav"><a href="module-registerCMD.html">registerCMD</a></li><li id="Tasks-nav"><a href="module-Tasks.html">Tasks</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#_SET_PAGE_STATE">_SET_PAGE_STATE</a></li><li><a href="global.html#_SET_ROUTER_LOADING_STATE">_SET_ROUTER_LOADING_STATE</a></li><li><a href="global.html#_SET_ROUTER_PATH">_SET_ROUTER_PATH</a></li><li><a href="global.html#_SET_LINK_ATTRS_DOM">_SET_LINK_ATTRS_DOM</a></li><li><a href="global.html#_HREF_PUSHSTATE_DOM">_HREF_PUSHSTATE_DOM</a></li><li><a href="global.html#_NOTIFY_PRERENDER_DOM">_NOTIFY_PRERENDER_DOM</a></li><li><a href="global.html#_URL__ROUTE">_URL__ROUTE</a></li><li><a href="global.html#parse_URL">parse_URL</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#stringify_w_functions">stringify_w_functions</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
+    <h3>Modules</h3><ul><li id="registerCMD-nav"><a href="module-registerCMD.html">registerCMD</a></li><li id="Tasks-nav"><a href="module-Tasks.html">Tasks</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#FLIP_first">FLIP_first</a></li><li><a href="global.html#zIndex">zIndex</a></li><li><a href="global.html#FLIP_last_invert_play">FLIP_last_invert_play</a></li><li><a href="global.html#state">state</a></li><li><a href="global.html#__SET_LINK_ATTRS_DOM">__SET_LINK_ATTRS_DOM</a></li><li><a href="global.html#__HREF_PUSHSTATE_DOM">__HREF_PUSHSTATE_DOM</a></li><li><a href="global.html#__NOTIFY_PRERENDER_DOM">__NOTIFY_PRERENDER_DOM</a></li><li><a href="global.html#set$State">set$State</a></li><li><a href="global.html#__URL_DOM__ROUTE">__URL_DOM__ROUTE</a></li><li><a href="global.html#parse_URL">parse_URL</a></li><li><a href="global.html#unparse_URL">unparse_URL</a></li><li><a href="global.html#censusURL">censusURL</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#stringify_w_functions">stringify_w_functions</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
   </nav>
 
   <div id="main">
@@ -99,17 +99,135 @@
 
 <section>
   <article>
-    <pre class="prettyprint source linenums"><code>// import { parse_URL, delay } from "../utils"
-import { parse_URL } from "../utils"
+    <pre class="prettyprint source linenums"><code>import { isObject } from "@thi.ng/checks"
+import { parse_URL, msTaskDelay } from "../utils"
 import {
-  _HREF_PUSHSTATE_DOM,
-  _NOTIFY_PRERENDER_DOM,
-  _SET_LINK_ATTRS_DOM,
-  _SET_ROUTER_LOADING_STATE,
-  _SET_ROUTER_PATH,
-  _SET_PAGE_STATE
+  __HREF_PUSHSTATE_DOM,
+  __NOTIFY_PRERENDER_DOM,
+  __SET_LINK_ATTRS_DOM,
+  __SET_STATE
 } from "../commands"
+import {
+  PAGE_TEMPLATE,
+  ROUTE_LOADING,
+  ROUTE_PATH,
+  DOM,
+  URL,
+  URL_data,
+  URL_path,
+  URL_page,
+  pre,
+  post,
+  router,
+  args,
+  reso,
+  erro,
+  BODY,
+  STATE,
+  PATH
+} from "../store"
 // import { log$ } from "../streams"
+// import scrolly from "@mapbox/scroll-restorer"
+
+/**
+ *
+ * `_URL__ROUTE`
+ *
+ * Universal router (cross-platform) Subtask.
+ *
+ * This can be used in both a browser and Node context. The
+ * parts that handle browser side-effects are included in an
+ * Supertask `_URL__ROUTE`
+ *
+ * Pseudo
+ * ```
+ * ( router ) => ({ URL }) => [
+ * - set `router_loading` path in global atom to `true`
+ * - call provided `router` with the `URL` and await payload
+ * - `parse_URL(URL)` for `URL_*` components
+ * - set `route_path` in global store/atom to current `URL_path`
+ * - set page state (data, path &amp; page component name) in store
+ * - once promise(s) resolved, set `router_loading` to `false`
+ * ]
+ * ```
+ * reserved Command keys:
+ * - `URL_page`
+ * - `URL_data`
+ * - `URL_path`
+ * - `URL`
+ * - `DOM`
+ */
+export const __URL__ROUTE = CFG => {
+  let __router, __pre, __post
+  if (isObject(CFG)) {
+    let _router = CFG[router]
+    let _pre = CFG[pre]
+    let _post = CFG[post]
+    // console.log({ router, pre, post })
+    __router = _router
+    __pre = isObject(_pre) ? [_pre] : _pre || []
+    __post = isObject(_post) ? [_post] : _post || []
+  } else {
+    __router = CFG
+    __pre = []
+    __post = []
+  }
+  return ({ URL }) => [
+    ...__pre, // 📌 enable progress observation
+    /**
+     * ## `_SET_ROUTER_LOADING_STATE`cod
+     *
+     * Routing Command: Universal
+     *
+     * ### Payload: static
+     * default payload `args` signature:
+     * ```
+     * args: true,
+     * ```
+     * Simple true or false payload to alert handler
+     *
+     * ### Handler: side-effecting
+     * Sets `route_loading` path in global Atom to true || false
+     *
+     */
+    {
+      [args]: __router(URL),
+      [reso]: (acc, res) => ({
+        [URL_page]: res[URL_page],
+        [URL_data]: res[URL_data]
+      }),
+      [erro]: (acc, err) =>
+        console.warn("Error in __URL__ROUTE:", err, "constructed:", acc)
+    },
+    { [args]: parse_URL(URL) },
+    /**
+     * ## `_SET_ROUTER_PATH`
+     *
+     * Routing Command: Universal
+     *
+     * ### Payload: function
+     * default payload `args` signature:
+     * ```
+     * args: ({ URL_path }) => ({ URL_path }),
+     * ```
+     * Consumes the `URL_path` property from a `parse_URL`
+     * object, handed off from a prior Command
+     *
+     * ### Handler: side-effecting
+     * Sets the current/loading router's `route_path` in the
+     * global Atom
+     *
+     */
+    {
+      ...__SET_STATE,
+      args: acc => ({
+        [STATE]: acc[URL_path],
+        [PATH]: [ROUTE_PATH]
+      })
+    },
+    ...__post
+  ]
+}
 
 /**
  *
@@ -134,65 +252,73 @@ import {
  * ]
  * ```
  *
+ * reserved Command keys:
+ * - `URL`
+ * - `DOM`
+ * - `URL_page`
+ * - `URL_path`
+ * - `URL_data`
  */
-export const _URL_DOM__ROUTE = router => {
-  // instantiate router configuration on registration
-  let match = _URL__ROUTE(router)
-  // Task signature is either a straight Array of Commands
-  // or a function that returns an Array of Commands
-  return ({ URL, DOM }) => [
-    { ..._HREF_PUSHSTATE_DOM, args: { URL, DOM } },
+export const __URL_DOM__ROUTE = CFG => {
+  // autoscroll view into position
+  // scrolly.start()
+
+  // instantiate router
+  let match = __URL__ROUTE(CFG)
+
+  return acc => [
+    {
+      ...__SET_STATE,
+      args: {
+        [PATH]: [ROUTE_LOADING],
+        [STATE]: true
+      }
+    },
+    { ...__HREF_PUSHSTATE_DOM, args: { [URL]: acc[URL], [DOM]: acc[DOM] } },
     // example Subtask injection
-    ({ URL }) => match({ URL }),
+    acc => match({ [URL]: acc[URL] }),
+    // { args: msTaskDelay(2000) },
+    /**
+     * takes the result from two sources: the user-provided
+     * `router` ([@thi.ng/associative:
+     * EquivMap](http://thi.ng/associative)) and the `URL_path`
+     * from `parse_URL(URL)`
+     *
+     * ### Handler: side-effecting
+     * Hydrates the page state as well as the name of the active
+     * page in the global store
+     *
+     */
+    {
+      ...__SET_STATE,
+      args: acc => ({
+        [PATH]: [PAGE_TEMPLATE],
+        [STATE]: acc[URL_page]
+      })
+    },
+    {
+      ...__SET_STATE,
+      args: acc => ({
+        [PATH]: acc[URL_path],
+        [STATE]: acc[URL_data][BODY] || acc[URL_data]
+      })
+    },
+    // wait on pending promise(s) w/a non-nullary fn (+)=>
+
+    // { ...__SET_ROUTER_LOADING_STATE, args: _ => false },
     // example ad-hoc stream injection
     // { sub$: log$, args: () => ({ DOM }) },
-    { ..._SET_LINK_ATTRS_DOM, args: { DOM } },
-    // just use default args
-    _NOTIFY_PRERENDER_DOM
+    __SET_LINK_ATTRS_DOM,
+    {
+      ...__SET_STATE,
+      args: _ => ({
+        [PATH]: [ROUTE_LOADING],
+        [STATE]: false
+      })
+    },
+    __NOTIFY_PRERENDER_DOM
   ]
 }
-
-/**
- *
- * `_URL__ROUTE`
- *
- * Universal router (cross-platform) Subtask.
- *
- * This can be used in both a browser and Node context. The
- * parts that handle browser side-effects are included in an
- * Supertask `_URL__ROUTE`
- *
- * Pseudo
- * ```
- * ( router ) => ({ URL }) => [
- * - set `router_loading` path in global atom to `true`
- * - call provided `router` with the `URL` and await payload
- * - `parse_URL(URL)` for `URL_*` components
- * - set `route_path` in global store/atom to current `URL_path`
- * - set page state (data, path &amp; page component name) in store
- * - once promise(s) resolved, set `router_loading` to `false`
- * ]
- * ```
- */
-export const _URL__ROUTE = router => ({ URL }) => [
-  // use default args
-  _SET_ROUTER_LOADING_STATE,
-  {
-    args: router(URL),
-    reso: (acc, { page, data }) => ({ page, data }),
-    erro: (acc, err) => console.warn(err)
-  },
-  // inject a delay
-  // { args: delay(100) },
-  { args: parse_URL(URL) },
-  { ..._SET_ROUTER_PATH, args: ({ URL_path }) => ({ URL_path }) },
-  {
-    ..._SET_PAGE_STATE,
-    args: ({ URL_path, page, data }) => ({ data, URL_path, page })
-  },
-  // if you need to wait on any pending promises, use a unary function
-  { ..._SET_ROUTER_LOADING_STATE, args: _ => false }
-]
 </code></pre>
   </article>
 </section>

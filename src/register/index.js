@@ -9,9 +9,26 @@ import { isFunction } from "@thi.ng/checks"
 import { getIn } from "@thi.ng/paths"
 
 import { command$, out$, run$, DOMnavigated$ } from "../streams"
-import { $store$, set$Root, ROUTE_LOADING, ROUTE_PATH } from "../store"
+import {
+  $store$,
+  ROUTE_LOADING,
+  ROUTE_PATH,
+  ROOT,
+  PAGE_TEMPLATE,
+  DOM,
+  URL,
+  sub$,
+  args,
+  reso,
+  erro,
+  source$,
+  handler,
+  parseURL,
+  run,
+  state
+} from "../store"
 import { __URL_DOM__ROUTE, __URL__ROUTE } from "../tasks"
-import { unknown_key_ERR, parse_URL } from "../utils"
+import { unknown_key_ERR, parse_URL, stringify_w_functions } from "../utils"
 
 const err_str = "registerCMD"
 
@@ -118,32 +135,87 @@ const feedCMD$fromSource$ = ({ sub$, args, source$ }) => {
  *  4. `source$` (optional, enables stream to feed Command)
  *
  */
-export const registerCMD = command => {
+let registered = new Map()
+
+export function registerCMD(command) {
   // 📌 TODO: register factory function
 
-  let { sub$, args, erro, reso, source$, handler, ...unknown } = command
+  let _sub$ = command[sub$]
+  let _args = command[args]
+  let _erro = command[erro]
+  let _reso = command[reso]
+  let _source$ = command[source$]
+  let _handler = command[handler]
+
+  let knowns = [sub$, args, reso, erro, source$, handler]
+  let all = Object.keys(command)
+  let unknowns = all.filter(key => !knowns.includes(key))
+  // console.log({ knowns, all, unknowns })
 
   /**
    * destructure the args component out of the emissions
    * to save the user from having to do that PITA everytime
    */
-  if (Object.keys(unknown).length > 0) {
-    throw new Error(unknown_key_ERR(err_str, command, unknown, sub$, undefined))
+  if (unknowns.length > 0) {
+    throw new Error(
+      unknown_key_ERR(err_str, command, unknowns, _sub$, undefined)
+    )
   }
 
-  if (source$) feedCMD$fromSource$(command)
+  if (_source$) feedCMD$fromSource$(command)
 
   // more: https://github.com/thi-ng/umbrella/blob/develop/examples/rstream-event-loop/src/events.ts
   out$.subscribeTopic(
-    sub$,
-    { next: handler, error: console.warn },
-    map(({ args }) => args)
+    _sub$,
+    { next: _handler, error: console.warn },
+    map(emissions => emissions[args])
   )
+  let CMD = reso
+    ? { [sub$]: _sub$, [args]: _args, [reso]: _reso, [erro]: _erro }
+    : { [sub$]: _sub$, [args]: _args }
+  // Set.add not supported by IE
+  if (registered.set) {
+    if (registered.has(_sub$)) {
+      throw new Error(
+        `
 
-  let CMD = reso ? { sub$, args, reso, erro } : { sub$, args }
+🔥 duplicate \`sub$\` value detected in Command:
+${stringify_w_functions(CMD)}
+existing registered Commands:
+${JSON.stringify([...registered.keys()], null, 2)}
+🔥 Please use a different/unique Command \`sub$\` string
 
+🔎 Inspect existing Commands using js Map API \`registerCMD.all\`
+🔎 (\`registerCMD.all.entries()\`, \`registerCMD.all.has("X")\`, etc.)
+
+        `
+      )
+    }
+    registered.set(_sub$, CMD)
+  }
   return CMD
 }
+/**
+ * enables inspection of the existing Command registrations
+ * if using Chrome, there's an additional advantage of being
+ * able to find the `[[FunctionLocation]]` of the Command,
+ * @example
+ * registerCMD.all.entries()
+ * // => ⬇ [[Entries]]
+ * //      ⬇ 0: {"HURL_CMD" => Object}
+ * //          key: "HURL_CMD"
+ * //        ⬇ value:
+ * //            sub$: "HURL_CMD"
+ * //          ⬇ args: ev => ev
+ * //              arguments: (...)
+ * //              caller: (...)
+ * //              length: 1
+ * //              name: "args"
+ * //            ➡ __proto__: ƒ ()
+ * //              [[FunctionLocation]]: routing.js:32 (♻ Chrome)
+ * //            ➡ [[Scopes]]: Scopes[2]
+ */
+registerCMD.all = registered
 
 /**
  *
@@ -157,10 +229,11 @@ export const registerRouterDOM = router => {
 
   const taskFrom = __URL_DOM__ROUTE(router)
   return registerCMD({
-    source$: DOMnavigated$,
-    sub$: "_URL_NAVIGATED$_DOM",
-    args: x => x,
-    handler: ({ URL, DOM }) => run$.next(taskFrom({ URL, DOM }))
+    [source$]: DOMnavigated$,
+    [sub$]: "_URL_NAVIGATED$_DOM",
+    [args]: x => x,
+    [handler]: args =>
+      run$.next(taskFrom({ [URL]: args[URL], [DOM]: args[DOM] }))
   })
 }
 
@@ -169,11 +242,11 @@ export const registerRouter = router => {
 
   const taskFrom = __URL__ROUTE(router)
   return registerCMD({
-    sub$: "_URL_NAVIGATED$",
+    [sub$]: "_URL_NAVIGATED$",
     // 📌 TODO: add source for API access/server source$
-    source$: DOMnavigated$,
-    args: x => x,
-    handler: ({ URL, DOM }) => run$.next(taskFrom({ URL, DOM }))
+    [source$]: DOMnavigated$,
+    [args]: x => x,
+    [handler]: ({ URL, DOM }) => run$.next(taskFrom({ URL, DOM }))
   })
 }
 
@@ -189,32 +262,38 @@ export const registerRouter = router => {
  *  which is triggered by any updates to the global
  *  `$store$`
  */
-export const kickstart = ({
+export const boot = async ({
   root = document.body,
-  app = "pre",
+  app = (ctx, body) => (
+    console.log(
+      "no `app` component provided to `boot({app})`. Rendering state"
+    ),
+    ["pre", JSON.stringify(body, null, 2)]
+  ),
   prefix = "",
+  draft,
   router,
-  theme,
-  state = $store$
+  trace,
+  ...others
 }) => {
-  set$Root(root)
+  if (router) registerRouterDOM(router)
+
+  // console.log({ URL_page })
+
   const escaped = string => string.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&")
 
-  const rgx = new RegExp(escaped(prefix), "g")
-
-  if (router) registerRouterDOM(router)
+  const RGX = new RegExp(escaped(prefix), "g")
 
   const state$ = fromAtom($store$)
 
-  const shell = state$ =>
+  const shell = state$ => (
+    trace ? console.log(trace, state$) : null,
     state$[ROUTE_LOADING]
       ? null
-      : [
-          app, // <- 🔍
-          // set defaults with || operators (needed before hydration)
-          // TODO: 🤔 about { BODY : {} } hardcode
-          getIn(state$, state$[ROUTE_PATH]) || {}
-        ]
+      : [app, [state$[PAGE_TEMPLATE], getIn(state$, state$[ROUTE_PATH])]]
+  )
+  if (draft) $store$.swap(x => ({ ...draft, ...x }))
+  $store$.resetIn(ROOT, root)
 
   state$.subscribe(sidechainPartition(fromRAF())).transform(
     map(peek),
@@ -223,11 +302,11 @@ export const kickstart = ({
       root,
       span: false,
       ctx: {
-        run: x => run$.next(x),
-        state,
-        theme, // <- 🔍
+        [run]: x => run$.next(x),
+        [state]: $store$,
         // remove any staging path components (e.g., gh-pages)
-        parseURL: () => parse_URL(window.location.href.replace(rgx, "")) // <- 🔍
+        [parseURL]: () => parse_URL(window.location.href.replace(RGX, "")), // <- 🔍
+        ...others
       }
     })
   )

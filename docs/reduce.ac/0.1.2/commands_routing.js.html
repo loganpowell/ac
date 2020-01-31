@@ -84,7 +84,7 @@
       
     
 
-    <h3>Modules</h3><ul><li id="registerCMD-nav"><a href="module-registerCMD.html">registerCMD</a></li><li id="Tasks-nav"><a href="module-Tasks.html">Tasks</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#_SET_PAGE_STATE">_SET_PAGE_STATE</a></li><li><a href="global.html#_SET_ROUTER_LOADING_STATE">_SET_ROUTER_LOADING_STATE</a></li><li><a href="global.html#_SET_ROUTER_PATH">_SET_ROUTER_PATH</a></li><li><a href="global.html#_SET_LINK_ATTRS_DOM">_SET_LINK_ATTRS_DOM</a></li><li><a href="global.html#_HREF_PUSHSTATE_DOM">_HREF_PUSHSTATE_DOM</a></li><li><a href="global.html#_NOTIFY_PRERENDER_DOM">_NOTIFY_PRERENDER_DOM</a></li><li><a href="global.html#_URL__ROUTE">_URL__ROUTE</a></li><li><a href="global.html#parse_URL">parse_URL</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#stringify_w_functions">stringify_w_functions</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
+    <h3>Modules</h3><ul><li id="registerCMD-nav"><a href="module-registerCMD.html">registerCMD</a></li><li id="Tasks-nav"><a href="module-Tasks.html">Tasks</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#FLIP_first">FLIP_first</a></li><li><a href="global.html#zIndex">zIndex</a></li><li><a href="global.html#FLIP_last_invert_play">FLIP_last_invert_play</a></li><li><a href="global.html#state">state</a></li><li><a href="global.html#__SET_LINK_ATTRS_DOM">__SET_LINK_ATTRS_DOM</a></li><li><a href="global.html#__HREF_PUSHSTATE_DOM">__HREF_PUSHSTATE_DOM</a></li><li><a href="global.html#__NOTIFY_PRERENDER_DOM">__NOTIFY_PRERENDER_DOM</a></li><li><a href="global.html#set$State">set$State</a></li><li><a href="global.html#__URL_DOM__ROUTE">__URL_DOM__ROUTE</a></li><li><a href="global.html#parse_URL">parse_URL</a></li><li><a href="global.html#unparse_URL">unparse_URL</a></li><li><a href="global.html#censusURL">censusURL</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#stringify_w_functions">stringify_w_functions</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
   </nav>
 
   <div id="main">
@@ -100,10 +100,9 @@
 <section>
   <article>
     <pre class="prettyprint source linenums"><code>import { registerCMD } from "../register"
-import { setState } from "../store"
 import { parse_URL } from "../utils"
 import { DOMnavigated$ } from "../streams"
-
+import { DOM, URL, URL_path, sub$, args, handler } from "../store"
 /**
  * we need to transform the payload to align with the
  * object structure of the native DOM events ('popstate'
@@ -111,81 +110,27 @@ import { DOMnavigated$ } from "../streams"
  * transformed correctly by the `navigated$` stream
  * transforms
  */
-export const clickEventHandlerDOM = e => {
-  e.preventDefault()
-  let href = e.target.href
+export const HURL = ev => {
+  // ev.preventDefault()
+  // console.log({ e })
+  let href = ev.target.href
   let w_href = window.location.href
-  if (w_href === href) return
+  let parsed = parse_URL(w_href)
+  let w_path = `/${parsed[URL_path].join("/")}`
+  // handle both absolute and root relative paths
+  if (href === w_href || href === w_path) return
 
   DOMnavigated$.next({
     target: { location: { href } },
-    currentTarget: e.currentTarget
+    currentTarget: ev.currentTarget
   })
-  return e
+  return ev
 }
 
-// source = TRIGGER
-
-/**
- * ## `_SET_PAGE_STATE`
- *
- * Routing Command: Universal
- *
- * ### Payload: function
- * takes the result from two sources: the user-provided
- * `router` ([@thi.ng/associative:
- * EquivMap](http://thi.ng/associative)) and the `URL_path`
- * from `parse_URL(URL)`
- *
- * ### Handler: side-effecting
- * Hydrates the page state as well as the name of the active
- * page in the global store
- *
- */
-export const _SET_PAGE_STATE = registerCMD({
-  sub$: "_SET_PAGE_STATE",
-  args: x => x,
-  handler: ({ data, URL_path, page }) => (
-    setState(URL_path, data), setState("page", page)
-  )
-})
-
-/**
- * ## `_SET_ROUTER_LOADING_STATE`
- *
- * Routing Command: Universal
- *
- * ### Payload: static
- * Simple true or false payload to alert handler
- *
- * ### Handler: side-effecting
- * Sets `route_loading` path in global Atom to true || false
- *
- */
-export const _SET_ROUTER_LOADING_STATE = registerCMD({
-  sub$: "_SET_ROUTER_LOADING_STATE",
-  args: true,
-  handler: x => setState("route_loading", x)
-})
-
-/**
- * ## `_SET_ROUTER_PATH`
- *
- * Routing Command: Universal
- *
- * ### Payload: function
- * Consumes the `URL_path` property from a `parse_URL`
- * object, handed off from a prior Command
- *
- * ### Handler: side-effecting
- * Sets the current/loading router's `route_path` in the
- * global Atom
- *
- */
-export const _SET_ROUTER_PATH = registerCMD({
-  sub$: "_SET_ROUTER_PATH",
-  args: x => x,
-  handler: ({ URL_path }) => setState("route_path", URL_path)
+export const HURL_CMD = registerCMD({
+  [sub$]: "HURL_CMD",
+  [args]: ev => ev,
+  [handler]: HURL
 })
 
 const setLinkAttrs = target => {
@@ -205,6 +150,10 @@ const setLinkAttrs = target => {
  * Routing Command: DOM-specific
  *
  * ### Payload: function
+ * default payload `args` signature:
+ * ```
+ * args: ({ DOM }) => ({ DOM }),
+ * ```
  * Input = DOM node reference
  *
  * ### Handler: side-effecting
@@ -214,10 +163,10 @@ const setLinkAttrs = target => {
  * function
  *
  */
-export const _SET_LINK_ATTRS_DOM = registerCMD({
-  sub$: "_SET_LINK_ATTRS_DOM",
-  args: x => x,
-  handler: ({ DOM }) => setLinkAttrs(DOM)
+export const __SET_LINK_ATTRS_DOM = registerCMD({
+  [sub$]: "__SET_LINK_ATTRS_DOM",
+  [args]: acc => ({ [DOM]: acc[DOM] }),
+  [handler]: args => setLinkAttrs(args[DOM])
 })
 
 /**
@@ -226,6 +175,10 @@ export const _SET_LINK_ATTRS_DOM = registerCMD({
  * Routing Command: DOM-specific
  *
  * ### Payload: function
+ * default payload `args` signature:
+ * ```
+ * args: ({ URL, DOM }) => ({ URL, DOM }),
+ * ```
  * Takes a URL and a DOM reference
  *
  * ### Handler: side-effecting
@@ -233,30 +186,53 @@ export const _SET_LINK_ATTRS_DOM = registerCMD({
  * `history.pushState` to add the clicked URL (plus the
  * parsed URL from `parse_URL(URL)`) to the `history` object
  *
+ * export const DOMnavigated$ = merge({
+ *   src: [popstate$, DOMContentLoaded$]
+ * }).transform(map(x => ({ URL: x.target.location.href, DOM: x.currentTarget })))
+ *
+ *
  */
-export const _HREF_PUSHSTATE_DOM = registerCMD({
-  sub$: "_HREF_PUSHSTATE_DOM",
-  args: x => x,
-  handler: ({ URL, DOM }) =>
-    !DOM.document ? history.pushState(parse_URL(URL), null, URL) : null
+export const __HREF_PUSHSTATE_DOM = registerCMD({
+  [sub$]: "__HREF_PUSHSTATE_DOM",
+  [args]: acc => ({ [URL]: acc[URL], [DOM]: acc[DOM] }),
+  [handler]: args =>
+    !args[DOM].document
+      ? history.pushState(parse_URL(args[URL]), null, args[URL])
+      : null
 })
 
 /**
  * ## `_NOTIFY_PRERENDER_DOM`
  *
  * ### Payload: static
- *
+ * default payload `args` signature
+ * ```
+ * args: true,
+ * ```
  * ### Handler: side-effecting
  * Routing Command: DOM-specific (used for manually
  * triggering `rendertron` prerenderer for bots/web-crawlers
  *
  *
+ * TODO: `jsdom` prerender testing
+ *
+ * basic `http` server that returns static content for
+ * certain user-agents
+ *
+ * import { JSDOM } from "jsdom"
+ *
+ * const document = (new JSDOM(...)).window.document
+ * document.addEventListener("rendered", () => {...scrape
+ * stuff here...
+ * })
+ *
+ *
  */
-export const _NOTIFY_PRERENDER_DOM = registerCMD({
-  sub$: "_NOTIFY_PRERENDER_DOM",
-  args: true,
+export const __NOTIFY_PRERENDER_DOM = registerCMD({
+  [sub$]: "__NOTIFY_PRERENDER_DOM",
+  [args]: true,
   //👀 for prerenderer,
-  handler: () => document.dispatchEvent(new Event("rendered"))
+  [handler]: () => document.dispatchEvent(new Event("rendered"))
 })
 </code></pre>
   </article>

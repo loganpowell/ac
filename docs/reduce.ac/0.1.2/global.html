@@ -82,7 +82,7 @@
       
     
 
-    <h3>Modules</h3><ul><li id="registerCMD-nav"><a href="module-registerCMD.html">registerCMD</a></li><li id="Tasks-nav"><a href="module-Tasks.html">Tasks</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#_SET_PAGE_STATE">_SET_PAGE_STATE</a></li><li><a href="global.html#_SET_ROUTER_LOADING_STATE">_SET_ROUTER_LOADING_STATE</a></li><li><a href="global.html#_SET_ROUTER_PATH">_SET_ROUTER_PATH</a></li><li><a href="global.html#_SET_LINK_ATTRS_DOM">_SET_LINK_ATTRS_DOM</a></li><li><a href="global.html#_HREF_PUSHSTATE_DOM">_HREF_PUSHSTATE_DOM</a></li><li><a href="global.html#_NOTIFY_PRERENDER_DOM">_NOTIFY_PRERENDER_DOM</a></li><li><a href="global.html#_URL__ROUTE">_URL__ROUTE</a></li><li><a href="global.html#parse_URL">parse_URL</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#stringify_w_functions">stringify_w_functions</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
+    <h3>Modules</h3><ul><li id="registerCMD-nav"><a href="module-registerCMD.html">registerCMD</a></li><li id="Tasks-nav"><a href="module-Tasks.html">Tasks</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#FLIP_first">FLIP_first</a></li><li><a href="global.html#zIndex">zIndex</a></li><li><a href="global.html#FLIP_last_invert_play">FLIP_last_invert_play</a></li><li><a href="global.html#state">state</a></li><li><a href="global.html#__SET_LINK_ATTRS_DOM">__SET_LINK_ATTRS_DOM</a></li><li><a href="global.html#__HREF_PUSHSTATE_DOM">__HREF_PUSHSTATE_DOM</a></li><li><a href="global.html#__NOTIFY_PRERENDER_DOM">__NOTIFY_PRERENDER_DOM</a></li><li><a href="global.html#set$State">set$State</a></li><li><a href="global.html#__URL_DOM__ROUTE">__URL_DOM__ROUTE</a></li><li><a href="global.html#parse_URL">parse_URL</a></li><li><a href="global.html#unparse_URL">unparse_URL</a></li><li><a href="global.html#censusURL">censusURL</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#stringify_w_functions">stringify_w_functions</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
   </nav>
 
   <div id="main">
@@ -170,24 +170,33 @@
         
             
 
-<h4 class="name" id="_SET_PAGE_STATE">
-  <span class="type-signature">(constant) </span>_SET_PAGE_STATE<span class="type-signature"></span>
+<h4 class="name" id="FLIP_first">
+  <span class="type-signature">(constant) </span>FLIP_first<span class="type-signature"></span>
 </h4>
 
 
 
 
   <div class="description">
-    <h2><code>_SET_PAGE_STATE</code></h2>
-<p>Routing Command: Universal</p>
-<h3>Payload: function</h3>
-<p>takes the result from two sources: the user-provided
-<code>router</code> (<a href="http://thi.ng/associative">@thi.ng/associative:
-EquivMap</a>) and the <code>URL_path</code>
-from <code>parse_URL(URL)</code></p>
-<h3>Handler: side-effecting</h3>
-<p>Hydrates the page state as well as the name of the active
-page in the global store</p>
+    <p>order:
+normalizeTree -&gt; render -&gt; diff -&gt; init -&gt; release
+| hdom |         | dom  | post-dom</p>
+<p>have to think backwards:</p>
+<ol>
+<li>el mounted (init): look for existing flip map for id</li>
+</ol>
+<ul>
+<li>if exists, Play anim and store new flip map rect (for navs)</li>
+<li>if doesn't, nada</li>
+</ul>
+<ol start="2">
+<li>el clicked (render.attrs.onclick): measure and store flip map for id</li>
+<li>el released: if clicked, calc flip rect and lookup for id:</li>
+</ol>
+<ul>
+<li>if first === last, no change (on nav e.g.)</li>
+<li>if first !== last, nav change (store rect for id)</li>
+</ul>
   </div>
 
 
@@ -224,7 +233,7 @@ page in the global store</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="commands_routing.js.html">commands/routing.js</a>, <a href="commands_routing.js.html#line44">line 44</a>
+          <a href="commands_FLIP.js.html">commands/FLIP.js</a>, <a href="commands_FLIP.js.html#line95">line 95</a>
         </li>
       </ul>
     </dd>
@@ -246,20 +255,25 @@ page in the global store</p>
         
             
 
-<h4 class="name" id="_SET_ROUTER_LOADING_STATE">
-  <span class="type-signature">(constant) </span>_SET_ROUTER_LOADING_STATE<span class="type-signature"></span>
+<h4 class="name" id="FLIP_last_invert_play">
+  <span class="type-signature">(constant) </span>FLIP_last_invert_play<span class="type-signature"></span>
 </h4>
 
 
 
 
   <div class="description">
-    <h2><code>_SET_ROUTER_LOADING_STATE</code></h2>
-<p>Routing Command: Universal</p>
-<h3>Payload: static</h3>
-<p>Simple true or false payload to alert handler</p>
-<h3>Handler: side-effecting</h3>
-<p>Sets <code>route_loading</code> path in global Atom to true || false</p>
+    <ol>
+<li>
+<p>if it has been clicked that means the last thing
+that happened was a click that triggered this init
+so we do the calcs</p>
+</li>
+<li>
+<p>if a back/nav (no frame) event was what triggered
+the init do the calcs with no frame</p>
+</li>
+</ol>
   </div>
 
 
@@ -296,7 +310,7 @@ page in the global store</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="commands_routing.js.html">commands/routing.js</a>, <a href="commands_routing.js.html#line64">line 64</a>
+          <a href="commands_FLIP.js.html">commands/FLIP.js</a>, <a href="commands_FLIP.js.html#line122">line 122</a>
         </li>
       </ul>
     </dd>
@@ -318,22 +332,25 @@ page in the global store</p>
         
             
 
-<h4 class="name" id="_SET_ROUTER_PATH">
-  <span class="type-signature">(constant) </span>_SET_ROUTER_PATH<span class="type-signature"></span>
+<h4 class="name" id="state">
+  <span class="type-signature">(constant) </span>state<span class="type-signature"></span>
 </h4>
 
 
 
 
   <div class="description">
-    <h2><code>_SET_ROUTER_PATH</code></h2>
-<p>Routing Command: Universal</p>
-<h3>Payload: function</h3>
-<p>Consumes the <code>URL_path</code> property from a <code>parse_URL</code>
-object, handed off from a prior Command</p>
-<h3>Handler: side-effecting</h3>
-<p>Sets the current/loading router's <code>route_path</code> in the
-global Atom</p>
+    <p>What's happening:</p>
+<ul>
+<li>on first click (render)</li>
+<li>rect registered</li>
+<li>frame registered</li>
+<li>navs</li>
+<li>on init of new DOM</li>
+<li>checks for rect &amp; frame</li>
+<li>uses rect &amp; frame to calc diff</li>
+<li>PLAY</li>
+</ul>
   </div>
 
 
@@ -370,7 +387,7 @@ global Atom</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="commands_routing.js.html">commands/routing.js</a>, <a href="commands_routing.js.html#line84">line 84</a>
+          <a href="commands_FLIP.js.html">commands/FLIP.js</a>, <a href="commands_FLIP.js.html#line205">line 205</a>
         </li>
       </ul>
     </dd>
@@ -392,8 +409,8 @@ global Atom</p>
         
             
 
-<h4 class="name" id="_SET_LINK_ATTRS_DOM">
-  <span class="type-signature">(constant) </span>_SET_LINK_ATTRS_DOM<span class="type-signature"></span>
+<h4 class="name" id="__SET_LINK_ATTRS_DOM">
+  <span class="type-signature">(constant) </span>__SET_LINK_ATTRS_DOM<span class="type-signature"></span>
 </h4>
 
 
@@ -403,6 +420,9 @@ global Atom</p>
     <h2><code>_SET_LINK_ATTRS_DOM</code></h2>
 <p>Routing Command: DOM-specific</p>
 <h3>Payload: function</h3>
+<p>default payload <code>args</code> signature:</p>
+<pre class="prettyprint source"><code>args: ({ DOM }) => ({ DOM }),
+</code></pre>
 <p>Input = DOM node reference</p>
 <h3>Handler: side-effecting</h3>
 <p>Takes a DOM reference and queries all visited links. Sets
@@ -445,7 +465,7 @@ function</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="commands_routing.js.html">commands/routing.js</a>, <a href="commands_routing.js.html#line116">line 116</a>
+          <a href="commands_routing.js.html">commands/routing.js</a>, <a href="commands_routing.js.html#line65">line 65</a>
         </li>
       </ul>
     </dd>
@@ -467,8 +487,8 @@ function</p>
         
             
 
-<h4 class="name" id="_HREF_PUSHSTATE_DOM">
-  <span class="type-signature">(constant) </span>_HREF_PUSHSTATE_DOM<span class="type-signature"></span>
+<h4 class="name" id="__HREF_PUSHSTATE_DOM">
+  <span class="type-signature">(constant) </span>__HREF_PUSHSTATE_DOM<span class="type-signature"></span>
 </h4>
 
 
@@ -478,11 +498,17 @@ function</p>
     <h2><code>_HREF_PUSHSTATE_DOM</code></h2>
 <p>Routing Command: DOM-specific</p>
 <h3>Payload: function</h3>
+<p>default payload <code>args</code> signature:</p>
+<pre class="prettyprint source"><code>args: ({ URL, DOM }) => ({ URL, DOM }),
+</code></pre>
 <p>Takes a URL and a DOM reference</p>
 <h3>Handler: side-effecting</h3>
 <p>If the DOM reference is an <code>&lt;a&gt;</code> element, uses
 <code>history.pushState</code> to add the clicked URL (plus the
 parsed URL from <code>parse_URL(URL)</code>) to the <code>history</code> object</p>
+<p>export const DOMnavigated$ = merge({
+src: [popstate$, DOMContentLoaded$]
+}).transform(map(x =&gt; ({ URL: x.target.location.href, DOM: x.currentTarget })))</p>
   </div>
 
 
@@ -519,7 +545,7 @@ parsed URL from <code>parse_URL(URL)</code>) to the <code>history</code> object<
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="commands_routing.js.html">commands/routing.js</a>, <a href="commands_routing.js.html#line136">line 136</a>
+          <a href="commands_routing.js.html">commands/routing.js</a>, <a href="commands_routing.js.html#line94">line 94</a>
         </li>
       </ul>
     </dd>
@@ -541,8 +567,8 @@ parsed URL from <code>parse_URL(URL)</code>) to the <code>history</code> object<
         
             
 
-<h4 class="name" id="_NOTIFY_PRERENDER_DOM">
-  <span class="type-signature">(constant) </span>_NOTIFY_PRERENDER_DOM<span class="type-signature"></span>
+<h4 class="name" id="__NOTIFY_PRERENDER_DOM">
+  <span class="type-signature">(constant) </span>__NOTIFY_PRERENDER_DOM<span class="type-signature"></span>
 </h4>
 
 
@@ -551,9 +577,20 @@ parsed URL from <code>parse_URL(URL)</code>) to the <code>history</code> object<
   <div class="description">
     <h2><code>_NOTIFY_PRERENDER_DOM</code></h2>
 <h3>Payload: static</h3>
+<p>default payload <code>args</code> signature</p>
+<pre class="prettyprint source"><code>args: true,
+</code></pre>
 <h3>Handler: side-effecting</h3>
 <p>Routing Command: DOM-specific (used for manually
 triggering <code>rendertron</code> prerenderer for bots/web-crawlers</p>
+<p>TODO: <code>jsdom</code> prerender testing</p>
+<p>basic <code>http</code> server that returns static content for
+certain user-agents</p>
+<p>import { JSDOM } from &quot;jsdom&quot;</p>
+<p>const document = (new JSDOM(...)).window.document
+document.addEventListener(&quot;rendered&quot;, () =&gt; {...scrape
+stuff here...
+})</p>
   </div>
 
 
@@ -590,7 +627,7 @@ triggering <code>rendertron</code> prerenderer for bots/web-crawlers</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="commands_routing.js.html">commands/routing.js</a>, <a href="commands_routing.js.html#line154">line 154</a>
+          <a href="commands_routing.js.html">commands/routing.js</a>, <a href="commands_routing.js.html#line130">line 130</a>
         </li>
       </ul>
     </dd>
@@ -612,29 +649,18 @@ triggering <code>rendertron</code> prerenderer for bots/web-crawlers</p>
         
             
 
-<h4 class="name" id="_URL__ROUTE">
-  <span class="type-signature">(constant) </span>_URL__ROUTE<span class="type-signature"></span>
+<h4 class="name" id="set$State">
+  <span class="type-signature">(constant) </span>set$State<span class="type-signature"></span>
 </h4>
 
 
 
 
   <div class="description">
-    <p><code>_URL__ROUTE</code></p>
-<p>Universal router (cross-platform) Subtask.</p>
-<p>This can be used in both a browser and Node context. The
-parts that handle browser side-effects are included in an
-Supertask <code>_URL__ROUTE</code></p>
-<p>Pseudo</p>
-<pre class="prettyprint source"><code>( router ) => ({ URL }) => [
-- set `router_loading` path in global atom to `true`
-- call provided `router` with the `URL` and await payload
-- `parse_URL(URL)` for `URL_*` components
-- set `route_path` in global store/atom to current `URL_path`
-- set page state (data, path & page component name) in store
-- once promise(s) resolved, set `router_loading` to `false`
-]
-</code></pre>
+    <p>Swaps the current value at the given path/lens into the
+global store with that of the given value. Checks to see
+if that value should be either spread into an existing
+object or a complete replacement</p>
   </div>
 
 
@@ -671,7 +697,96 @@ Supertask <code>_URL__ROUTE</code></p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="tasks__URL+DOM__ROUTE.js.html">tasks/_URL+DOM__ROUTE.js</a>, <a href="tasks__URL+DOM__ROUTE.js.html#line76">line 76</a>
+          <a href="store_index.js.html">store/index.js</a>, <a href="store_index.js.html#line59">line 59</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id="__URL_DOM__ROUTE">
+  <span class="type-signature">(constant) </span>__URL_DOM__ROUTE<span class="type-signature"></span>
+</h4>
+
+
+
+
+  <div class="description">
+    <p><code>_URL__ROUTE_DOM</code></p>
+<p>DOM Router that contains a cross-platform routing Subtask
+<code>_URL__ROUTE</code></p>
+<p>Subtask HOF for router registration. Takes a
+<code>@thi.ng/associative</code> <code>EquivMap</code> route matching function,
+registers that router as a member of a Task for following
+Commands to leverage the returned data (<code>{ data, page }</code>)</p>
+<p>Pseudo</p>
+<pre class="prettyprint source"><code>( router ) => ({ URL, DOM event }) => [
+- if href, push to `history.pushState`
+- SUBTASK: _URL__ROUTE (universal router)
+- remove `active` attribute from visited links except current
+- notify rendertron (TBD) of new page
+]
+</code></pre>
+<p>reserved Command keys:</p>
+<ul>
+<li><code>URL</code></li>
+<li><code>DOM</code></li>
+<li><code>URL_page</code></li>
+<li><code>URL_path</code></li>
+<li><code>URL_data</code></li>
+</ul>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="tasks__URL+DOM__ROUTE.js.html">tasks/_URL+DOM__ROUTE.js</a>, <a href="tasks__URL+DOM__ROUTE.js.html#line161">line 161</a>
         </li>
       </ul>
     </dd>
@@ -802,7 +917,154 @@ high-level event handling.</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="utils_parse_URL.js.html">utils/parse_URL.js</a>, <a href="utils_parse_URL.js.html#line93">line 93</a>
+          <a href="utils_parse_URL.js.html">utils/parse_URL.js</a>, <a href="utils_parse_URL.js.html#line94">line 94</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id="unparse_URL">
+  <span class="type-signature">(constant) </span>unparse_URL<span class="type-signature"></span>
+</h4>
+
+
+
+
+  <div class="description">
+    <p><code>unparse_URL</code></p>
+<p>The reverse of <code>parse_URL</code> that enables talking to the
+router with a friendlier API than having to always
+construct URLs manually.</p>
+<p>TODO: testing for <code>unparse_URL</code></p>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="utils_parse_URL.js.html">utils/parse_URL.js</a>, <a href="utils_parse_URL.js.html#line142">line 142</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id="censusURL">
+  <span class="type-signature"></span>censusURL<span class="type-signature"></span>
+</h4>
+
+
+
+
+  <div class="description">
+    <p>onDownloadProgress only works in the browser indeed. That
+should be noticed in the documentation.</p>
+<p>In this case you're using responseType: stream so you can
+implement the download progress by looking at the
+Content-Length response header and the dataevents in the
+stream you get in the response.</p>
+<p>https://javascript.info/fetch-progress</p>
+<p>https://serviceworke.rs/push-get-payload_index_doc.html</p>
+<p>https://jakearchibald.com/2016/streams-ftw/</p>
+<p>https://javascript.info/fetch-progress</p>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="utils_progress.js.html">utils/progress.js</a>, <a href="utils_progress.js.html#line102">line 102</a>
         </li>
       </ul>
     </dd>
@@ -1101,6 +1363,101 @@ that makes sure their keys don't contain typos</p>
         
     
 
+    
+      <h3 class="subsection-title">Methods</h3>
+
+      
+        
+
+
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#zIndex">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id="zIndex">
+      <span class="type-signature"></span>zIndex<span class="signature">()</span><span class="type-signature"></span>
+    </h4>
+  </span>
+
+  
+
+
+
+  <div class="description">
+    <p>https://coder-coder.com/z-index-isnt-working/</p>
+  </div>
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="commands_FLIP.js.html">commands/FLIP.js</a>, <a href="commands_FLIP.js.html#line112">line 112</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
     
 
     

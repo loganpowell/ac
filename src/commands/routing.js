@@ -1,8 +1,7 @@
 import { registerCMD } from "../register"
-import { set$State, set$Route, set$Loading, set$Page } from "../store"
 import { parse_URL } from "../utils"
 import { DOMnavigated$ } from "../streams"
-
+import { DOM, URL, URL_path, sub$, args, handler } from "../store"
 /**
  * we need to transform the payload to align with the
  * object structure of the native DOM events ('popstate'
@@ -11,12 +10,12 @@ import { DOMnavigated$ } from "../streams"
  * transforms
  */
 export const HURL = ev => {
-  ev.preventDefault()
+  // ev.preventDefault()
   // console.log({ e })
   let href = ev.target.href
   let w_href = window.location.href
-  let { URL_path } = parse_URL(w_href)
-  let w_path = `/${URL_path.join("/")}`
+  let parsed = parse_URL(w_href)
+  let w_path = `/${parsed[URL_path].join("/")}`
   // handle both absolute and root relative paths
   if (href === w_href || href === w_path) return
 
@@ -28,94 +27,9 @@ export const HURL = ev => {
 }
 
 export const HURL_CMD = registerCMD({
-  sub$: "HURL_CMD",
-  args: ev => ev,
-  handler: HURL
-})
-
-// source = TRIGGER
-
-/**
- * ## `_SET_PAGE_STATE`
- *
- * Routing Command: Universal
- *
- * ### Payload: function
- * default payload `args` signature:
- * ```
- * args: ({ URL_path, URL_page, URL_data }) => ({ URL_path, URL_page, URL_data }),
- * ```
- * takes the result from two sources: the user-provided
- * `router` ([@thi.ng/associative:
- * EquivMap](http://thi.ng/associative)) and the `URL_path`
- * from `parse_URL(URL)`
- *
- * ### Handler: side-effecting
- * Hydrates the page state as well as the name of the active
- * page in the global store
- *
- */
-export const __SET_PAGE_STATE = registerCMD({
-  sub$: "__SET_PAGE_STATE",
-  args: ({ URL_path, URL_page, URL_data }) => ({
-    URL_path,
-    URL_page,
-    URL_data
-  }),
-  handler: ({ URL_path, URL_data, URL_page }) => {
-    // console.log({ URL_page, URL_data })
-    const { BODY } = URL_data
-
-    if (BODY) URL_data = BODY
-    set$Page(URL_page)
-    set$State(URL_path, URL_data)
-  }
-})
-
-/**
- * ## `_SET_ROUTER_LOADING_STATE`cod
- *
- * Routing Command: Universal
- *
- * ### Payload: static
- * default payload `args` signature:
- * ```
- * args: true,
- * ```
- * Simple true or false payload to alert handler
- *
- * ### Handler: side-effecting
- * Sets `route_loading` path in global Atom to true || false
- *
- */
-export const __SET_ROUTER_LOADING_STATE = registerCMD({
-  sub$: "__SET_ROUTER_LOADING_STATE",
-  args: true,
-  handler: x => set$Loading(x)
-})
-
-/**
- * ## `_SET_ROUTER_PATH`
- *
- * Routing Command: Universal
- *
- * ### Payload: function
- * default payload `args` signature:
- * ```
- * args: ({ URL_path }) => ({ URL_path }),
- * ```
- * Consumes the `URL_path` property from a `parse_URL`
- * object, handed off from a prior Command
- *
- * ### Handler: side-effecting
- * Sets the current/loading router's `route_path` in the
- * global Atom
- *
- */
-export const __SET_ROUTER_PATH = registerCMD({
-  sub$: "__SET_ROUTER_PATH",
-  args: ({ URL_path }) => ({ URL_path }),
-  handler: ({ URL_path }) => set$Route(URL_path)
+  [sub$]: "HURL_CMD",
+  [args]: ev => ev,
+  [handler]: HURL
 })
 
 const setLinkAttrs = target => {
@@ -149,9 +63,9 @@ const setLinkAttrs = target => {
  *
  */
 export const __SET_LINK_ATTRS_DOM = registerCMD({
-  sub$: "__SET_LINK_ATTRS_DOM",
-  args: ({ DOM }) => ({ DOM }),
-  handler: ({ DOM }) => setLinkAttrs(DOM)
+  [sub$]: "__SET_LINK_ATTRS_DOM",
+  [args]: acc => ({ [DOM]: acc[DOM] }),
+  [handler]: args => setLinkAttrs(args[DOM])
 })
 
 /**
@@ -178,10 +92,12 @@ export const __SET_LINK_ATTRS_DOM = registerCMD({
  *
  */
 export const __HREF_PUSHSTATE_DOM = registerCMD({
-  sub$: "__HREF_PUSHSTATE_DOM",
-  args: ({ URL, DOM }) => ({ URL, DOM }),
-  handler: ({ URL, DOM }) =>
-    !DOM.document ? history.pushState(parse_URL(URL), null, URL) : null
+  [sub$]: "__HREF_PUSHSTATE_DOM",
+  [args]: acc => ({ [URL]: acc[URL], [DOM]: acc[DOM] }),
+  [handler]: args =>
+    !args[DOM].document
+      ? history.pushState(parse_URL(args[URL]), null, args[URL])
+      : null
 })
 
 /**
@@ -212,8 +128,8 @@ export const __HREF_PUSHSTATE_DOM = registerCMD({
  *
  */
 export const __NOTIFY_PRERENDER_DOM = registerCMD({
-  sub$: "__NOTIFY_PRERENDER_DOM",
-  args: true,
+  [sub$]: "__NOTIFY_PRERENDER_DOM",
+  [args]: true,
   //👀 for prerenderer,
-  handler: () => document.dispatchEvent(new Event("rendered"))
+  [handler]: () => document.dispatchEvent(new Event("rendered"))
 })

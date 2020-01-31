@@ -84,7 +84,7 @@
       
     
 
-    <h3>Modules</h3><ul><li id="registerCMD-nav"><a href="module-registerCMD.html">registerCMD</a></li><li id="Tasks-nav"><a href="module-Tasks.html">Tasks</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#_SET_PAGE_STATE">_SET_PAGE_STATE</a></li><li><a href="global.html#_SET_ROUTER_LOADING_STATE">_SET_ROUTER_LOADING_STATE</a></li><li><a href="global.html#_SET_ROUTER_PATH">_SET_ROUTER_PATH</a></li><li><a href="global.html#_SET_LINK_ATTRS_DOM">_SET_LINK_ATTRS_DOM</a></li><li><a href="global.html#_HREF_PUSHSTATE_DOM">_HREF_PUSHSTATE_DOM</a></li><li><a href="global.html#_NOTIFY_PRERENDER_DOM">_NOTIFY_PRERENDER_DOM</a></li><li><a href="global.html#_URL__ROUTE">_URL__ROUTE</a></li><li><a href="global.html#parse_URL">parse_URL</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#stringify_w_functions">stringify_w_functions</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
+    <h3>Modules</h3><ul><li id="registerCMD-nav"><a href="module-registerCMD.html">registerCMD</a></li><li id="Tasks-nav"><a href="module-Tasks.html">Tasks</a></li><li id="Streams-nav"><a href="module-Streams.html">Streams</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#FLIP_first">FLIP_first</a></li><li><a href="global.html#zIndex">zIndex</a></li><li><a href="global.html#FLIP_last_invert_play">FLIP_last_invert_play</a></li><li><a href="global.html#state">state</a></li><li><a href="global.html#__SET_LINK_ATTRS_DOM">__SET_LINK_ATTRS_DOM</a></li><li><a href="global.html#__HREF_PUSHSTATE_DOM">__HREF_PUSHSTATE_DOM</a></li><li><a href="global.html#__NOTIFY_PRERENDER_DOM">__NOTIFY_PRERENDER_DOM</a></li><li><a href="global.html#set$State">set$State</a></li><li><a href="global.html#__URL_DOM__ROUTE">__URL_DOM__ROUTE</a></li><li><a href="global.html#parse_URL">parse_URL</a></li><li><a href="global.html#unparse_URL">unparse_URL</a></li><li><a href="global.html#censusURL">censusURL</a></li><li><a href="global.html#stringify_type">stringify_type</a></li><li><a href="global.html#traceStream">traceStream</a></li><li><a href="global.html#stringify_w_functions">stringify_w_functions</a></li><li><a href="global.html#unknown_key_ERR">unknown_key_ERR</a></li></ul>
   </nav>
 
   <div id="main">
@@ -105,6 +105,7 @@
 import { isFunction, isPromise } from "@thi.ng/checks"
 import { stringify_type, unknown_key_ERR, key_index_err } from "../utils"
 import { command$ } from "../streams"
+import { sub$, args, reso, erro, source$, handler } from "../store"
 
 let err_str = "Spool Interupted" // &lt;- add doc link to error strings
 
@@ -150,7 +151,7 @@ let no_sub$_err = (c, i) =>
  *
  * ## Recognized Keys
  *
- * There are 5 recognized keys for a Command object:
+ * There are 4 recognized keys for a Command object:
  *
  * ### Primary keys
  *
@@ -291,47 +292,56 @@ export const spool = task_array =>
         let recur = c(acc)
         // this ensures the accumulator is preserved between
         // stacks
-        recur.unshift({ args: acc })
+        recur.unshift({ [args]: acc })
         return spool(recur)
       } catch (e) {
         console.warn(err_str, e)
         return
       }
     }
-    const { sub$, args, reso, erro, ...unknown } = c
-    if (Object.keys(unknown).length > 0)
-      throw new Error(unknown_key_ERR(err_str, c, unknown, sub$, i))
-    let arg_type = stringify_type(args)
-    let result = args
+    let _sub$ = c[sub$]
+    let _args = c[args]
+    let _erro = c[erro]
+    let _reso = c[reso]
+    // let _source$ = c[source$]
+    // let _handler = c[handler]
+    let knowns = [sub$, args, reso, erro, source$, handler]
+    let all = Object.keys(c)
+    let unknowns = all.filter(key => !knowns.includes(key))
+
+    if (unknowns.length > 0)
+      throw new Error(unknown_key_ERR(err_str, c, unknowns, _sub$, i))
+    let arg_type = stringify_type(_args)
+    let result = _args
 
     /* RESOLVING ARGS */
-    if (arg_type !== "PROMISE" &amp;&amp; reso) {
+    if (arg_type !== "PROMISE" &amp;&amp; _reso) {
       // if some signature needs to deal with both promises
       // and non-promises, non-promises are wrapped in a
       // Promise to "lift" them into the proper context for
       // handling
-      result = Promise.resolve(args)
+      result = Promise.resolve(_args)
     }
-    if (args !== Object(args) &amp;&amp; !sub$) {
+    if (_args !== Object(_args) &amp;&amp; !_sub$) {
       no_sub$_err(c, i)
       return acc
     }
     if (arg_type === "PROMISE") {
       // result = await discardable(args).catch(e => e)
-      result = await args.catch(e => e)
+      result = await _args.catch(e => e)
     }
     if (arg_type === "THUNK") {
       // if thunk, dispatch to ad-hoc stream, return acc
       // as-is ⚠ this command will not be waited on
-      result = args()
-      console.log(`dispatching to custom stream: ${sub$.id}`)
-      sub$.next(result) // 💃
+      result = _args()
+      console.log(`dispatching to ad-hoc stream: ${_sub$.id}`)
+      _sub$.next(result) // 💃
       return acc
     }
     if (arg_type === "FUNCTION") {
       // if function, call it with acc and resolve any
       // promises
-      let temp = args(acc)
+      let temp = _args(acc)
       // result = isPromise(temp) ? await discardable(temp).catch(e => e) : temp
       result = isPromise(temp) ? await temp.catch(e => e) : temp
     }
@@ -339,55 +349,53 @@ export const spool = task_array =>
     if (arg_type === "OBJECT") {
       // if object, send the Command as-is and spread into
       // acc
-      if (!sub$) return { ...acc, ...args }
+      if (!_sub$) return { ...acc, ..._args }
       command$.next(c)
-      return { ...acc, ...args }
+      return { ...acc, ..._args }
     }
 
     /* RESULT HANDLERS */
-    if (reso) {
+    if (_reso) {
       // promise rejection handler
-      if (erro &amp; (result instanceof Error)) {
+      if (_erro &amp; (result instanceof Error)) {
         let error = erro(acc, result)
-        if (error.sub$) return command$.next(error)
+        if (error._sub$) return command$.next(error)
         console.warn(err_str, "[ Promise rejected ]:", result)
         result = error
       }
       // resovled promise handler
       if (!(result instanceof Error)) {
-        let resolved = reso(acc, result)
-        if (resolved.sub$) command$.next(resolved)
-        // resolved promise with no sub$ key -> spread
+        let resolved = _reso(acc, result)
+        if (resolved._sub$) command$.next(resolved)
+        // resolved promise with no _sub$ key -> spread
         // resolved value into acc
-        else if (!sub$) return { ...acc, ...resolved }
+        else if (!_sub$) return { ...acc, ...resolved }
         result = resolved
       }
       console.warn(`no 'erro' (Error handler) set for ${c}`)
-      return
     }
-    // no sub$ key &amp; not a promise -> just spread into acc
-    if (!reso &amp;&amp; !sub$) return { ...acc, ...result }
+    // no _sub$ key &amp; not a promise -> just spread into acc
+    if (!_reso &amp;&amp; !_sub$) return { ...acc, ...result }
 
     // error, but no error handler
     if (result instanceof Error) {
       console.warn(err_str, result)
-      return
-      // throw new Error(result)
+      return acc
     }
     if (result !== Object(result)) {
-      if (!sub$) {
+      if (!_sub$) {
         no_sub$_err(c, i)
         return acc
       }
       // if the final result is primitive, you can't refer
       // to this value in proceeding Commands -> send the
       // Command as-is, return acc as-is.
-      command$.next({ sub$, args: result })
+      command$.next({ [sub$]: _sub$, [args]: result })
       return acc
     }
     // if the result has made it this far, send it along
     // console.log(`${sub$} made it through`)
-    command$.next({ sub$, args: result })
+    command$.next({ [sub$]: _sub$, [args]: result })
     return { ...acc, ...result }
   }, Promise.resolve({}))
 </code></pre>

@@ -12,7 +12,7 @@
     "start": "cross-env NODE_ENV=development parcel test/index.html -d dist",
     "serve": "node dist/server.js",
     "docs": "jsdoc --configure jsdoc.json --verbose",
-    "pages": "gh-pages -d dist"
+    "pages": "gh-pages -d docs"
   },
   "keywords": [
     "thi.ng"

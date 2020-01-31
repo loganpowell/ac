@@ -5,10 +5,9 @@ import { EquivMap } from "@thi.ng/associative"
 import scrolly from "@mapbox/scroll-restorer"
 scrolly.start()
 
-import { register, commands, utils, store, streams } from "../../src"
+import { register, commands, utils, components, streams, store } from "../../src"
 import { button_x } from "./components"
 import { THEME } from "./theme"
-import { $store$ } from "../../src/store"
 
 /**
  *
@@ -19,10 +18,11 @@ import { $store$ } from "../../src/store"
  */
 // ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
 const { run$ } = streams
-const { kickstart } = register
+const { boot, registerCMD } = register
 const { INJECT_HEAD_CMD, HURL_CMD } = commands
-const { parse_URL, FLIPonClick, FLIPkid, traceStream } = utils
-const { $page } = store
+const { parse_URL, traceStream } = utils
+const { FLIPkid } = components
+const { $store$ } = store
 // ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
 
 //
@@ -75,8 +75,8 @@ const getSomeJSON = async (path, uid) => {
     ? (async () => {
         let detail = await fetch(`${text_base}${path}/${uid}`).then(r => r.json())
         let {
-          name,
-          company: { catchPhrase }
+          name = `User ${getIn(detail, "id")}`,
+          company: { catchPhrase } = { catchPhrase: detail.title }
         } = detail
         return {
           HEAD: {
@@ -177,7 +177,7 @@ const routerCfg = async url => {
       { ...match, URL_path: [] },
       { URL_data: () => getSomeJSON("users", 1), URL_page: single }
     ] // get match || 404 data
-  ]).get(match) || { URL_data: () => getSomeJSON("users", 2), URL_page: single }
+  ]).get(match) || { URL_data: () => getSomeJSON("users", 12), URL_page: single }
 
   return { URL_data: await URL_data(), URL_page }
 }
@@ -239,12 +239,14 @@ const component = sz => {
 
 // babel/core-js will complain if pages aren't defined
 // before they're used even though eslint will allow it
-const single = (ctx, body) => [
-  component("lg"),
-  getIn(body, "uid"),
-  getIn(body, "img") || "https://i.picsum.photos/id/1/600/600.jpg",
-  getIn(body, "text") ? fields(body.text.company || body.text) : null
-]
+const single = (ctx, body) =>
+  // console.log({ body }),
+  [
+    component("lg"),
+    getIn(body, "uid"),
+    getIn(body, "img") || "https://i.picsum.photos/id/1/600/600.jpg",
+    getIn(body, "text") ? fields(body.text.company || body.text) : null
+  ]
 
 const set = (ctx, bodies) => [
   "div",
@@ -309,7 +311,7 @@ const link = (ctx, path, ...args) => [
 //            888       888
 //
 // TODO: example of using cursors for local state
-const app = (ctx, body) =>
+const app = (ctx, page) =>
   // console.log(ctx.state),
   [
     "div",
@@ -322,7 +324,7 @@ const app = (ctx, body) =>
     ]),
     // default to homepage `single` shell during
     // hydration/start (before any async is done)
-    [$page.deref() || single, body]
+    page
   ]
 
 // TODO: add default / 404 page here (could help the ugly $page.deref() ||...)
@@ -331,17 +333,27 @@ const router = {
   post: INJECT_HEAD_CMD
 }
 
-const root = document.getElementById("app") // <- 🔍
+// const router = routerCfg
 
-const setup = {
-  router,
-  root,
+const w_config = {
   app,
-  prefix: "ac/",
-  theme: THEME,
-  state: $store$
+  router,
+  root: document.getElementById("app"), // <- 🔍
+  // prefix: "ac/",
+  // draft: { users: [] },
+  // trace: "app stream ->",
+
+  // arbitrary context k/v pairs...
+  theme: THEME
 }
 
-kickstart(setup)
+boot(w_config)
+
+// registerCMD({
+//   sub$: "HURL_CMD",
+//   args: x => x
+// })
+
+// console.log(registerCMD.all.entries())
 
 console.log("starting...")

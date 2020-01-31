@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>
-      registerCMD - Documentation
+      utils/progress.js - Documentation
   </title>
 
   <link href="https://www.braintreepayments.com/images/favicon-ccda0b14.png" rel="icon" type="image/png">
@@ -88,335 +90,183 @@
   <div id="main">
     
       <h1 class="page-title">
-        registerCMD
+        utils/progress.js
       </h1>
     
 
     
+      
 
 <section>
-  <header>
-    
-      
-  </header>
-
   <article>
-    <div class="container-overview">
-      
-        
+    <pre class="prettyprint source linenums"><code>import axios from "axios"
+import fetch from "node-fetch"
+// import "whatwg-fetch"
 
-        
-      
-    </div>
+const make_progress = (numer, denom, preci = 0.01) =>
+  ~~((numer / denom) * 100) * preci
 
-    
+// make_progress(1230, 2312) //?
 
-    
+const log = console.log
 
-    
+//
+//  888                        ,e,
+//  888-~88e    /~~~8e   d88~\  "   e88~~\  d88~\
+//  888  888b       88b C888   888 d888    C888
+//  888  8888  e88~-888  Y88b  888 8888     Y88b
+//  888  888P C888  888   888D 888 Y888      888D
+//  888-_88"   "88_-888 \_88P  888  "88__/ \_88P
+//
+//
 
-     
+let baseURL = "http://jsonplaceholder.typicode.com/posts/4"
 
-    
+// THEN'ing:
+axios.get(baseURL).then(r => r.data)
+/*
+{ 
+  userId: 1,
+  id: 4,
+  title: 'eum et est occaecati',
+  body: 'ullam et saepe reiciendis voluptatem adipisci\nsit amet autem assumenda provident rerum culpa\nquis hic commodi nesciunt rem tenetur doloremque ipsam iure\nquis sunt voluptatem rerum illo velit' 
+}
+*/
 
-    
-        <h3 class="subsection-title">Members</h3>
+// INSTANCE'ing
+let instance = axios.create({
+  baseURL,
+  timeout: 1000,
+  headers: { "X-Custom-Header": "foobar" }
+})
 
-        
-            
-
-<h4 class="name" id="~registered">
-  <span class="type-signature">(inner) </span>registered<span class="type-signature"></span>
-</h4>
-
-
-
-
-  <div class="description">
-    <h2><code>registerCMD</code></h2>
-<p>Takes a Command object with some additional information
-and returns a Command usable in a Task or as-is. This
-also serves the additional benefit of giving the user a
-constant to use instead of making any typos in keys
-during use.</p>
-<h3>Destructuring Behavior</h3>
-<p>During a <code>sub$</code> registration, the keys in the Command
-object are used to determine the signature of incoming
-Commands. In order to reduce the amount of boilerplate
-for Commands that only contain the <code>sub$</code> and <code>args</code> key,
-the <code>args</code> key is
-<a href="https://github.com/thi-ng/umbrella/blob/master/packages/transducers/src/xform/pluck.ts">pluck</a>ed
-from the incoming Commands. This pulls the <code>args</code> value
-out from the incoming Command objects to be used directly
-(without the need for dstructuring).</p>
-<h3>Example</h3>
-<pre class="prettyprint source lang-js"><code>import { registerCMD, run$ } from &quot;🍎&quot;
-
-const cmd_pathless = {
-  sub$: &quot;PATHLESS&quot;,
-  args: { static: &quot;payload&quot; }
+instance.get()
+/*
+result:
+{
+  data: {}
+  status: #,
+  headers: {}, &lt;- response headers
+  config: {
+    method: 'get',
+    headers: {}, &lt;- request headers
+    basURL: "http://jsonplaceholder.typicode.com/posts/4",
+    transformRequest: [[λ]],
+    transformResponse: [[λ]],
+    timeout: 1000,
+    adapter: [λ: xhrAdapter],
+    xsrfCookieName: 'XSRF-TOKEN',
+    ...
+  },
+  request: XMLHttpRequest {
+    upload: XMLHttpRequestUpload {},
+    _registeredHandlers: Set { 'readystatechange' },
+    _eventHandlers: { readystatechange: [λ: handleLoad] },
+    [Symbol(impl)]: XMLHttpRequestEventTargetImpl {},
+    [Symbol(flag)]: {},
+    [Symbol(properties)]: {},
+  }
 }
 
-const pathless_handler = x => console.log(&quot;pathless ->&quot;, x)
+Also supports:
+- request(cfg)
+- get(url, config)
+- delete(url, config)
+- head(url, config)
+- options(url, config)
+- post(url, data, config)
+- put(url, data, conifg)
+- patch(url, data, config)
+- getUri(config)
 
-const CMD_PATHLESS = registerCMD(cmd_pathless, pathless_handler)
+*/
 
-run$.next(CMD_PATHLESS) // 🏃
-// pathless -> { static: 'payload' }
+// REQUEST CONFIG
 
-const cmd_path = {
-  sub$: &quot;PATH&quot;,
-  args: { static: &quot;payload&quot; },
-  path: [&quot;default&quot;, &quot;path&quot;]
-}
+/**
+ * onDownloadProgress only works in the browser indeed. That
+ * should be noticed in the documentation.
+ *
+ * In this case you're using responseType: stream so you can
+ * implement the download progress by looking at the
+ * Content-Length response header and the dataevents in the
+ * stream you get in the response.
+ *
+ * https://javascript.info/fetch-progress
+ *
+ * https://serviceworke.rs/push-get-payload_index_doc.html
+ *
+ * https://jakearchibald.com/2016/streams-ftw/
+ *
+ *https://javascript.info/fetch-progress
+ */
+let censusURL =
+  "https://api.census.gov/data/2018/acs/acs1?get=B00001_001E&amp;for=county:*"
+let progression = ev => log({ loaded: ev.loaded, total: ev.total })
 
-const path_handler = x => console.log(&quot;path ->&quot;, x)
+let progressInst = axios.create({
+  baseURL: censusURL,
+  onDownloadProgress: progression,
+  onUPloadProgress: progression
+})
 
-const CMD_PATH = registerCMD(cmd_path, path_handler)
+// progressInst.get() //?
 
-run$.next(CMD_PATH) // 🏃
-// path -> { args: { static: 'payload' }, path: [ 'default', 'path' ] }
+//
 
-const test_pathless = {
-  sub$: &quot;PATHLESS&quot;,
-  args: &quot;🔥&quot;
-}
+fetch("https://api.census.gov/data/2018/acs/acs1?get=B00001_001E&amp;for=county:*")
+  .then(function(response) {
+    // 🔥 .getReader() only works in browser
+    let reader = response.body.getReader()
+    let bytesReceived = 0
 
-run$.next(test_pathless) // 🏃
-// pathless -> &quot;🔥&quot;
-// as you can see, the Command args have been plucked out
+    let total = response.headers.get("Content-Length")
+    // recursion
+    reader.read().then(function process({ done, value }) {
+      if (done) {
+        console.log("Fetch complete!:", value)
+        return
+      }
+      bytesReceived += value.length
+      console.log(`Received ${bytesReceived} bytes of ${total} data so far`)
 
-const test_path = {
-  sub$: &quot;PATH&quot;,
-  args: &quot;🌊&quot;,
-  path: [&quot;new&quot;, &quot;path&quot;]
-}
+      return reader.read().then(process)
+    })
+  })
+  .then(x => x) //?
 
-run$.next(test_path) // 🏃
-// path -> { args: '🌊', path: [ 'new', 'path' ] }
-// only the sub$ entry has been removed leaving the rest
-
-// NOW: Let's stick these into a Task
-let TASK_1 = [
-  { ...CMD_PATH, path: &quot;overwritten&quot; },
-  CMD_PATHLESS,
-  { ...test_path, args: &quot;🍝&quot; }
-]
-run$.next(TASK_1)
-// path -> { args: { static: 'payload' }, path: 'overwritten' }
-// pathless -> { static: 'payload' }
-// path -> { args: '🍝', path: [ 'new', 'path' ] }
-
+/**
+ *
+ * Three-part components:
+ * 1. animation input(s) &lt;- from load$ `pubsub` stream
+ *    component registers (`stream.deref()`)
+ * 2. output -> sends fetch/axios Command/Task
+ *    (`run$.next()`)
+ * 3. Command/Task handler to put them together
+ *
+ * This component-type listens to the progress of
+ * up/download events the listener is disposed of on
+ * `release`
+ *
+ *
+ * ad-hoc implementation?
+ *
+ * currently, the router task assumes a generic promise is
+ * being handled. Considerations:
+ * 1. can a progress handler be injected before/after
+ *    generic promise Command as a `pre`&amp;/`post` Task?
+ *    - I don't think so: promise is resolved in `spool`er
+ * 2. if not, how might we alter the promise-handling
+ *    functionality within `spool` to check for `axios`
+ *    methods and dispatch progress to a `pubsub` therein?
+ *
+ *
+ */
 </code></pre>
-  </div>
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="register_index.js.html">register/index.js</a>, <a href="register_index.js.html#line138">line 138</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-          
-        
-            
-
-<h4 class="name" id=".registerRouterDOM">
-  <span class="type-signature">(static, constant) </span>registerRouterDOM<span class="type-signature"></span>
-</h4>
-
-
-
-
-  <div class="description">
-    <p>expects payload of</p>
-<pre class="prettyprint source"><code>{ target: { location: { href } }, currentTarget }
-</code></pre>
-  </div>
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="register_index.js.html">register/index.js</a>, <a href="register_index.js.html#line227">line 227</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-          
-        
-            
-
-<h4 class="name" id=".boot">
-  <span class="type-signature">(static, constant) </span>boot<span class="type-signature"></span>
-</h4>
-
-
-
-
-  <div class="description">
-    <p>Part I: Needs to be a functional component to accept the
-<code>ctx</code> object to pass it to children</p>
-<p>Part II: Takes the root RAF stream and updates the shell
-on every global state mutation</p>
-<p>Part III: Connects the app shell to the state stream,
-which is triggered by any updates to the global
-<code>$store$</code></p>
-  </div>
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="register_index.js.html">register/index.js</a>, <a href="register_index.js.html#line265">line 265</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-          
-        
-    
-
-    
-
-    
-
-    
   </article>
 </section>
 
-
+    
 
 
   </div>
