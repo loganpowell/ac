@@ -9293,62 +9293,22 @@ window.addEventListener("DOMContentLoaded", () => {
   $MMao$export$injectStyleSheet(formatted_styles);
 });
 const [$ndBe$export$theme_styler, $ndBe$export$THEME] = $mzHx$export$themer($QcZX$export$theme);
-
-const $gy5R$var$x_btn_bhvr = name => ({
-  onclick: () => console.warn(`no handler assigned to ${name} 'onclick' event`)
-}); // a HOF that takes a config and returns an HDOM node function
-
-
-const $gy5R$export$button_x = (cfg, theme_path) => {
-  cfg = {
-    tag: "a",
-    tag_noop: "span",
-    ...cfg
-  }; // allow user-defined spec-compliant overrides (e.g., tagActive for route link)
-
-  const hash = $ndBe$export$theme_styler("button", {
-    fontSize: [2, 3, 4],
-    my: [1, 2, 3],
-    marginRight: [1, 2, 3]
-  }, theme_path); // the returned hdom node fn with user-provided arbitrary context object
-
-  return (ctx, attrs, ...children) => attrs && attrs.disabled ? [cfg.tag_noop, {
-    class: hash,
-    style: {
-      "background-color": ctx.theme.colors.muted || "gray",
-      cursor: "default"
-    },
-    ...attrs
-  }, ...children] // inline theme-derived overrides
-  : typeof attrs !== "object" ? [cfg.tag, {
-    class: hash,
-    ...$gy5R$var$x_btn_bhvr(hash)
-  }, attrs, ...children] : [cfg.tag, {
-    class: hash,
-    ...$gy5R$var$x_btn_bhvr(hash),
-    ...attrs
-  }, ...children];
-};
-
-const $gy5R$export$button = $gy5R$export$button_x(null, "buttons.simple"); // also accepts ["buttons", "simple"]
-
 // ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
 //
+//  888                /
 //  888  e88~-_  e88~88e  d88~\
 //  888 d888   i 888 888 C888
 //  888 8888   | "88_88"  Y88b
-//  888 Y888   '  /        888D
 //  888  "88_-~  Cb      \_88P
 //                Y8""8D
 //
 const $Focm$var$log = console.log; // trace$("run$ ->", run$)
 // trace$("command$ ->", command$)
 // trace$("out$ ->", out$)
-//
-//   e88~\888   /~~~8e  _d88__   /~~~8e
+//        888             d8
 //  d888  888       88b  888         88b
 //  8888  888  e88~-888  888    e88~-888
-//   "88_/888  "88_-888  "88_/  "88_-888
+//  Y888  888 C888  888  888   C888  888
 //
 //
 
@@ -9458,6 +9418,7 @@ const $Focm$var$getSomeJSON = async (path, uid) => {
 const $Focm$var$routerCfg = async url => {
   let match = $mkih$export$fURL(url);
   let {
+    // URL,
     // URL_subdomain, // array
     // URL_domain, // array
     // URL_query, // object
@@ -9558,20 +9519,19 @@ const $Focm$var$single = (ctx, body) => // log("single"),
 
 var $n32p$$interop$default = $parcel$interopDefault($n32p$exports);
 
-const $Focm$var$set = (ctx, bodies) => ["div", ...$n32p$$interop$default.d(bodies).call(bodies, ({
+const $Focm$var$set = (ctx, bodies) => // log("set"),
+["div", ...$n32p$$interop$default.d(bodies).call(bodies, ({
   img,
   text,
   uid
 }) => [$Focm$var$component("sm"), uid, img, $Focm$var$fields(text)])]; // const S = JSON.stringify // <- handy for adornment phase
 // declare button before using in-site (prevent re-registration on RAF)
+// const btn_outline = button_x({ tag: "a" }, "buttons.outline")
 
-
-const $Focm$var$btn_outline = $gy5R$export$button_x({
-  tag: "a"
-}, "buttons.outline");
 
 const $Focm$var$pathLink = (ctx, uid, ...args) => // log("pathLink"),
-[$Focm$var$btn_outline, uid === 3 ? {
+["div", // btn_outline,
+uid === 3 ? {
   disabled: true
 } : {
   href: `/${ctx.fURL().URL_path}/${uid}`,
