@@ -1,5 +1,5 @@
 import { isObject } from "@thi.ng/checks"
-import { parse_URL, msTaskDelay } from "../utils"
+import { fURL, msTaskDelay } from "../utils"
 import {
   __HREF_PUSHSTATE_DOM,
   __NOTIFY_PRERENDER_DOM,
@@ -17,6 +17,7 @@ import {
   URL_page,
   pre,
   post,
+  prefix,
   router,
   args,
   reso,
@@ -57,19 +58,26 @@ import {
  * - `DOM`
  */
 export const __URL__ROUTE = CFG => {
-  let __router, __pre, __post
+  let __router, __pre, __post, __prefix
   if (isObject(CFG)) {
     let _router = CFG[router]
     let _pre = CFG[pre]
     let _post = CFG[post]
+    let _prefix = CFG[prefix] || null
+    const escRGX = /[-/\\^$*+?.()|[\]{}]/g
+    const escaped = string => string.replace(escRGX, "\\$&")
+
+    const RGX = _prefix ? new RegExp(escaped(_prefix), "g") : null
     // console.log({ router, pre, post })
     __router = _router
     __pre = isObject(_pre) ? [_pre] : _pre || []
     __post = isObject(_post) ? [_post] : _post || []
+    __prefix = RGX
   } else {
     __router = CFG
     __pre = []
     __post = []
+    __prefix = null
   }
   return ({ URL }) => [
     ...__pre, // 📌 enable progress observation
@@ -90,7 +98,7 @@ export const __URL__ROUTE = CFG => {
      *
      */
     {
-      [args]: __router(URL),
+      [args]: __prefix ? __router(URL.replace(__prefix, "")) : __router(URL),
       [reso]: (acc, res) => ({
         [URL_page]: res[URL_page],
         [URL_data]: res[URL_data]
@@ -98,7 +106,7 @@ export const __URL__ROUTE = CFG => {
       [erro]: (acc, err) =>
         console.warn("Error in __URL__ROUTE:", err, "constructed:", acc)
     },
-    { [args]: parse_URL(URL) },
+    { [args]: __prefix ? fURL(URL, __prefix) : fURL(URL) },
     /**
      * ## `_SET_ROUTER_PATH`
      *

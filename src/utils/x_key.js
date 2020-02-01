@@ -43,7 +43,7 @@ export const key_index_err = (c, i) => {
  * Just a  little error for people defining commands
  * that makes sure their keys don't contain typos
  */
-export const unknown_key_ERR = (str, c, unknown, sub$, index) => {
+export const x_key_ERR = (str, c, unknown, sub$, index) => {
 
   let { source$ } = c
   let count = Object.entries(c).length

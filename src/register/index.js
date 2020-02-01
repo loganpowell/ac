@@ -2,6 +2,7 @@
  * @module registerCMD
  */
 import { fromAtom, sidechainPartition, fromRAF } from "@thi.ng/rstream"
+import { EquivMap } from "@thi.ng/associative"
 import { peek } from "@thi.ng/arrays"
 import { map } from "@thi.ng/transducers"
 import { updateDOM } from "@thi.ng/transducers-hdom"
@@ -21,28 +22,47 @@ import {
   args,
   reso,
   erro,
+  prefix,
   source$,
   handler,
-  parseURL,
   run,
-  state
+  state,
+  root,
+  app,
+  router,
+  draft,
+  trace
 } from "../store"
 import { __URL_DOM__ROUTE, __URL__ROUTE } from "../tasks"
-import { unknown_key_ERR, parse_URL, stringify_w_functions } from "../utils"
+import { x_key_ERR, fURL, stringify_w_functions, keys_diff } from "../utils"
 
 const err_str = "registerCMD"
 
-const feedCMD$fromSource$ = ({ sub$, args, source$ }) => {
-  let args_is_fn = isFunction(args)
-  let deliver = x => ({ sub$, args: args(x) })
-  let delivery = { sub$, args }
+const feedCMD$fromSource$ = cmd => {
+  let _sub$ = cmd[sub$]
+  let _args = cmd[args]
+  let args_is_fn = isFunction(_args)
+  let deliver = x => ({ [sub$]: _sub$, [args]: _args(x) })
+  let delivery = { [sub$]: _sub$, [args]: _args }
 
   let feed = $ =>
     args_is_fn ? map(x => $.next(deliver(x))) : map(() => $.next(delivery))
 
   // looks for the `sub$` key to determine if its a command
-  return source$.subscribe(feed(command$))
+  return cmd[source$].subscribe(feed(command$))
 }
+
+// const feedCMD$fromSource$ = ({ sub$, args, source$ }) => {
+//   let args_is_fn = isFunction(args)
+//   let deliver = x => ({ sub$, args: args(x) })
+//   let delivery = { sub$, args }
+
+//   let feed = $ =>
+//     args_is_fn ? map(x => $.next(deliver(x))) : map(() => $.next(delivery))
+
+//   // looks for the `sub$` key to determine if its a command
+//   return source$.subscribe(feed(command$))
+// }
 
 /**
  *
@@ -135,7 +155,7 @@ const feedCMD$fromSource$ = ({ sub$, args, source$ }) => {
  *  4. `source$` (optional, enables stream to feed Command)
  *
  */
-let registered = new Map()
+let registered = new EquivMap()
 
 export function registerCMD(command) {
   // 📌 TODO: register factory function
@@ -148,8 +168,7 @@ export function registerCMD(command) {
   let _handler = command[handler]
 
   let knowns = [sub$, args, reso, erro, source$, handler]
-  let all = Object.keys(command)
-  let unknowns = all.filter(key => !knowns.includes(key))
+  let [unknowns] = keys_diff(knowns, command)
   // console.log({ knowns, all, unknowns })
 
   /**
@@ -157,9 +176,7 @@ export function registerCMD(command) {
    * to save the user from having to do that PITA everytime
    */
   if (unknowns.length > 0) {
-    throw new Error(
-      unknown_key_ERR(err_str, command, unknowns, _sub$, undefined)
-    )
+    throw new Error(x_key_ERR(err_str, command, unknowns, _sub$, undefined))
   }
 
   if (_source$) feedCMD$fromSource$(command)
@@ -246,10 +263,17 @@ export const registerRouter = router => {
     // 📌 TODO: add source for API access/server source$
     [source$]: DOMnavigated$,
     [args]: x => x,
-    [handler]: ({ URL, DOM }) => run$.next(taskFrom({ URL, DOM }))
+    [handler]: args =>
+      run$.next(taskFrom({ [URL]: args[URL], [DOM]: args[DOM] }))
   })
 }
 
+const pre = (ctx, body) => (
+  console.log(
+    `no \`app\` component provided to \`${boot.name}({${app}})\`. Rendering state by route path`
+  ),
+  ["pre", JSON.stringify(body[1], null, 2)]
+)
 /**
  *
  *  Part I: Needs to be a functional component to accept the
@@ -262,50 +286,59 @@ export const registerRouter = router => {
  *  which is triggered by any updates to the global
  *  `$store$`
  */
-export const boot = async ({
+
+/* ({
   root = document.body,
-  app = (ctx, body) => (
-    console.log(
-      "no `app` component provided to `boot({app})`. Rendering state"
-    ),
-    ["pre", JSON.stringify(body, null, 2)]
-  ),
-  prefix = "",
+  app = pre,
   draft,
   router,
   trace,
   ...others
-}) => {
-  if (router) registerRouterDOM(router)
-
+}) */
+export const boot = async CFG => {
   // console.log({ URL_page })
 
-  const escaped = string => string.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&")
+  const _root = CFG[root] || document.body
+  const _app = CFG[app] || pre
+  const _draft = CFG[draft]
+  const _router = CFG[router]
+  const _trace = CFG[trace]
 
-  const RGX = new RegExp(escaped(prefix), "g")
+  const knowns = [root, app, draft, router, trace]
+  const [, others] = keys_diff(knowns, CFG)
+
+  const escRGX = /[-/\\^$*+?.()|[\]{}]/g
+  const escaped = string => string.replace(escRGX, "\\$&")
+
+  const _prefix = _router[prefix] || null
+  const RGX = _prefix ? new RegExp(escaped(_prefix || ""), "g") : null
+
+  if (_router) registerRouterDOM(_router)
 
   const state$ = fromAtom($store$)
 
   const shell = state$ => (
-    trace ? console.log(trace, state$) : null,
+    _trace ? console.log(_trace, state$) : null,
     state$[ROUTE_LOADING]
       ? null
-      : [app, [state$[PAGE_TEMPLATE], getIn(state$, state$[ROUTE_PATH])]]
+      : [_app, [state$[PAGE_TEMPLATE], getIn(state$, state$[ROUTE_PATH])]]
   )
-  if (draft) $store$.swap(x => ({ ...draft, ...x }))
-  $store$.resetIn(ROOT, root)
+  if (_draft) $store$.swap(x => ({ ..._draft, ...x }))
+  $store$.resetIn(ROOT, _root)
 
   state$.subscribe(sidechainPartition(fromRAF())).transform(
     map(peek),
     map(shell),
     updateDOM({
-      root,
+      root: _root,
       span: false,
       ctx: {
         [run]: x => run$.next(x),
         [state]: $store$,
         // remove any staging path components (e.g., gh-pages)
-        [parseURL]: () => parse_URL(window.location.href.replace(RGX, "")), // <- 🔍
+        [fURL.name]: () =>
+          // console.log({ fURL }),
+          fURL(window.location.href, RGX), // <- 🔍
         ...others
       }
     })

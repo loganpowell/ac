@@ -2,8 +2,8 @@ import { getIn } from "@thi.ng/paths"
 import { isObject } from "@thi.ng/checks"
 import { EquivMap } from "@thi.ng/associative"
 
-import scrolly from "@mapbox/scroll-restorer"
-scrolly.start()
+// import scrolly from "@mapbox/scroll-restorer"
+// scrolly.start()
 
 import { register, commands, utils, components, streams, store } from "../../src"
 import { button_x } from "./components"
@@ -19,8 +19,8 @@ import { THEME } from "./theme"
 // ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
 const { run$ } = streams
 const { boot, registerCMD } = register
-const { INJECT_HEAD_CMD, HURL_CMD } = commands
-const { parse_URL, traceStream } = utils
+const { INJECT_HEAD, HURL } = commands
+const { fURL, trace$ } = utils
 const { FLIPkid } = components
 const { $store$ } = store
 // ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
@@ -144,7 +144,7 @@ const getSomeJSON = async (path, uid) => {
  * TODO: Graphql Example
  */
 const routerCfg = async url => {
-  let match = parse_URL(url)
+  let match = fURL(url)
   let {
     // URL,
     // URL_subdomain, // array
@@ -177,7 +177,7 @@ const routerCfg = async url => {
       { ...match, URL_path: [] },
       { URL_data: () => getSomeJSON("users", 1), URL_page: single }
     ] // get match || 404 data
-  ]).get(match) || { URL_data: () => getSomeJSON("users", 12), URL_page: single }
+  ]).get(match) || { URL_data: () => getSomeJSON("users", 9), URL_page: single }
 
   return { URL_data: await URL_data(), URL_page }
 }
@@ -211,8 +211,7 @@ const child = (ctx, id, img, sz, ...args) => [
             height: "600px",
             width: "600px"
           },
-    href:
-      sz === "sm" ? `/${ctx.parseURL().URL_path}/${id}` : `/${ctx.parseURL().URL_path.join("/")}`
+    href: sz === "sm" ? `/${ctx.fURL().URL_path}/${id}` : `/${ctx.fURL().URL_path.join("/")}`
   },
   ...args
 ]
@@ -264,10 +263,10 @@ const pathLink = (ctx, uid, ...args) => [
   uid === 3
     ? { disabled: true }
     : {
-        href: `/${ctx.parseURL().URL_path}/${uid}`,
+        href: `/${ctx.fURL().URL_path}/${uid}`,
         onclick: e => {
           e.preventDefault()
-          ctx.run({ ...HURL_CMD, args: e })
+          ctx.run({ ...HURL, args: e })
         }
       },
   ...args
@@ -296,7 +295,7 @@ const link = (ctx, path, ...args) => [
     href: "/" + path.join("/"),
     // regular href just works if there's no extra paths in
     // URL (e.g., gh-pages URLs will break these)...
-    onclick: e => (e.preventDefault(), ctx.run({ ...HURL_CMD, args: e }))
+    onclick: e => (e.preventDefault(), ctx.run({ ...HURL, args: e }))
   },
   ...args
 ]
@@ -329,8 +328,9 @@ const app = (ctx, page) =>
 
 // TODO: add default / 404 page here (could help the ugly $page.deref() ||...)
 const router = {
+  prefix: "ac/",
   router: routerCfg,
-  post: INJECT_HEAD_CMD
+  post: INJECT_HEAD
 }
 
 // const router = routerCfg
@@ -341,7 +341,7 @@ const w_config = {
   root: document.getElementById("app"), // <- 🔍
   // prefix: "ac/",
   // draft: { users: [] },
-  // trace: "app stream ->",
+  trace: "app stream ->",
 
   // arbitrary context k/v pairs...
   theme: THEME

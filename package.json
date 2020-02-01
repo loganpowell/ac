@@ -12,22 +12,19 @@
     "start": "cross-env NODE_ENV=development parcel test/index.html -d dist",
     "serve": "node dist/server.js",
     "docs": "jsdoc --configure jsdoc.json --verbose",
-    "pages": "gh-pages -d docs"
+    "pages": "gh-pages -d dist"
   },
   "keywords": [
     "thi.ng"
   ],
   "dependencies": {
-    "@babel/runtime-corejs2": "^7.7.7",
-    "@babel/runtime-corejs3": "^7.7.7",
     "@thi.ng/hdom": "^8.0.8",
     "@thi.ng/rstream": "latest",
     "@thi.ng/transducers-hdom": "^2.0.32",
     "abort-controller": "^3.0.0",
     "axios": "^0.19.1",
     "nanographql": "^2.0.0",
-    "querystring": "^0.2.0",
-    "tinyscroll": "^3.1.0"
+    "querystring": "^0.2.0"
   },
   "peerDependencies": {
     "@thi.ng/associative": "latest",
@@ -38,6 +35,8 @@
     "@thi.ng/arrays": "latest"
   },
   "devDependencies": {
+    "@babel/runtime-corejs2": "latest",
+    "@babel/runtime-corejs3": "^7.7.7",
     "@babel/core": "^7.7.7",
     "@babel/plugin-transform-runtime": "^7.7.6",
     "@babel/preset-env": "^7.7.7",

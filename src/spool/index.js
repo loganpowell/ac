@@ -2,7 +2,7 @@
  @module Tasks
 */
 import { isFunction, isPromise } from "@thi.ng/checks"
-import { stringify_type, unknown_key_ERR, key_index_err } from "../utils"
+import { stringify_type, x_key_ERR, key_index_err, keys_diff } from "../utils"
 import { command$ } from "../streams"
 import { sub$, args, reso, erro, source$, handler } from "../store"
 
@@ -205,11 +205,10 @@ export const spool = task_array =>
     // let _source$ = c[source$]
     // let _handler = c[handler]
     let knowns = [sub$, args, reso, erro, source$, handler]
-    let all = Object.keys(c)
-    let unknowns = all.filter(key => !knowns.includes(key))
+    let [unknowns] = keys_diff(knowns, c)
 
     if (unknowns.length > 0)
-      throw new Error(unknown_key_ERR(err_str, c, unknowns, _sub$, i))
+      throw new Error(x_key_ERR(err_str, c, unknowns, _sub$, i))
     let arg_type = stringify_type(_args)
     let result = _args
 

@@ -123,7 +123,8 @@ export const FLIP_last_invert_play = ({
   element,
   state,
   id,
-  transition = "all .4s cubic-bezier(.54,-0.29,.17,1.11)"
+  // just baffle them with https://cubic-bezier.com/
+  transition = "all .3s cubic-bezier(.54,-0.29,.17,1.11)"
 }) => {
   element.setAttribute("flip", id)
   let { rects, clicks, scrolls } = zoom_paths(id)
@@ -133,7 +134,7 @@ export const FLIP_last_invert_play = ({
   if (!F_flip_map) return
 
   // 🕛 if flip active, scroll element on init
-  element.scrollIntoView()
+  // element.scrollIntoView()
   /**
    * 🔥 this may cause issues for parrallel anims append this
    * to a specific target using:
@@ -141,8 +142,14 @@ export const FLIP_last_invert_play = ({
    * if i last... el.scrollIntoView())
    *
    */
-  // 🕞 then calculate location and size
+  // 🕞 calculate location and size
   let L_flip_map = getRect(element)
+  // recalc rect if out of initial view after scrolling into view
+  if (Math.abs(F_flip_map.top - L_flip_map.top) > window.innerHeight) {
+    element.scrollIntoView()
+    L_flip_map = getRect(element)
+  }
+
   let Tx = F_flip_map.left - L_flip_map.left
   let Ty = F_flip_map.top - L_flip_map.top
   let Sx = F_flip_map.width / L_flip_map.width
@@ -153,9 +160,9 @@ export const FLIP_last_invert_play = ({
   let { x, y } = getIn(state.deref(), scrolls) // top - window.innerHeight / 2
   window.scrollTo(x, y)
 
-  // console.log({ F_flip_map, L_flip_map, middle })
+  // console.log({ Tx, Ty, Sx, Sy })
 
-  element.style.transformOrigin = "0 0"
+  element.style.transformOrigin = "top left"
   element.style.transition = ""
   let trans = `translate(${Tx}px, ${Ty}px) scale(${Sx}, ${Sy})`
   element.style.transform = trans
@@ -165,7 +172,8 @@ export const FLIP_last_invert_play = ({
     // 🕤 just before animating, scroll to new location
     window.scrollTo(x, y)
 
-    // just baffle them with https://cubic-bezier.com/
+    // element.style.transformOrigin = "top left"
+
     element.style.transition = transition
     element.style.transform = "none"
     // 💩 hack for removing zIndex after animation is complete
@@ -204,14 +212,14 @@ export const FLIP_last_invert_play = ({
 
 const state = new Atom({})
 
-export const FLIP_1ST = registerCMD({
-  [sub$]: "FLIP_1ST",
+export const _F_LIP = registerCMD({
+  [sub$]: "_F_LIP",
   [args]: x => x,
   [handler]: ({ id, target }) => FLIP_first({ id, target, state })
 })
 
-export const FLIP_LIP = registerCMD({
-  [sub$]: "FLIP_LIP",
+export const F_LIP_ = registerCMD({
+  [sub$]: "F_LIP_",
   [args]: x => x,
   [handler]: ({ id, element }) => FLIP_last_invert_play({ id, element, state })
 })

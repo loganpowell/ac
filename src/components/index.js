@@ -1,5 +1,5 @@
-import { FLIP_1ST, FLIP_LIP, HURL_CMD } from "../commands"
-
+import { _F_LIP, F_LIP_, HURL } from "../commands"
+import { run, args } from "../store"
 /**
  * There're only 3 lifecycle hooks. render is called for
  * every update and is just providing the actual hiccup for
@@ -42,7 +42,7 @@ const simEvent = href => ({
 })
 
 export const FLIPkid = {
-  render: ({ run }, ...args) => [
+  render: (ctx, ...rest) => [
     "div",
     {
       onclick: ev => {
@@ -51,23 +51,23 @@ export const FLIPkid = {
         const href = target.getAttribute("href")
         // console.log({ target, href })
         if (!href) return new Error(err_str("href"))
-        run([
-          { ...HURL_CMD, args: simEvent(href) },
-          { ...FLIP_1ST, args: { id: href, target } }
+        ctx[run]([
+          { ...HURL, [args]: simEvent(href) },
+          { ..._F_LIP, [args]: { id: href, target } }
         ])
       }
     },
-    ...args
+    ...rest
   ],
-  init: (el, { run }) => {
+  init: (el, ctx) => {
     // console.log({
     //   el,
     //   firstChild: el.firstChild,
     //   id: el.firstChild.getAttribute("href")
     // }),
-    run({
-      ...FLIP_LIP,
-      args: {
+    ctx[run]({
+      ...F_LIP_,
+      [args]: {
         element: el.firstChild,
         id: el.firstChild.getAttribute("href")
       }

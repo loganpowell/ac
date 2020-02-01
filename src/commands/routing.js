@@ -1,5 +1,5 @@
 import { registerCMD } from "../register"
-import { parse_URL } from "../utils"
+import { fURL } from "../utils"
 import { DOMnavigated$ } from "../streams"
 import { DOM, URL, URL_path, sub$, args, handler } from "../store"
 /**
@@ -9,12 +9,12 @@ import { DOM, URL, URL_path, sub$, args, handler } from "../store"
  * transformed correctly by the `navigated$` stream
  * transforms
  */
-export const HURL = ev => {
+export const HURLer = ev => {
   // ev.preventDefault()
   // console.log({ e })
   let href = ev.target.href
   let w_href = window.location.href
-  let parsed = parse_URL(w_href)
+  let parsed = fURL(w_href)
   let w_path = `/${parsed[URL_path].join("/")}`
   // handle both absolute and root relative paths
   if (href === w_href || href === w_path) return
@@ -26,10 +26,10 @@ export const HURL = ev => {
   return ev
 }
 
-export const HURL_CMD = registerCMD({
-  [sub$]: "HURL_CMD",
+export const HURL = registerCMD({
+  [sub$]: "HURL",
   [args]: ev => ev,
-  [handler]: HURL
+  [handler]: HURLer
 })
 
 const setLinkAttrs = target => {
@@ -96,7 +96,7 @@ export const __HREF_PUSHSTATE_DOM = registerCMD({
   [args]: acc => ({ [URL]: acc[URL], [DOM]: acc[DOM] }),
   [handler]: args =>
     !args[DOM].document
-      ? history.pushState(parse_URL(args[URL]), null, args[URL])
+      ? history.pushState(fURL(args[URL]), null, args[URL])
       : null
 })
 

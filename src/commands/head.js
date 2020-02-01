@@ -76,9 +76,9 @@ export const HEAD_CMD = ({
   HEAD_favicon: favicon
 })
 
-export const INJECT_HEAD_CMD = registerCMD({
+export const INJECT_HEAD = registerCMD({
   // source$: DOMnavigated$,
-  [sub$]: "INJECT_HEAD_CMD",
+  [sub$]: "INJECT_HEAD",
   [args]: acc => ({ [URL_data]: acc[URL_data] }),
   [handler]: ({
     [URL_data]: {

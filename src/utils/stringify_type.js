@@ -1,12 +1,4 @@
-import {
-  isObject,
-  isArray,
-  isFunction,
-  isPromise,
-  isString,
-  isNull,
-  isBoolean
-} from "@thi.ng/checks"
+import { isObject, isFunction, isPromise } from "@thi.ng/checks"
 
 let fix_jsdoc
 
@@ -22,13 +14,9 @@ let fix_jsdoc
  *
  */
 export const stringify_type = x => {
-  if (isArray(x))                       return "ARRAY"
   if (isFunction(x) && x.length === 0)  return "THUNK"
   if (isFunction(x) && x.length > 0)    return "FUNCTION"
   if (isPromise(x))                     return "PROMISE"
-  if (isString(x))                      return "STRING"
-  if (isBoolean(x))                     return "BOOLEAN"
-  if (isNull(x))                        return "NULL"
   if (isObject(x))                      return "OBJECT"
                                         return "type_str NOT FOUND"
 }

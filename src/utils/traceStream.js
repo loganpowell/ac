@@ -1,5 +1,4 @@
 import { trace } from "@thi.ng/rstream"
-import { map } from "@thi.ng/transducers"
 
 let fix_jsdoc
 
@@ -12,7 +11,7 @@ let fix_jsdoc
  *                  stream
  * @param {stream}
  * */
-export const traceStream = (log_prefix, stream) =>
+export const trace$ = (log_prefix, stream) =>
   stream.subscribeTopic
     ? stream.subscribeTopic("_TRACE_STREAM", {
         next: x => console.log(log_prefix, x),
