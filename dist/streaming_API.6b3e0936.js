@@ -29880,7 +29880,8 @@ const link = (ctx, path, ...args) => // log("link"),
 // TODO: example of using cursors for local state
 
 
-const app = (ctx, page) => (log("app"), ["div", {
+const app = (ctx, page) => // log("app"),
+["div", {
   style: {
     "max-width": "30rem",
     margin: "auto",
@@ -29888,7 +29889,7 @@ const app = (ctx, page) => (log("app"), ["div", {
   }
 }, ...[["users"], ["todos"], ["todos", 2], ["users", 9]].map(path => [link, path, `/${path[0]}${path[1] ? "/" + path[1] : ""}`, ["br"]]), // default to homepage `single` shell during
 // hydration/start (before any async is done)
-page]); // TODO: add default / 404 page here (could help the ugly $page.deref() ||...)
+page]; // TODO: add default / 404 page here (could help the ugly $page.deref() ||...)
 
 
 const router = {
@@ -29904,7 +29905,7 @@ const w_config = {
   // <- 🔍
   prefix: "ac/",
   // draft: { users: [] },
-  trace: "app stream ->",
+  // trace: "app stream ->",
   // arbitrary context k/v pairs...
   theme: _theme.THEME
 };
@@ -29913,7 +29914,7 @@ const w_config = {
 //   args: x => x
 // })
 
-console.log(_spule.registerCMD.all.entries());
+console.log("registered Commands:", _spule.registerCMD.all.entries());
 console.log("starting...");
 },{"@thi.ng/paths":"jkaf","@thi.ng/checks":"XYpc","@thi.ng/associative":"GmJl","spule":"K6of","./theme":"ndBe"}]},{},["Focm"], null)
-//# sourceMappingURL=streaming_API.789ec945.js.map
+//# sourceMappingURL=streaming_API.6b3e0936.js.map

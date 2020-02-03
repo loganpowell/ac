@@ -342,8 +342,8 @@ const link = (ctx, path, ...args) =>
 //            888       888
 //
 // TODO: example of using cursors for local state
-const app = (ctx, page) => (
-  log("app"),
+const app = (ctx, page) =>
+  // log("app"),
   [
     "div",
     { style: { "max-width": "30rem", margin: "auto", padding: "2rem" } },
@@ -357,7 +357,6 @@ const app = (ctx, page) => (
     // hydration/start (before any async is done)
     page
   ]
-)
 
 // TODO: add default / 404 page here (could help the ugly $page.deref() ||...)
 const router = {
@@ -374,7 +373,7 @@ const w_config = {
   root: document.getElementById("app"), // <- 🔍
   prefix: "ac/",
   // draft: { users: [] },
-  trace: "app stream ->",
+  // trace: "app stream ->",
 
   // arbitrary context k/v pairs...
   theme: THEME
@@ -387,6 +386,6 @@ boot(w_config)
 //   args: x => x
 // })
 
-console.log(registerCMD.all.entries())
+console.log("registered Commands:", registerCMD.all.entries())
 
 console.log("starting...")
