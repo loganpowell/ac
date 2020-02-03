@@ -1,12 +1,26 @@
 import { getIn } from "@thi.ng/paths"
 import { isObject } from "@thi.ng/checks"
 import { EquivMap } from "@thi.ng/associative"
-
+// import "regenerator-runtime"
 // import scrolly from "@mapbox/scroll-restorer"
 // scrolly.start()
 
-import { register, commands, utils, components, streams, store } from "../../src"
-import { button_x } from "./components"
+// ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
+import {
+  run$,
+  command$,
+  out$,
+  trace$,
+  $store$,
+  registerCMD,
+  INJECT_HEAD,
+  HURL,
+  fURL,
+  boot,
+  FLIPkid
+} from "spule"
+// ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
+// import { button_x } from "./components"
 import { THEME } from "./theme"
 
 /**
@@ -16,14 +30,6 @@ import { THEME } from "./theme"
  * TRY PARCEL 2.alpha
  *
  */
-// ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
-const { run$ } = streams
-const { boot, registerCMD } = register
-const { INJECT_HEAD, HURL } = commands
-const { fURL, trace$ } = utils
-const { FLIPkid } = components
-const { $store$ } = store
-// ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
 
 //
 //  888                /
@@ -37,7 +43,9 @@ const { $store$ } = store
 
 const log = console.log
 
-// traceStream("run$ ->", run$)
+// trace$("run$ ->", run$)
+// trace$("command$ ->", command$)
+// trace$("out$ ->", out$)
 
 //
 //        888             d8
@@ -69,11 +77,14 @@ const log = console.log
  */
 const getSomeJSON = async (path, uid) => {
   const text_base = "https://jsonplaceholder.typicode.com/"
-  const img_base = (id, sz) => `https://i.picsum.photos/id/${id}/${sz}/${sz}.jpg`
+  const img_base = (id, sz) =>
+    `https://i.picsum.photos/id/${id}/${sz}/${sz}.jpg`
 
   const data = uid
     ? (async () => {
-        let detail = await fetch(`${text_base}${path}/${uid}`).then(r => r.json())
+        let detail = await fetch(`${text_base}${path}/${uid}`).then(r =>
+          r.json()
+        )
         let {
           name = `User ${getIn(detail, "id")}`,
           company: { catchPhrase } = { catchPhrase: detail.title }
@@ -196,25 +207,30 @@ const routerCfg = async url => {
 
 // CHILD DEF: sig = (ctx, attrs, ...any)
 
-const child = (ctx, id, img, sz, ...args) => [
-  "img",
-  {
-    src: img,
-    style:
-      sz === "sm"
-        ? {
-            height: "100px",
-            width: "100px",
-            cursor: "pointer"
-          }
-        : {
-            height: "600px",
-            width: "600px"
-          },
-    href: sz === "sm" ? `/${ctx.fURL().URL_path}/${id}` : `/${ctx.fURL().URL_path.join("/")}`
-  },
-  ...args
-]
+const child = (ctx, id, img, sz, ...args) =>
+  // log("child"),
+  [
+    "img",
+    {
+      src: img,
+      style:
+        sz === "sm"
+          ? {
+              height: "100px",
+              width: "100px",
+              cursor: "pointer"
+            }
+          : {
+              height: "600px",
+              width: "600px"
+            },
+      href:
+        sz === "sm"
+          ? `/${ctx.fURL().URL_path}/${id}`
+          : `/${ctx.fURL().URL_path.join("/")}`
+    },
+    ...args
+  ]
 
 const zoomOnNav = (ctx, id, img, sz) => [FLIPkid, [child, id, img, sz]]
 
@@ -227,19 +243,19 @@ const zoomOnNav = (ctx, id, img, sz) => [FLIPkid, [child, id, img, sz]]
  * in an attempt to pass state between components. Use an atom,
  * which is deref'able for that
  */
-const component = sz => {
-  return (ctx, uid, img, fields) => [
+const component = sz =>
+  // log("component"),
+  (ctx, uid, img, fields) => [
     "div",
     { style: { "margin-bottom": "30px" } },
     [zoomOnNav, uid, img, sz],
     ["p", { class: "title" }, fields]
   ]
-}
 
 // babel/core-js will complain if pages aren't defined
 // before they're used even though eslint will allow it
 const single = (ctx, body) =>
-  // console.log({ body }),
+  // log("single"),
   [
     component("lg"),
     getIn(body, "uid"),
@@ -247,58 +263,74 @@ const single = (ctx, body) =>
     getIn(body, "text") ? fields(body.text.company || body.text) : null
   ]
 
-const set = (ctx, bodies) => [
-  "div",
-  ...bodies.map(({ img, text, uid }) => [component("sm"), uid, img, fields(text)])
-]
+const set = (ctx, bodies) =>
+  // log("set"),
+  [
+    "div",
+    ...bodies.map(({ img, text, uid }) => [
+      component("sm"),
+      uid,
+      img,
+      fields(text)
+    ])
+  ]
 
 // const S = JSON.stringify // <- handy for adornment phase
 
 // declare button before using in-site (prevent re-registration on RAF)
 
-const btn_outline = button_x({ tag: "a" }, "buttons.outline")
+// const btn_outline = button_x({ tag: "a" }, "buttons.outline")
 
-const pathLink = (ctx, uid, ...args) => [
-  btn_outline,
-  uid === 3
-    ? { disabled: true }
-    : {
-        href: `/${ctx.fURL().URL_path}/${uid}`,
-        onclick: e => {
-          e.preventDefault()
-          ctx.run({ ...HURL, args: e })
-        }
-      },
-  ...args
-]
+const pathLink = (ctx, uid, ...args) =>
+  // log("pathLink"),
+  [
+    "div",
+    // btn_outline,
+    uid === 3
+      ? { disabled: true }
+      : {
+          href: `/${ctx.fURL().URL_path}/${uid}`,
+          onclick: e => {
+            e.preventDefault()
+            ctx.run({ ...HURL, args: e })
+          }
+        },
+    ...args
+  ]
 
-const field = (ctx, key, val) => [
-  "li",
-  { style: { display: "flex" } },
-  key === "id"
-    ? [pathLink, val, val]
-    : isObject(val)
-    ? ["ul", ...Object.entries(val).map(([k, v]) => [field, k, v])]
-    : ["p", { style: { padding: "0 0.5rem" } }, val]
-]
+const field = (ctx, key, val) =>
+  // log("field"),
+  [
+    "li",
+    { style: { display: "flex" } },
+    key === "id"
+      ? [pathLink, val, val]
+      : isObject(val)
+      ? ["ul", ...Object.entries(val).map(([k, v]) => [field, k, v])]
+      : ["p", { style: { padding: "0 0.5rem" } }, val]
+  ]
 
-const fields = payload => [
-  "ul",
-  ...Object.entries(payload)
-    .slice(0, 4)
-    .map(([k, v]) => [field, k, v])
-]
+const fields = payload =>
+  // log("fields", { payload }),
+  [
+    "ul",
+    ...Object.entries(payload)
+      .slice(0, 4)
+      .map(([k, v]) => [field, k, v])
+  ]
 
-const link = (ctx, path, ...args) => [
-  "a",
-  {
-    href: "/" + path.join("/"),
-    // regular href just works if there's no extra paths in
-    // URL (e.g., gh-pages URLs will break these)...
-    onclick: e => (e.preventDefault(), ctx.run({ ...HURL, args: e }))
-  },
-  ...args
-]
+const link = (ctx, path, ...args) =>
+  // log("link"),
+  [
+    "a",
+    {
+      href: "/" + path.join("/"),
+      // regular href just works if there's no extra paths in
+      // URL (e.g., gh-pages URLs will break these)...
+      onclick: e => (e.preventDefault(), ctx.run({ ...HURL, args: e }))
+    },
+    ...args
+  ]
 
 //
 //
@@ -310,8 +342,8 @@ const link = (ctx, path, ...args) => [
 //            888       888
 //
 // TODO: example of using cursors for local state
-const app = (ctx, page) =>
-  // console.log(ctx.state),
+const app = (ctx, page) => (
+  log("app"),
   [
     "div",
     { style: { "max-width": "30rem", margin: "auto", padding: "2rem" } },
@@ -325,6 +357,7 @@ const app = (ctx, page) =>
     // hydration/start (before any async is done)
     page
   ]
+)
 
 // TODO: add default / 404 page here (could help the ugly $page.deref() ||...)
 const router = {
@@ -339,7 +372,7 @@ const w_config = {
   app,
   router,
   root: document.getElementById("app"), // <- 🔍
-  // prefix: "ac/",
+  prefix: "ac/",
   // draft: { users: [] },
   trace: "app stream ->",
 
@@ -354,6 +387,6 @@ boot(w_config)
 //   args: x => x
 // })
 
-// console.log(registerCMD.all.entries())
+console.log(registerCMD.all.entries())
 
 console.log("starting...")
