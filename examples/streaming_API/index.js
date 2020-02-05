@@ -17,7 +17,8 @@ import {
   HURL,
   fURL,
   boot,
-  FLIPkid
+  FLIPkid,
+  keys as K
 } from "spule"
 // ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
 // import { button_x } from "./components"
@@ -43,7 +44,7 @@ import { THEME } from "./theme"
 
 const log = console.log
 
-// trace$("run$ ->", run$)
+trace$("run$ ->", run$)
 // trace$("command$ ->", command$)
 // trace$("out$ ->", out$)
 
@@ -90,12 +91,12 @@ const getSomeJSON = async (path, uid) => {
           company: { catchPhrase } = { catchPhrase: detail.title }
         } = detail
         return {
-          HEAD: {
+          [K.DOM.HEAD]: {
             title: `${name}'s Details`,
             description: `${name} handles ${catchPhrase}`,
             image: { url: img_base(uid, 600) }
           },
-          BODY: {
+          [K.DOM.BODY]: {
             // lesson -> don't use the actual url as the uid (not flexible)
             img: img_base(uid, 600),
             // this needs fixin' 📌
@@ -107,12 +108,12 @@ const getSomeJSON = async (path, uid) => {
     : (async () => {
         let list = await fetch(`${text_base}${path}/`).then(r => r.json())
         return {
-          HEAD: {
+          [K.DOM.HEAD]: {
             title: `${path.replace(/^\w/, c => c.toUpperCase())} list`,
             description: `List page for ${path}`,
             image: { url: img_base(222, 200) }
           },
-          BODY: list.map((c, i) => ({
+          [K.DOM.BODY]: list.map((c, i) => ({
             img: img_base(i + 1, 200),
             text: c,
             uid: i + 1
@@ -156,41 +157,49 @@ const getSomeJSON = async (path, uid) => {
  */
 const routerCfg = async url => {
   let match = fURL(url)
-  let {
-    // URL,
-    // URL_subdomain, // array
-    // URL_domain, // array
-    // URL_query, // object
-    // URL_hash, // string
-    URL_path // array
-  } = match
-  let [, p_b] = URL_path
+  // let {
+  // URL,
+  // URL_subdomain, // array
+  // URL_domain, // array
+  // URL_query, // object
+  // URL_hash, // string
+  // URL_path // array
+  // } = match
 
-  let { URL_data, URL_page } = new EquivMap([
+  let path = match[K.URL.PATH]
+  let [, p_b] = path
+
+  let RES = new EquivMap([
     [
       { ...match, URL_path: ["todos"] },
-      { URL_data: () => getSomeJSON("todos"), URL_page: set }
+      { [K.URL.DATA]: () => getSomeJSON("todos"), [K.URL.PAGE]: set }
     ],
     [
       { ...match, URL_path: ["todos", p_b] },
-      { URL_data: () => getSomeJSON("todos", p_b), URL_page: single }
+      { [K.URL.DATA]: () => getSomeJSON("todos", p_b), [K.URL.PAGE]: single }
     ],
     [
       { ...match, URL_path: ["users"] },
-      { URL_data: () => getSomeJSON("users"), URL_page: set }
+      { [K.URL.DATA]: () => getSomeJSON("users"), [K.URL.PAGE]: set }
     ],
     [
       { ...match, URL_path: ["users", p_b] },
-      { URL_data: () => getSomeJSON("users", p_b), URL_page: single }
+      { [K.URL.DATA]: () => getSomeJSON("users", p_b), [K.URL.PAGE]: single }
     ],
     // home page (empty path)
     [
       { ...match, URL_path: [] },
-      { URL_data: () => getSomeJSON("users", 1), URL_page: single }
+      { [K.URL.DATA]: () => getSomeJSON("users", 1), [K.URL.PAGE]: single }
     ] // get match || 404 data
-  ]).get(match) || { URL_data: () => getSomeJSON("users", 9), URL_page: single }
+  ]).get(match) || {
+    [K.URL.DATA]: () => getSomeJSON("users", 9),
+    [K.URL.PAGE]: single
+  }
 
-  return { URL_data: await URL_data(), URL_page }
+  let data = RES[K.URL.DATA]
+  let page = RES[K.URL.PAGE]
+
+  return { [K.URL.DATA]: await data(), [K.URL.PAGE]: page }
 }
 
 //
@@ -360,20 +369,19 @@ const app = (ctx, page) =>
 
 // TODO: add default / 404 page here (could help the ugly $page.deref() ||...)
 const router = {
-  prefix: "ac/",
-  router: routerCfg,
-  post: INJECT_HEAD
+  [K.ROUTER.RUTR]: routerCfg,
+  [K.ROUTER.PRFX]: "ac/",
+  [K.ROUTER.POST]: INJECT_HEAD
 }
 
 // const router = routerCfg
 
 const w_config = {
-  app,
-  router,
-  root: document.getElementById("app"), // <- 🔍
-  prefix: "ac/",
-  // draft: { users: [] },
-  // trace: "app stream ->",
+  [K.CFG.VIEW]: app,
+  [K.CFG.RUTR]: router,
+  [K.CFG.ROOT]: document.getElementById("app"), // <- 🔍
+  [K.CFG.DRFT]: { users: [] },
+  [K.CFG.LOG$]: "app stream ->",
 
   // arbitrary context k/v pairs...
   theme: THEME

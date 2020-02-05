@@ -22,6 +22,7 @@
   ],
   "dependencies": {
     "@babel/runtime-corejs3": "^7.7.7",
+    "@mapbox/scroll-restorer": "^1.0.0",
     "@thi.ng/arrays": "latest",
     "@thi.ng/associative": "latest",
     "@thi.ng/atom": "latest",
@@ -32,8 +33,7 @@
     "@thi.ng/transducers": "latest",
     "@thi.ng/transducers-hdom": "^2.0.32",
     "querystring": "^0.2.0",
-    "spule": "^0.1.50",
-    "@mapbox/scroll-restorer": "^1.0.0",
+    "spule": "^0.2.15",
     "styled-system-hdom": "latest"
   },
   "devDependencies": {
