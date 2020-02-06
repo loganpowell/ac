@@ -7,15 +7,15 @@ import { EquivMap } from "@thi.ng/associative"
 
 // ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
 import {
-  run$,
   command$,
   out$,
-  trace$,
   $store$,
+  run$,
+  trace$,
   registerCMD,
   INJECT_HEAD,
   HURL,
-  fURL,
+  unfURL,
   boot,
   FLIPkid,
   keys as K
@@ -156,7 +156,7 @@ const getSomeJSON = async (path, uid) => {
  * TODO: Graphql Example
  */
 const routerCfg = async url => {
-  let match = fURL(url)
+  let match = unfURL(url)
   // let {
   // URL,
   // URL_subdomain, // array
@@ -235,8 +235,8 @@ const child = (ctx, id, img, sz, ...args) =>
             },
       href:
         sz === "sm"
-          ? `/${ctx.fURL().URL_path}/${id}`
-          : `/${ctx.fURL().URL_path.join("/")}`
+          ? `/${ctx[K.URL.PRSE]()[K.URL.PATH]}/${id}`
+          : `/${ctx[K.URL.PRSE]()[K.URL.PATH].join("/")}`
     },
     ...args
   ]
@@ -298,7 +298,7 @@ const pathLink = (ctx, uid, ...args) =>
     uid === 3
       ? { disabled: true }
       : {
-          href: `/${ctx.fURL().URL_path}/${uid}`,
+          href: `/${ctx[K.URL.PRSE]()[K.URL.PATH]}/${uid}`,
           onclick: e => {
             e.preventDefault()
             ctx.run({ ...HURL, args: e })

@@ -33,7 +33,7 @@
     "@thi.ng/transducers": "latest",
     "@thi.ng/transducers-hdom": "^2.0.32",
     "querystring": "^0.2.0",
-    "spule": "^0.2.15",
+    "spule": "^0.2.17",
     "styled-system-hdom": "latest"
   },
   "devDependencies": {
