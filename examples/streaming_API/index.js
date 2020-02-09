@@ -1,11 +1,9 @@
 import { getIn } from "@thi.ng/paths"
 import { isObject } from "@thi.ng/checks"
 import { EquivMap } from "@thi.ng/associative"
-// import "regenerator-runtime"
 // import scrolly from "@mapbox/scroll-restorer"
 // scrolly.start()
 
-// ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
 import {
   command$,
   out$,
@@ -15,12 +13,11 @@ import {
   registerCMD,
   INJECT_HEAD,
   HURL,
-  unfURL,
+  parse,
   boot,
   FLIPkid,
   keys as K
 } from "spule"
-// ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
 // import { button_x } from "./components"
 import { THEME } from "./theme"
 
@@ -44,8 +41,8 @@ import { THEME } from "./theme"
 
 const log = console.log
 
-trace$("run$ ->", run$)
-// trace$("command$ ->", command$)
+// trace$("run$ ->", run$)
+trace$("command$ ->", command$)
 // trace$("out$ ->", out$)
 
 //
@@ -156,7 +153,7 @@ const getSomeJSON = async (path, uid) => {
  * TODO: Graphql Example
  */
 const routerCfg = async url => {
-  let match = unfURL(url)
+  let match = parse(url)
   // let {
   // URL,
   // URL_subdomain, // array
@@ -171,24 +168,24 @@ const routerCfg = async url => {
 
   let RES = new EquivMap([
     [
-      { ...match, URL_path: ["todos"] },
+      { ...match, [K.URL.PATH]: ["todos"] },
       { [K.URL.DATA]: () => getSomeJSON("todos"), [K.URL.PAGE]: set }
     ],
     [
-      { ...match, URL_path: ["todos", p_b] },
+      { ...match, [K.URL.PATH]: ["todos", p_b] },
       { [K.URL.DATA]: () => getSomeJSON("todos", p_b), [K.URL.PAGE]: single }
     ],
     [
-      { ...match, URL_path: ["users"] },
+      { ...match, [K.URL.PATH]: ["users"] },
       { [K.URL.DATA]: () => getSomeJSON("users"), [K.URL.PAGE]: set }
     ],
     [
-      { ...match, URL_path: ["users", p_b] },
+      { ...match, [K.URL.PATH]: ["users", p_b] },
       { [K.URL.DATA]: () => getSomeJSON("users", p_b), [K.URL.PAGE]: single }
     ],
     // home page (empty path)
     [
-      { ...match, URL_path: [] },
+      { ...match, [K.URL.PATH]: [] },
       { [K.URL.DATA]: () => getSomeJSON("users", 1), [K.URL.PAGE]: single }
     ] // get match || 404 data
   ]).get(match) || {

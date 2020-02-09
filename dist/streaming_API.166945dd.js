@@ -117,7 +117,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"../../node_modules/@thi.ng/checks/exists-not-null.js":[function(require,module,exports) {
+})({"JkV6":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -128,7 +128,7 @@ exports.existsAndNotNull = void 0;
 const existsAndNotNull = x => x != null;
 
 exports.existsAndNotNull = existsAndNotNull;
-},{}],"../../node_modules/@thi.ng/checks/exists.js":[function(require,module,exports) {
+},{}],"gHcL":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -139,7 +139,7 @@ exports.exists = void 0;
 const exists = t => t !== undefined;
 
 exports.exists = exists;
-},{}],"../../node_modules/@thi.ng/checks/has-bigint.js":[function(require,module,exports) {
+},{}],"O7cb":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -150,7 +150,7 @@ exports.hasBigInt = void 0;
 const hasBigInt = () => typeof BigInt === "function";
 
 exports.hasBigInt = hasBigInt;
-},{}],"../../node_modules/@thi.ng/checks/has-crypto.js":[function(require,module,exports) {
+},{}],"tHdQ":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -161,7 +161,7 @@ exports.hasCrypto = void 0;
 const hasCrypto = () => typeof window !== "undefined" && window["crypto"] !== undefined;
 
 exports.hasCrypto = hasCrypto;
-},{}],"../../node_modules/@thi.ng/checks/has-max-length.js":[function(require,module,exports) {
+},{}],"GuyH":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -172,7 +172,7 @@ exports.hasMaxLength = void 0;
 const hasMaxLength = (len, x) => x != null && x.length <= len;
 
 exports.hasMaxLength = hasMaxLength;
-},{}],"../../node_modules/@thi.ng/checks/has-min-length.js":[function(require,module,exports) {
+},{}],"IZ1J":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -183,7 +183,7 @@ exports.hasMinLength = void 0;
 const hasMinLength = (len, x) => x != null && x.length >= len;
 
 exports.hasMinLength = hasMinLength;
-},{}],"../../node_modules/@thi.ng/checks/is-function.js":[function(require,module,exports) {
+},{}],"Bufo":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -194,7 +194,7 @@ exports.isFunction = void 0;
 const isFunction = x => typeof x === "function";
 
 exports.isFunction = isFunction;
-},{}],"../../node_modules/@thi.ng/checks/has-performance.js":[function(require,module,exports) {
+},{}],"whl6":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -207,7 +207,7 @@ var _isFunction = require("./is-function");
 const hasPerformance = () => typeof performance !== "undefined" && (0, _isFunction.isFunction)(performance.now);
 
 exports.hasPerformance = hasPerformance;
-},{"./is-function":"../../node_modules/@thi.ng/checks/is-function.js"}],"../../node_modules/@thi.ng/checks/has-wasm.js":[function(require,module,exports) {
+},{"./is-function":"Bufo"}],"Plsb":[function(require,module,exports) {
 var global = arguments[3];
 "use strict";
 
@@ -219,7 +219,7 @@ exports.hasWASM = void 0;
 const hasWASM = () => typeof window !== "undefined" && typeof window["WebAssembly"] !== "undefined" || typeof global !== "undefined" && typeof global["WebAssembly"] !== "undefined";
 
 exports.hasWASM = hasWASM;
-},{}],"../../node_modules/@thi.ng/checks/has-webgl.js":[function(require,module,exports) {
+},{}],"hLmy":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -237,7 +237,7 @@ const hasWebGL = () => {
 };
 
 exports.hasWebGL = hasWebGL;
-},{}],"../../node_modules/@thi.ng/checks/has-websocket.js":[function(require,module,exports) {
+},{}],"gjyQ":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -248,7 +248,7 @@ exports.hasWebSocket = void 0;
 const hasWebSocket = () => typeof WebSocket !== "undefined";
 
 exports.hasWebSocket = hasWebSocket;
-},{}],"../../node_modules/@thi.ng/checks/implements-function.js":[function(require,module,exports) {
+},{}],"aypl":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -259,7 +259,7 @@ exports.implementsFunction = void 0;
 const implementsFunction = (x, fn) => x != null && typeof x[fn] === "function";
 
 exports.implementsFunction = implementsFunction;
-},{}],"../../node_modules/@thi.ng/checks/is-array.js":[function(require,module,exports) {
+},{}],"EzY8":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -268,7 +268,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.isArray = void 0;
 const isArray = Array.isArray;
 exports.isArray = isArray;
-},{}],"../../node_modules/@thi.ng/checks/is-arraylike.js":[function(require,module,exports) {
+},{}],"aMkR":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -279,7 +279,7 @@ exports.isArrayLike = void 0;
 const isArrayLike = x => x != null && typeof x !== "function" && x.length !== undefined;
 
 exports.isArrayLike = isArrayLike;
-},{}],"../../node_modules/@thi.ng/checks/is-blob.js":[function(require,module,exports) {
+},{}],"cjD2":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -290,7 +290,7 @@ exports.isBlob = void 0;
 const isBlob = x => x instanceof Blob;
 
 exports.isBlob = isBlob;
-},{}],"../../node_modules/@thi.ng/checks/is-boolean.js":[function(require,module,exports) {
+},{}],"wIBj":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -301,7 +301,7 @@ exports.isBoolean = void 0;
 const isBoolean = x => typeof x === "boolean";
 
 exports.isBoolean = isBoolean;
-},{}],"../../node_modules/@thi.ng/checks/is-chrome.js":[function(require,module,exports) {
+},{}],"Q2Ck":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -312,7 +312,7 @@ exports.isChrome = void 0;
 const isChrome = () => typeof window !== "undefined" && !!window["chrome"];
 
 exports.isChrome = isChrome;
-},{}],"../../node_modules/@thi.ng/checks/is-date.js":[function(require,module,exports) {
+},{}],"iWZh":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -323,7 +323,7 @@ exports.isDate = void 0;
 const isDate = x => x instanceof Date;
 
 exports.isDate = isDate;
-},{}],"../../node_modules/@thi.ng/checks/is-even.js":[function(require,module,exports) {
+},{}],"DVMc":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -334,7 +334,7 @@ exports.isEven = void 0;
 const isEven = x => x % 2 === 0;
 
 exports.isEven = isEven;
-},{}],"../../node_modules/@thi.ng/checks/is-false.js":[function(require,module,exports) {
+},{}],"itLP":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -345,7 +345,7 @@ exports.isFalse = void 0;
 const isFalse = x => x === false;
 
 exports.isFalse = isFalse;
-},{}],"../../node_modules/@thi.ng/checks/is-file.js":[function(require,module,exports) {
+},{}],"nIhw":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -356,7 +356,7 @@ exports.isFile = void 0;
 const isFile = x => x instanceof File;
 
 exports.isFile = isFile;
-},{}],"../../node_modules/@thi.ng/checks/is-firefox.js":[function(require,module,exports) {
+},{}],"kN94":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -367,7 +367,7 @@ exports.isFirefox = void 0;
 const isFirefox = () => typeof window !== "undefined" && !!window["InstallTrigger"];
 
 exports.isFirefox = isFirefox;
-},{}],"../../node_modules/@thi.ng/checks/is-string.js":[function(require,module,exports) {
+},{}],"YRs3":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -378,7 +378,7 @@ exports.isString = void 0;
 const isString = x => typeof x === "string";
 
 exports.isString = isString;
-},{}],"../../node_modules/@thi.ng/checks/is-hex-color.js":[function(require,module,exports) {
+},{}],"I7p9":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -393,7 +393,7 @@ const RE = /^#([a-f0-9]{3}|[a-f0-9]{4}(?:[a-f0-9]{2}){0,2})$/i;
 const isHexColor = x => (0, _isString.isString)(x) && RE.test(x);
 
 exports.isHexColor = isHexColor;
-},{"./is-string":"../../node_modules/@thi.ng/checks/is-string.js"}],"../../node_modules/@thi.ng/checks/is-ie.js":[function(require,module,exports) {
+},{"./is-string":"YRs3"}],"uzxQ":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -404,7 +404,7 @@ exports.isIE = void 0;
 const isIE = () => typeof document !== "undefined" && (typeof document["documentMode"] !== "undefined" || navigator.userAgent.indexOf("MSIE") > 0);
 
 exports.isIE = isIE;
-},{}],"../../node_modules/@thi.ng/checks/is-in-range.js":[function(require,module,exports) {
+},{}],"chRU":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -415,7 +415,7 @@ exports.isInRange = void 0;
 const isInRange = (min, max, x) => x >= min && x <= max;
 
 exports.isInRange = isInRange;
-},{}],"../../node_modules/@thi.ng/checks/is-int32.js":[function(require,module,exports) {
+},{}],"tSTa":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -426,7 +426,7 @@ exports.isInt32 = void 0;
 const isInt32 = x => typeof x === "number" && (x | 0) === x;
 
 exports.isInt32 = isInt32;
-},{}],"../../node_modules/@thi.ng/checks/is-iterable.js":[function(require,module,exports) {
+},{}],"n4Mm":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -437,7 +437,7 @@ exports.isIterable = void 0;
 const isIterable = x => x != null && typeof x[Symbol.iterator] === "function";
 
 exports.isIterable = isIterable;
-},{}],"../../node_modules/@thi.ng/checks/is-map.js":[function(require,module,exports) {
+},{}],"f4lF":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -448,7 +448,7 @@ exports.isMap = void 0;
 const isMap = x => x instanceof Map;
 
 exports.isMap = isMap;
-},{}],"../../node_modules/@thi.ng/checks/is-mobile.js":[function(require,module,exports) {
+},{}],"D1Vz":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -459,7 +459,7 @@ exports.isMobile = void 0;
 const isMobile = () => typeof navigator !== "undefined" && /mobile|tablet|ip(ad|hone|od)|android|silk|crios/i.test(navigator.userAgent);
 
 exports.isMobile = isMobile;
-},{}],"../../node_modules/@thi.ng/checks/is-nan.js":[function(require,module,exports) {
+},{}],"PQYg":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -470,7 +470,7 @@ exports.isNaN = void 0;
 const isNaN = x => x !== x;
 
 exports.isNaN = isNaN;
-},{}],"../../node_modules/@thi.ng/checks/is-negative.js":[function(require,module,exports) {
+},{}],"ujxb":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -481,7 +481,7 @@ exports.isNegative = void 0;
 const isNegative = x => typeof x === "number" && x < 0;
 
 exports.isNegative = isNegative;
-},{}],"../../node_modules/@thi.ng/checks/is-nil.js":[function(require,module,exports) {
+},{}],"pcA2":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -496,9 +496,9 @@ exports.isNil = void 0;
 const isNil = x => x == null;
 
 exports.isNil = isNil;
-},{}],"../../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel/src/builtins/_empty.js":[function(require,module,exports) {
+},{}],"SDAI":[function(require,module,exports) {
 
-},{}],"../../node_modules/@thi.ng/checks/is-node.js":[function(require,module,exports) {
+},{}],"av77":[function(require,module,exports) {
 var process = require("process");
 "use strict";
 
@@ -520,7 +520,7 @@ const isNode = () => {
 };
 
 exports.isNode = isNode;
-},{"process":"../../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel/src/builtins/_empty.js"}],"../../node_modules/@thi.ng/checks/is-not-string-iterable.js":[function(require,module,exports) {
+},{"process":"SDAI"}],"h7C1":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -531,7 +531,7 @@ exports.isNotStringAndIterable = void 0;
 const isNotStringAndIterable = x => x != null && typeof x !== "string" && typeof x[Symbol.iterator] === "function";
 
 exports.isNotStringAndIterable = isNotStringAndIterable;
-},{}],"../../node_modules/@thi.ng/checks/is-null.js":[function(require,module,exports) {
+},{}],"n9fW":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -542,7 +542,7 @@ exports.isNull = void 0;
 const isNull = x => x === null;
 
 exports.isNull = isNull;
-},{}],"../../node_modules/@thi.ng/checks/is-number.js":[function(require,module,exports) {
+},{}],"tVEK":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -553,7 +553,7 @@ exports.isNumber = void 0;
 const isNumber = x => typeof x === "number";
 
 exports.isNumber = isNumber;
-},{}],"../../node_modules/@thi.ng/checks/is-object.js":[function(require,module,exports) {
+},{}],"czvy":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -564,7 +564,7 @@ exports.isObject = void 0;
 const isObject = x => x !== null && typeof x === "object";
 
 exports.isObject = isObject;
-},{}],"../../node_modules/@thi.ng/checks/is-odd.js":[function(require,module,exports) {
+},{}],"FdDG":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -575,7 +575,7 @@ exports.isOdd = void 0;
 const isOdd = x => x % 2 !== 0;
 
 exports.isOdd = isOdd;
-},{}],"../../node_modules/@thi.ng/checks/is-plain-object.js":[function(require,module,exports) {
+},{}],"Pfe1":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -596,7 +596,7 @@ const isPlainObject = x => {
 };
 
 exports.isPlainObject = isPlainObject;
-},{}],"../../node_modules/@thi.ng/checks/is-positive.js":[function(require,module,exports) {
+},{}],"LOdY":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -607,7 +607,7 @@ exports.isPosititve = void 0;
 const isPosititve = x => typeof x === "number" && x > 0;
 
 exports.isPosititve = isPosititve;
-},{}],"../../node_modules/@thi.ng/checks/is-primitive.js":[function(require,module,exports) {
+},{}],"woDp":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -621,7 +621,7 @@ const isPrimitive = x => {
 };
 
 exports.isPrimitive = isPrimitive;
-},{}],"../../node_modules/@thi.ng/checks/is-promise.js":[function(require,module,exports) {
+},{}],"dJae":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -632,7 +632,7 @@ exports.isPromise = void 0;
 const isPromise = x => x instanceof Promise;
 
 exports.isPromise = isPromise;
-},{}],"../../node_modules/@thi.ng/checks/is-promiselike.js":[function(require,module,exports) {
+},{}],"qg0p":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -645,7 +645,7 @@ var _implementsFunction = require("./implements-function");
 const isPromiseLike = x => x instanceof Promise || (0, _implementsFunction.implementsFunction)(x, "then") && (0, _implementsFunction.implementsFunction)(x, "catch");
 
 exports.isPromiseLike = isPromiseLike;
-},{"./implements-function":"../../node_modules/@thi.ng/checks/implements-function.js"}],"../../node_modules/@thi.ng/checks/is-regexp.js":[function(require,module,exports) {
+},{"./implements-function":"aypl"}],"ec3G":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -656,7 +656,7 @@ exports.isRegExp = void 0;
 const isRegExp = x => x instanceof RegExp;
 
 exports.isRegExp = isRegExp;
-},{}],"../../node_modules/@thi.ng/checks/is-safari.js":[function(require,module,exports) {
+},{}],"UBhm":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -669,7 +669,7 @@ var _isChrome = require("./is-chrome");
 const isSafari = () => typeof navigator !== "undefined" && /Safari/.test(navigator.userAgent) && !(0, _isChrome.isChrome)();
 
 exports.isSafari = isSafari;
-},{"./is-chrome":"../../node_modules/@thi.ng/checks/is-chrome.js"}],"../../node_modules/@thi.ng/checks/is-set.js":[function(require,module,exports) {
+},{"./is-chrome":"Q2Ck"}],"FYtk":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -680,7 +680,7 @@ exports.isSet = void 0;
 const isSet = x => x instanceof Set;
 
 exports.isSet = isSet;
-},{}],"../../node_modules/@thi.ng/checks/is-symbol.js":[function(require,module,exports) {
+},{}],"yWj9":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -691,7 +691,7 @@ exports.isSymbol = void 0;
 const isSymbol = x => typeof x === "symbol";
 
 exports.isSymbol = isSymbol;
-},{}],"../../node_modules/@thi.ng/checks/is-transferable.js":[function(require,module,exports) {
+},{}],"DsUC":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -702,7 +702,7 @@ exports.isTransferable = void 0;
 const isTransferable = x => x instanceof ArrayBuffer || typeof SharedArrayBuffer !== "undefined" && x instanceof SharedArrayBuffer || typeof MessagePort !== "undefined" && x instanceof MessagePort;
 
 exports.isTransferable = isTransferable;
-},{}],"../../node_modules/@thi.ng/checks/is-true.js":[function(require,module,exports) {
+},{}],"cptQ":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -713,7 +713,7 @@ exports.isTrue = void 0;
 const isTrue = x => x === true;
 
 exports.isTrue = isTrue;
-},{}],"../../node_modules/@thi.ng/checks/is-typedarray.js":[function(require,module,exports) {
+},{}],"KTQJ":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -724,7 +724,7 @@ exports.isTypedArray = void 0;
 const isTypedArray = x => x && (x.constructor === Float32Array || x.constructor === Uint32Array || x.constructor === Uint8Array || x.constructor === Uint8ClampedArray || x.constructor === Int8Array || x.constructor === Uint16Array || x.constructor === Int16Array || x.constructor === Int32Array || x.constructor === Float64Array);
 
 exports.isTypedArray = isTypedArray;
-},{}],"../../node_modules/@thi.ng/checks/is-uint32.js":[function(require,module,exports) {
+},{}],"oPfe":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -735,7 +735,7 @@ exports.isUint32 = void 0;
 const isUint32 = x => typeof x === "number" && x >>> 0 === x;
 
 exports.isUint32 = isUint32;
-},{}],"../../node_modules/@thi.ng/checks/is-undefined.js":[function(require,module,exports) {
+},{}],"Nuc0":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -746,7 +746,7 @@ exports.isUndefined = void 0;
 const isUndefined = x => x === undefined;
 
 exports.isUndefined = isUndefined;
-},{}],"../../node_modules/@thi.ng/checks/is-uuid.js":[function(require,module,exports) {
+},{}],"y4fY":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -758,7 +758,7 @@ const RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const isUUID = x => RE.test(x);
 
 exports.isUUID = isUUID;
-},{}],"../../node_modules/@thi.ng/checks/is-uuid4.js":[function(require,module,exports) {
+},{}],"SOqJ":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -770,7 +770,7 @@ const RE = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}
 const isUUIDv4 = x => RE.test(x);
 
 exports.isUUIDv4 = isUUIDv4;
-},{}],"../../node_modules/@thi.ng/checks/is-zero.js":[function(require,module,exports) {
+},{}],"xfMy":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -781,7 +781,7 @@ exports.isZero = void 0;
 const isZero = x => x === 0;
 
 exports.isZero = isZero;
-},{}],"../../node_modules/@thi.ng/checks/index.js":[function(require,module,exports) {
+},{}],"XYpc":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1459,7 +1459,7 @@ Object.keys(_isZero).forEach(function (key) {
     }
   });
 });
-},{"./exists-not-null":"../../node_modules/@thi.ng/checks/exists-not-null.js","./exists":"../../node_modules/@thi.ng/checks/exists.js","./has-bigint":"../../node_modules/@thi.ng/checks/has-bigint.js","./has-crypto":"../../node_modules/@thi.ng/checks/has-crypto.js","./has-max-length":"../../node_modules/@thi.ng/checks/has-max-length.js","./has-min-length":"../../node_modules/@thi.ng/checks/has-min-length.js","./has-performance":"../../node_modules/@thi.ng/checks/has-performance.js","./has-wasm":"../../node_modules/@thi.ng/checks/has-wasm.js","./has-webgl":"../../node_modules/@thi.ng/checks/has-webgl.js","./has-websocket":"../../node_modules/@thi.ng/checks/has-websocket.js","./implements-function":"../../node_modules/@thi.ng/checks/implements-function.js","./is-array":"../../node_modules/@thi.ng/checks/is-array.js","./is-arraylike":"../../node_modules/@thi.ng/checks/is-arraylike.js","./is-blob":"../../node_modules/@thi.ng/checks/is-blob.js","./is-boolean":"../../node_modules/@thi.ng/checks/is-boolean.js","./is-chrome":"../../node_modules/@thi.ng/checks/is-chrome.js","./is-date":"../../node_modules/@thi.ng/checks/is-date.js","./is-even":"../../node_modules/@thi.ng/checks/is-even.js","./is-false":"../../node_modules/@thi.ng/checks/is-false.js","./is-file":"../../node_modules/@thi.ng/checks/is-file.js","./is-firefox":"../../node_modules/@thi.ng/checks/is-firefox.js","./is-function":"../../node_modules/@thi.ng/checks/is-function.js","./is-hex-color":"../../node_modules/@thi.ng/checks/is-hex-color.js","./is-ie":"../../node_modules/@thi.ng/checks/is-ie.js","./is-in-range":"../../node_modules/@thi.ng/checks/is-in-range.js","./is-int32":"../../node_modules/@thi.ng/checks/is-int32.js","./is-iterable":"../../node_modules/@thi.ng/checks/is-iterable.js","./is-map":"../../node_modules/@thi.ng/checks/is-map.js","./is-mobile":"../../node_modules/@thi.ng/checks/is-mobile.js","./is-nan":"../../node_modules/@thi.ng/checks/is-nan.js","./is-negative":"../../node_modules/@thi.ng/checks/is-negative.js","./is-nil":"../../node_modules/@thi.ng/checks/is-nil.js","./is-node":"../../node_modules/@thi.ng/checks/is-node.js","./is-not-string-iterable":"../../node_modules/@thi.ng/checks/is-not-string-iterable.js","./is-null":"../../node_modules/@thi.ng/checks/is-null.js","./is-number":"../../node_modules/@thi.ng/checks/is-number.js","./is-object":"../../node_modules/@thi.ng/checks/is-object.js","./is-odd":"../../node_modules/@thi.ng/checks/is-odd.js","./is-plain-object":"../../node_modules/@thi.ng/checks/is-plain-object.js","./is-positive":"../../node_modules/@thi.ng/checks/is-positive.js","./is-primitive":"../../node_modules/@thi.ng/checks/is-primitive.js","./is-promise":"../../node_modules/@thi.ng/checks/is-promise.js","./is-promiselike":"../../node_modules/@thi.ng/checks/is-promiselike.js","./is-regexp":"../../node_modules/@thi.ng/checks/is-regexp.js","./is-safari":"../../node_modules/@thi.ng/checks/is-safari.js","./is-set":"../../node_modules/@thi.ng/checks/is-set.js","./is-string":"../../node_modules/@thi.ng/checks/is-string.js","./is-symbol":"../../node_modules/@thi.ng/checks/is-symbol.js","./is-transferable":"../../node_modules/@thi.ng/checks/is-transferable.js","./is-true":"../../node_modules/@thi.ng/checks/is-true.js","./is-typedarray":"../../node_modules/@thi.ng/checks/is-typedarray.js","./is-uint32":"../../node_modules/@thi.ng/checks/is-uint32.js","./is-undefined":"../../node_modules/@thi.ng/checks/is-undefined.js","./is-uuid":"../../node_modules/@thi.ng/checks/is-uuid.js","./is-uuid4":"../../node_modules/@thi.ng/checks/is-uuid4.js","./is-zero":"../../node_modules/@thi.ng/checks/is-zero.js"}],"../../node_modules/@thi.ng/paths/path.js":[function(require,module,exports) {
+},{"./exists-not-null":"JkV6","./exists":"gHcL","./has-bigint":"O7cb","./has-crypto":"tHdQ","./has-max-length":"GuyH","./has-min-length":"IZ1J","./has-performance":"whl6","./has-wasm":"Plsb","./has-webgl":"hLmy","./has-websocket":"gjyQ","./implements-function":"aypl","./is-array":"EzY8","./is-arraylike":"aMkR","./is-blob":"cjD2","./is-boolean":"wIBj","./is-chrome":"Q2Ck","./is-date":"iWZh","./is-even":"DVMc","./is-false":"itLP","./is-file":"nIhw","./is-firefox":"kN94","./is-function":"Bufo","./is-hex-color":"I7p9","./is-ie":"uzxQ","./is-in-range":"chRU","./is-int32":"tSTa","./is-iterable":"n4Mm","./is-map":"f4lF","./is-mobile":"D1Vz","./is-nan":"PQYg","./is-negative":"ujxb","./is-nil":"pcA2","./is-node":"av77","./is-not-string-iterable":"h7C1","./is-null":"n9fW","./is-number":"tVEK","./is-object":"czvy","./is-odd":"FdDG","./is-plain-object":"Pfe1","./is-positive":"LOdY","./is-primitive":"woDp","./is-promise":"dJae","./is-promiselike":"qg0p","./is-regexp":"ec3G","./is-safari":"UBhm","./is-set":"FYtk","./is-string":"YRs3","./is-symbol":"yWj9","./is-transferable":"DsUC","./is-true":"cptQ","./is-typedarray":"KTQJ","./is-uint32":"oPfe","./is-undefined":"Nuc0","./is-uuid":"y4fY","./is-uuid4":"SOqJ","./is-zero":"xfMy"}],"ncYv":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1524,7 +1524,7 @@ const exists = (obj, path) => {
 };
 
 exports.exists = exists;
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js"}],"../../node_modules/@thi.ng/paths/getter.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc"}],"KCUZ":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1614,7 +1614,7 @@ function getterT(path) {
       };
   }
 }
-},{"./path":"../../node_modules/@thi.ng/paths/path.js"}],"../../node_modules/@thi.ng/paths/setter.js":[function(require,module,exports) {
+},{"./path":"ncYv"}],"u6VB":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1743,7 +1743,7 @@ function setterT(path) {
 const _copy = s => (0, _checks.isArray)(s) ? s.slice() : Object.assign({}, s);
 
 const compS = (k, f) => (s, v) => (s = _copy(s), s[k] = f ? f(s[k], v) : v, s);
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","./path":"../../node_modules/@thi.ng/paths/path.js"}],"../../node_modules/@thi.ng/paths/update-in.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc","./path":"ncYv"}],"W4zB":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1780,7 +1780,7 @@ exports.updateIn = updateIn;
 function updateInT(state, path, fn, ...args) {
   return (0, _setter.setterT)(path)(state, fn.apply(null, (args.unshift((0, _getter.getterT)(path)(state)), args)));
 }
-},{"./getter":"../../node_modules/@thi.ng/paths/getter.js","./setter":"../../node_modules/@thi.ng/paths/setter.js"}],"../../node_modules/@thi.ng/paths/delete-in.js":[function(require,module,exports) {
+},{"./getter":"KCUZ","./setter":"u6VB"}],"QK7d":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1818,7 +1818,7 @@ function deleteInT(state, path) {
     return (0, _updateIn.updateInT)(state, ks, x => (x = Object.assign({}, x), delete x[k], x));
   }
 }
-},{"./path":"../../node_modules/@thi.ng/paths/path.js","./update-in":"../../node_modules/@thi.ng/paths/update-in.js"}],"../../node_modules/@thi.ng/paths/get-in.js":[function(require,module,exports) {
+},{"./path":"ncYv","./update-in":"W4zB"}],"CUV2":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1857,7 +1857,7 @@ exports.getIn = getIn;
 function getInT(state, path) {
   return (0, _getter.getterT)(path)(state);
 }
-},{"./getter":"../../node_modules/@thi.ng/paths/getter.js"}],"../../node_modules/@thi.ng/paths/mutator.js":[function(require,module,exports) {
+},{"./getter":"KCUZ"}],"yRgl":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1929,7 +1929,7 @@ function mutatorT(path) {
       };
   }
 }
-},{"./path":"../../node_modules/@thi.ng/paths/path.js"}],"../../node_modules/@thi.ng/paths/mut-in.js":[function(require,module,exports) {
+},{"./path":"ncYv"}],"QKCI":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1976,7 +1976,7 @@ exports.mutIn = mutIn;
 function mutInT(state, path, val) {
   return (0, _mutator.mutatorT)(path)(state, val);
 }
-},{"./mutator":"../../node_modules/@thi.ng/paths/mutator.js"}],"../../node_modules/@thi.ng/errors/deferror.js":[function(require,module,exports) {
+},{"./mutator":"yRgl"}],"eWwg":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1992,7 +1992,7 @@ const defError = (prefix, suffix = msg => msg !== undefined ? ": " + msg : "") =
 };
 
 exports.defError = defError;
-},{}],"../../node_modules/@thi.ng/errors/illegal-arguments.js":[function(require,module,exports) {
+},{}],"uRQP":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2010,7 +2010,7 @@ const illegalArgs = msg => {
 };
 
 exports.illegalArgs = illegalArgs;
-},{"./deferror":"../../node_modules/@thi.ng/errors/deferror.js"}],"../../node_modules/@thi.ng/errors/illegal-arity.js":[function(require,module,exports) {
+},{"./deferror":"eWwg"}],"r3zx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2028,7 +2028,7 @@ const illegalArity = n => {
 };
 
 exports.illegalArity = illegalArity;
-},{"./deferror":"../../node_modules/@thi.ng/errors/deferror.js"}],"../../node_modules/@thi.ng/errors/illegal-state.js":[function(require,module,exports) {
+},{"./deferror":"eWwg"}],"htig":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2046,7 +2046,7 @@ const illegalState = msg => {
 };
 
 exports.illegalState = illegalState;
-},{"./deferror":"../../node_modules/@thi.ng/errors/deferror.js"}],"../../node_modules/@thi.ng/errors/unsupported.js":[function(require,module,exports) {
+},{"./deferror":"eWwg"}],"EzWe":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2064,7 +2064,7 @@ const unsupported = msg => {
 };
 
 exports.unsupported = unsupported;
-},{"./deferror":"../../node_modules/@thi.ng/errors/deferror.js"}],"../../node_modules/@thi.ng/errors/index.js":[function(require,module,exports) {
+},{"./deferror":"eWwg"}],"j3Rf":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2130,7 +2130,7 @@ Object.keys(_unsupported).forEach(function (key) {
     }
   });
 });
-},{"./deferror":"../../node_modules/@thi.ng/errors/deferror.js","./illegal-arguments":"../../node_modules/@thi.ng/errors/illegal-arguments.js","./illegal-arity":"../../node_modules/@thi.ng/errors/illegal-arity.js","./illegal-state":"../../node_modules/@thi.ng/errors/illegal-state.js","./unsupported":"../../node_modules/@thi.ng/errors/unsupported.js"}],"../../node_modules/@thi.ng/paths/mut-in-many.js":[function(require,module,exports) {
+},{"./deferror":"eWwg","./illegal-arguments":"uRQP","./illegal-arity":"r3zx","./illegal-state":"htig","./unsupported":"EzWe"}],"Vc9X":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2176,7 +2176,7 @@ const mutInMany = (state, ...pairs) => {
 };
 
 exports.mutInMany = mutInMany;
-},{"@thi.ng/errors":"../../node_modules/@thi.ng/errors/index.js","./mut-in":"../../node_modules/@thi.ng/paths/mut-in.js"}],"../../node_modules/@thi.ng/paths/set-in.js":[function(require,module,exports) {
+},{"@thi.ng/errors":"j3Rf","./mut-in":"QKCI"}],"MVAh":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2211,7 +2211,7 @@ exports.setIn = setIn;
 function setInT(state, path, val) {
   return (0, _setter.setterT)(path)(state, val);
 }
-},{"./setter":"../../node_modules/@thi.ng/paths/setter.js"}],"../../node_modules/@thi.ng/paths/set-in-many.js":[function(require,module,exports) {
+},{"./setter":"u6VB"}],"craz":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2254,7 +2254,7 @@ const setInMany = (state, ...pairs) => {
 };
 
 exports.setInMany = setInMany;
-},{"@thi.ng/errors":"../../node_modules/@thi.ng/errors/index.js","./set-in":"../../node_modules/@thi.ng/paths/set-in.js"}],"../../node_modules/@thi.ng/paths/updater.js":[function(require,module,exports) {
+},{"@thi.ng/errors":"j3Rf","./set-in":"MVAh"}],"oSJ5":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2296,7 +2296,7 @@ function updaterT(path, fn) {
   const s = (0, _setter.setterT)(path);
   return (state, ...args) => s(state, fn.apply(null, (args.unshift(g(state)), args)));
 }
-},{"./getter":"../../node_modules/@thi.ng/paths/getter.js","./setter":"../../node_modules/@thi.ng/paths/setter.js"}],"../../node_modules/@thi.ng/paths/index.js":[function(require,module,exports) {
+},{"./getter":"KCUZ","./setter":"u6VB"}],"jkaf":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2446,7 +2446,7 @@ Object.keys(_updateIn).forEach(function (key) {
     }
   });
 });
-},{"./delete-in":"../../node_modules/@thi.ng/paths/delete-in.js","./getter":"../../node_modules/@thi.ng/paths/getter.js","./get-in":"../../node_modules/@thi.ng/paths/get-in.js","./mut-in":"../../node_modules/@thi.ng/paths/mut-in.js","./mut-in-many":"../../node_modules/@thi.ng/paths/mut-in-many.js","./mutator":"../../node_modules/@thi.ng/paths/mutator.js","./path":"../../node_modules/@thi.ng/paths/path.js","./setter":"../../node_modules/@thi.ng/paths/setter.js","./set-in":"../../node_modules/@thi.ng/paths/set-in.js","./set-in-many":"../../node_modules/@thi.ng/paths/set-in-many.js","./updater":"../../node_modules/@thi.ng/paths/updater.js","./update-in":"../../node_modules/@thi.ng/paths/update-in.js"}],"../../node_modules/@thi.ng/api/api.js":[function(require,module,exports) {
+},{"./delete-in":"QK7d","./getter":"KCUZ","./get-in":"CUV2","./mut-in":"QKCI","./mut-in-many":"Vc9X","./mutator":"yRgl","./path":"ncYv","./setter":"u6VB","./set-in":"MVAh","./set-in-many":"craz","./updater":"oSJ5","./update-in":"W4zB"}],"jIkc":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2463,7 +2463,7 @@ const DEFAULT_EPS = 1e-6;
 exports.DEFAULT_EPS = DEFAULT_EPS;
 const SEMAPHORE = Symbol();
 exports.SEMAPHORE = SEMAPHORE;
-},{}],"../../node_modules/@thi.ng/api/api/event.js":[function(require,module,exports) {
+},{}],"isrY":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2476,7 +2476,7 @@ const EVENT_ENABLE = "enable";
 exports.EVENT_ENABLE = EVENT_ENABLE;
 const EVENT_DISABLE = "disable";
 exports.EVENT_DISABLE = EVENT_DISABLE;
-},{}],"../../node_modules/@thi.ng/api/api/fn.js":[function(require,module,exports) {
+},{}],"xLTi":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2490,7 +2490,7 @@ exports.NO_OP = void 0;
 const NO_OP = () => {};
 
 exports.NO_OP = NO_OP;
-},{}],"../../node_modules/@thi.ng/api/api/logger.js":[function(require,module,exports) {
+},{}],"lWE0":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2508,7 +2508,7 @@ exports.LogLevel = LogLevel;
   LogLevel[LogLevel["SEVERE"] = 4] = "SEVERE";
   LogLevel[LogLevel["NONE"] = 5] = "NONE";
 })(LogLevel || (exports.LogLevel = LogLevel = {}));
-},{}],"../../node_modules/@thi.ng/api/api/typedarray.js":[function(require,module,exports) {
+},{}],"XU6m":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2786,7 +2786,7 @@ const intType = x => x >= -0x80 && x < 0x80 ? 2
 ;
 
 exports.intType = intType;
-},{}],"../../node_modules/@thi.ng/api/assert.js":[function(require,module,exports) {
+},{}],"omIJ":[function(require,module,exports) {
 var process = require("process");
 "use strict";
 
@@ -2805,13 +2805,13 @@ var _fn = require("./api/fn");
  * The function is only enabled if `process.env.NODE_ENV != "production"`
  * or if the `UMBRELLA_ASSERTS` env var is set to 1.
  */
-const assert = typeof process === "undefined" || "development" !== "production" || undefined === "1" ? (test, msg = "assertion failed") => {
+const assert = typeof process === "undefined" || "production" !== "production" || undefined === "1" ? (test, msg = "assertion failed") => {
   if (typeof test === "function" && !test() || !test) {
     throw new Error(typeof msg === "function" ? msg() : msg);
   }
 } : _fn.NO_OP;
 exports.assert = assert;
-},{"./api/fn":"../../node_modules/@thi.ng/api/api/fn.js","process":"../../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel/src/builtins/_empty.js"}],"../../node_modules/@thi.ng/api/expose.js":[function(require,module,exports) {
+},{"./api/fn":"xLTi","process":"SDAI"}],"RPuP":[function(require,module,exports) {
 var global = arguments[3];
 var process = require("process");
 "use strict";
@@ -2833,13 +2833,13 @@ exports.exposeGlobal = void 0;
 const exposeGlobal = (id, value, always = false) => {
   const glob = typeof global !== "undefined" ? global : typeof window !== "undefined" ? window : undefined;
 
-  if (glob && (always || typeof process === "undefined" || "development" !== "production" || undefined === "1")) {
+  if (glob && (always || typeof process === "undefined" || "production" !== "production" || undefined === "1")) {
     glob[id] = value;
   }
 };
 
 exports.exposeGlobal = exposeGlobal;
-},{"process":"../../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel/src/builtins/_empty.js"}],"../../node_modules/@thi.ng/api/logger.js":[function(require,module,exports) {
+},{"process":"SDAI"}],"mrOC":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2898,7 +2898,7 @@ class ConsoleLogger {
 }
 
 exports.ConsoleLogger = ConsoleLogger;
-},{"./api/logger":"../../node_modules/@thi.ng/api/api/logger.js"}],"../../node_modules/@thi.ng/api/mixin.js":[function(require,module,exports) {
+},{"./api/logger":"lWE0"}],"r7mt":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2957,7 +2957,7 @@ const mixin = (behaviour, sharedBehaviour = {}) => {
 };
 
 exports.mixin = mixin;
-},{}],"../../node_modules/@thi.ng/api/decorators/configurable.js":[function(require,module,exports) {
+},{}],"Jb4T":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2976,7 +2976,7 @@ const configurable = state => function (_, __, descriptor) {
 };
 
 exports.configurable = configurable;
-},{}],"../../node_modules/@thi.ng/api/decorators/deprecated.js":[function(require,module,exports) {
+},{}],"RAOm":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3008,7 +3008,7 @@ const deprecated = (msg, log = console.log) => function (target, prop, descripto
 };
 
 exports.deprecated = deprecated;
-},{"../assert":"../../node_modules/@thi.ng/api/assert.js"}],"../../node_modules/@thi.ng/api/decorators/nomixin.js":[function(require,module,exports) {
+},{"../assert":"omIJ"}],"VFtB":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3028,7 +3028,7 @@ const nomixin = (_, __, descriptor) => {
 };
 
 exports.nomixin = nomixin;
-},{}],"../../node_modules/@thi.ng/api/decorators/sealed.js":[function(require,module,exports) {
+},{}],"bcfA":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3047,7 +3047,7 @@ const sealed = constructor => {
 };
 
 exports.sealed = sealed;
-},{}],"../../node_modules/@thi.ng/api/mixins/ienable.js":[function(require,module,exports) {
+},{}],"EQ47":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3102,7 +3102,7 @@ const IEnableMixin = (0, _mixin.mixin)({
 
 });
 exports.IEnableMixin = IEnableMixin;
-},{"../api/event":"../../node_modules/@thi.ng/api/api/event.js","../mixin":"../../node_modules/@thi.ng/api/mixin.js"}],"../../node_modules/@thi.ng/api/mixins/inotify.js":[function(require,module,exports) {
+},{"../api/event":"isrY","../mixin":"r7mt"}],"uu6d":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3189,7 +3189,7 @@ const INotifyMixin = (0, _mixin.mixin)({
 
 });
 exports.INotifyMixin = INotifyMixin;
-},{"../api/event":"../../node_modules/@thi.ng/api/api/event.js","../mixin":"../../node_modules/@thi.ng/api/mixin.js"}],"../../node_modules/@thi.ng/api/mixins/iterable.js":[function(require,module,exports) {
+},{"../api/event":"isrY","../mixin":"r7mt"}],"IAX8":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3207,7 +3207,7 @@ const iterable = prop => (0, _mixin.mixin)({
 });
 
 exports.iterable = iterable;
-},{"../mixin":"../../node_modules/@thi.ng/api/mixin.js"}],"../../node_modules/@thi.ng/api/mixins/iwatch.js":[function(require,module,exports) {
+},{"../mixin":"r7mt"}],"haK8":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3251,7 +3251,7 @@ const IWatchMixin = (0, _mixin.mixin)({
 
 });
 exports.IWatchMixin = IWatchMixin;
-},{"../mixin":"../../node_modules/@thi.ng/api/mixin.js"}],"../../node_modules/@thi.ng/api/index.js":[function(require,module,exports) {
+},{"../mixin":"r7mt"}],"MOSf":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3461,7 +3461,7 @@ Object.keys(_iwatch).forEach(function (key) {
     }
   });
 });
-},{"./api":"../../node_modules/@thi.ng/api/api.js","./api/event":"../../node_modules/@thi.ng/api/api/event.js","./api/fn":"../../node_modules/@thi.ng/api/api/fn.js","./api/logger":"../../node_modules/@thi.ng/api/api/logger.js","./api/typedarray":"../../node_modules/@thi.ng/api/api/typedarray.js","./assert":"../../node_modules/@thi.ng/api/assert.js","./expose":"../../node_modules/@thi.ng/api/expose.js","./logger":"../../node_modules/@thi.ng/api/logger.js","./mixin":"../../node_modules/@thi.ng/api/mixin.js","./decorators/configurable":"../../node_modules/@thi.ng/api/decorators/configurable.js","./decorators/deprecated":"../../node_modules/@thi.ng/api/decorators/deprecated.js","./decorators/nomixin":"../../node_modules/@thi.ng/api/decorators/nomixin.js","./decorators/sealed":"../../node_modules/@thi.ng/api/decorators/sealed.js","./mixins/ienable":"../../node_modules/@thi.ng/api/mixins/ienable.js","./mixins/inotify":"../../node_modules/@thi.ng/api/mixins/inotify.js","./mixins/iterable":"../../node_modules/@thi.ng/api/mixins/iterable.js","./mixins/iwatch":"../../node_modules/@thi.ng/api/mixins/iwatch.js"}],"../../node_modules/@thi.ng/equiv/index.js":[function(require,module,exports) {
+},{"./api":"jIkc","./api/event":"isrY","./api/fn":"xLTi","./api/logger":"lWE0","./api/typedarray":"XU6m","./assert":"omIJ","./expose":"RPuP","./logger":"mrOC","./mixin":"r7mt","./decorators/configurable":"Jb4T","./decorators/deprecated":"RAOm","./decorators/nomixin":"VFtB","./decorators/sealed":"bcfA","./mixins/ienable":"EQ47","./mixins/inotify":"uu6d","./mixins/iterable":"IAX8","./mixins/iwatch":"haK8"}],"U8cl":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3564,7 +3564,7 @@ const equivObject = (a, b, _equiv = equiv) => {
 };
 
 exports.equivObject = equivObject;
-},{}],"../../node_modules/@thi.ng/associative/dissoc.js":[function(require,module,exports) {
+},{}],"VaVn":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3590,7 +3590,7 @@ const dissocObj = (obj, keys) => {
 };
 
 exports.dissocObj = dissocObj;
-},{}],"../../node_modules/@thi.ng/associative/internal/equiv.js":[function(require,module,exports) {
+},{}],"vPtr":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3639,7 +3639,7 @@ const equivSet = (a, b) => {
 };
 
 exports.equivSet = equivSet;
-},{"@thi.ng/equiv":"../../node_modules/@thi.ng/equiv/index.js"}],"../../node_modules/@thi.ng/associative/into.js":[function(require,module,exports) {
+},{"@thi.ng/equiv":"U8cl"}],"uWkF":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3662,7 +3662,7 @@ function into(dest, src) {
 
   return dest;
 }
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js"}],"../../node_modules/@thi.ng/associative/array-set.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc"}],"nNr8":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3839,7 +3839,7 @@ class ArraySet extends Set {
 }
 
 exports.ArraySet = ArraySet;
-},{"@thi.ng/api":"../../node_modules/@thi.ng/api/index.js","@thi.ng/equiv":"../../node_modules/@thi.ng/equiv/index.js","./dissoc":"../../node_modules/@thi.ng/associative/dissoc.js","./internal/equiv":"../../node_modules/@thi.ng/associative/internal/equiv.js","./into":"../../node_modules/@thi.ng/associative/into.js"}],"../../node_modules/@thi.ng/associative/common-keys.js":[function(require,module,exports) {
+},{"@thi.ng/api":"MOSf","@thi.ng/equiv":"U8cl","./dissoc":"VaVn","./internal/equiv":"vPtr","./into":"uWkF"}],"bzzW":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3888,7 +3888,7 @@ const commonKeysObj = (a, b, out = []) => {
 };
 
 exports.commonKeysObj = commonKeysObj;
-},{}],"../../node_modules/@thi.ng/transducers/internal/ensure.js":[function(require,module,exports) {
+},{}],"IMN5":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3901,7 +3901,7 @@ var _checks = require("@thi.ng/checks");
 const ensureTransducer = x => (0, _checks.implementsFunction)(x, "xform") ? x.xform() : x;
 
 exports.ensureTransducer = ensureTransducer;
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js"}],"../../node_modules/@thi.ng/transducers/reduced.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc"}],"N1be":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3937,7 +3937,7 @@ exports.ensureReduced = ensureReduced;
 const unreduced = x => x instanceof Reduced ? x.deref() : x;
 
 exports.unreduced = unreduced;
-},{}],"../../node_modules/@thi.ng/transducers/reduce.js":[function(require,module,exports) {
+},{}],"UerL":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4010,7 +4010,7 @@ const $$reduce = (rfn, args) => {
 };
 
 exports.$$reduce = $$reduce;
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","@thi.ng/errors":"../../node_modules/@thi.ng/errors/index.js","./reduced":"../../node_modules/@thi.ng/transducers/reduced.js"}],"../../node_modules/@thi.ng/transducers/rfn/push.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc","@thi.ng/errors":"j3Rf","./reduced":"N1be"}],"nZPr":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4023,7 +4023,7 @@ var _reduce = require("../reduce");
 function push(xs) {
   return xs ? [...xs] : (0, _reduce.reducer)(() => [], (acc, x) => (acc.push(x), acc));
 }
-},{"../reduce":"../../node_modules/@thi.ng/transducers/reduce.js"}],"../../node_modules/@thi.ng/transducers/iterator.js":[function(require,module,exports) {
+},{"../reduce":"UerL"}],"fhdf":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4121,7 +4121,7 @@ const $iter = (xform, args, impl = iterator1) => {
 };
 
 exports.$iter = $iter;
-},{"@thi.ng/api":"../../node_modules/@thi.ng/api/index.js","@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","./internal/ensure":"../../node_modules/@thi.ng/transducers/internal/ensure.js","./reduced":"../../node_modules/@thi.ng/transducers/reduced.js","./rfn/push":"../../node_modules/@thi.ng/transducers/rfn/push.js"}],"../../node_modules/@thi.ng/transducers/func/compr.js":[function(require,module,exports) {
+},{"@thi.ng/api":"MOSf","@thi.ng/checks":"XYpc","./internal/ensure":"IMN5","./reduced":"N1be","./rfn/push":"nZPr"}],"IqcY":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4156,7 +4156,7 @@ exports.compR = void 0;
 const compR = (rfn, fn) => [rfn[0], rfn[1], fn];
 
 exports.compR = compR;
-},{}],"../../node_modules/@thi.ng/transducers/xform/map.js":[function(require,module,exports) {
+},{}],"WUst":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4174,7 +4174,7 @@ function map(fn, src) {
     return (0, _compr.compR)(rfn, (acc, x) => r(acc, fn(x)));
   };
 }
-},{"../func/compr":"../../node_modules/@thi.ng/transducers/func/compr.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js"}],"../../node_modules/@thi.ng/transducers/transduce.js":[function(require,module,exports) {
+},{"../func/compr":"IqcY","../iterator":"fhdf"}],"iqGa":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4212,7 +4212,7 @@ function transduce(...args) {
 
   return (0, _reduce.reduce)((0, _ensure.ensureTransducer)(args[0])(args[1]), acc, xs);
 }
-},{"@thi.ng/errors":"../../node_modules/@thi.ng/errors/index.js","./internal/ensure":"../../node_modules/@thi.ng/transducers/internal/ensure.js","./reduce":"../../node_modules/@thi.ng/transducers/reduce.js","./xform/map":"../../node_modules/@thi.ng/transducers/xform/map.js"}],"../../node_modules/@thi.ng/transducers/run.js":[function(require,module,exports) {
+},{"@thi.ng/errors":"j3Rf","./internal/ensure":"IMN5","./reduce":"UerL","./xform/map":"WUst"}],"FIKh":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4234,7 +4234,7 @@ function run(tx, ...args) {
     (0, _transduce.transduce)(tx, [_api.NO_OP, _api.NO_OP, (_, x) => fx(x)], args[1]);
   }
 }
-},{"@thi.ng/api":"../../node_modules/@thi.ng/api/index.js","./transduce":"../../node_modules/@thi.ng/transducers/transduce.js"}],"../../node_modules/@thi.ng/transducers/step.js":[function(require,module,exports) {
+},{"@thi.ng/api":"MOSf","./transduce":"iqGa"}],"o6XN":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4305,7 +4305,7 @@ const step = tx => {
 };
 
 exports.step = step;
-},{"./internal/ensure":"../../node_modules/@thi.ng/transducers/internal/ensure.js","./reduced":"../../node_modules/@thi.ng/transducers/reduced.js","./rfn/push":"../../node_modules/@thi.ng/transducers/rfn/push.js"}],"../../node_modules/@thi.ng/transducers/internal/mathop.js":[function(require,module,exports) {
+},{"./internal/ensure":"IMN5","./reduced":"N1be","./rfn/push":"nZPr"}],"wTIN":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4337,7 +4337,7 @@ const __mathop = (rfn, fn, initDefault, args) => {
 };
 
 exports.__mathop = __mathop;
-},{"../reduce":"../../node_modules/@thi.ng/transducers/reduce.js"}],"../../node_modules/@thi.ng/transducers/rfn/add.js":[function(require,module,exports) {
+},{"../reduce":"UerL"}],"pthq":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4350,7 +4350,7 @@ var _mathop = require("../internal/mathop");
 function add(...args) {
   return (0, _mathop.__mathop)(add, (acc, x) => acc + x, 0, args);
 }
-},{"../internal/mathop":"../../node_modules/@thi.ng/transducers/internal/mathop.js"}],"../../node_modules/@thi.ng/transducers/rfn/assoc-map.js":[function(require,module,exports) {
+},{"../internal/mathop":"wTIN"}],"LIJg":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4363,7 +4363,7 @@ var _reduce = require("../reduce");
 function assocMap(xs) {
   return xs ? (0, _reduce.reduce)(assocMap(), xs) : (0, _reduce.reducer)(() => new Map(), (acc, [k, v]) => acc.set(k, v));
 }
-},{"../reduce":"../../node_modules/@thi.ng/transducers/reduce.js"}],"../../node_modules/@thi.ng/transducers/rfn/assoc-obj.js":[function(require,module,exports) {
+},{"../reduce":"UerL"}],"H8df":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4376,7 +4376,7 @@ var _reduce = require("../reduce");
 function assocObj(xs) {
   return xs ? (0, _reduce.reduce)(assocObj(), xs) : (0, _reduce.reducer)(() => ({}), (acc, [k, v]) => (acc[k] = v, acc));
 }
-},{"../reduce":"../../node_modules/@thi.ng/transducers/reduce.js"}],"../../node_modules/@thi.ng/transducers/rfn/conj.js":[function(require,module,exports) {
+},{"../reduce":"UerL"}],"cBQk":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4389,7 +4389,7 @@ var _reduce = require("../reduce");
 function conj(xs) {
   return xs ? (0, _reduce.reduce)(conj(), xs) : (0, _reduce.reducer)(() => new Set(), (acc, x) => acc.add(x));
 }
-},{"../reduce":"../../node_modules/@thi.ng/transducers/reduce.js"}],"../../node_modules/@thi.ng/transducers/rfn/count.js":[function(require,module,exports) {
+},{"../reduce":"UerL"}],"g31l":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4410,7 +4410,7 @@ function count(...args) {
   let step = args[1] || 1;
   return (0, _reduce.reducer)(() => offset, (acc, _) => acc + step);
 }
-},{"../reduce":"../../node_modules/@thi.ng/transducers/reduce.js"}],"../../node_modules/@thi.ng/transducers/rfn/div.js":[function(require,module,exports) {
+},{"../reduce":"UerL"}],"J30b":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4423,7 +4423,7 @@ var _reduce = require("../reduce");
 function div(init, xs) {
   return xs ? (0, _reduce.reduce)(div(init), xs) : (0, _reduce.reducer)(() => init, (acc, x) => acc / x);
 }
-},{"../reduce":"../../node_modules/@thi.ng/transducers/reduce.js"}],"../../node_modules/@thi.ng/transducers/rfn/every.js":[function(require,module,exports) {
+},{"../reduce":"UerL"}],"yvO9":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4445,7 +4445,7 @@ function every(...args) {
   const pred = args[0];
   return (0, _reduce.reducer)(() => true, pred ? (acc, x) => pred(x) ? acc : (0, _reduced.reduced)(false) : (acc, x) => x ? acc : (0, _reduced.reduced)(false));
 }
-},{"../reduce":"../../node_modules/@thi.ng/transducers/reduce.js","../reduced":"../../node_modules/@thi.ng/transducers/reduced.js"}],"../../node_modules/@thi.ng/transducers/rfn/fill.js":[function(require,module,exports) {
+},{"../reduce":"UerL","../reduced":"N1be"}],"WiAD":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4470,7 +4470,7 @@ function fill(...args) {
 function fillN(...args) {
   return fill(...args);
 }
-},{"../reduce":"../../node_modules/@thi.ng/transducers/reduce.js"}],"../../node_modules/@thi.ng/compose/comp.js":[function(require,module,exports) {
+},{"../reduce":"UerL"}],"iXJj":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4534,7 +4534,7 @@ function compL(...fns) {
 
 const compI = compL;
 exports.compI = compI;
-},{"@thi.ng/errors":"../../node_modules/@thi.ng/errors/index.js"}],"../../node_modules/@thi.ng/compose/complement.js":[function(require,module,exports) {
+},{"@thi.ng/errors":"j3Rf"}],"fJFi":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4545,7 +4545,7 @@ exports.complement = complement;
 function complement(f) {
   return (...xs) => !f(...xs);
 }
-},{}],"../../node_modules/@thi.ng/compose/constantly.js":[function(require,module,exports) {
+},{}],"B4W5":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4556,7 +4556,7 @@ exports.constantly = void 0;
 const constantly = x => () => x;
 
 exports.constantly = constantly;
-},{}],"../../node_modules/@thi.ng/compose/delay.js":[function(require,module,exports) {
+},{}],"nPxS":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4590,7 +4590,7 @@ class Delay {
 }
 
 exports.Delay = Delay;
-},{}],"../../node_modules/@thi.ng/compose/delayed.js":[function(require,module,exports) {
+},{}],"ac4f":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4601,7 +4601,7 @@ exports.delayed = void 0;
 const delayed = (x, t) => new Promise(resolve => setTimeout(() => resolve(x), t));
 
 exports.delayed = delayed;
-},{}],"../../node_modules/@thi.ng/compose/identity.js":[function(require,module,exports) {
+},{}],"TBrF":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4612,7 +4612,7 @@ exports.identity = void 0;
 const identity = x => x;
 
 exports.identity = identity;
-},{}],"../../node_modules/@thi.ng/compose/ifdef.js":[function(require,module,exports) {
+},{}],"pC2R":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4629,7 +4629,7 @@ exports.ifDef = void 0;
 const ifDef = (f, x) => x != null ? f(x) : undefined;
 
 exports.ifDef = ifDef;
-},{}],"../../node_modules/@thi.ng/compose/juxt.js":[function(require,module,exports) {
+},{}],"GuBu":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4677,7 +4677,7 @@ function juxt(...fns) {
       };
   }
 }
-},{}],"../../node_modules/@thi.ng/compose/partial.js":[function(require,module,exports) {
+},{}],"l38o":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4723,7 +4723,7 @@ function partial(fn, ...args) {
 
 const foo = partial((a, b) => a + b, "a");
 exports.foo = foo;
-},{"@thi.ng/errors":"../../node_modules/@thi.ng/errors/index.js"}],"../../node_modules/@thi.ng/compose/thread-first.js":[function(require,module,exports) {
+},{"@thi.ng/errors":"j3Rf"}],"kmRz":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4761,7 +4761,7 @@ exports.threadFirst = void 0;
 const threadFirst = (init, ...fns) => fns.reduce((acc, expr) => typeof expr === "function" ? expr(acc) : expr[0](acc, ...expr.slice(1)), init);
 
 exports.threadFirst = threadFirst;
-},{}],"../../node_modules/@thi.ng/compose/thread-last.js":[function(require,module,exports) {
+},{}],"XUsq":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4799,7 +4799,7 @@ exports.threadLast = void 0;
 const threadLast = (init, ...fns) => fns.reduce((acc, expr) => typeof expr === "function" ? expr(acc) : expr[0](...expr.slice(1), acc), init);
 
 exports.threadLast = threadLast;
-},{}],"../../node_modules/@thi.ng/compose/trampoline.js":[function(require,module,exports) {
+},{}],"dc4t":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4846,7 +4846,7 @@ const trampoline = f => {
 };
 
 exports.trampoline = trampoline;
-},{}],"../../node_modules/@thi.ng/compose/index.js":[function(require,module,exports) {
+},{}],"gnoC":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4996,7 +4996,7 @@ Object.keys(_trampoline).forEach(function (key) {
     }
   });
 });
-},{"./comp":"../../node_modules/@thi.ng/compose/comp.js","./complement":"../../node_modules/@thi.ng/compose/complement.js","./constantly":"../../node_modules/@thi.ng/compose/constantly.js","./delay":"../../node_modules/@thi.ng/compose/delay.js","./delayed":"../../node_modules/@thi.ng/compose/delayed.js","./identity":"../../node_modules/@thi.ng/compose/identity.js","./ifdef":"../../node_modules/@thi.ng/compose/ifdef.js","./juxt":"../../node_modules/@thi.ng/compose/juxt.js","./partial":"../../node_modules/@thi.ng/compose/partial.js","./thread-first":"../../node_modules/@thi.ng/compose/thread-first.js","./thread-last":"../../node_modules/@thi.ng/compose/thread-last.js","./trampoline":"../../node_modules/@thi.ng/compose/trampoline.js"}],"../../node_modules/@thi.ng/transducers/internal/group-opts.js":[function(require,module,exports) {
+},{"./comp":"iXJj","./complement":"fJFi","./constantly":"B4W5","./delay":"nPxS","./delayed":"ac4f","./identity":"TBrF","./ifdef":"pC2R","./juxt":"GuBu","./partial":"l38o","./thread-first":"kmRz","./thread-last":"XUsq","./trampoline":"dc4t"}],"PvNE":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5021,7 +5021,7 @@ const __groupByOpts = opts => Object.assign({
 }, opts);
 
 exports.__groupByOpts = __groupByOpts;
-},{"@thi.ng/compose":"../../node_modules/@thi.ng/compose/index.js","../rfn/push":"../../node_modules/@thi.ng/transducers/rfn/push.js"}],"../../node_modules/@thi.ng/transducers/rfn/group-by-map.js":[function(require,module,exports) {
+},{"@thi.ng/compose":"gnoC","../rfn/push":"nZPr"}],"MrPH":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5053,7 +5053,7 @@ function groupByMap(...args) {
     return acc.set(k, acc.has(k) ? reduce(acc.get(k), x) : reduce(init(), x));
   }];
 }
-},{"../internal/group-opts":"../../node_modules/@thi.ng/transducers/internal/group-opts.js","../reduce":"../../node_modules/@thi.ng/transducers/reduce.js"}],"../../node_modules/@thi.ng/transducers/rfn/frequencies.js":[function(require,module,exports) {
+},{"../internal/group-opts":"PvNE","../reduce":"UerL"}],"mFoP":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5075,7 +5075,7 @@ function frequencies(...args) {
     group: (0, _count.count)()
   });
 }
-},{"@thi.ng/compose":"../../node_modules/@thi.ng/compose/index.js","../reduce":"../../node_modules/@thi.ng/transducers/reduce.js","./count":"../../node_modules/@thi.ng/transducers/rfn/count.js","./group-by-map":"../../node_modules/@thi.ng/transducers/rfn/group-by-map.js"}],"../../node_modules/@thi.ng/transducers/rfn/group-by-obj.js":[function(require,module,exports) {
+},{"@thi.ng/compose":"gnoC","../reduce":"UerL","./count":"g31l","./group-by-map":"MrPH"}],"HXQi":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5108,7 +5108,7 @@ function groupByObj(...args) {
     return acc;
   }];
 }
-},{"../internal/group-opts":"../../node_modules/@thi.ng/transducers/internal/group-opts.js","../reduce":"../../node_modules/@thi.ng/transducers/reduce.js"}],"../../node_modules/@thi.ng/transducers/rfn/group-binary.js":[function(require,module,exports) {
+},{"../internal/group-opts":"PvNE","../reduce":"UerL"}],"DkVy":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5216,7 +5216,7 @@ const groupBinary = (bits, key, branch, leaf, left = "l", right = "r") => {
 };
 
 exports.groupBinary = groupBinary;
-},{"./group-by-obj":"../../node_modules/@thi.ng/transducers/rfn/group-by-obj.js","./push":"../../node_modules/@thi.ng/transducers/rfn/push.js"}],"../../node_modules/@thi.ng/transducers/rfn/last.js":[function(require,module,exports) {
+},{"./group-by-obj":"HXQi","./push":"nZPr"}],"N4rn":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5231,7 +5231,7 @@ var _reduce = require("../reduce");
 function last(xs) {
   return xs ? (0, _reduce.reduce)(last(), xs) : (0, _reduce.reducer)(_api.NO_OP, (_, x) => x);
 }
-},{"@thi.ng/api":"../../node_modules/@thi.ng/api/index.js","../reduce":"../../node_modules/@thi.ng/transducers/reduce.js"}],"../../node_modules/@thi.ng/compare/index.js":[function(require,module,exports) {
+},{"@thi.ng/api":"MOSf","../reduce":"UerL"}],"vzOR":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5286,7 +5286,7 @@ exports.compareNumAsc = compareNumAsc;
 const compareNumDesc = (a, b) => b - a;
 
 exports.compareNumDesc = compareNumDesc;
-},{}],"../../node_modules/@thi.ng/transducers/rfn/max-compare.js":[function(require,module,exports) {
+},{}],"Fj3f":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5309,7 +5309,7 @@ function maxCompare(...args) {
   const cmp = args[1] || _compare.compare;
   return (0, _reduce.reducer)(init, (acc, x) => cmp(acc, x) >= 0 ? acc : x);
 }
-},{"@thi.ng/compare":"../../node_modules/@thi.ng/compare/index.js","../reduce":"../../node_modules/@thi.ng/transducers/reduce.js"}],"../../node_modules/@thi.ng/transducers/rfn/max.js":[function(require,module,exports) {
+},{"@thi.ng/compare":"vzOR","../reduce":"UerL"}],"ePW0":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5322,7 +5322,7 @@ var _reduce = require("../reduce");
 function max(xs) {
   return xs ? (0, _reduce.reduce)(max(), xs) : (0, _reduce.reducer)(() => -Infinity, (acc, x) => Math.max(acc, x));
 }
-},{"../reduce":"../../node_modules/@thi.ng/transducers/reduce.js"}],"../../node_modules/@thi.ng/transducers/rfn/mean.js":[function(require,module,exports) {
+},{"../reduce":"UerL"}],"N1B6":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5336,7 +5336,7 @@ function mean(xs) {
   let n = 1;
   return xs ? (0, _reduce.reduce)(mean(), xs) : [() => n = 0, acc => n > 1 ? acc / n : acc, (acc, x) => (n++, acc + x)];
 }
-},{"../reduce":"../../node_modules/@thi.ng/transducers/reduce.js"}],"../../node_modules/@thi.ng/transducers/rfn/min-compare.js":[function(require,module,exports) {
+},{"../reduce":"UerL"}],"P2vS":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5359,7 +5359,7 @@ function minCompare(...args) {
   const cmp = args[1] || _compare.compare;
   return (0, _reduce.reducer)(init, (acc, x) => cmp(acc, x) <= 0 ? acc : x);
 }
-},{"@thi.ng/compare":"../../node_modules/@thi.ng/compare/index.js","../reduce":"../../node_modules/@thi.ng/transducers/reduce.js"}],"../../node_modules/@thi.ng/transducers/rfn/min.js":[function(require,module,exports) {
+},{"@thi.ng/compare":"vzOR","../reduce":"UerL"}],"wGHE":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5372,7 +5372,7 @@ var _reduce = require("../reduce");
 function min(xs) {
   return xs ? (0, _reduce.reduce)(min(), xs) : (0, _reduce.reducer)(() => Infinity, (acc, x) => Math.min(acc, x));
 }
-},{"../reduce":"../../node_modules/@thi.ng/transducers/reduce.js"}],"../../node_modules/@thi.ng/transducers/rfn/mul.js":[function(require,module,exports) {
+},{"../reduce":"UerL"}],"vCqj":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5385,7 +5385,7 @@ var _mathop = require("../internal/mathop");
 function mul(...args) {
   return (0, _mathop.__mathop)(mul, (acc, x) => acc * x, 1, args);
 }
-},{"../internal/mathop":"../../node_modules/@thi.ng/transducers/internal/mathop.js"}],"../../node_modules/@thi.ng/transducers/rfn/push-copy.js":[function(require,module,exports) {
+},{"../internal/mathop":"wTIN"}],"FqE3":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5398,7 +5398,7 @@ var _reduce = require("../reduce");
 const pushCopy = () => (0, _reduce.reducer)(() => [], (acc, x) => ((acc = acc.slice()).push(x), acc));
 
 exports.pushCopy = pushCopy;
-},{"../reduce":"../../node_modules/@thi.ng/transducers/reduce.js"}],"../../node_modules/@thi.ng/transducers/rfn/push-sort.js":[function(require,module,exports) {
+},{"../reduce":"UerL"}],"PU8i":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5411,7 +5411,7 @@ var _compare = require("@thi.ng/compare");
 function pushSort(cmp = _compare.compare, xs) {
   return xs ? [...xs].sort(cmp) : [() => [], acc => acc.sort(cmp), (acc, x) => (acc.push(x), acc)];
 }
-},{"@thi.ng/compare":"../../node_modules/@thi.ng/compare/index.js"}],"../../node_modules/@thi.ng/transducers/rfn/reductions.js":[function(require,module,exports) {
+},{"@thi.ng/compare":"vzOR"}],"zjLI":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5437,7 +5437,7 @@ function reductions(rfn, xs) {
     return acc;
   }];
 }
-},{"../reduce":"../../node_modules/@thi.ng/transducers/reduce.js","../reduced":"../../node_modules/@thi.ng/transducers/reduced.js"}],"../../node_modules/@thi.ng/transducers/rfn/some.js":[function(require,module,exports) {
+},{"../reduce":"UerL","../reduced":"N1be"}],"ZD3d":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5459,7 +5459,7 @@ function some(...args) {
   const pred = args[0];
   return (0, _reduce.reducer)(() => false, pred ? (acc, x) => pred(x) ? (0, _reduced.reduced)(true) : acc : (acc, x) => x ? (0, _reduced.reduced)(true) : acc);
 }
-},{"../reduce":"../../node_modules/@thi.ng/transducers/reduce.js","../reduced":"../../node_modules/@thi.ng/transducers/reduced.js"}],"../../node_modules/@thi.ng/transducers/rfn/str.js":[function(require,module,exports) {
+},{"../reduce":"UerL","../reduced":"N1be"}],"js0B":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5474,7 +5474,7 @@ function str(sep, xs) {
   let first = true;
   return xs ? [...xs].join(sep) : (0, _reduce.reducer)(() => "", (acc, x) => (acc = first ? acc + x : acc + sep + x, first = false, acc));
 }
-},{"../reduce":"../../node_modules/@thi.ng/transducers/reduce.js"}],"../../node_modules/@thi.ng/transducers/rfn/sub.js":[function(require,module,exports) {
+},{"../reduce":"UerL"}],"B0kE":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5487,7 +5487,7 @@ var _mathop = require("../internal/mathop");
 function sub(...args) {
   return (0, _mathop.__mathop)(sub, (acc, x) => acc - x, 0, args);
 }
-},{"../internal/mathop":"../../node_modules/@thi.ng/transducers/internal/mathop.js"}],"../../node_modules/@thi.ng/transducers/xform/benchmark.js":[function(require,module,exports) {
+},{"../internal/mathop":"wTIN"}],"eYjS":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5511,7 +5511,7 @@ function benchmark(src) {
     });
   };
 }
-},{"../func/compr":"../../node_modules/@thi.ng/transducers/func/compr.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js"}],"../../node_modules/@thi.ng/transducers/xform/cat.js":[function(require,module,exports) {
+},{"../func/compr":"IqcY","../iterator":"fhdf"}],"arAw":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5578,7 +5578,7 @@ const cat = () => rfn => {
 };
 
 exports.cat = cat;
-},{"../func/compr":"../../node_modules/@thi.ng/transducers/func/compr.js","../reduced":"../../node_modules/@thi.ng/transducers/reduced.js"}],"../../node_modules/@thi.ng/transducers/xform/converge.js":[function(require,module,exports) {
+},{"../func/compr":"IqcY","../reduced":"N1be"}],"OUsy":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5611,7 +5611,7 @@ function converge(...args) {
     });
   });
 }
-},{"@thi.ng/api":"../../node_modules/@thi.ng/api/index.js","../func/compr":"../../node_modules/@thi.ng/transducers/func/compr.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","../reduced":"../../node_modules/@thi.ng/transducers/reduced.js"}],"../../node_modules/@thi.ng/transducers/iter/range.js":[function(require,module,exports) {
+},{"@thi.ng/api":"MOSf","../func/compr":"IqcY","../iterator":"fhdf","../reduced":"N1be"}],"GT77":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5685,7 +5685,7 @@ class Range {
 }
 
 exports.Range = Range;
-},{"../reduced":"../../node_modules/@thi.ng/transducers/reduced.js"}],"../../node_modules/@thi.ng/transducers/iter/range2d.js":[function(require,module,exports) {
+},{"../reduced":"N1be"}],"DdIw":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5727,7 +5727,7 @@ function* range2d(...args) {
     }
   }
 }
-},{"@thi.ng/errors":"../../node_modules/@thi.ng/errors/index.js","./range":"../../node_modules/@thi.ng/transducers/iter/range.js"}],"../../node_modules/@thi.ng/transducers/iter/zip.js":[function(require,module,exports) {
+},{"@thi.ng/errors":"j3Rf","./range":"GT77"}],"Mdez":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5754,7 +5754,7 @@ function* zip(...src) {
     yield tuple;
   }
 }
-},{}],"../../node_modules/@thi.ng/transducers/xform/convolve.js":[function(require,module,exports) {
+},{}],"BnrM":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5874,7 +5874,7 @@ function convolve2d(opts, indices) {
 
   return (0, _map.map)(p => (0, _transduce.transduce)((0, _map.map)(kernelLookup2d(src, p[0], p[1], width, height, wrap, border)), rfn(), kernel));
 }
-},{"@thi.ng/errors":"../../node_modules/@thi.ng/errors/index.js","../iter/range":"../../node_modules/@thi.ng/transducers/iter/range.js","../iter/range2d":"../../node_modules/@thi.ng/transducers/iter/range2d.js","../iter/zip":"../../node_modules/@thi.ng/transducers/iter/zip.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","../rfn/add":"../../node_modules/@thi.ng/transducers/rfn/add.js","../transduce":"../../node_modules/@thi.ng/transducers/transduce.js","./map":"../../node_modules/@thi.ng/transducers/xform/map.js"}],"../../node_modules/@thi.ng/transducers/xform/dedupe.js":[function(require,module,exports) {
+},{"@thi.ng/errors":"j3Rf","../iter/range":"GT77","../iter/range2d":"DdIw","../iter/zip":"Mdez","../iterator":"fhdf","../rfn/add":"pthq","../transduce":"iqGa","./map":"WUst"}],"ryPz":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5904,7 +5904,7 @@ function dedupe(...args) {
     });
   });
 }
-},{"@thi.ng/api":"../../node_modules/@thi.ng/api/index.js","../func/compr":"../../node_modules/@thi.ng/transducers/func/compr.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js"}],"../../node_modules/@thi.ng/transducers/xform/delayed.js":[function(require,module,exports) {
+},{"@thi.ng/api":"MOSf","../func/compr":"IqcY","../iterator":"fhdf"}],"ya6N":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5929,7 +5929,7 @@ var _map = require("./map");
 const delayed = t => (0, _map.map)(x => (0, _compose.delayed)(x, t));
 
 exports.delayed = delayed;
-},{"@thi.ng/compose":"../../node_modules/@thi.ng/compose/index.js","./map":"../../node_modules/@thi.ng/transducers/xform/map.js"}],"../../node_modules/@thi.ng/transducers/xform/distinct.js":[function(require,module,exports) {
+},{"@thi.ng/compose":"gnoC","./map":"WUst"}],"ECm5":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5955,7 +5955,7 @@ function distinct(...args) {
     } : (acc, x) => !seen.has(x) ? (seen.add(x), r(acc, x)) : acc);
   });
 }
-},{"../func/compr":"../../node_modules/@thi.ng/transducers/func/compr.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js"}],"../../node_modules/@thi.ng/transducers/xform/throttle.js":[function(require,module,exports) {
+},{"../func/compr":"IqcY","../iterator":"fhdf"}],"FY79":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5976,7 +5976,7 @@ function throttle(pred, src) {
     return (0, _compr.compR)(rfn, (acc, x) => _pred(x) ? r(acc, x) : acc);
   };
 }
-},{"../func/compr":"../../node_modules/@thi.ng/transducers/func/compr.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js"}],"../../node_modules/@thi.ng/transducers/xform/drop-nth.js":[function(require,module,exports) {
+},{"../func/compr":"IqcY","../iterator":"fhdf"}],"xVO8":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5999,7 +5999,7 @@ function dropNth(n, src) {
     return () => skip-- > 0 ? true : (skip = n, false);
   });
 }
-},{"./throttle":"../../node_modules/@thi.ng/transducers/xform/throttle.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js"}],"../../node_modules/@thi.ng/transducers/xform/drop-while.js":[function(require,module,exports) {
+},{"./throttle":"FY79","../iterator":"fhdf"}],"yG5g":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6019,7 +6019,7 @@ function dropWhile(...args) {
     return (0, _compr.compR)(rfn, (acc, x) => (ok = ok && pred(x)) ? acc : r(acc, x));
   });
 }
-},{"../func/compr":"../../node_modules/@thi.ng/transducers/func/compr.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js"}],"../../node_modules/@thi.ng/transducers/xform/drop.js":[function(require,module,exports) {
+},{"../func/compr":"IqcY","../iterator":"fhdf"}],"Xj6O":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6038,7 +6038,7 @@ function drop(n, src) {
     return (0, _compr.compR)(rfn, (acc, x) => m > 0 ? (m--, acc) : r(acc, x));
   };
 }
-},{"../func/compr":"../../node_modules/@thi.ng/transducers/func/compr.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js"}],"../../node_modules/@thi.ng/transducers/xform/duplicate.js":[function(require,module,exports) {
+},{"../func/compr":"IqcY","../iterator":"fhdf"}],"xKDL":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6064,7 +6064,7 @@ function duplicate(n = 1, src) {
     });
   };
 }
-},{"../func/compr":"../../node_modules/@thi.ng/transducers/func/compr.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","../reduced":"../../node_modules/@thi.ng/transducers/reduced.js"}],"../../node_modules/@thi.ng/transducers/xform/filter.js":[function(require,module,exports) {
+},{"../func/compr":"IqcY","../iterator":"fhdf","../reduced":"N1be"}],"AmRG":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6082,7 +6082,7 @@ function filter(pred, src) {
     return (0, _compr.compR)(rfn, (acc, x) => pred(x) ? r(acc, x) : acc);
   };
 }
-},{"../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","../func/compr":"../../node_modules/@thi.ng/transducers/func/compr.js"}],"../../node_modules/@thi.ng/arrays/binary-search.js":[function(require,module,exports) {
+},{"../iterator":"fhdf","../func/compr":"IqcY"}],"MnSf":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6247,7 +6247,7 @@ exports.bsGE = bsGE;
 const bsEQ = i => i < 0 ? -1 : i;
 
 exports.bsEQ = bsEQ;
-},{"@thi.ng/compare":"../../node_modules/@thi.ng/compare/index.js"}],"../../node_modules/@thi.ng/arrays/ends-with.js":[function(require,module,exports) {
+},{"@thi.ng/compare":"vzOR"}],"jjq4":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6284,7 +6284,7 @@ const endsWith = (buf, needle, equiv = _equiv.equiv) => {
 };
 
 exports.endsWith = endsWith;
-},{"@thi.ng/equiv":"../../node_modules/@thi.ng/equiv/index.js"}],"../../node_modules/@thi.ng/arrays/ensure-iterable.js":[function(require,module,exports) {
+},{"@thi.ng/equiv":"U8cl"}],"NbJv":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6306,7 +6306,7 @@ const ensureIterable = x => {
 };
 
 exports.ensureIterable = ensureIterable;
-},{"@thi.ng/errors":"../../node_modules/@thi.ng/errors/index.js"}],"../../node_modules/@thi.ng/arrays/ensure-array.js":[function(require,module,exports) {
+},{"@thi.ng/errors":"j3Rf"}],"YCDU":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6344,7 +6344,7 @@ exports.ensureArray = ensureArray;
 const ensureArrayLike = x => (0, _checks.isArrayLike)(x) ? x : [...(0, _ensureIterable.ensureIterable)(x)];
 
 exports.ensureArrayLike = ensureArrayLike;
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","./ensure-iterable":"../../node_modules/@thi.ng/arrays/ensure-iterable.js"}],"../../node_modules/@thi.ng/arrays/find.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc","./ensure-iterable":"NbJv"}],"AVZK":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6387,7 +6387,7 @@ const findIndex = (buf, x, equiv = _equiv2.equiv) => {
 };
 
 exports.findIndex = findIndex;
-},{"@thi.ng/equiv":"../../node_modules/@thi.ng/equiv/index.js"}],"../../node_modules/@thi.ng/arrays/fuzzy-match.js":[function(require,module,exports) {
+},{"@thi.ng/equiv":"U8cl"}],"KC6E":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6442,7 +6442,7 @@ const fuzzyMatch = (domain, query, equiv = _equiv.equiv) => {
 };
 
 exports.fuzzyMatch = fuzzyMatch;
-},{"@thi.ng/equiv":"../../node_modules/@thi.ng/equiv/index.js"}],"../../node_modules/@thi.ng/arrays/is-sorted.js":[function(require,module,exports) {
+},{"@thi.ng/equiv":"U8cl"}],"xHsX":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6489,7 +6489,7 @@ const isSorted = (arr, cmp = _compare.compare, start = 0, end = arr.length) => {
 };
 
 exports.isSorted = isSorted;
-},{"@thi.ng/compare":"../../node_modules/@thi.ng/compare/index.js"}],"../../node_modules/@thi.ng/arrays/iterator.js":[function(require,module,exports) {
+},{"@thi.ng/compare":"vzOR"}],"O6JA":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6520,7 +6520,7 @@ function* arrayIterator(buf, start = 0, end) {
     yield buf[start];
   }
 }
-},{}],"../../node_modules/@thi.ng/arrays/peek.js":[function(require,module,exports) {
+},{}],"eOoC":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6536,7 +6536,7 @@ exports.peek = void 0;
 const peek = buf => buf[buf.length - 1];
 
 exports.peek = peek;
-},{}],"../../node_modules/@thi.ng/arrays/swap.js":[function(require,module,exports) {
+},{}],"hDYv":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6628,7 +6628,7 @@ const multiSwap = (...xs) => {
 };
 
 exports.multiSwap = multiSwap;
-},{}],"../../node_modules/@thi.ng/arrays/quicksort.js":[function(require,module,exports) {
+},{}],"elNV":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6667,7 +6667,7 @@ function quickSort(arr, _cmp = _compare.compare, _swap = _swap2.swap, start = 0,
 
   return arr;
 }
-},{"@thi.ng/compare":"../../node_modules/@thi.ng/compare/index.js","./swap":"../../node_modules/@thi.ng/arrays/swap.js"}],"../../node_modules/@thi.ng/random/api.js":[function(require,module,exports) {
+},{"@thi.ng/compare":"vzOR","./swap":"hDYv"}],"OLbd":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6711,7 +6711,7 @@ class ARandom {
 }
 
 exports.ARandom = ARandom;
-},{}],"../../node_modules/@thi.ng/random/smush32.js":[function(require,module,exports) {
+},{}],"KRtU":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6753,7 +6753,7 @@ class Smush32 extends _api.ARandom {
 }
 
 exports.Smush32 = Smush32;
-},{"./api":"../../node_modules/@thi.ng/random/api.js"}],"../../node_modules/@thi.ng/random/system.js":[function(require,module,exports) {
+},{"./api":"OLbd"}],"E4xu":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6783,7 +6783,7 @@ class SystemRandom extends _api.ARandom {
 exports.SystemRandom = SystemRandom;
 const SYSTEM = new SystemRandom();
 exports.SYSTEM = SYSTEM;
-},{"./api":"../../node_modules/@thi.ng/random/api.js"}],"../../node_modules/@thi.ng/random/xorshift128.js":[function(require,module,exports) {
+},{"./api":"OLbd"}],"CxPr":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6831,7 +6831,7 @@ class XorShift128 extends _api.ARandom {
 }
 
 exports.XorShift128 = XorShift128;
-},{"./api":"../../node_modules/@thi.ng/random/api.js"}],"../../node_modules/@thi.ng/random/xorwow.js":[function(require,module,exports) {
+},{"./api":"OLbd"}],"IyZn":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6882,7 +6882,7 @@ class XorWow extends _api.ARandom {
 }
 
 exports.XorWow = XorWow;
-},{"./api":"../../node_modules/@thi.ng/random/api.js"}],"../../node_modules/@thi.ng/random/xsadd.js":[function(require,module,exports) {
+},{"./api":"OLbd"}],"d2OW":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6941,7 +6941,7 @@ class XsAdd extends _api.ARandom {
 }
 
 exports.XsAdd = XsAdd;
-},{"./api":"../../node_modules/@thi.ng/random/api.js"}],"../../node_modules/@thi.ng/random/random-bytes.js":[function(require,module,exports) {
+},{"./api":"OLbd"}],"C1HS":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6968,7 +6968,7 @@ const randomBytes = (0, _checks.hasCrypto)() ? buf => window.crypto.getRandomVal
   return buf;
 };
 exports.randomBytes = randomBytes;
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","./system":"../../node_modules/@thi.ng/random/system.js"}],"../../node_modules/@thi.ng/random/random-id.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc","./system":"E4xu"}],"lzH4":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7006,7 +7006,7 @@ const randomID = (len = 4, prefix = "", syms = "abcdefghijklmnopqrstuvwxyz", rnd
 };
 
 exports.randomID = randomID;
-},{"./system":"../../node_modules/@thi.ng/random/system.js"}],"../../node_modules/@thi.ng/random/weighted-random.js":[function(require,module,exports) {
+},{"./system":"E4xu"}],"Zw70":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7052,7 +7052,7 @@ const weightedRandom = (choices, weights, rnd = _system.SYSTEM) => {
 };
 
 exports.weightedRandom = weightedRandom;
-},{"@thi.ng/api":"../../node_modules/@thi.ng/api/index.js","./system":"../../node_modules/@thi.ng/random/system.js"}],"../../node_modules/@thi.ng/random/index.js":[function(require,module,exports) {
+},{"@thi.ng/api":"MOSf","./system":"E4xu"}],"C0Vh":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7166,7 +7166,7 @@ Object.keys(_weightedRandom).forEach(function (key) {
     }
   });
 });
-},{"./api":"../../node_modules/@thi.ng/random/api.js","./smush32":"../../node_modules/@thi.ng/random/smush32.js","./system":"../../node_modules/@thi.ng/random/system.js","./xorshift128":"../../node_modules/@thi.ng/random/xorshift128.js","./xorwow":"../../node_modules/@thi.ng/random/xorwow.js","./xsadd":"../../node_modules/@thi.ng/random/xsadd.js","./random-bytes":"../../node_modules/@thi.ng/random/random-bytes.js","./random-id":"../../node_modules/@thi.ng/random/random-id.js","./weighted-random":"../../node_modules/@thi.ng/random/weighted-random.js"}],"../../node_modules/@thi.ng/arrays/shuffle.js":[function(require,module,exports) {
+},{"./api":"OLbd","./smush32":"KRtU","./system":"E4xu","./xorshift128":"CxPr","./xorwow":"IyZn","./xsadd":"d2OW","./random-bytes":"C1HS","./random-id":"lzH4","./weighted-random":"Zw70"}],"oQP0":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7226,7 +7226,7 @@ exports.shuffleRange = shuffleRange;
 const shuffle = (buf, n = buf.length, rnd = _random.SYSTEM) => shuffleRange(buf, 0, n, rnd);
 
 exports.shuffle = shuffle;
-},{"@thi.ng/api":"../../node_modules/@thi.ng/api/index.js","@thi.ng/random":"../../node_modules/@thi.ng/random/index.js"}],"../../node_modules/@thi.ng/arrays/starts-with.js":[function(require,module,exports) {
+},{"@thi.ng/api":"MOSf","@thi.ng/random":"C0Vh"}],"A0Jc":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7263,7 +7263,7 @@ const startsWith = (buf, needle, equiv = _equiv.equiv) => {
 };
 
 exports.startsWith = startsWith;
-},{"@thi.ng/equiv":"../../node_modules/@thi.ng/equiv/index.js"}],"../../node_modules/@thi.ng/arrays/swizzle.js":[function(require,module,exports) {
+},{"@thi.ng/equiv":"U8cl"}],"WYrG":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7341,7 +7341,7 @@ const swizzle = order => {
 };
 
 exports.swizzle = swizzle;
-},{}],"../../node_modules/@thi.ng/arrays/index.js":[function(require,module,exports) {
+},{}],"iKN7":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7515,7 +7515,7 @@ Object.keys(_swizzle).forEach(function (key) {
     }
   });
 });
-},{"./binary-search":"../../node_modules/@thi.ng/arrays/binary-search.js","./ends-with":"../../node_modules/@thi.ng/arrays/ends-with.js","./ensure-array":"../../node_modules/@thi.ng/arrays/ensure-array.js","./ensure-iterable":"../../node_modules/@thi.ng/arrays/ensure-iterable.js","./find":"../../node_modules/@thi.ng/arrays/find.js","./fuzzy-match":"../../node_modules/@thi.ng/arrays/fuzzy-match.js","./is-sorted":"../../node_modules/@thi.ng/arrays/is-sorted.js","./iterator":"../../node_modules/@thi.ng/arrays/iterator.js","./peek":"../../node_modules/@thi.ng/arrays/peek.js","./quicksort":"../../node_modules/@thi.ng/arrays/quicksort.js","./shuffle":"../../node_modules/@thi.ng/arrays/shuffle.js","./starts-with":"../../node_modules/@thi.ng/arrays/starts-with.js","./swap":"../../node_modules/@thi.ng/arrays/swap.js","./swizzle":"../../node_modules/@thi.ng/arrays/swizzle.js"}],"../../node_modules/@thi.ng/transducers/xform/filter-fuzzy.js":[function(require,module,exports) {
+},{"./binary-search":"MnSf","./ends-with":"jjq4","./ensure-array":"YCDU","./ensure-iterable":"NbJv","./find":"AVZK","./fuzzy-match":"KC6E","./is-sorted":"xHsX","./iterator":"O6JA","./peek":"eOoC","./quicksort":"elNV","./shuffle":"oQP0","./starts-with":"A0Jc","./swap":"hDYv","./swizzle":"WYrG"}],"UIqX":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7543,7 +7543,7 @@ function filterFuzzy(...args) {
   } = args[1] || {};
   return (0, _filter.filter)(x => (0, _arrays.fuzzyMatch)(key != null ? key(x) : x, query, equiv));
 }
-},{"@thi.ng/arrays":"../../node_modules/@thi.ng/arrays/index.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","./filter":"../../node_modules/@thi.ng/transducers/xform/filter.js"}],"../../node_modules/@thi.ng/transducers/xform/flatten-with.js":[function(require,module,exports) {
+},{"@thi.ng/arrays":"iKN7","../iterator":"fhdf","./filter":"AmRG"}],"GrLQ":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7582,7 +7582,7 @@ function flattenWith(fn, src) {
     return (0, _compr.compR)(rfn, flatten);
   };
 }
-},{"../func/compr":"../../node_modules/@thi.ng/transducers/func/compr.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","../reduced":"../../node_modules/@thi.ng/transducers/reduced.js"}],"../../node_modules/@thi.ng/transducers/xform/flatten.js":[function(require,module,exports) {
+},{"../func/compr":"IqcY","../iterator":"fhdf","../reduced":"N1be"}],"FhYa":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7595,7 +7595,7 @@ var _flattenWith = require("./flatten-with");
 function flatten(src) {
   return (0, _flattenWith.flattenWith)(x => x != null && x[Symbol.iterator] && typeof x !== "string" ? x : undefined, src);
 }
-},{"./flatten-with":"../../node_modules/@thi.ng/transducers/xform/flatten-with.js"}],"../../node_modules/@thi.ng/transducers/xform/map-indexed.js":[function(require,module,exports) {
+},{"./flatten-with":"GrLQ"}],"n5y9":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7615,7 +7615,7 @@ function mapIndexed(...args) {
     return (0, _compr.compR)(rfn, (acc, x) => r(acc, fn(i++, x)));
   });
 }
-},{"../func/compr":"../../node_modules/@thi.ng/transducers/func/compr.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js"}],"../../node_modules/@thi.ng/transducers/xform/indexed.js":[function(require,module,exports) {
+},{"../func/compr":"IqcY","../iterator":"fhdf"}],"v3WG":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7637,7 +7637,7 @@ function indexed(...args) {
   const from = args[0] || 0;
   return (0, _mapIndexed.mapIndexed)((i, x) => [from + i, x]);
 }
-},{"../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","./map-indexed":"../../node_modules/@thi.ng/transducers/xform/map-indexed.js"}],"../../node_modules/@thi.ng/transducers/xform/interleave.js":[function(require,module,exports) {
+},{"../iterator":"fhdf","./map-indexed":"n5y9"}],"AqTY":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7663,7 +7663,7 @@ function interleave(sep, src) {
     });
   };
 }
-},{"../func/compr":"../../node_modules/@thi.ng/transducers/func/compr.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","../reduced":"../../node_modules/@thi.ng/transducers/reduced.js"}],"../../node_modules/@thi.ng/transducers/func/comp.js":[function(require,module,exports) {
+},{"../func/compr":"IqcY","../iterator":"fhdf","../reduced":"N1be"}],"vBNp":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7679,7 +7679,7 @@ function comp(...fns) {
   fns = fns.map(_ensure.ensureTransducer);
   return _compose.comp.apply(null, fns);
 }
-},{"@thi.ng/compose":"../../node_modules/@thi.ng/compose/index.js","../internal/ensure":"../../node_modules/@thi.ng/transducers/internal/ensure.js"}],"../../node_modules/@thi.ng/transducers/iter/norm-range.js":[function(require,module,exports) {
+},{"@thi.ng/compose":"gnoC","../internal/ensure":"IMN5"}],"oFfM":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7707,7 +7707,7 @@ function* normRange(n, inclLast = true) {
     }
   }
 }
-},{}],"../../node_modules/@thi.ng/transducers/xform/mapcat.js":[function(require,module,exports) {
+},{}],"pk6b":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7726,7 +7726,7 @@ var _map = require("./map");
 function mapcat(fn, src) {
   return src ? (0, _iterator.iterator)(mapcat(fn), src) : (0, _comp.comp)((0, _map.map)(fn), (0, _cat.cat)());
 }
-},{"../func/comp":"../../node_modules/@thi.ng/transducers/func/comp.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","./cat":"../../node_modules/@thi.ng/transducers/xform/cat.js","./map":"../../node_modules/@thi.ng/transducers/xform/map.js"}],"../../node_modules/@thi.ng/transducers/xform/partition.js":[function(require,module,exports) {
+},{"../func/comp":"vBNp","../iterator":"fhdf","./cat":"arAw","./map":"WUst"}],"IixE":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7784,7 +7784,7 @@ function partition(...args) {
     }];
   };
 }
-},{"../iterator":"../../node_modules/@thi.ng/transducers/iterator.js"}],"../../node_modules/@thi.ng/transducers/xform/interpolate.js":[function(require,module,exports) {
+},{"../iterator":"fhdf"}],"H1Uj":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7808,7 +7808,7 @@ var _partition = require("./partition");
 function interpolate(fn, window, n, src) {
   return src ? (0, _iterator.iterator)(interpolate(fn, window, n), src) : (0, _comp.comp)((0, _partition.partition)(window, 1), (0, _mapcat.mapcat)(chunk => (0, _map.map)(t => fn(chunk, t), (0, _normRange.normRange)(n, false))));
 }
-},{"../func/comp":"../../node_modules/@thi.ng/transducers/func/comp.js","../iter/norm-range":"../../node_modules/@thi.ng/transducers/iter/norm-range.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","./map":"../../node_modules/@thi.ng/transducers/xform/map.js","./mapcat":"../../node_modules/@thi.ng/transducers/xform/mapcat.js","./partition":"../../node_modules/@thi.ng/transducers/xform/partition.js"}],"../../node_modules/@thi.ng/math/api.js":[function(require,module,exports) {
+},{"../func/comp":"vBNp","../iter/norm-range":"oFfM","../iterator":"fhdf","./map":"WUst","./mapcat":"pk6b","./partition":"IixE"}],"zd6y":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7880,7 +7880,7 @@ exports.Crossing = Crossing;
   Crossing[Crossing["OVER"] = 3] = "OVER";
   Crossing[Crossing["OTHER"] = 4] = "OTHER";
 })(Crossing || (exports.Crossing = Crossing = {}));
-},{}],"../../node_modules/@thi.ng/math/abs.js":[function(require,module,exports) {
+},{}],"FWip":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7897,7 +7897,7 @@ exports.absDiff = absDiff;
 const sign = (x, eps = _api.EPS) => x > eps ? 1 : x < -eps ? -1 : 0;
 
 exports.sign = sign;
-},{"./api":"../../node_modules/@thi.ng/math/api.js"}],"../../node_modules/@thi.ng/math/angle.js":[function(require,module,exports) {
+},{"./api":"zd6y"}],"uNzl":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8095,7 +8095,7 @@ exports.fastCos = fastCos;
 const fastSin = theta => fastCos(_api.HALF_PI - theta);
 
 exports.fastSin = fastSin;
-},{"./api":"../../node_modules/@thi.ng/math/api.js"}],"../../node_modules/@thi.ng/math/eqdelta.js":[function(require,module,exports) {
+},{"./api":"zd6y"}],"SDG2":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8136,7 +8136,7 @@ exports.eqDelta = eqDelta;
 const eqDeltaFixed = (a, b, eps = _api.EPS) => abs(a - b) <= eps;
 
 exports.eqDeltaFixed = eqDeltaFixed;
-},{"./api":"../../node_modules/@thi.ng/math/api.js"}],"../../node_modules/@thi.ng/math/crossing.js":[function(require,module,exports) {
+},{"./api":"zd6y"}],"GRoL":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8226,7 +8226,7 @@ const classifyCrossing = (a1, a2, b1, b2, eps = _api.EPS) => {
 };
 
 exports.classifyCrossing = classifyCrossing;
-},{"./api":"../../node_modules/@thi.ng/math/api.js","./eqdelta":"../../node_modules/@thi.ng/math/eqdelta.js"}],"../../node_modules/@thi.ng/math/extrema.js":[function(require,module,exports) {
+},{"./api":"zd6y","./eqdelta":"SDG2"}],"xI7W":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8333,7 +8333,7 @@ exports.minimaIndices = minimaIndices;
 const maximaIndices = (values, from = 0, to = values.length) => indices(minimaIndex, values, from, to);
 
 exports.maximaIndices = maximaIndices;
-},{}],"../../node_modules/@thi.ng/math/interval.js":[function(require,module,exports) {
+},{}],"PBUS":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8560,7 +8560,7 @@ exports.inRange = inRange;
 const inOpenRange = (x, min, max) => x > min && x < max;
 
 exports.inOpenRange = inOpenRange;
-},{}],"../../node_modules/@thi.ng/math/fit.js":[function(require,module,exports) {
+},{}],"rFLZ":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8601,7 +8601,7 @@ exports.fit10 = fit10;
 const fit11 = (x, a, b) => a + (b - a) * (0.5 + 0.5 * (0, _interval.clamp11)(x));
 
 exports.fit11 = fit11;
-},{"./interval":"../../node_modules/@thi.ng/math/interval.js"}],"../../node_modules/@thi.ng/math/int.js":[function(require,module,exports) {
+},{"./interval":"PBUS"}],"dt8m":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8880,7 +8880,7 @@ exports.lshiftu32 = lshiftu32;
 const rshiftu32 = (a, b) => a >>> 0 >>> (b >>> 0) >>> 0;
 
 exports.rshiftu32 = rshiftu32;
-},{}],"../../node_modules/@thi.ng/math/min-error.js":[function(require,module,exports) {
+},{}],"xVeb":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8934,7 +8934,7 @@ const minError = (fn, error, q, res = 16, iter = 8, start = 0, end = 1, eps = _a
 };
 
 exports.minError = minError;
-},{"./api":"../../node_modules/@thi.ng/math/api.js"}],"../../node_modules/@thi.ng/math/mix.js":[function(require,module,exports) {
+},{"./api":"zd6y"}],"B0dQ":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9222,7 +9222,7 @@ exports.sigmoid11 = sigmoid11;
 const expFactor = (a, b, num) => Math.pow(b / a, 1 / num);
 
 exports.expFactor = expFactor;
-},{"./api":"../../node_modules/@thi.ng/math/api.js"}],"../../node_modules/@thi.ng/math/prec.js":[function(require,module,exports) {
+},{"./api":"zd6y"}],"UVR2":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9267,7 +9267,7 @@ const roundEps = (x, eps = _api.EPS) => {
 };
 
 exports.roundEps = roundEps;
-},{"./api":"../../node_modules/@thi.ng/math/api.js"}],"../../node_modules/@thi.ng/math/ratio.js":[function(require,module,exports) {
+},{"./api":"zd6y"}],"KH43":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9297,7 +9297,7 @@ const simplifyRatio = (num, denom) => {
 };
 
 exports.simplifyRatio = simplifyRatio;
-},{}],"../../node_modules/@thi.ng/math/solve.js":[function(require,module,exports) {
+},{}],"bgMt":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9407,7 +9407,7 @@ const solveCubic = (a, b, c, d, eps = 1e-9) => {
 };
 
 exports.solveCubic = solveCubic;
-},{"./api":"../../node_modules/@thi.ng/math/api.js"}],"../../node_modules/@thi.ng/math/step.js":[function(require,module,exports) {
+},{"./api":"zd6y"}],"QhSg":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9475,7 +9475,7 @@ exports.smootherStep = smootherStep;
 const expStep = (k, n, x) => 1 - Math.exp(-k * Math.pow(x, n));
 
 exports.expStep = expStep;
-},{"./interval":"../../node_modules/@thi.ng/math/interval.js"}],"../../node_modules/@thi.ng/math/index.js":[function(require,module,exports) {
+},{"./interval":"PBUS"}],"zoYr":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9661,7 +9661,7 @@ Object.keys(_step).forEach(function (key) {
     }
   });
 });
-},{"./api":"../../node_modules/@thi.ng/math/api.js","./abs":"../../node_modules/@thi.ng/math/abs.js","./angle":"../../node_modules/@thi.ng/math/angle.js","./crossing":"../../node_modules/@thi.ng/math/crossing.js","./eqdelta":"../../node_modules/@thi.ng/math/eqdelta.js","./extrema":"../../node_modules/@thi.ng/math/extrema.js","./fit":"../../node_modules/@thi.ng/math/fit.js","./int":"../../node_modules/@thi.ng/math/int.js","./interval":"../../node_modules/@thi.ng/math/interval.js","./min-error":"../../node_modules/@thi.ng/math/min-error.js","./mix":"../../node_modules/@thi.ng/math/mix.js","./prec":"../../node_modules/@thi.ng/math/prec.js","./ratio":"../../node_modules/@thi.ng/math/ratio.js","./solve":"../../node_modules/@thi.ng/math/solve.js","./step":"../../node_modules/@thi.ng/math/step.js"}],"../../node_modules/@thi.ng/transducers/xform/interpolate-hermite.js":[function(require,module,exports) {
+},{"./api":"zd6y","./abs":"FWip","./angle":"uNzl","./crossing":"GRoL","./eqdelta":"SDG2","./extrema":"xI7W","./fit":"rFLZ","./int":"dt8m","./interval":"PBUS","./min-error":"xVeb","./mix":"B0dQ","./prec":"UVR2","./ratio":"KH43","./solve":"bgMt","./step":"QhSg"}],"nhqr":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9676,7 +9676,7 @@ var _interpolate = require("./interpolate");
 function interpolateHermite(n, src) {
   return (0, _interpolate.interpolate)((chunk, t) => (0, _math.mixHermite)(...chunk, t), 4, n, src);
 }
-},{"@thi.ng/math":"../../node_modules/@thi.ng/math/index.js","./interpolate":"../../node_modules/@thi.ng/transducers/xform/interpolate.js"}],"../../node_modules/@thi.ng/transducers/xform/interpolate-linear.js":[function(require,module,exports) {
+},{"@thi.ng/math":"zoYr","./interpolate":"H1Uj"}],"jvQK":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9691,7 +9691,7 @@ var _interpolate = require("./interpolate");
 function interpolateLinear(n, src) {
   return (0, _interpolate.interpolate)((chunk, t) => (0, _math.mix)(...chunk, t), 2, n, src);
 }
-},{"@thi.ng/math":"../../node_modules/@thi.ng/math/index.js","./interpolate":"../../node_modules/@thi.ng/transducers/xform/interpolate.js"}],"../../node_modules/@thi.ng/transducers/xform/interpose.js":[function(require,module,exports) {
+},{"@thi.ng/math":"zoYr","./interpolate":"H1Uj"}],"C4Kx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9723,7 +9723,7 @@ function interpose(sep, src) {
     });
   };
 }
-},{"../func/compr":"../../node_modules/@thi.ng/transducers/func/compr.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","../reduced":"../../node_modules/@thi.ng/transducers/reduced.js"}],"../../node_modules/@thi.ng/transducers/xform/keep.js":[function(require,module,exports) {
+},{"../func/compr":"IqcY","../iterator":"fhdf","../reduced":"N1be"}],"cSVz":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9744,7 +9744,7 @@ function keep(...args) {
     return (0, _compr.compR)(rfn, (acc, x) => pred(x) != null ? r(acc, x) : acc);
   });
 }
-},{"@thi.ng/compose":"../../node_modules/@thi.ng/compose/index.js","../func/compr":"../../node_modules/@thi.ng/transducers/func/compr.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js"}],"../../node_modules/@thi.ng/transducers/xform/labeled.js":[function(require,module,exports) {
+},{"@thi.ng/compose":"gnoC","../func/compr":"IqcY","../iterator":"fhdf"}],"GHxA":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9761,7 +9761,7 @@ var _map = require("./map");
 function labeled(id, src) {
   return src ? (0, _iterator.iterator1)(labeled(id), src) : (0, _map.map)((0, _checks.isFunction)(id) ? x => [id(x), x] : x => [id, x]);
 }
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","./map":"../../node_modules/@thi.ng/transducers/xform/map.js"}],"../../node_modules/@thi.ng/transducers/func/deep-transform.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc","../iterator":"fhdf","./map":"WUst"}],"Khd6":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9852,7 +9852,7 @@ const deepTransform = spec => {
 };
 
 exports.deepTransform = deepTransform;
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js"}],"../../node_modules/@thi.ng/transducers/xform/map-deep.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc"}],"OxBd":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9869,7 +9869,7 @@ var _map = require("./map");
 function mapDeep(spec, src) {
   return src ? (0, _iterator.iterator1)(mapDeep(spec), src) : (0, _map.map)((0, _deepTransform.deepTransform)(spec));
 }
-},{"../func/deep-transform":"../../node_modules/@thi.ng/transducers/func/deep-transform.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","./map":"../../node_modules/@thi.ng/transducers/xform/map.js"}],"../../node_modules/@thi.ng/transducers/xform/map-keys.js":[function(require,module,exports) {
+},{"../func/deep-transform":"Khd6","../iterator":"fhdf","./map":"WUst"}],"Zidv":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9900,7 +9900,7 @@ function mapKeys(...args) {
     return res;
   });
 }
-},{"../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","./map":"../../node_modules/@thi.ng/transducers/xform/map.js"}],"../../node_modules/@thi.ng/transducers/xform/map-nth.js":[function(require,module,exports) {
+},{"../iterator":"fhdf","./map":"WUst"}],"OvXR":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9951,7 +9951,7 @@ function mapNth(...args) {
     });
   };
 }
-},{"../func/compr":"../../node_modules/@thi.ng/transducers/func/compr.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js"}],"../../node_modules/@thi.ng/transducers/xform/map-vals.js":[function(require,module,exports) {
+},{"../func/compr":"IqcY","../iterator":"fhdf"}],"C0YV":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9982,7 +9982,7 @@ function mapVals(...args) {
     return res;
   });
 }
-},{"../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","./map":"../../node_modules/@thi.ng/transducers/xform/map.js"}],"../../node_modules/@thi.ng/transducers/xform/take.js":[function(require,module,exports) {
+},{"../iterator":"fhdf","./map":"WUst"}],"o8VT":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10003,7 +10003,7 @@ function take(n, src) {
     return (0, _compr.compR)(rfn, (acc, x) => --m > 0 ? r(acc, x) : m === 0 ? (0, _reduced.ensureReduced)(r(acc, x)) : (0, _reduced.reduced)(acc));
   };
 }
-},{"../func/compr":"../../node_modules/@thi.ng/transducers/func/compr.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","../reduced":"../../node_modules/@thi.ng/transducers/reduced.js"}],"../../node_modules/@thi.ng/transducers/xform/match-first.js":[function(require,module,exports) {
+},{"../func/compr":"IqcY","../iterator":"fhdf","../reduced":"N1be"}],"CbTT":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10022,7 +10022,7 @@ var _take = require("./take");
 function matchFirst(pred, src) {
   return src ? [...(0, _iterator.iterator1)(matchFirst(pred), src)][0] : (0, _comp.comp)((0, _filter.filter)(pred), (0, _take.take)(1));
 }
-},{"../func/comp":"../../node_modules/@thi.ng/transducers/func/comp.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","./filter":"../../node_modules/@thi.ng/transducers/xform/filter.js","./take":"../../node_modules/@thi.ng/transducers/xform/take.js"}],"../../node_modules/@thi.ng/transducers/internal/drain.js":[function(require,module,exports) {
+},{"../func/comp":"vBNp","../iterator":"fhdf","./filter":"AmRG","./take":"o8VT"}],"cvYg":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10051,7 +10051,7 @@ const __drain = (buf, complete, reduce) => acc => {
 };
 
 exports.__drain = __drain;
-},{"../reduced":"../../node_modules/@thi.ng/transducers/reduced.js"}],"../../node_modules/@thi.ng/transducers/xform/take-last.js":[function(require,module,exports) {
+},{"../reduced":"N1be"}],"OmPI":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10076,7 +10076,7 @@ function takeLast(n, src) {
     }];
   };
 }
-},{"../internal/drain":"../../node_modules/@thi.ng/transducers/internal/drain.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js"}],"../../node_modules/@thi.ng/transducers/xform/match-last.js":[function(require,module,exports) {
+},{"../internal/drain":"cvYg","../iterator":"fhdf"}],"o7kz":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10095,7 +10095,7 @@ var _takeLast = require("./take-last");
 function matchLast(pred, src) {
   return src ? [...(0, _iterator.iterator)(matchLast(pred), src)][0] : (0, _comp.comp)((0, _filter.filter)(pred), (0, _takeLast.takeLast)(1));
 }
-},{"../func/comp":"../../node_modules/@thi.ng/transducers/func/comp.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","./filter":"../../node_modules/@thi.ng/transducers/xform/filter.js","./take-last":"../../node_modules/@thi.ng/transducers/xform/take-last.js"}],"../../node_modules/@thi.ng/transducers/xform/moving-average.js":[function(require,module,exports) {
+},{"../func/comp":"vBNp","../iterator":"fhdf","./filter":"AmRG","./take-last":"OmPI"}],"ocT9":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10124,7 +10124,7 @@ function movingAverage(period, src) {
     });
   };
 }
-},{"@thi.ng/errors":"../../node_modules/@thi.ng/errors/index.js","../func/compr":"../../node_modules/@thi.ng/transducers/func/compr.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js"}],"../../node_modules/@thi.ng/transducers/internal/sort-opts.js":[function(require,module,exports) {
+},{"@thi.ng/errors":"j3Rf","../func/compr":"IqcY","../iterator":"fhdf"}],"NZk2":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10149,7 +10149,7 @@ const __sortOpts = opts => Object.assign({
 }, opts);
 
 exports.__sortOpts = __sortOpts;
-},{"@thi.ng/compare":"../../node_modules/@thi.ng/compare/index.js","@thi.ng/compose":"../../node_modules/@thi.ng/compose/index.js"}],"../../node_modules/@thi.ng/transducers/xform/moving-median.js":[function(require,module,exports) {
+},{"@thi.ng/compare":"vzOR","@thi.ng/compose":"gnoC"}],"p2Dn":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10182,7 +10182,7 @@ function movingMedian(...args) {
   const m = n >> 1;
   return (0, _comp.comp)((0, _partition.partition)(n, 1, true), (0, _map.map)(window => window.slice().sort((a, b) => compare(key(a), key(b)))[m]));
 }
-},{"../func/comp":"../../node_modules/@thi.ng/transducers/func/comp.js","../internal/sort-opts":"../../node_modules/@thi.ng/transducers/internal/sort-opts.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","./map":"../../node_modules/@thi.ng/transducers/xform/map.js","./partition":"../../node_modules/@thi.ng/transducers/xform/partition.js"}],"../../node_modules/@thi.ng/transducers/xform/multiplex.js":[function(require,module,exports) {
+},{"../func/comp":"vBNp","../internal/sort-opts":"NZk2","../iterator":"fhdf","./map":"WUst","./partition":"IixE"}],"GmFf":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10199,7 +10199,7 @@ var _map = require("./map");
 function multiplex(...args) {
   return (0, _map.map)(_compose.juxt.apply(null, args.map(_step.step)));
 }
-},{"@thi.ng/compose":"../../node_modules/@thi.ng/compose/index.js","../step":"../../node_modules/@thi.ng/transducers/step.js","./map":"../../node_modules/@thi.ng/transducers/xform/map.js"}],"../../node_modules/@thi.ng/transducers/func/renamer.js":[function(require,module,exports) {
+},{"@thi.ng/compose":"gnoC","../step":"o6XN","./map":"WUst"}],"iIRC":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10255,7 +10255,7 @@ const renamer = kmap => {
 };
 
 exports.renamer = renamer;
-},{}],"../../node_modules/@thi.ng/transducers/xform/rename.js":[function(require,module,exports) {
+},{}],"HBXk":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10297,7 +10297,7 @@ function rename(...args) {
     return (0, _map.map)((0, _renamer.renamer)(kmap));
   }
 }
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","../func/comp":"../../node_modules/@thi.ng/transducers/func/comp.js","../func/renamer":"../../node_modules/@thi.ng/transducers/func/renamer.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","../transduce":"../../node_modules/@thi.ng/transducers/transduce.js","./filter":"../../node_modules/@thi.ng/transducers/xform/filter.js","./map":"../../node_modules/@thi.ng/transducers/xform/map.js"}],"../../node_modules/@thi.ng/transducers/xform/multiplex-obj.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc","../func/comp":"vBNp","../func/renamer":"iIRC","../iterator":"fhdf","../transduce":"iqGa","./filter":"AmRG","./map":"WUst"}],"sFj2":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10324,7 +10324,7 @@ function multiplexObj(...args) {
   const ks = Object.keys(xforms);
   return (0, _comp.comp)(_multiplex.multiplex.apply(null, ks.map(k => xforms[k])), (0, _rename.rename)(ks, rfn));
 }
-},{"../func/comp":"../../node_modules/@thi.ng/transducers/func/comp.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","./multiplex":"../../node_modules/@thi.ng/transducers/xform/multiplex.js","./rename":"../../node_modules/@thi.ng/transducers/xform/rename.js"}],"../../node_modules/@thi.ng/transducers/xform/noop.js":[function(require,module,exports) {
+},{"../func/comp":"vBNp","../iterator":"fhdf","./multiplex":"GmFf","./rename":"HBXk"}],"JLiJ":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10340,7 +10340,7 @@ exports.noop = void 0;
 const noop = () => rfn => rfn;
 
 exports.noop = noop;
-},{}],"../../node_modules/@thi.ng/transducers/xform/pad-last.js":[function(require,module,exports) {
+},{}],"v6pt":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10368,7 +10368,7 @@ function padLast(n, fill, src) {
     }, (acc, x) => (m++, reduce(acc, x))];
   };
 }
-},{"../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","../reduced":"../../node_modules/@thi.ng/transducers/reduced.js"}],"../../node_modules/@thi.ng/transducers/xform/page.js":[function(require,module,exports) {
+},{"../iterator":"fhdf","../reduced":"N1be"}],"gT1U":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10387,7 +10387,7 @@ var _take = require("./take");
 function page(...args) {
   return (0, _iterator.$iter)(page, args) || (0, _comp.comp)((0, _drop.drop)(args[0] * (args[1] || 10)), (0, _take.take)(args[1] || 10));
 }
-},{"../func/comp":"../../node_modules/@thi.ng/transducers/func/comp.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","./drop":"../../node_modules/@thi.ng/transducers/xform/drop.js","./take":"../../node_modules/@thi.ng/transducers/xform/take.js"}],"../../node_modules/@thi.ng/transducers/xform/partition-by.js":[function(require,module,exports) {
+},{"../func/comp":"vBNp","../iterator":"fhdf","./drop":"Xj6O","./take":"o8VT"}],"NsL8":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10432,7 +10432,7 @@ function partitionBy(...args) {
     }];
   });
 }
-},{"@thi.ng/api":"../../node_modules/@thi.ng/api/index.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","../reduced":"../../node_modules/@thi.ng/transducers/reduced.js"}],"../../node_modules/@thi.ng/transducers/xform/partition-of.js":[function(require,module,exports) {
+},{"@thi.ng/api":"MOSf","../iterator":"fhdf","../reduced":"N1be"}],"L6Yr":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10458,7 +10458,7 @@ function partitionOf(sizes, src) {
     };
   }, true);
 }
-},{"../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","./partition-by":"../../node_modules/@thi.ng/transducers/xform/partition-by.js"}],"../../node_modules/@thi.ng/transducers/xform/partition-sort.js":[function(require,module,exports) {
+},{"../iterator":"fhdf","./partition-by":"NsL8"}],"ENs0":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10489,7 +10489,7 @@ function partitionSort(...args) {
   } = (0, _sortOpts.__sortOpts)(args[1]);
   return (0, _comp.comp)((0, _partition.partition)(args[0], true), (0, _mapcat.mapcat)(window => window.slice().sort((a, b) => compare(key(a), key(b)))));
 }
-},{"../func/comp":"../../node_modules/@thi.ng/transducers/func/comp.js","../internal/sort-opts":"../../node_modules/@thi.ng/transducers/internal/sort-opts.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","./mapcat":"../../node_modules/@thi.ng/transducers/xform/mapcat.js","./partition":"../../node_modules/@thi.ng/transducers/xform/partition.js"}],"../../node_modules/@thi.ng/transducers/xform/partition-sync.js":[function(require,module,exports) {
+},{"../func/comp":"vBNp","../internal/sort-opts":"NZk2","../iterator":"fhdf","./mapcat":"pk6b","./partition":"IixE"}],"mSEP":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10613,7 +10613,7 @@ const collect = (cache, currKeys) => {
 
   return curr;
 };
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","@thi.ng/compose":"../../node_modules/@thi.ng/compose/index.js","@thi.ng/errors":"../../node_modules/@thi.ng/errors/index.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","../reduced":"../../node_modules/@thi.ng/transducers/reduced.js"}],"../../node_modules/@thi.ng/transducers/xform/pluck.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc","@thi.ng/compose":"gnoC","@thi.ng/errors":"j3Rf","../iterator":"fhdf","../reduced":"N1be"}],"klYB":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10628,7 +10628,7 @@ var _map = require("./map");
 function pluck(key, src) {
   return src ? (0, _iterator.iterator1)(pluck(key), src) : (0, _map.map)(x => x[key]);
 }
-},{"../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","./map":"../../node_modules/@thi.ng/transducers/xform/map.js"}],"../../node_modules/@thi.ng/transducers/xform/sample.js":[function(require,module,exports) {
+},{"../iterator":"fhdf","./map":"WUst"}],"YDOC":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10656,7 +10656,7 @@ function sample(...args) {
     return (0, _compr.compR)(rfn, (acc, x) => rnd.float() < prob ? r(acc, x) : acc);
   };
 }
-},{"@thi.ng/random":"../../node_modules/@thi.ng/random/index.js","../func/compr":"../../node_modules/@thi.ng/transducers/func/compr.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js"}],"../../node_modules/@thi.ng/transducers/xform/scan.js":[function(require,module,exports) {
+},{"@thi.ng/random":"C0Vh","../func/compr":"IqcY","../iterator":"fhdf"}],"aO4q":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10692,7 +10692,7 @@ function scan(...args) {
     }];
   });
 }
-},{"../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","../reduced":"../../node_modules/@thi.ng/transducers/reduced.js"}],"../../node_modules/@thi.ng/transducers/func/key-selector.js":[function(require,module,exports) {
+},{"../iterator":"fhdf","../reduced":"N1be"}],"xiIq":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10705,7 +10705,7 @@ var _renamer = require("./renamer");
 const keySelector = keys => (0, _renamer.renamer)(keys.reduce((acc, x) => (acc[x] = x, acc), {}));
 
 exports.keySelector = keySelector;
-},{"./renamer":"../../node_modules/@thi.ng/transducers/func/renamer.js"}],"../../node_modules/@thi.ng/transducers/xform/select-keys.js":[function(require,module,exports) {
+},{"./renamer":"iIRC"}],"a0Sj":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10722,7 +10722,7 @@ var _map = require("./map");
 function selectKeys(keys, src) {
   return src ? (0, _iterator.iterator1)(selectKeys(keys), src) : (0, _map.map)((0, _keySelector.keySelector)(keys));
 }
-},{"../func/key-selector":"../../node_modules/@thi.ng/transducers/func/key-selector.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","./map":"../../node_modules/@thi.ng/transducers/xform/map.js"}],"../../node_modules/@thi.ng/transducers/xform/side-effect.js":[function(require,module,exports) {
+},{"../func/key-selector":"xiIq","../iterator":"fhdf","./map":"WUst"}],"PW9O":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10742,7 +10742,7 @@ var _map = require("./map");
 const sideEffect = fn => (0, _map.map)(x => (fn(x), x));
 
 exports.sideEffect = sideEffect;
-},{"./map":"../../node_modules/@thi.ng/transducers/xform/map.js"}],"../../node_modules/@thi.ng/transducers/xform/sliding-window.js":[function(require,module,exports) {
+},{"./map":"WUst"}],"iM70":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10778,7 +10778,7 @@ function slidingWindow(...args) {
     });
   };
 }
-},{"../func/compr":"../../node_modules/@thi.ng/transducers/func/compr.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js"}],"../../node_modules/@thi.ng/transducers/xform/stream-shuffle.js":[function(require,module,exports) {
+},{"../func/compr":"IqcY","../iterator":"fhdf"}],"LJ5K":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10817,7 +10817,7 @@ function streamShuffle(...args) {
     }];
   });
 }
-},{"@thi.ng/arrays":"../../node_modules/@thi.ng/arrays/index.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","../reduced":"../../node_modules/@thi.ng/transducers/reduced.js"}],"../../node_modules/@thi.ng/transducers/xform/stream-sort.js":[function(require,module,exports) {
+},{"@thi.ng/arrays":"iKN7","../iterator":"fhdf","../reduced":"N1be"}],"Ik0n":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10859,7 +10859,7 @@ function streamSort(...args) {
     }];
   };
 }
-},{"@thi.ng/arrays":"../../node_modules/@thi.ng/arrays/index.js","../internal/drain":"../../node_modules/@thi.ng/transducers/internal/drain.js","../internal/sort-opts":"../../node_modules/@thi.ng/transducers/internal/sort-opts.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js"}],"../../node_modules/@thi.ng/transducers/xform/struct.js":[function(require,module,exports) {
+},{"@thi.ng/arrays":"iKN7","../internal/drain":"cvYg","../internal/sort-opts":"NZk2","../iterator":"fhdf"}],"IfpI":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10882,7 +10882,7 @@ var _rename = require("./rename");
 function struct(fields, src) {
   return src ? (0, _iterator.iterator)(struct(fields), src) : (0, _comp.comp)((0, _partitionOf.partitionOf)(fields.map(f => f[1])), (0, _partition.partition)(fields.length), (0, _rename.rename)(fields.map(f => f[0])), (0, _mapKeys.mapKeys)(fields.reduce((acc, f) => f[2] ? (acc[f[0]] = f[2], acc) : acc, {}), false));
 }
-},{"../func/comp":"../../node_modules/@thi.ng/transducers/func/comp.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","./map-keys":"../../node_modules/@thi.ng/transducers/xform/map-keys.js","./partition":"../../node_modules/@thi.ng/transducers/xform/partition.js","./partition-of":"../../node_modules/@thi.ng/transducers/xform/partition-of.js","./rename":"../../node_modules/@thi.ng/transducers/xform/rename.js"}],"../../node_modules/@thi.ng/transducers/xform/swizzle.js":[function(require,module,exports) {
+},{"../func/comp":"vBNp","../iterator":"fhdf","./map-keys":"Zidv","./partition":"IixE","./partition-of":"L6Yr","./rename":"HBXk"}],"sSrO":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10899,7 +10899,7 @@ var _map = require("./map");
 function swizzle(order, src) {
   return src ? (0, _iterator.iterator1)(swizzle(order), src) : (0, _map.map)((0, _arrays.swizzle)(order));
 }
-},{"@thi.ng/arrays":"../../node_modules/@thi.ng/arrays/index.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","./map":"../../node_modules/@thi.ng/transducers/xform/map.js"}],"../../node_modules/@thi.ng/transducers/xform/take-nth.js":[function(require,module,exports) {
+},{"@thi.ng/arrays":"iKN7","../iterator":"fhdf","./map":"WUst"}],"aUgM":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10922,7 +10922,7 @@ function takeNth(n, src) {
     return () => skip === 0 ? (skip = n, true) : (skip--, false);
   });
 }
-},{"../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","./throttle":"../../node_modules/@thi.ng/transducers/xform/throttle.js"}],"../../node_modules/@thi.ng/transducers/xform/take-while.js":[function(require,module,exports) {
+},{"../iterator":"fhdf","./throttle":"FY79"}],"eKGP":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10944,7 +10944,7 @@ function takeWhile(...args) {
     return (0, _compr.compR)(rfn, (acc, x) => (ok = ok && pred(x)) ? r(acc, x) : (0, _reduced.reduced)(acc));
   });
 }
-},{"../func/compr":"../../node_modules/@thi.ng/transducers/func/compr.js","../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","../reduced":"../../node_modules/@thi.ng/transducers/reduced.js"}],"../../node_modules/@thi.ng/transducers/xform/throttle-time.js":[function(require,module,exports) {
+},{"../func/compr":"IqcY","../iterator":"fhdf","../reduced":"N1be"}],"DYsp":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10965,7 +10965,7 @@ function throttleTime(delay, src) {
     };
   });
 }
-},{"../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","./throttle":"../../node_modules/@thi.ng/transducers/xform/throttle.js"}],"../../node_modules/@thi.ng/transducers/xform/toggle.js":[function(require,module,exports) {
+},{"../iterator":"fhdf","./throttle":"FY79"}],"UpJA":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10981,7 +10981,7 @@ function toggle(on, off, initial = false, src) {
     return [init, complete, acc => reduce(acc, (state = !state) ? on : off)];
   };
 }
-},{"../iterator":"../../node_modules/@thi.ng/transducers/iterator.js"}],"../../node_modules/@thi.ng/transducers/xform/trace.js":[function(require,module,exports) {
+},{"../iterator":"fhdf"}],"VbxX":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10994,7 +10994,7 @@ var _sideEffect = require("./side-effect");
 const trace = (prefix = "") => (0, _sideEffect.sideEffect)(x => console.log(prefix, x));
 
 exports.trace = trace;
-},{"./side-effect":"../../node_modules/@thi.ng/transducers/xform/side-effect.js"}],"../../node_modules/@thi.ng/transducers/xform/word-wrap.js":[function(require,module,exports) {
+},{"./side-effect":"PW9O"}],"foa0":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11036,7 +11036,7 @@ function wordWrap(...args) {
     };
   }, true);
 }
-},{"../iterator":"../../node_modules/@thi.ng/transducers/iterator.js","./partition-by":"../../node_modules/@thi.ng/transducers/xform/partition-by.js"}],"../../node_modules/@thi.ng/transducers/func/juxtr.js":[function(require,module,exports) {
+},{"../iterator":"fhdf","./partition-by":"NsL8"}],"mY0c":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11119,7 +11119,7 @@ function juxtR(...rs) {
       }];
   }
 }
-},{"../reduced":"../../node_modules/@thi.ng/transducers/reduced.js"}],"../../node_modules/@thi.ng/transducers/func/lookup.js":[function(require,module,exports) {
+},{"../reduced":"N1be"}],"ZKQP":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11182,7 +11182,7 @@ const lookup3d = (src, width, height) => {
 };
 
 exports.lookup3d = lookup3d;
-},{}],"../../node_modules/@thi.ng/transducers/iter/as-iterable.js":[function(require,module,exports) {
+},{}],"yRn6":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11199,7 +11199,7 @@ exports.asIterable = asIterable;
 function* asIterable(src) {
   yield* src;
 }
-},{}],"../../node_modules/@thi.ng/transducers/iter/repeatedly.js":[function(require,module,exports) {
+},{}],"BmaF":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11226,7 +11226,7 @@ function* repeatedly(fn, n = Infinity) {
     yield fn();
   }
 }
-},{}],"../../node_modules/@thi.ng/transducers/iter/choices.js":[function(require,module,exports) {
+},{}],"kI2L":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11259,7 +11259,7 @@ var _repeatedly = require("./repeatedly");
 const choices = (choices, weights, rnd = _random.SYSTEM) => (0, _repeatedly.repeatedly)(weights ? (0, _random.weightedRandom)((0, _arrays.ensureArray)(choices), weights, rnd) : () => choices[rnd.float(choices.length) | 0]);
 
 exports.choices = choices;
-},{"@thi.ng/arrays":"../../node_modules/@thi.ng/arrays/index.js","@thi.ng/random":"../../node_modules/@thi.ng/random/index.js","./repeatedly":"../../node_modules/@thi.ng/transducers/iter/repeatedly.js"}],"../../node_modules/@thi.ng/transducers/iter/concat.js":[function(require,module,exports) {
+},{"@thi.ng/arrays":"iKN7","@thi.ng/random":"C0Vh","./repeatedly":"BmaF"}],"Izx5":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11290,7 +11290,7 @@ function* concat(...xs) {
     x != null && (yield* (0, _arrays.ensureIterable)(x));
   }
 }
-},{"@thi.ng/arrays":"../../node_modules/@thi.ng/arrays/index.js"}],"../../node_modules/@thi.ng/transducers/iter/curve.js":[function(require,module,exports) {
+},{"@thi.ng/arrays":"iKN7"}],"JKzx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11345,7 +11345,7 @@ function* curve(start, end, steps = 10, rate = 0.1) {
     yield x = offset + x * c;
   }
 }
-},{}],"../../node_modules/@thi.ng/transducers/iter/cycle.js":[function(require,module,exports) {
+},{}],"y8M8":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11390,7 +11390,7 @@ function* cycle(input, num = Infinity) {
     }
   }
 }
-},{}],"../../node_modules/@thi.ng/transducers/iter/dup.js":[function(require,module,exports) {
+},{}],"LGj8":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11407,7 +11407,7 @@ var _concat = require("./concat");
 function dup(x) {
   return (0, _checks.isString)(x) ? x + x : (0, _checks.isArray)(x) ? x.concat(x) : (x = (0, _arrays.ensureArray)(x), (0, _concat.concat)(x, x));
 }
-},{"@thi.ng/arrays":"../../node_modules/@thi.ng/arrays/index.js","@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","./concat":"../../node_modules/@thi.ng/transducers/iter/concat.js"}],"../../node_modules/@thi.ng/transducers/iter/repeat.js":[function(require,module,exports) {
+},{"@thi.ng/arrays":"iKN7","@thi.ng/checks":"XYpc","./concat":"Izx5"}],"dQxW":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11435,7 +11435,7 @@ function* repeat(x, n = Infinity) {
     yield x;
   }
 }
-},{}],"../../node_modules/@thi.ng/transducers/iter/extend-sides.js":[function(require,module,exports) {
+},{}],"CPer":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11492,7 +11492,7 @@ function* extendSides(src, numLeft = 1, numRight = numLeft) {
     yield* (0, _repeat.repeat)(prev, numRight);
   }
 }
-},{"@thi.ng/api":"../../node_modules/@thi.ng/api/index.js","./repeat":"../../node_modules/@thi.ng/transducers/iter/repeat.js"}],"../../node_modules/@thi.ng/transducers/iter/iterate.js":[function(require,module,exports) {
+},{"@thi.ng/api":"MOSf","./repeat":"dQxW"}],"m7LH":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11531,7 +11531,7 @@ function* iterate(fn, seed, num = Infinity) {
     seed = fn(seed, ++i);
   }
 }
-},{}],"../../node_modules/@thi.ng/transducers/iter/keys.js":[function(require,module,exports) {
+},{}],"lSGD":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11557,7 +11557,7 @@ function* keys(x) {
     }
   }
 }
-},{}],"../../node_modules/@thi.ng/transducers/iter/line.js":[function(require,module,exports) {
+},{}],"YHhn":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11601,7 +11601,7 @@ const line = (start, end, steps = 10) => {
 };
 
 exports.line = line;
-},{"../xform/map":"../../node_modules/@thi.ng/transducers/xform/map.js","./norm-range":"../../node_modules/@thi.ng/transducers/iter/norm-range.js"}],"../../node_modules/@thi.ng/transducers/iter/pad-sides.js":[function(require,module,exports) {
+},{"../xform/map":"WUst","./norm-range":"oFfM"}],"lxp1":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11644,7 +11644,7 @@ var _repeat = require("./repeat");
 const padSides = (src, x, numLeft = 1, numRight = numLeft) => numLeft > 0 ? numRight > 0 ? (0, _concat.concat)((0, _repeat.repeat)(x, numLeft), src, (0, _repeat.repeat)(x, numRight)) : (0, _concat.concat)((0, _repeat.repeat)(x, numLeft), src) : numRight > 0 ? (0, _concat.concat)(src, (0, _repeat.repeat)(x, numRight)) : (0, _concat.concat)(src);
 
 exports.padSides = padSides;
-},{"./concat":"../../node_modules/@thi.ng/transducers/iter/concat.js","./repeat":"../../node_modules/@thi.ng/transducers/iter/repeat.js"}],"../../node_modules/@thi.ng/transducers/iter/reverse.js":[function(require,module,exports) {
+},{"./concat":"Izx5","./repeat":"dQxW"}],"oAHM":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11675,7 +11675,7 @@ function* reverse(input) {
     yield _input[n];
   }
 }
-},{"@thi.ng/arrays":"../../node_modules/@thi.ng/arrays/index.js"}],"../../node_modules/@thi.ng/transducers/iter/palindrome.js":[function(require,module,exports) {
+},{"@thi.ng/arrays":"iKN7"}],"VUN1":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11696,7 +11696,7 @@ var _reverse = require("./reverse");
 function palindrome(x) {
   return (0, _checks.isString)(x) ? (0, _str.str)("", (0, _concat.concat)([x], (0, _reverse.reverse)(x))) : (0, _checks.isArray)(x) ? x.concat(x.slice().reverse()) : (x = (0, _arrays.ensureArray)(x), (0, _concat.concat)(x, (0, _reverse.reverse)(x)));
 }
-},{"@thi.ng/arrays":"../../node_modules/@thi.ng/arrays/index.js","@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","../rfn/str":"../../node_modules/@thi.ng/transducers/rfn/str.js","./concat":"../../node_modules/@thi.ng/transducers/iter/concat.js","./reverse":"../../node_modules/@thi.ng/transducers/iter/reverse.js"}],"../../node_modules/@thi.ng/transducers/iter/pairs.js":[function(require,module,exports) {
+},{"@thi.ng/arrays":"iKN7","@thi.ng/checks":"XYpc","../rfn/str":"js0B","./concat":"Izx5","./reverse":"oAHM"}],"quz7":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11728,7 +11728,7 @@ function* pairs(x) {
     }
   }
 }
-},{}],"../../node_modules/@thi.ng/transducers/iter/permutations.js":[function(require,module,exports) {
+},{}],"PzKP":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11818,7 +11818,7 @@ const permutationsN = (n, m = n, offsets) => {
 };
 
 exports.permutationsN = permutationsN;
-},{"@thi.ng/arrays":"../../node_modules/@thi.ng/arrays/index.js","@thi.ng/errors":"../../node_modules/@thi.ng/errors/index.js","./range":"../../node_modules/@thi.ng/transducers/iter/range.js"}],"../../node_modules/@thi.ng/transducers/iter/range3d.js":[function(require,module,exports) {
+},{"@thi.ng/arrays":"iKN7","@thi.ng/errors":"j3Rf","./range":"GT77"}],"lElU":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11865,7 +11865,7 @@ function* range3d(...args) {
     }
   }
 }
-},{"@thi.ng/errors":"../../node_modules/@thi.ng/errors/index.js","./range":"../../node_modules/@thi.ng/transducers/iter/range.js"}],"../../node_modules/@thi.ng/transducers/iter/sorted-keys.js":[function(require,module,exports) {
+},{"@thi.ng/errors":"j3Rf","./range":"GT77"}],"aoPk":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11886,7 +11886,7 @@ var _compare = require("@thi.ng/compare");
 function* sortedKeys(x, cmp = _compare.compare) {
   yield* Object.keys(x).sort(cmp);
 }
-},{"@thi.ng/compare":"../../node_modules/@thi.ng/compare/index.js"}],"../../node_modules/@thi.ng/transducers/iter/symmetric.js":[function(require,module,exports) {
+},{"@thi.ng/compare":"vzOR"}],"ygRn":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11923,7 +11923,7 @@ function* symmetric(src) {
     head = head.n;
   }
 }
-},{}],"../../node_modules/@thi.ng/transducers/iter/tween.js":[function(require,module,exports) {
+},{}],"Af4g":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12043,7 +12043,7 @@ function* tween(opts) {
     yield mix(interval, delta !== 0 ? (t - start) / delta : 0);
   }
 }
-},{"./norm-range":"../../node_modules/@thi.ng/transducers/iter/norm-range.js","./repeat":"../../node_modules/@thi.ng/transducers/iter/repeat.js"}],"../../node_modules/@thi.ng/transducers/iter/vals.js":[function(require,module,exports) {
+},{"./norm-range":"oFfM","./repeat":"dQxW"}],"vew7":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12069,7 +12069,7 @@ function* vals(x) {
     }
   }
 }
-},{}],"../../node_modules/@thi.ng/transducers/iter/wrap-sides.js":[function(require,module,exports) {
+},{}],"ib3h":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12120,7 +12120,7 @@ function* wrapSides(src, numLeft = 1, numRight = numLeft) {
     }
   }
 }
-},{"@thi.ng/arrays":"../../node_modules/@thi.ng/arrays/index.js","@thi.ng/errors":"../../node_modules/@thi.ng/errors/index.js","@thi.ng/math":"../../node_modules/@thi.ng/math/index.js"}],"../../node_modules/@thi.ng/transducers/index.js":[function(require,module,exports) {
+},{"@thi.ng/arrays":"iKN7","@thi.ng/errors":"j3Rf","@thi.ng/math":"zoYr"}],"GbKR":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13686,7 +13686,7 @@ Object.keys(_zip).forEach(function (key) {
     }
   });
 });
-},{"./iterator":"../../node_modules/@thi.ng/transducers/iterator.js","./reduce":"../../node_modules/@thi.ng/transducers/reduce.js","./reduced":"../../node_modules/@thi.ng/transducers/reduced.js","./run":"../../node_modules/@thi.ng/transducers/run.js","./step":"../../node_modules/@thi.ng/transducers/step.js","./transduce":"../../node_modules/@thi.ng/transducers/transduce.js","./rfn/add":"../../node_modules/@thi.ng/transducers/rfn/add.js","./rfn/assoc-map":"../../node_modules/@thi.ng/transducers/rfn/assoc-map.js","./rfn/assoc-obj":"../../node_modules/@thi.ng/transducers/rfn/assoc-obj.js","./rfn/conj":"../../node_modules/@thi.ng/transducers/rfn/conj.js","./rfn/count":"../../node_modules/@thi.ng/transducers/rfn/count.js","./rfn/div":"../../node_modules/@thi.ng/transducers/rfn/div.js","./rfn/every":"../../node_modules/@thi.ng/transducers/rfn/every.js","./rfn/fill":"../../node_modules/@thi.ng/transducers/rfn/fill.js","./rfn/frequencies":"../../node_modules/@thi.ng/transducers/rfn/frequencies.js","./rfn/group-binary":"../../node_modules/@thi.ng/transducers/rfn/group-binary.js","./rfn/group-by-map":"../../node_modules/@thi.ng/transducers/rfn/group-by-map.js","./rfn/group-by-obj":"../../node_modules/@thi.ng/transducers/rfn/group-by-obj.js","./rfn/last":"../../node_modules/@thi.ng/transducers/rfn/last.js","./rfn/max-compare":"../../node_modules/@thi.ng/transducers/rfn/max-compare.js","./rfn/max":"../../node_modules/@thi.ng/transducers/rfn/max.js","./rfn/mean":"../../node_modules/@thi.ng/transducers/rfn/mean.js","./rfn/min-compare":"../../node_modules/@thi.ng/transducers/rfn/min-compare.js","./rfn/min":"../../node_modules/@thi.ng/transducers/rfn/min.js","./rfn/mul":"../../node_modules/@thi.ng/transducers/rfn/mul.js","./rfn/push":"../../node_modules/@thi.ng/transducers/rfn/push.js","./rfn/push-copy":"../../node_modules/@thi.ng/transducers/rfn/push-copy.js","./rfn/push-sort":"../../node_modules/@thi.ng/transducers/rfn/push-sort.js","./rfn/reductions":"../../node_modules/@thi.ng/transducers/rfn/reductions.js","./rfn/some":"../../node_modules/@thi.ng/transducers/rfn/some.js","./rfn/str":"../../node_modules/@thi.ng/transducers/rfn/str.js","./rfn/sub":"../../node_modules/@thi.ng/transducers/rfn/sub.js","./xform/benchmark":"../../node_modules/@thi.ng/transducers/xform/benchmark.js","./xform/cat":"../../node_modules/@thi.ng/transducers/xform/cat.js","./xform/converge":"../../node_modules/@thi.ng/transducers/xform/converge.js","./xform/convolve":"../../node_modules/@thi.ng/transducers/xform/convolve.js","./xform/dedupe":"../../node_modules/@thi.ng/transducers/xform/dedupe.js","./xform/delayed":"../../node_modules/@thi.ng/transducers/xform/delayed.js","./xform/distinct":"../../node_modules/@thi.ng/transducers/xform/distinct.js","./xform/drop-nth":"../../node_modules/@thi.ng/transducers/xform/drop-nth.js","./xform/drop-while":"../../node_modules/@thi.ng/transducers/xform/drop-while.js","./xform/drop":"../../node_modules/@thi.ng/transducers/xform/drop.js","./xform/duplicate":"../../node_modules/@thi.ng/transducers/xform/duplicate.js","./xform/filter":"../../node_modules/@thi.ng/transducers/xform/filter.js","./xform/filter-fuzzy":"../../node_modules/@thi.ng/transducers/xform/filter-fuzzy.js","./xform/flatten-with":"../../node_modules/@thi.ng/transducers/xform/flatten-with.js","./xform/flatten":"../../node_modules/@thi.ng/transducers/xform/flatten.js","./xform/indexed":"../../node_modules/@thi.ng/transducers/xform/indexed.js","./xform/interleave":"../../node_modules/@thi.ng/transducers/xform/interleave.js","./xform/interpolate":"../../node_modules/@thi.ng/transducers/xform/interpolate.js","./xform/interpolate-hermite":"../../node_modules/@thi.ng/transducers/xform/interpolate-hermite.js","./xform/interpolate-linear":"../../node_modules/@thi.ng/transducers/xform/interpolate-linear.js","./xform/interpose":"../../node_modules/@thi.ng/transducers/xform/interpose.js","./xform/keep":"../../node_modules/@thi.ng/transducers/xform/keep.js","./xform/labeled":"../../node_modules/@thi.ng/transducers/xform/labeled.js","./xform/map-deep":"../../node_modules/@thi.ng/transducers/xform/map-deep.js","./xform/map-indexed":"../../node_modules/@thi.ng/transducers/xform/map-indexed.js","./xform/map-keys":"../../node_modules/@thi.ng/transducers/xform/map-keys.js","./xform/map-nth":"../../node_modules/@thi.ng/transducers/xform/map-nth.js","./xform/map-vals":"../../node_modules/@thi.ng/transducers/xform/map-vals.js","./xform/map":"../../node_modules/@thi.ng/transducers/xform/map.js","./xform/mapcat":"../../node_modules/@thi.ng/transducers/xform/mapcat.js","./xform/match-first":"../../node_modules/@thi.ng/transducers/xform/match-first.js","./xform/match-last":"../../node_modules/@thi.ng/transducers/xform/match-last.js","./xform/moving-average":"../../node_modules/@thi.ng/transducers/xform/moving-average.js","./xform/moving-median":"../../node_modules/@thi.ng/transducers/xform/moving-median.js","./xform/multiplex":"../../node_modules/@thi.ng/transducers/xform/multiplex.js","./xform/multiplex-obj":"../../node_modules/@thi.ng/transducers/xform/multiplex-obj.js","./xform/noop":"../../node_modules/@thi.ng/transducers/xform/noop.js","./xform/pad-last":"../../node_modules/@thi.ng/transducers/xform/pad-last.js","./xform/page":"../../node_modules/@thi.ng/transducers/xform/page.js","./xform/partition-by":"../../node_modules/@thi.ng/transducers/xform/partition-by.js","./xform/partition-of":"../../node_modules/@thi.ng/transducers/xform/partition-of.js","./xform/partition-sort":"../../node_modules/@thi.ng/transducers/xform/partition-sort.js","./xform/partition-sync":"../../node_modules/@thi.ng/transducers/xform/partition-sync.js","./xform/partition":"../../node_modules/@thi.ng/transducers/xform/partition.js","./xform/pluck":"../../node_modules/@thi.ng/transducers/xform/pluck.js","./xform/rename":"../../node_modules/@thi.ng/transducers/xform/rename.js","./xform/sample":"../../node_modules/@thi.ng/transducers/xform/sample.js","./xform/scan":"../../node_modules/@thi.ng/transducers/xform/scan.js","./xform/select-keys":"../../node_modules/@thi.ng/transducers/xform/select-keys.js","./xform/side-effect":"../../node_modules/@thi.ng/transducers/xform/side-effect.js","./xform/sliding-window":"../../node_modules/@thi.ng/transducers/xform/sliding-window.js","./xform/stream-shuffle":"../../node_modules/@thi.ng/transducers/xform/stream-shuffle.js","./xform/stream-sort":"../../node_modules/@thi.ng/transducers/xform/stream-sort.js","./xform/struct":"../../node_modules/@thi.ng/transducers/xform/struct.js","./xform/swizzle":"../../node_modules/@thi.ng/transducers/xform/swizzle.js","./xform/take-nth":"../../node_modules/@thi.ng/transducers/xform/take-nth.js","./xform/take-last":"../../node_modules/@thi.ng/transducers/xform/take-last.js","./xform/take-while":"../../node_modules/@thi.ng/transducers/xform/take-while.js","./xform/take":"../../node_modules/@thi.ng/transducers/xform/take.js","./xform/throttle":"../../node_modules/@thi.ng/transducers/xform/throttle.js","./xform/throttle-time":"../../node_modules/@thi.ng/transducers/xform/throttle-time.js","./xform/toggle":"../../node_modules/@thi.ng/transducers/xform/toggle.js","./xform/trace":"../../node_modules/@thi.ng/transducers/xform/trace.js","./xform/word-wrap":"../../node_modules/@thi.ng/transducers/xform/word-wrap.js","./func/comp":"../../node_modules/@thi.ng/transducers/func/comp.js","./func/compr":"../../node_modules/@thi.ng/transducers/func/compr.js","./func/deep-transform":"../../node_modules/@thi.ng/transducers/func/deep-transform.js","./func/juxtr":"../../node_modules/@thi.ng/transducers/func/juxtr.js","./func/key-selector":"../../node_modules/@thi.ng/transducers/func/key-selector.js","./func/lookup":"../../node_modules/@thi.ng/transducers/func/lookup.js","./func/renamer":"../../node_modules/@thi.ng/transducers/func/renamer.js","./iter/as-iterable":"../../node_modules/@thi.ng/transducers/iter/as-iterable.js","./iter/choices":"../../node_modules/@thi.ng/transducers/iter/choices.js","./iter/concat":"../../node_modules/@thi.ng/transducers/iter/concat.js","./iter/curve":"../../node_modules/@thi.ng/transducers/iter/curve.js","./iter/cycle":"../../node_modules/@thi.ng/transducers/iter/cycle.js","./iter/dup":"../../node_modules/@thi.ng/transducers/iter/dup.js","./iter/extend-sides":"../../node_modules/@thi.ng/transducers/iter/extend-sides.js","./iter/iterate":"../../node_modules/@thi.ng/transducers/iter/iterate.js","./iter/keys":"../../node_modules/@thi.ng/transducers/iter/keys.js","./iter/line":"../../node_modules/@thi.ng/transducers/iter/line.js","./iter/norm-range":"../../node_modules/@thi.ng/transducers/iter/norm-range.js","./iter/pad-sides":"../../node_modules/@thi.ng/transducers/iter/pad-sides.js","./iter/palindrome":"../../node_modules/@thi.ng/transducers/iter/palindrome.js","./iter/pairs":"../../node_modules/@thi.ng/transducers/iter/pairs.js","./iter/permutations":"../../node_modules/@thi.ng/transducers/iter/permutations.js","./iter/range":"../../node_modules/@thi.ng/transducers/iter/range.js","./iter/range2d":"../../node_modules/@thi.ng/transducers/iter/range2d.js","./iter/range3d":"../../node_modules/@thi.ng/transducers/iter/range3d.js","./iter/repeat":"../../node_modules/@thi.ng/transducers/iter/repeat.js","./iter/repeatedly":"../../node_modules/@thi.ng/transducers/iter/repeatedly.js","./iter/reverse":"../../node_modules/@thi.ng/transducers/iter/reverse.js","./iter/sorted-keys":"../../node_modules/@thi.ng/transducers/iter/sorted-keys.js","./iter/symmetric":"../../node_modules/@thi.ng/transducers/iter/symmetric.js","./iter/tween":"../../node_modules/@thi.ng/transducers/iter/tween.js","./iter/vals":"../../node_modules/@thi.ng/transducers/iter/vals.js","./iter/wrap-sides":"../../node_modules/@thi.ng/transducers/iter/wrap-sides.js","./iter/zip":"../../node_modules/@thi.ng/transducers/iter/zip.js"}],"../../node_modules/@thi.ng/associative/utils.js":[function(require,module,exports) {
+},{"./iterator":"fhdf","./reduce":"UerL","./reduced":"N1be","./run":"FIKh","./step":"o6XN","./transduce":"iqGa","./rfn/add":"pthq","./rfn/assoc-map":"LIJg","./rfn/assoc-obj":"H8df","./rfn/conj":"cBQk","./rfn/count":"g31l","./rfn/div":"J30b","./rfn/every":"yvO9","./rfn/fill":"WiAD","./rfn/frequencies":"mFoP","./rfn/group-binary":"DkVy","./rfn/group-by-map":"MrPH","./rfn/group-by-obj":"HXQi","./rfn/last":"N4rn","./rfn/max-compare":"Fj3f","./rfn/max":"ePW0","./rfn/mean":"N1B6","./rfn/min-compare":"P2vS","./rfn/min":"wGHE","./rfn/mul":"vCqj","./rfn/push":"nZPr","./rfn/push-copy":"FqE3","./rfn/push-sort":"PU8i","./rfn/reductions":"zjLI","./rfn/some":"ZD3d","./rfn/str":"js0B","./rfn/sub":"B0kE","./xform/benchmark":"eYjS","./xform/cat":"arAw","./xform/converge":"OUsy","./xform/convolve":"BnrM","./xform/dedupe":"ryPz","./xform/delayed":"ya6N","./xform/distinct":"ECm5","./xform/drop-nth":"xVO8","./xform/drop-while":"yG5g","./xform/drop":"Xj6O","./xform/duplicate":"xKDL","./xform/filter":"AmRG","./xform/filter-fuzzy":"UIqX","./xform/flatten-with":"GrLQ","./xform/flatten":"FhYa","./xform/indexed":"v3WG","./xform/interleave":"AqTY","./xform/interpolate":"H1Uj","./xform/interpolate-hermite":"nhqr","./xform/interpolate-linear":"jvQK","./xform/interpose":"C4Kx","./xform/keep":"cSVz","./xform/labeled":"GHxA","./xform/map-deep":"OxBd","./xform/map-indexed":"n5y9","./xform/map-keys":"Zidv","./xform/map-nth":"OvXR","./xform/map-vals":"C0YV","./xform/map":"WUst","./xform/mapcat":"pk6b","./xform/match-first":"CbTT","./xform/match-last":"o7kz","./xform/moving-average":"ocT9","./xform/moving-median":"p2Dn","./xform/multiplex":"GmFf","./xform/multiplex-obj":"sFj2","./xform/noop":"JLiJ","./xform/pad-last":"v6pt","./xform/page":"gT1U","./xform/partition-by":"NsL8","./xform/partition-of":"L6Yr","./xform/partition-sort":"ENs0","./xform/partition-sync":"mSEP","./xform/partition":"IixE","./xform/pluck":"klYB","./xform/rename":"HBXk","./xform/sample":"YDOC","./xform/scan":"aO4q","./xform/select-keys":"a0Sj","./xform/side-effect":"PW9O","./xform/sliding-window":"iM70","./xform/stream-shuffle":"LJ5K","./xform/stream-sort":"Ik0n","./xform/struct":"IfpI","./xform/swizzle":"sSrO","./xform/take-nth":"aUgM","./xform/take-last":"OmPI","./xform/take-while":"eKGP","./xform/take":"o8VT","./xform/throttle":"FY79","./xform/throttle-time":"DYsp","./xform/toggle":"UpJA","./xform/trace":"VbxX","./xform/word-wrap":"foa0","./func/comp":"vBNp","./func/compr":"IqcY","./func/deep-transform":"Khd6","./func/juxtr":"mY0c","./func/key-selector":"xiIq","./func/lookup":"ZKQP","./func/renamer":"iIRC","./iter/as-iterable":"yRn6","./iter/choices":"kI2L","./iter/concat":"Izx5","./iter/curve":"JKzx","./iter/cycle":"y8M8","./iter/dup":"LGj8","./iter/extend-sides":"CPer","./iter/iterate":"m7LH","./iter/keys":"lSGD","./iter/line":"YHhn","./iter/norm-range":"oFfM","./iter/pad-sides":"lxp1","./iter/palindrome":"VUN1","./iter/pairs":"quz7","./iter/permutations":"PzKP","./iter/range":"GT77","./iter/range2d":"DdIw","./iter/range3d":"lElU","./iter/repeat":"dQxW","./iter/repeatedly":"BmaF","./iter/reverse":"oAHM","./iter/sorted-keys":"aoPk","./iter/symmetric":"ygRn","./iter/tween":"Af4g","./iter/vals":"vew7","./iter/wrap-sides":"ib3h","./iter/zip":"Mdez"}],"Sfpi":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13727,7 +13727,7 @@ exports.ensureMap = ensureMap;
 const ensureSet = x => (0, _checks.isSet)(x) ? x : new Set(x);
 
 exports.ensureSet = ensureSet;
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js"}],"../../node_modules/@thi.ng/associative/internal/xform-setop.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc"}],"PlIK":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13742,7 +13742,7 @@ var _utils = require("../utils");
 const xformSetOp = (rfn, op, src) => src ? (0, _transducers.reduce)(rfn(), src) : [() => null, acc => acc || new Set(), (acc, x) => !acc ? (0, _utils.ensureSet)(x) : op(acc, (0, _utils.ensureSet)(x))];
 
 exports.xformSetOp = xformSetOp;
-},{"@thi.ng/transducers":"../../node_modules/@thi.ng/transducers/index.js","../utils":"../../node_modules/@thi.ng/associative/utils.js"}],"../../node_modules/@thi.ng/associative/difference.js":[function(require,module,exports) {
+},{"@thi.ng/transducers":"GbKR","../utils":"Sfpi"}],"zqSd":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13785,7 +13785,7 @@ exports.difference = difference;
 function differenceR(src) {
   return (0, _xformSetop.xformSetOp)(differenceR, difference, src);
 }
-},{"./internal/xform-setop":"../../node_modules/@thi.ng/associative/internal/xform-setop.js","./into":"../../node_modules/@thi.ng/associative/into.js","./utils":"../../node_modules/@thi.ng/associative/utils.js"}],"../../node_modules/@thi.ng/associative/equiv-map.js":[function(require,module,exports) {
+},{"./internal/xform-setop":"PlIK","./into":"uWkF","./utils":"Sfpi"}],"CNH3":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13984,7 +13984,7 @@ class EquivMap extends Map {
 }
 
 exports.EquivMap = EquivMap;
-},{"@thi.ng/api":"../../node_modules/@thi.ng/api/index.js","@thi.ng/equiv":"../../node_modules/@thi.ng/equiv/index.js","./array-set":"../../node_modules/@thi.ng/associative/array-set.js","./dissoc":"../../node_modules/@thi.ng/associative/dissoc.js","./internal/equiv":"../../node_modules/@thi.ng/associative/internal/equiv.js","./into":"../../node_modules/@thi.ng/associative/into.js"}],"../../node_modules/@thi.ng/binary/api.js":[function(require,module,exports) {
+},{"@thi.ng/api":"MOSf","@thi.ng/equiv":"U8cl","./array-set":"nNr8","./dissoc":"VaVn","./internal/equiv":"vPtr","./into":"uWkF"}],"j0sP":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13993,7 +13993,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.MASKS = void 0;
 const MASKS = new Array(33).fill(0).map((_, i) => Math.pow(2, i) - 1);
 exports.MASKS = MASKS;
-},{}],"../../node_modules/@thi.ng/binary/align.js":[function(require,module,exports) {
+},{}],"NdNd":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14019,7 +14019,7 @@ exports.align = align;
 const isAligned = (addr, size) => !(addr & size - 1);
 
 exports.isAligned = isAligned;
-},{}],"../../node_modules/@thi.ng/binary/count.js":[function(require,module,exports) {
+},{}],"bkmp":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14085,7 +14085,7 @@ exports.ctz32 = ctz32;
 const bitSize = x => x > 1 ? Math.ceil(Math.log2(x)) : 0;
 
 exports.bitSize = bitSize;
-},{}],"../../node_modules/@thi.ng/binary/mask.js":[function(require,module,exports) {
+},{}],"K0Rj":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14133,7 +14133,7 @@ exports.maskL = maskL;
 const maskH = (n, x) => (x & ~_api.MASKS[n]) >>> 0;
 
 exports.maskH = maskH;
-},{"./api":"../../node_modules/@thi.ng/binary/api.js"}],"../../node_modules/@thi.ng/binary/edit.js":[function(require,module,exports) {
+},{"./api":"j0sP"}],"dOyP":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14185,7 +14185,7 @@ exports.bitSetWindow = bitSetWindow;
 const bitClearWindow = (x, from, to) => x & ~(0, _mask.defMask)(from, to);
 
 exports.bitClearWindow = bitClearWindow;
-},{"./mask":"../../node_modules/@thi.ng/binary/mask.js"}],"../../node_modules/@thi.ng/binary/float.js":[function(require,module,exports) {
+},{"./mask":"K0Rj"}],"Herc":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14229,7 +14229,7 @@ const floatToSortableInt = x => {
 };
 
 exports.floatToSortableInt = floatToSortableInt;
-},{}],"../../node_modules/@thi.ng/binary/gray.js":[function(require,module,exports) {
+},{}],"Ay8c":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14266,7 +14266,7 @@ const decodeGray32 = x => {
 };
 
 exports.decodeGray32 = decodeGray32;
-},{}],"../../node_modules/@thi.ng/binary/logic.js":[function(require,module,exports) {
+},{}],"vMRu":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14331,7 +14331,7 @@ exports.bitMux = bitMux;
 const bitDemux = (n, a, b, s) => [(0, _mask.maskL)(n, a & ~s), (0, _mask.maskL)(n, b & s)];
 
 exports.bitDemux = bitDemux;
-},{"./mask":"../../node_modules/@thi.ng/binary/mask.js"}],"../../node_modules/@thi.ng/binary/pow.js":[function(require,module,exports) {
+},{"./mask":"K0Rj"}],"Vmyt":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14367,7 +14367,7 @@ const floorPow2 = x => {
 };
 
 exports.floorPow2 = floorPow2;
-},{}],"../../node_modules/@thi.ng/binary/rotate.js":[function(require,module,exports) {
+},{}],"z1VJ":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14395,7 +14395,7 @@ exports.rotateLeft = rotateLeft;
 const rotateRight = (x, n) => (x >>> n | x << 32 - n) >>> 0;
 
 exports.rotateRight = rotateRight;
-},{}],"../../node_modules/@thi.ng/binary/splat.js":[function(require,module,exports) {
+},{}],"mleM":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14471,7 +14471,7 @@ exports.same4 = same4;
 const same8 = x => (x >> 8 & 0xff) === (x & 0xff);
 
 exports.same8 = same8;
-},{}],"../../node_modules/@thi.ng/binary/swizzle.js":[function(require,module,exports) {
+},{}],"QhQA":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14616,7 +14616,7 @@ exports.swizzle4 = swizzle4;
 const flipBytes = x => (x >>> 24 | x >> 8 & 0xff00 | (x & 0xff00) << 8 | x << 24) >>> 0;
 
 exports.flipBytes = flipBytes;
-},{}],"../../node_modules/@thi.ng/binary/index.js":[function(require,module,exports) {
+},{}],"qqrF":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14766,7 +14766,7 @@ Object.keys(_swizzle).forEach(function (key) {
     }
   });
 });
-},{"./api":"../../node_modules/@thi.ng/binary/api.js","./align":"../../node_modules/@thi.ng/binary/align.js","./count":"../../node_modules/@thi.ng/binary/count.js","./edit":"../../node_modules/@thi.ng/binary/edit.js","./float":"../../node_modules/@thi.ng/binary/float.js","./gray":"../../node_modules/@thi.ng/binary/gray.js","./logic":"../../node_modules/@thi.ng/binary/logic.js","./mask":"../../node_modules/@thi.ng/binary/mask.js","./pow":"../../node_modules/@thi.ng/binary/pow.js","./rotate":"../../node_modules/@thi.ng/binary/rotate.js","./splat":"../../node_modules/@thi.ng/binary/splat.js","./swizzle":"../../node_modules/@thi.ng/binary/swizzle.js"}],"../../node_modules/@thi.ng/associative/hash-map.js":[function(require,module,exports) {
+},{"./api":"j0sP","./align":"NdNd","./count":"bkmp","./edit":"dOyP","./float":"Herc","./gray":"Ay8c","./logic":"vMRu","./mask":"K0Rj","./pow":"Vmyt","./rotate":"z1VJ","./splat":"mleM","./swizzle":"QhQA"}],"TmjW":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15014,7 +15014,7 @@ class HashMap extends Map {
 }
 
 exports.HashMap = HashMap;
-},{"@thi.ng/binary":"../../node_modules/@thi.ng/binary/index.js","@thi.ng/equiv":"../../node_modules/@thi.ng/equiv/index.js","./dissoc":"../../node_modules/@thi.ng/associative/dissoc.js","./internal/equiv":"../../node_modules/@thi.ng/associative/internal/equiv.js","./into":"../../node_modules/@thi.ng/associative/into.js"}],"../../node_modules/@thi.ng/associative/select-keys.js":[function(require,module,exports) {
+},{"@thi.ng/binary":"qqrF","@thi.ng/equiv":"U8cl","./dissoc":"VaVn","./internal/equiv":"vPtr","./into":"uWkF"}],"uMkH":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15062,7 +15062,7 @@ const selectKeysObj = (src, ks) => {
 };
 
 exports.selectKeysObj = selectKeysObj;
-},{"./utils":"../../node_modules/@thi.ng/associative/utils.js"}],"../../node_modules/@thi.ng/associative/indexed.js":[function(require,module,exports) {
+},{"./utils":"Sfpi"}],"j63x":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15110,7 +15110,7 @@ const indexed = (records, ks) => {
 };
 
 exports.indexed = indexed;
-},{"./equiv-map":"../../node_modules/@thi.ng/associative/equiv-map.js","./select-keys":"../../node_modules/@thi.ng/associative/select-keys.js","./utils":"../../node_modules/@thi.ng/associative/utils.js"}],"../../node_modules/@thi.ng/associative/intersection.js":[function(require,module,exports) {
+},{"./equiv-map":"CNH3","./select-keys":"uMkH","./utils":"Sfpi"}],"xP85":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15160,7 +15160,7 @@ exports.intersection = intersection;
 function intersectionR(src) {
   return (0, _xformSetop.xformSetOp)(intersectionR, intersection, src);
 }
-},{"./internal/xform-setop":"../../node_modules/@thi.ng/associative/internal/xform-setop.js","./into":"../../node_modules/@thi.ng/associative/into.js","./utils":"../../node_modules/@thi.ng/associative/utils.js"}],"../../node_modules/@thi.ng/associative/invert.js":[function(require,module,exports) {
+},{"./internal/xform-setop":"PlIK","./into":"uWkF","./utils":"Sfpi"}],"SoPs":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15221,7 +15221,7 @@ const invertObj = (src, dest = {}) => {
 };
 
 exports.invertObj = invertObj;
-},{}],"../../node_modules/@thi.ng/associative/merge.js":[function(require,module,exports) {
+},{}],"bRDf":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15259,7 +15259,7 @@ exports.mergeMap = mergeMap;
 const mergeObj = (dest, ...xs) => Object.assign(dest, ...xs);
 
 exports.mergeObj = mergeObj;
-},{}],"../../node_modules/@thi.ng/associative/rename-keys.js":[function(require,module,exports) {
+},{}],"nZGQ":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15313,7 +15313,7 @@ const renameKeysObj = (src, km, out = {}) => {
 };
 
 exports.renameKeysObj = renameKeysObj;
-},{"./utils":"../../node_modules/@thi.ng/associative/utils.js"}],"../../node_modules/@thi.ng/associative/join.js":[function(require,module,exports) {
+},{"./utils":"Sfpi"}],"J3Rj":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15471,7 +15471,7 @@ joinWith(new Set([{
 }]), {
   a: "id"
 });
-},{"./common-keys":"../../node_modules/@thi.ng/associative/common-keys.js","./indexed":"../../node_modules/@thi.ng/associative/indexed.js","./invert":"../../node_modules/@thi.ng/associative/invert.js","./merge":"../../node_modules/@thi.ng/associative/merge.js","./rename-keys":"../../node_modules/@thi.ng/associative/rename-keys.js","./select-keys":"../../node_modules/@thi.ng/associative/select-keys.js","./utils":"../../node_modules/@thi.ng/associative/utils.js"}],"../../node_modules/@thi.ng/dcons/index.js":[function(require,module,exports) {
+},{"./common-keys":"bzzW","./indexed":"j63x","./invert":"SoPs","./merge":"bRDf","./rename-keys":"nZGQ","./select-keys":"uMkH","./utils":"Sfpi"}],"U7kD":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16233,7 +16233,7 @@ exports.DCons = DCons;
 const dcons = src => new DCons(src);
 
 exports.dcons = dcons;
-},{"@thi.ng/api":"../../node_modules/@thi.ng/api/index.js","@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","@thi.ng/compare":"../../node_modules/@thi.ng/compare/index.js","@thi.ng/equiv":"../../node_modules/@thi.ng/equiv/index.js","@thi.ng/errors":"../../node_modules/@thi.ng/errors/index.js","@thi.ng/random":"../../node_modules/@thi.ng/random/index.js","@thi.ng/transducers":"../../node_modules/@thi.ng/transducers/index.js"}],"../../node_modules/@thi.ng/associative/ll-set.js":[function(require,module,exports) {
+},{"@thi.ng/api":"MOSf","@thi.ng/checks":"XYpc","@thi.ng/compare":"vzOR","@thi.ng/equiv":"U8cl","@thi.ng/errors":"j3Rf","@thi.ng/random":"C0Vh","@thi.ng/transducers":"GbKR"}],"FIr1":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16414,7 +16414,7 @@ class LLSet extends Set {
 }
 
 exports.LLSet = LLSet;
-},{"@thi.ng/api":"../../node_modules/@thi.ng/api/index.js","@thi.ng/dcons":"../../node_modules/@thi.ng/dcons/index.js","@thi.ng/equiv":"../../node_modules/@thi.ng/equiv/index.js","./dissoc":"../../node_modules/@thi.ng/associative/dissoc.js","./internal/equiv":"../../node_modules/@thi.ng/associative/internal/equiv.js","./into":"../../node_modules/@thi.ng/associative/into.js"}],"../../node_modules/@thi.ng/associative/merge-apply.js":[function(require,module,exports) {
+},{"@thi.ng/api":"MOSf","@thi.ng/dcons":"U7kD","@thi.ng/equiv":"U8cl","./dissoc":"VaVn","./internal/equiv":"vPtr","./into":"uWkF"}],"RHRt":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16481,7 +16481,7 @@ const mergeApplyObj = (src, xs) => {
 };
 
 exports.mergeApplyObj = mergeApplyObj;
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","./utils":"../../node_modules/@thi.ng/associative/utils.js"}],"../../node_modules/@thi.ng/associative/merge-with.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc","./utils":"Sfpi"}],"ZgfX":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16519,7 +16519,7 @@ const mergeObjWith = (f, dest, ...xs) => {
 };
 
 exports.mergeObjWith = mergeObjWith;
-},{"./utils":"../../node_modules/@thi.ng/associative/utils.js"}],"../../node_modules/@thi.ng/associative/merge-deep.js":[function(require,module,exports) {
+},{"./utils":"Sfpi"}],"oluS":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16534,7 +16534,7 @@ var _mergeWith = require("./merge-with");
 const mergeDeepObj = (dest, ...xs) => (0, _mergeWith.mergeObjWith)((a, b) => (0, _checks.isPlainObject)(a) && (0, _checks.isPlainObject)(b) ? mergeDeepObj(a, b) : b, dest, ...xs);
 
 exports.mergeDeepObj = mergeDeepObj;
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","./merge-with":"../../node_modules/@thi.ng/associative/merge-with.js"}],"../../node_modules/@thi.ng/associative/sorted-map.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc","./merge-with":"ZgfX"}],"JwtR":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16863,7 +16863,7 @@ class SortedMap extends Map {
 exports.SortedMap = SortedMap;
 SortedMap.DEFAULT_CAP = 8;
 SortedMap.DEFAULT_P = 1 / Math.E;
-},{"@thi.ng/api":"../../node_modules/@thi.ng/api/index.js","@thi.ng/compare":"../../node_modules/@thi.ng/compare/index.js","@thi.ng/transducers":"../../node_modules/@thi.ng/transducers/index.js","./dissoc":"../../node_modules/@thi.ng/associative/dissoc.js","./internal/equiv":"../../node_modules/@thi.ng/associative/internal/equiv.js","./into":"../../node_modules/@thi.ng/associative/into.js"}],"../../node_modules/@thi.ng/associative/sorted-set.js":[function(require,module,exports) {
+},{"@thi.ng/api":"MOSf","@thi.ng/compare":"vzOR","@thi.ng/transducers":"GbKR","./dissoc":"VaVn","./internal/equiv":"vPtr","./into":"uWkF"}],"pEDV":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17033,7 +17033,7 @@ class SortedSet extends Set {
 }
 
 exports.SortedSet = SortedSet;
-},{"@thi.ng/compare":"../../node_modules/@thi.ng/compare/index.js","@thi.ng/transducers":"../../node_modules/@thi.ng/transducers/index.js","./dissoc":"../../node_modules/@thi.ng/associative/dissoc.js","./internal/equiv":"../../node_modules/@thi.ng/associative/internal/equiv.js","./into":"../../node_modules/@thi.ng/associative/into.js","./sorted-map":"../../node_modules/@thi.ng/associative/sorted-map.js"}],"../../node_modules/@thi.ng/associative/sparse-set.js":[function(require,module,exports) {
+},{"@thi.ng/compare":"vzOR","@thi.ng/transducers":"GbKR","./dissoc":"VaVn","./internal/equiv":"vPtr","./into":"uWkF","./sorted-map":"JwtR"}],"kUdH":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17310,7 +17310,7 @@ exports.SparseSet32 = SparseSet32;
 const sparseSet = n => n <= 0x100 ? new SparseSet8(n) : n <= 0x10000 ? new SparseSet16(n) : new SparseSet32(n);
 
 exports.sparseSet = sparseSet;
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","@thi.ng/errors":"../../node_modules/@thi.ng/errors/index.js","./dissoc":"../../node_modules/@thi.ng/associative/dissoc.js","./into":"../../node_modules/@thi.ng/associative/into.js"}],"../../node_modules/@thi.ng/associative/union.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc","@thi.ng/errors":"j3Rf","./dissoc":"VaVn","./into":"uWkF"}],"PFMP":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17349,7 +17349,7 @@ exports.union = union;
 function unionR(src) {
   return (0, _xformSetop.xformSetOp)(unionR, union, src);
 }
-},{"./internal/xform-setop":"../../node_modules/@thi.ng/associative/internal/xform-setop.js","./into":"../../node_modules/@thi.ng/associative/into.js","./utils":"../../node_modules/@thi.ng/associative/utils.js"}],"../../node_modules/@thi.ng/associative/without-keys.js":[function(require,module,exports) {
+},{"./internal/xform-setop":"PlIK","./into":"uWkF","./utils":"Sfpi"}],"xQ5D":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17385,7 +17385,7 @@ const withoutKeysObj = (src, keys) => {
 };
 
 exports.withoutKeysObj = withoutKeysObj;
-},{"./utils":"../../node_modules/@thi.ng/associative/utils.js"}],"../../node_modules/@thi.ng/associative/index.js":[function(require,module,exports) {
+},{"./utils":"Sfpi"}],"GmJl":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17667,7 +17667,7 @@ Object.keys(_withoutKeys).forEach(function (key) {
     }
   });
 });
-},{"./array-set":"../../node_modules/@thi.ng/associative/array-set.js","./common-keys":"../../node_modules/@thi.ng/associative/common-keys.js","./difference":"../../node_modules/@thi.ng/associative/difference.js","./dissoc":"../../node_modules/@thi.ng/associative/dissoc.js","./equiv-map":"../../node_modules/@thi.ng/associative/equiv-map.js","./hash-map":"../../node_modules/@thi.ng/associative/hash-map.js","./indexed":"../../node_modules/@thi.ng/associative/indexed.js","./intersection":"../../node_modules/@thi.ng/associative/intersection.js","./into":"../../node_modules/@thi.ng/associative/into.js","./invert":"../../node_modules/@thi.ng/associative/invert.js","./join":"../../node_modules/@thi.ng/associative/join.js","./ll-set":"../../node_modules/@thi.ng/associative/ll-set.js","./merge-apply":"../../node_modules/@thi.ng/associative/merge-apply.js","./merge-deep":"../../node_modules/@thi.ng/associative/merge-deep.js","./merge-with":"../../node_modules/@thi.ng/associative/merge-with.js","./merge":"../../node_modules/@thi.ng/associative/merge.js","./rename-keys":"../../node_modules/@thi.ng/associative/rename-keys.js","./select-keys":"../../node_modules/@thi.ng/associative/select-keys.js","./sorted-map":"../../node_modules/@thi.ng/associative/sorted-map.js","./sorted-set":"../../node_modules/@thi.ng/associative/sorted-set.js","./sparse-set":"../../node_modules/@thi.ng/associative/sparse-set.js","./union":"../../node_modules/@thi.ng/associative/union.js","./without-keys":"../../node_modules/@thi.ng/associative/without-keys.js"}],"../../node_modules/@thi.ng/atom/idgen.js":[function(require,module,exports) {
+},{"./array-set":"nNr8","./common-keys":"bzzW","./difference":"zqSd","./dissoc":"VaVn","./equiv-map":"CNH3","./hash-map":"TmjW","./indexed":"j63x","./intersection":"xP85","./into":"uWkF","./invert":"SoPs","./join":"J3Rj","./ll-set":"FIr1","./merge-apply":"RHRt","./merge-deep":"oluS","./merge-with":"ZgfX","./merge":"bRDf","./rename-keys":"nZGQ","./select-keys":"uMkH","./sorted-map":"JwtR","./sorted-set":"pEDV","./sparse-set":"kUdH","./union":"PFMP","./without-keys":"xQ5D"}],"EFLD":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17679,7 +17679,7 @@ let NEXT_ID = 0;
 const nextID = () => NEXT_ID++;
 
 exports.nextID = nextID;
-},{}],"../../node_modules/@thi.ng/atom/view.js":[function(require,module,exports) {
+},{}],"LPQS":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17845,7 +17845,7 @@ class View {
 }
 
 exports.View = View;
-},{"@thi.ng/equiv":"../../node_modules/@thi.ng/equiv/index.js","@thi.ng/paths":"../../node_modules/@thi.ng/paths/index.js","./idgen":"../../node_modules/@thi.ng/atom/idgen.js"}],"../../node_modules/@thi.ng/atom/atom.js":[function(require,module,exports) {
+},{"@thi.ng/equiv":"U8cl","@thi.ng/paths":"jkaf","./idgen":"EFLD"}],"MkkA":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17952,7 +17952,7 @@ let Atom = class Atom {
 };
 exports.Atom = Atom;
 exports.Atom = Atom = __decorate([_api.IWatchMixin], Atom);
-},{"@thi.ng/api":"../../node_modules/@thi.ng/api/index.js","@thi.ng/errors":"../../node_modules/@thi.ng/errors/index.js","@thi.ng/paths":"../../node_modules/@thi.ng/paths/index.js","./view":"../../node_modules/@thi.ng/atom/view.js"}],"../../node_modules/@thi.ng/atom/cursor.js":[function(require,module,exports) {
+},{"@thi.ng/api":"MOSf","@thi.ng/errors":"j3Rf","@thi.ng/paths":"jkaf","./view":"LPQS"}],"Xraa":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18128,7 +18128,7 @@ class Cursor {
 }
 
 exports.Cursor = Cursor;
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","@thi.ng/errors":"../../node_modules/@thi.ng/errors/index.js","@thi.ng/paths":"../../node_modules/@thi.ng/paths/index.js","./atom":"../../node_modules/@thi.ng/atom/atom.js","./idgen":"../../node_modules/@thi.ng/atom/idgen.js","./view":"../../node_modules/@thi.ng/atom/view.js"}],"../../node_modules/@thi.ng/atom/history.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc","@thi.ng/errors":"j3Rf","@thi.ng/paths":"jkaf","./atom":"MkkA","./idgen":"EFLD","./view":"LPQS"}],"Vh1i":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18441,7 +18441,7 @@ History.EVENT_UNDO = "undo";
 History.EVENT_REDO = "redo";
 History.EVENT_RECORD = "record";
 exports.History = History = History_1 = __decorate([_api.INotifyMixin], History);
-},{"@thi.ng/api":"../../node_modules/@thi.ng/api/index.js","@thi.ng/equiv":"../../node_modules/@thi.ng/equiv/index.js","@thi.ng/paths":"../../node_modules/@thi.ng/paths/index.js","./view":"../../node_modules/@thi.ng/atom/view.js"}],"../../node_modules/@thi.ng/atom/transacted.js":[function(require,module,exports) {
+},{"@thi.ng/api":"MOSf","@thi.ng/equiv":"U8cl","@thi.ng/paths":"jkaf","./view":"LPQS"}],"JIcZ":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18558,7 +18558,7 @@ class Transacted {
 }
 
 exports.Transacted = Transacted;
-},{"@thi.ng/api":"../../node_modules/@thi.ng/api/index.js","@thi.ng/paths":"../../node_modules/@thi.ng/paths/index.js","./idgen":"../../node_modules/@thi.ng/atom/idgen.js","./view":"../../node_modules/@thi.ng/atom/view.js"}],"../../node_modules/@thi.ng/atom/index.js":[function(require,module,exports) {
+},{"@thi.ng/api":"MOSf","@thi.ng/paths":"jkaf","./idgen":"EFLD","./view":"LPQS"}],"GVpA":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18624,8 +18624,12 @@ Object.keys(_view).forEach(function (key) {
     }
   });
 });
-},{"./atom":"../../node_modules/@thi.ng/atom/atom.js","./cursor":"../../node_modules/@thi.ng/atom/cursor.js","./history":"../../node_modules/@thi.ng/atom/history.js","./transacted":"../../node_modules/@thi.ng/atom/transacted.js","./view":"../../node_modules/@thi.ng/atom/view.js"}],"../../node_modules/spule/lib/keys.js":[function(require,module,exports) {
+},{"./atom":"MkkA","./cursor":"Xraa","./history":"Vh1i","./transacted":"JIcZ","./view":"LPQS"}],"mxIA":[function(require,module,exports) {
 "use strict";
+/**
+ * @module keys
+ */
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.URL_FULL = "URL";
 exports.URL_PATH = "URL_path";
@@ -18635,8 +18639,8 @@ exports.URL_SUBD = "URL_subdomain";
 exports.URL_QERY = "URL_query";
 exports.URL_HASH = "URL_hash";
 exports.URL_PAGE = "URL_page";
-exports.URL_PRSE = "unfURL";
-exports.URL_NPRS = "fURL";
+exports.URL_PRSE = "parse";
+exports.URL_NPRS = "unparse";
 // public
 exports.URL = {
     FULL: exports.URL_FULL,
@@ -18692,6 +18696,7 @@ exports.CFG_VIEW = "app";
 exports.CFG_DRFT = "draft";
 exports.CFG_LOG$ = "trace";
 exports.CFG_RUTR = "router";
+exports.CFG_KICK = "kick";
 // public
 exports.CFG = {
     RUN$: exports.CFG_RUN$,
@@ -18700,7 +18705,8 @@ exports.CFG = {
     VIEW: exports.CFG_VIEW,
     DRFT: exports.CFG_DRFT,
     LOG$: exports.CFG_LOG$,
-    RUTR: exports.CFG_RUTR
+    RUTR: exports.CFG_RUTR,
+    KICK: exports.CFG_KICK
 };
 // ROUTER
 exports.ROUTER_PREP = "prep";
@@ -18714,25 +18720,25 @@ exports.ROUTER = {
     RUTR: exports.CFG_RUTR
 };
 // Global state keys/constants
-exports.ROUTE_PATH = "_ROUTE_PATH";
-exports.ROUTE_LOAD = "_ROUTE_LOADING";
-exports.ROUTE_VIEW = "_PAGE_TEMPLATE";
-exports.ROUTE_ROOT = "_ROOT";
+exports.$$_PATH = "_ROUTE_PATH";
+exports.$$_LOAD = "_ROUTE_LOADING";
+exports.$$_VIEW = "_PAGE_TEMPLATE";
+exports.$$_ROOT = "_ROOT";
 // public
-exports.ROUTE = {
-    PATH: exports.ROUTE_PATH,
-    LOAD: exports.ROUTE_LOAD,
-    VIEW: exports.ROUTE_VIEW,
-    ROOT: exports.ROUTE_ROOT
+exports.$$ = {
+    PATH: exports.$$_PATH,
+    LOAD: exports.$$_LOAD,
+    VIEW: exports.$$_VIEW,
+    ROOT: exports.$$_ROOT
 };
-exports.DEFAULT_CFG = {
-    [exports.ROUTE_PATH]: null,
-    [exports.ROUTE_LOAD]: true,
-    [exports.ROUTE_VIEW]: null,
-    [exports.ROUTE_ROOT]: null
-};
+exports.$$_DEFAULT = (_a = {},
+    _a[exports.$$_PATH] = null,
+    _a[exports.$$_LOAD] = true,
+    _a[exports.$$_VIEW] = null,
+    _a[exports.$$_ROOT] = null,
+    _a);
 
-},{}],"../../node_modules/@thi.ng/rstream/api.js":[function(require,module,exports) {
+},{}],"mjlp":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18783,7 +18789,7 @@ exports.LOGGER = LOGGER;
 const setLogger = logger => exports.LOGGER = LOGGER = logger;
 
 exports.setLogger = setLogger;
-},{"@thi.ng/api":"../../node_modules/@thi.ng/api/index.js"}],"../../node_modules/@thi.ng/rstream/utils/idgen.js":[function(require,module,exports) {
+},{"@thi.ng/api":"MOSf"}],"KTbf":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18801,7 +18807,7 @@ const optsWithID = (prefix, opts) => !opts || !opts.id ? Object.assign(Object.as
 }) : opts;
 
 exports.optsWithID = optsWithID;
-},{}],"../../node_modules/@thi.ng/rstream/subscription.js":[function(require,module,exports) {
+},{}],"kQ3j":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19151,7 +19157,7 @@ class Subscription {
 }
 
 exports.Subscription = Subscription;
-},{"@thi.ng/api":"../../node_modules/@thi.ng/api/index.js","@thi.ng/arrays":"../../node_modules/@thi.ng/arrays/index.js","@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","@thi.ng/errors":"../../node_modules/@thi.ng/errors/index.js","@thi.ng/transducers":"../../node_modules/@thi.ng/transducers/index.js","./api":"../../node_modules/@thi.ng/rstream/api.js","./utils/idgen":"../../node_modules/@thi.ng/rstream/utils/idgen.js"}],"../../node_modules/@thi.ng/rstream/stream-sync.js":[function(require,module,exports) {
+},{"@thi.ng/api":"MOSf","@thi.ng/arrays":"iKN7","@thi.ng/checks":"XYpc","@thi.ng/errors":"j3Rf","@thi.ng/transducers":"GbKR","./api":"mjlp","./utils/idgen":"KTbf"}],"cdxq":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19389,7 +19395,7 @@ class StreamSync extends _subscription.Subscription {
 }
 
 exports.StreamSync = StreamSync;
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","@thi.ng/transducers":"../../node_modules/@thi.ng/transducers/index.js","./api":"../../node_modules/@thi.ng/rstream/api.js","./subscription":"../../node_modules/@thi.ng/rstream/subscription.js","./utils/idgen":"../../node_modules/@thi.ng/rstream/utils/idgen.js"}],"../../node_modules/@thi.ng/rstream/utils/worker.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc","@thi.ng/transducers":"GbKR","./api":"mjlp","./subscription":"kQ3j","./utils/idgen":"KTbf"}],"s9XI":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19406,7 +19412,7 @@ exports.inlineWorker = inlineWorker;
 const makeWorker = worker => worker instanceof Worker ? worker : new Worker(worker instanceof Blob ? URL.createObjectURL(worker) : worker);
 
 exports.makeWorker = makeWorker;
-},{}],"../../node_modules/@thi.ng/rstream/subs/tunnel.js":[function(require,module,exports) {
+},{}],"e0wi":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19497,7 +19503,7 @@ class Tunnel extends _subscription.Subscription {
 }
 
 exports.Tunnel = Tunnel;
-},{"../api":"../../node_modules/@thi.ng/rstream/api.js","../subscription":"../../node_modules/@thi.ng/rstream/subscription.js","../utils/idgen":"../../node_modules/@thi.ng/rstream/utils/idgen.js","../utils/worker":"../../node_modules/@thi.ng/rstream/utils/worker.js"}],"../../node_modules/@thi.ng/rstream/forkjoin.js":[function(require,module,exports) {
+},{"../api":"mjlp","../subscription":"kQ3j","../utils/idgen":"KTbf","../utils/worker":"s9XI"}],"SMpR":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19616,7 +19622,7 @@ exports.forkBuffer = forkBuffer;
 const joinBuffer = fn => fn ? parts => [...(0, _transducers.mapcat)(fn, parts)] : parts => Array.prototype.concat.apply([], parts);
 
 exports.joinBuffer = joinBuffer;
-},{"@thi.ng/transducers":"../../node_modules/@thi.ng/transducers/index.js","./stream-sync":"../../node_modules/@thi.ng/rstream/stream-sync.js","./subs/tunnel":"../../node_modules/@thi.ng/rstream/subs/tunnel.js"}],"../../node_modules/@thi.ng/rstream/metastream.js":[function(require,module,exports) {
+},{"@thi.ng/transducers":"GbKR","./stream-sync":"cdxq","./subs/tunnel":"e0wi"}],"jreL":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19779,7 +19785,7 @@ class MetaStream extends _subscription.Subscription {
 }
 
 exports.MetaStream = MetaStream;
-},{"@thi.ng/api":"../../node_modules/@thi.ng/api/index.js","./subscription":"../../node_modules/@thi.ng/rstream/subscription.js","./utils/idgen":"../../node_modules/@thi.ng/rstream/utils/idgen.js"}],"../../node_modules/@thi.ng/rstream/pubsub.js":[function(require,module,exports) {
+},{"@thi.ng/api":"MOSf","./subscription":"kQ3j","./utils/idgen":"KTbf"}],"RoOF":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19909,7 +19915,7 @@ class PubSub extends _subscription.Subscription {
 }
 
 exports.PubSub = PubSub;
-},{"@thi.ng/associative":"../../node_modules/@thi.ng/associative/index.js","@thi.ng/errors":"../../node_modules/@thi.ng/errors/index.js","./api":"../../node_modules/@thi.ng/rstream/api.js","./subscription":"../../node_modules/@thi.ng/rstream/subscription.js","./utils/idgen":"../../node_modules/@thi.ng/rstream/utils/idgen.js"}],"../../node_modules/@thi.ng/rstream/stream.js":[function(require,module,exports) {
+},{"@thi.ng/associative":"GmJl","@thi.ng/errors":"j3Rf","./api":"mjlp","./subscription":"kQ3j","./utils/idgen":"KTbf"}],"B10I":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19988,7 +19994,7 @@ class Stream extends _subscription.Subscription {
 }
 
 exports.Stream = Stream;
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","./api":"../../node_modules/@thi.ng/rstream/api.js","./subscription":"../../node_modules/@thi.ng/rstream/subscription.js","./utils/idgen":"../../node_modules/@thi.ng/rstream/utils/idgen.js"}],"../../node_modules/@thi.ng/rstream/stream-merge.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc","./api":"mjlp","./subscription":"kQ3j","./utils/idgen":"KTbf"}],"napU":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -20160,7 +20166,7 @@ class StreamMerge extends _subscription.Subscription {
 }
 
 exports.StreamMerge = StreamMerge;
-},{"./subscription":"../../node_modules/@thi.ng/rstream/subscription.js","./utils/idgen":"../../node_modules/@thi.ng/rstream/utils/idgen.js"}],"../../node_modules/@thi.ng/rstream/from/iterable.js":[function(require,module,exports) {
+},{"./subscription":"kQ3j","./utils/idgen":"KTbf"}],"gm8K":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -20228,7 +20234,7 @@ const fromIterableSync = (src, opts) => new _stream.Stream(stream => {
 }, (0, _idgen.optsWithID)("iterable-sync", opts));
 
 exports.fromIterableSync = fromIterableSync;
-},{"../stream":"../../node_modules/@thi.ng/rstream/stream.js","../utils/idgen":"../../node_modules/@thi.ng/rstream/utils/idgen.js"}],"../../node_modules/@thi.ng/rstream/trigger.js":[function(require,module,exports) {
+},{"../stream":"B10I","../utils/idgen":"KTbf"}],"mcGq":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -20243,7 +20249,7 @@ var _idgen = require("./utils/idgen");
 function trigger(x = true) {
   return (0, _iterable.fromIterable)([x], (0, _idgen.optsWithID)("trigger"));
 }
-},{"./from/iterable":"../../node_modules/@thi.ng/rstream/from/iterable.js","./utils/idgen":"../../node_modules/@thi.ng/rstream/utils/idgen.js"}],"../../node_modules/@thi.ng/rstream/from/interval.js":[function(require,module,exports) {
+},{"./from/iterable":"gm8K","./utils/idgen":"KTbf"}],"M2dW":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -20289,7 +20295,7 @@ const fromInterval = (delay, opts) => {
 };
 
 exports.fromInterval = fromInterval;
-},{"../stream":"../../node_modules/@thi.ng/rstream/stream.js","../utils/idgen":"../../node_modules/@thi.ng/rstream/utils/idgen.js"}],"../../node_modules/@thi.ng/rstream/from/raf.js":[function(require,module,exports) {
+},{"../stream":"B10I","../utils/idgen":"KTbf"}],"c4wU":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -20334,7 +20340,7 @@ const fromRAF = opts => (0, _checks.isNode)() ? (0, _interval.fromInterval)(16, 
 }, (0, _idgen.optsWithID)("raf", opts));
 
 exports.fromRAF = fromRAF;
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","../stream":"../../node_modules/@thi.ng/rstream/stream.js","../utils/idgen":"../../node_modules/@thi.ng/rstream/utils/idgen.js","./interval":"../../node_modules/@thi.ng/rstream/from/interval.js"}],"../../node_modules/@thi.ng/rstream/tween.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc","../stream":"B10I","../utils/idgen":"KTbf","./interval":"M2dW"}],"hAFn":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -20434,7 +20440,7 @@ exports.tween = tween;
 const tweenNumber = (src, init = 0, speed = 0.05, eps = 1e-3, clock) => tween(src, init, (a, b) => a + (b - a) * speed, (a, b) => Math.abs(a - b) < eps, clock);
 
 exports.tweenNumber = tweenNumber;
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","@thi.ng/transducers":"../../node_modules/@thi.ng/transducers/index.js","./from/interval":"../../node_modules/@thi.ng/rstream/from/interval.js","./from/raf":"../../node_modules/@thi.ng/rstream/from/raf.js","./stream-sync":"../../node_modules/@thi.ng/rstream/stream-sync.js"}],"../../node_modules/@thi.ng/rstream/from/atom.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc","@thi.ng/transducers":"GbKR","./from/interval":"M2dW","./from/raf":"c4wU","./stream-sync":"cdxq"}],"VCXn":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -20494,7 +20500,7 @@ const fromAtom = (atom, opts) => {
 };
 
 exports.fromAtom = fromAtom;
-},{"../stream":"../../node_modules/@thi.ng/rstream/stream.js","../utils/idgen":"../../node_modules/@thi.ng/rstream/utils/idgen.js"}],"../../node_modules/@thi.ng/rstream/from/event.js":[function(require,module,exports) {
+},{"../stream":"B10I","../utils/idgen":"KTbf"}],"BKGr":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -20548,7 +20554,7 @@ exports.fromEvent = fromEvent;
 const fromDOMEvent = (src, name, listenerOpts = false, streamOpts) => fromEvent(src, name, listenerOpts, streamOpts);
 
 exports.fromDOMEvent = fromDOMEvent;
-},{"../stream":"../../node_modules/@thi.ng/rstream/stream.js","../utils/idgen":"../../node_modules/@thi.ng/rstream/utils/idgen.js"}],"../../node_modules/@thi.ng/rstream/from/promise.js":[function(require,module,exports) {
+},{"../stream":"B10I","../utils/idgen":"KTbf"}],"jaYB":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -20602,7 +20608,7 @@ const fromPromise = (src, opts) => {
 };
 
 exports.fromPromise = fromPromise;
-},{"../stream":"../../node_modules/@thi.ng/rstream/stream.js","../utils/idgen":"../../node_modules/@thi.ng/rstream/utils/idgen.js"}],"../../node_modules/@thi.ng/rstream/from/promises.js":[function(require,module,exports) {
+},{"../stream":"B10I","../utils/idgen":"KTbf"}],"oREN":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -20655,7 +20661,7 @@ var _promise = require("./promise");
 const fromPromises = (promises, opts) => (0, _promise.fromPromise)(Promise.all(promises), (0, _idgen.optsWithID)("promises", opts)).transform((0, _transducers.mapcat)(x => x));
 
 exports.fromPromises = fromPromises;
-},{"@thi.ng/transducers":"../../node_modules/@thi.ng/transducers/index.js","../utils/idgen":"../../node_modules/@thi.ng/rstream/utils/idgen.js","./promise":"../../node_modules/@thi.ng/rstream/from/promise.js"}],"../../node_modules/@thi.ng/rstream/from/view.js":[function(require,module,exports) {
+},{"@thi.ng/transducers":"GbKR","../utils/idgen":"KTbf","./promise":"jaYB"}],"TBRw":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -20723,7 +20729,7 @@ const fromView = (atom, opts) => {
 };
 
 exports.fromView = fromView;
-},{"@thi.ng/atom":"../../node_modules/@thi.ng/atom/index.js","../stream":"../../node_modules/@thi.ng/rstream/stream.js","../utils/idgen":"../../node_modules/@thi.ng/rstream/utils/idgen.js"}],"../../node_modules/@thi.ng/rstream/from/worker.js":[function(require,module,exports) {
+},{"@thi.ng/atom":"GVpA","../stream":"B10I","../utils/idgen":"KTbf"}],"biHq":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -20794,7 +20800,7 @@ const fromWorker = (worker, opts) => {
 };
 
 exports.fromWorker = fromWorker;
-},{"../api":"../../node_modules/@thi.ng/rstream/api.js","../stream":"../../node_modules/@thi.ng/rstream/stream.js","../utils/idgen":"../../node_modules/@thi.ng/rstream/utils/idgen.js","../utils/worker":"../../node_modules/@thi.ng/rstream/utils/worker.js"}],"../../node_modules/@thi.ng/rstream/subs/bisect.js":[function(require,module,exports) {
+},{"../api":"mjlp","../stream":"B10I","../utils/idgen":"KTbf","../utils/worker":"s9XI"}],"jF4T":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -20858,7 +20864,7 @@ const bisect = (pred, truthy, falsy) => {
 };
 
 exports.bisect = bisect;
-},{"../pubsub":"../../node_modules/@thi.ng/rstream/pubsub.js"}],"../../node_modules/@thi.ng/rstream/subs/post-worker.js":[function(require,module,exports) {
+},{"../pubsub":"RoOF"}],"sK4n":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -20943,7 +20949,7 @@ const postWorker = (worker, transfer = false, terminate = 0) => {
 };
 
 exports.postWorker = postWorker;
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","../api":"../../node_modules/@thi.ng/rstream/api.js","../utils/worker":"../../node_modules/@thi.ng/rstream/utils/worker.js"}],"../../node_modules/@thi.ng/rstream/subs/resolve.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc","../api":"mjlp","../utils/worker":"s9XI"}],"JzJ5":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21026,7 +21032,7 @@ class Resolver extends _subscription.Subscription {
 }
 
 exports.Resolver = Resolver;
-},{"../api":"../../node_modules/@thi.ng/rstream/api.js","../subscription":"../../node_modules/@thi.ng/rstream/subscription.js","../utils/idgen":"../../node_modules/@thi.ng/rstream/utils/idgen.js"}],"../../node_modules/@thi.ng/rstream/subs/sidechain-partition.js":[function(require,module,exports) {
+},{"../api":"mjlp","../subscription":"kQ3j","../utils/idgen":"KTbf"}],"unsB":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21124,7 +21130,7 @@ class SidechainPartition extends _subscription.Subscription {
 }
 
 exports.SidechainPartition = SidechainPartition;
-},{"../subscription":"../../node_modules/@thi.ng/rstream/subscription.js","../utils/idgen":"../../node_modules/@thi.ng/rstream/utils/idgen.js"}],"../../node_modules/@thi.ng/rstream/subs/sidechain-toggle.js":[function(require,module,exports) {
+},{"../subscription":"kQ3j","../utils/idgen":"KTbf"}],"Q8oA":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21215,7 +21221,7 @@ class SidechainToggle extends _subscription.Subscription {
 }
 
 exports.SidechainToggle = SidechainToggle;
-},{"../subscription":"../../node_modules/@thi.ng/rstream/subscription.js","../utils/idgen":"../../node_modules/@thi.ng/rstream/utils/idgen.js"}],"../../node_modules/@thi.ng/rstream/subs/timeout.js":[function(require,module,exports) {
+},{"../subscription":"kQ3j","../utils/idgen":"KTbf"}],"GuAA":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21281,7 +21287,7 @@ class Timeout extends _subscription.Subscription {
   }
 
 }
-},{"../subscription":"../../node_modules/@thi.ng/rstream/subscription.js","../utils/idgen":"../../node_modules/@thi.ng/rstream/utils/idgen.js"}],"../../node_modules/@thi.ng/rstream/subs/trace.js":[function(require,module,exports) {
+},{"../subscription":"kQ3j","../utils/idgen":"KTbf"}],"lDjW":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21312,7 +21318,7 @@ const trace = prefix => ({
 });
 
 exports.trace = trace;
-},{}],"../../node_modules/@thi.ng/rstream/subs/transduce.js":[function(require,module,exports) {
+},{}],"NKOk":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21380,7 +21386,7 @@ const transduce = (src, xform, rfn, init) => {
 };
 
 exports.transduce = transduce;
-},{"@thi.ng/transducers":"../../node_modules/@thi.ng/transducers/index.js"}],"../../node_modules/@thi.ng/rstream/index.js":[function(require,module,exports) {
+},{"@thi.ng/transducers":"GbKR"}],"RCxb":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21746,83 +21752,33 @@ Object.keys(_worker2).forEach(function (key) {
     }
   });
 });
-},{"./api":"../../node_modules/@thi.ng/rstream/api.js","./forkjoin":"../../node_modules/@thi.ng/rstream/forkjoin.js","./metastream":"../../node_modules/@thi.ng/rstream/metastream.js","./pubsub":"../../node_modules/@thi.ng/rstream/pubsub.js","./stream":"../../node_modules/@thi.ng/rstream/stream.js","./stream-merge":"../../node_modules/@thi.ng/rstream/stream-merge.js","./stream-sync":"../../node_modules/@thi.ng/rstream/stream-sync.js","./subscription":"../../node_modules/@thi.ng/rstream/subscription.js","./trigger":"../../node_modules/@thi.ng/rstream/trigger.js","./tween":"../../node_modules/@thi.ng/rstream/tween.js","./from/atom":"../../node_modules/@thi.ng/rstream/from/atom.js","./from/event":"../../node_modules/@thi.ng/rstream/from/event.js","./from/interval":"../../node_modules/@thi.ng/rstream/from/interval.js","./from/iterable":"../../node_modules/@thi.ng/rstream/from/iterable.js","./from/promise":"../../node_modules/@thi.ng/rstream/from/promise.js","./from/promises":"../../node_modules/@thi.ng/rstream/from/promises.js","./from/raf":"../../node_modules/@thi.ng/rstream/from/raf.js","./from/view":"../../node_modules/@thi.ng/rstream/from/view.js","./from/worker":"../../node_modules/@thi.ng/rstream/from/worker.js","./subs/bisect":"../../node_modules/@thi.ng/rstream/subs/bisect.js","./subs/post-worker":"../../node_modules/@thi.ng/rstream/subs/post-worker.js","./subs/resolve":"../../node_modules/@thi.ng/rstream/subs/resolve.js","./subs/sidechain-partition":"../../node_modules/@thi.ng/rstream/subs/sidechain-partition.js","./subs/sidechain-toggle":"../../node_modules/@thi.ng/rstream/subs/sidechain-toggle.js","./subs/timeout":"../../node_modules/@thi.ng/rstream/subs/timeout.js","./subs/trace":"../../node_modules/@thi.ng/rstream/subs/trace.js","./subs/transduce":"../../node_modules/@thi.ng/rstream/subs/transduce.js","./subs/tunnel":"../../node_modules/@thi.ng/rstream/subs/tunnel.js","./utils/idgen":"../../node_modules/@thi.ng/rstream/utils/idgen.js","./utils/worker":"../../node_modules/@thi.ng/rstream/utils/worker.js"}],"../../node_modules/spule/lib/core/stream$.js":[function(require,module,exports) {
+},{"./api":"mjlp","./forkjoin":"SMpR","./metastream":"jreL","./pubsub":"RoOF","./stream":"B10I","./stream-merge":"napU","./stream-sync":"cdxq","./subscription":"kQ3j","./trigger":"mcGq","./tween":"hAFn","./from/atom":"VCXn","./from/event":"BKGr","./from/interval":"M2dW","./from/iterable":"gm8K","./from/promise":"jaYB","./from/promises":"oREN","./from/raf":"c4wU","./from/view":"TBRw","./from/worker":"biHq","./subs/bisect":"jF4T","./subs/post-worker":"sK4n","./subs/resolve":"JzJ5","./subs/sidechain-partition":"unsB","./subs/sidechain-toggle":"Q8oA","./subs/timeout":"GuAA","./subs/trace":"lDjW","./subs/transduce":"NKOk","./subs/tunnel":"e0wi","./utils/idgen":"KTbf","./utils/worker":"s9XI"}],"k8Vj":[function(require,module,exports) {
 "use strict";
 /**
- * @module streams
- * @format
+ * @module core/stream$
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-const rstream_1 = require("@thi.ng/rstream");
-const transducers_1 = require("@thi.ng/transducers");
-const keys_js_1 = require("../keys.js");
+var rstream_1 = require("@thi.ng/rstream");
+var transducers_1 = require("@thi.ng/transducers");
+var keys_js_1 = require("../keys.js");
 /**
- * # Stream Architecture:
- *
- * `run$` is the primary event stream exposed to the user
- * via the `ctx` object injected into every `hdom` component
- * the command stream is the only way the user changes
- * anything in `hurl`
- *
- * ## Marble Diagram
- *
- * ```
- * 0>- |------c-----------c--[~a~b~a~]-a----c-> : calls
- * 1>- |ps|---1-----------1----------0-1----1-> : run$
- * 2>- |t0|---------a~~b~~~~~~~~~~~a~*--------> : task$
- * 3>- |t1|---c-----------c------------a----c-> : command$
- * 4>- ---|ps|c-----a--b--c--------a---a----c-> : out$
- * Handlers
- * a>- ---|ta|------*--------------*---*------> : registerCMD
- * b>- ---|tb|---------*----------------------> : registerCMD
- * c>- ---|tc|*-----------*-----------------*-> : registerCMD
- * ```
- *
- * ## Streams
- *
- * - `0>-`: `ctx.run$.next(x)` userland dispatches
- * - `1>-`: `pubsub({ topic: x => x.length === 0 })` `run$`
- *   stream
- * - `2>-`: pubsub = `false` ? -> `task$` stream
- * - `3>-`: pubsub = `true` ? ->`command$` stream
- * - `4>-`: `pubsub({ topic: x => x.sub$ })`: `out$` stream
- *   -> `register_command`
- *
- * ## Handlers
- *
- * `4>-` this is the stream to which the user (and
- * framework) attaches handlers. Handlers receive events
- * they subscribe to as topics based on a `sub$` key in a
- * Command object.
- *
- * ### Handlers (framework provided):
- * - "state": Global state mutations
- * - "route": Routing
- * - "FLIP" :
- *   [F.L.I.P.](https://aerotwist.com/blog/flip-your-animations/)
- *   animations
- *
- * TODO:
- * - add __Examples__
- * - add `beforeunload` event handler within #4 (orphan):
- *    SEE https://youtu.be/QQukWZcIptM
- * - enable ctx.run.cancel() via external or internal events
- *    (e.g., popstate / { sub$:  "cancel" })
- *
- * ## `run$`
- *
  * User-land event dispatch stream
  *
- * This stream is directly exposed to users via `ctx` Any
- * one-off Commands `next`ed into this stream are sent to
- * the `command$` stream. Arrays of Commands (Tasks) are
- * sent to the `task$` stream.
+ * This stream is directly exposed to users. Any one-off
+ * Commands `next`ed into this stream are sent to the
+ * `command$` stream. Arrays of Commands (Tasks) are sent to
+ * the `task$` stream.
+ *
+ * TODO: add examples,`beforeunload` event handler within #4
+ *    (orphan): SEE https://youtu.be/QQukWZcIptM and enable
+ *    ctx.run.cancel() via external or internal events
+ *    (e.g., popstate / { sub$:  "cancel" })
  *
  */
 exports.run$ = rstream_1.pubsub({
-    topic: x => !!x[keys_js_1.CMD_SUB$],
+    topic: function (x) { return !!x[keys_js_1.CMD_SUB$]; },
     id: "run$_stream",
-    equiv: (x, y) => x === y || y === "_TRACE_STREAM"
+    equiv: function (x, y) { return x === y || y === "_TRACE_STREAM"; }
 });
 /**
  *
@@ -21830,9 +21786,9 @@ exports.run$ = rstream_1.pubsub({
  * for responding to emmitted Commands
  */
 exports.out$ = rstream_1.pubsub({
-    topic: x => x[keys_js_1.CMD_SUB$],
+    topic: function (x) { return x[keys_js_1.CMD_SUB$]; },
     id: "out$_stream",
-    equiv: (x, y) => x === y || y === "_TRACE_STREAM"
+    equiv: function (x, y) { return x === y || y === "_TRACE_STREAM"; }
 });
 /**
  *
@@ -21842,7 +21798,7 @@ exports.out$ = rstream_1.pubsub({
  * simple lookup of the `sub$` key of the command
  */
 exports.command$ = exports.run$.subscribeTopic(true, {
-    next: x => exports.out$.next(x),
+    next: function (x) { return exports.out$.next(x); },
     error: console.warn
 }, { id: "command$_stream" });
 // @ts-ignore
@@ -21874,20 +21830,60 @@ exports.DOMContentLoaded$ = rstream_1.fromDOMEvent(window, "DOMContentLoaded");
  */
 exports.DOMnavigated$ = rstream_1.merge({
     src: [exports.popstate$, exports.DOMContentLoaded$]
-}).transform(transducers_1.map((x) => ({ [keys_js_1.URL_FULL]: x.target.location.href, [keys_js_1.DOM_NODE]: x.currentTarget })));
+}).transform(transducers_1.map(function (x) {
+    var _a;
+    return (_a = {},
+        _a[keys_js_1.URL_FULL] = x.target.location.href,
+        _a[keys_js_1.DOM_NODE] = x.currentTarget,
+        _a);
+}));
 
-},{"@thi.ng/rstream":"../../node_modules/@thi.ng/rstream/index.js","@thi.ng/transducers":"../../node_modules/@thi.ng/transducers/index.js","../keys.js":"../../node_modules/spule/lib/keys.js"}],"../../node_modules/spule/lib/utils/taskDelay.js":[function(require,module,exports) {
+},{"@thi.ng/rstream":"RCxb","@thi.ng/transducers":"GbKR","../keys.js":"mxIA"}],"YpyK":[function(require,module,exports) {
 "use strict";
+/**
+ * @module utils/taskDelay
+ */
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  *
  * Helper Promise wrapper to inject a delay into a Task
  */
-exports.msTaskPromiseDelay = ms => new Promise(resolve => setTimeout(resolve, ms));
+exports.msTaskPromiseDelay = function (ms) {
+    return new Promise(function (resolve) { return setTimeout(resolve, ms); });
+};
 
-},{}],"../../node_modules/spule/lib/utils/diff_keys.js":[function(require,module,exports) {
+},{}],"QipV":[function(require,module,exports) {
 "use strict";
-/** @format */
+/**
+ * @module utils/diff_keys
+ */
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  *
@@ -21895,12 +21891,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * diff_keys(["a", "b"], { a: 1, b: 2, c: 3, d: 4 })
  * //=> [ [ 'c', 'd' ], { c: 3, d: 4 } ]
  */
-function diff_keys(nKeys = [], nObj = {}) {
-    const all = Object.keys(nObj);
-    const xKeys = all.filter(key => !nKeys.includes(key));
-    const xObj = Object.entries(nObj).reduce((a, [k, v]) => {
+function diff_keys(nKeys, nObj) {
+    if (nKeys === void 0) { nKeys = []; }
+    if (nObj === void 0) { nObj = {}; }
+    var all = Object.keys(nObj);
+    var xKeys = all.filter(function (key) { return !nKeys.includes(key); });
+    var xObj = Object.entries(nObj).reduce(function (a, _a) {
+        var _b;
+        var _c = __read(_a, 2), k = _c[0], v = _c[1];
         if (!nKeys.includes(k))
-            return Object.assign(Object.assign({}, a), { [k]: v });
+            return __assign(__assign({}, a), (_b = {}, _b[k] = v, _b));
         else
             return a;
     }, {});
@@ -21908,11 +21908,13 @@ function diff_keys(nKeys = [], nObj = {}) {
 }
 exports.diff_keys = diff_keys;
 
-},{}],"../../node_modules/spule/lib/utils/stringify_type.js":[function(require,module,exports) {
+},{}],"ClUY":[function(require,module,exports) {
 "use strict";
-/** @format */
+/**
+ * @module utils/stringify_type
+ */
 Object.defineProperty(exports, "__esModule", { value: true });
-const checks_1 = require("@thi.ng/checks");
+var checks_1 = require("@thi.ng/checks");
 // prettier-ignore
 /**
  * ### `stringify_type`
@@ -21924,7 +21926,7 @@ const checks_1 = require("@thi.ng/checks");
  * powered by [@thi.ng/checks](http://thi.ng/checks)
  *
  */
-exports.stringify_type = x => {
+exports.stringify_type = function (x) {
     if (checks_1.isFunction(x) && x.length === 0)
         return "THUNK";
     if (checks_1.isFunction(x) && x.length > 0)
@@ -21936,24 +21938,28 @@ exports.stringify_type = x => {
     return "type_str NOT FOUND";
 };
 
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js"}],"../../node_modules/spule/lib/utils/trace$.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc"}],"xZgE":[function(require,module,exports) {
 "use strict";
-/** @format */
+/**
+ * @module utils/trace$
+ */
 Object.defineProperty(exports, "__esModule", { value: true });
-const rstream_1 = require("@thi.ng/rstream");
+var rstream_1 = require("@thi.ng/rstream");
 /**
  * ## `trace_stream`
  *
  * allows for logging emissions to a provided stream
  * */
-exports.trace$ = (log_prefix, stream) => stream.subscribeTopic
-    ? stream.subscribeTopic("_TRACE_STREAM", {
-        next: x => console.log(log_prefix, x),
-        error: console.warn
-    })
-    : stream.subscribe(rstream_1.trace(log_prefix));
+exports.trace$ = function (log_prefix, stream) {
+    return stream.subscribeTopic
+        ? stream.subscribeTopic("_TRACE_STREAM", {
+            next: function (x) { return console.log(log_prefix, x); },
+            error: console.warn
+        })
+        : stream.subscribe(rstream_1.trace(log_prefix));
+};
 
-},{"@thi.ng/rstream":"../../node_modules/@thi.ng/rstream/index.js"}],"../../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel/node_modules/querystring-es3/decode.js":[function(require,module,exports) {
+},{"@thi.ng/rstream":"RCxb"}],"ZsgN":[function(require,module,exports) {
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -22039,7 +22045,7 @@ module.exports = function (qs, sep, eq, options) {
 var isArray = Array.isArray || function (xs) {
   return Object.prototype.toString.call(xs) === '[object Array]';
 };
-},{}],"../../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel/node_modules/querystring-es3/encode.js":[function(require,module,exports) {
+},{}],"LpfZ":[function(require,module,exports) {
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -22128,21 +22134,43 @@ var objectKeys = Object.keys || function (obj) {
 
   return res;
 };
-},{}],"../../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel/node_modules/querystring-es3/index.js":[function(require,module,exports) {
+},{}],"nGIe":[function(require,module,exports) {
 'use strict';
 
 exports.decode = exports.parse = require('./decode');
 exports.encode = exports.stringify = require('./encode');
-},{"./decode":"../../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel/node_modules/querystring-es3/decode.js","./encode":"../../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel/node_modules/querystring-es3/encode.js"}],"../../node_modules/spule/lib/utils/URL.js":[function(require,module,exports) {
+},{"./decode":"ZsgN","./encode":"LpfZ"}],"FGH7":[function(require,module,exports) {
 "use strict";
-/** @format */
+/**
+ * @module utils/URL
+ */
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
+var __spread = (this && this.__spread) || function () {
+    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
+    return ar;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const querystring_1 = __importDefault(require("querystring"));
+var querystring_1 = __importDefault(require("querystring"));
 // import gql from "nanographql"
-const keys_js_1 = require("../keys.js");
+var keys_js_1 = require("../keys.js");
 /**
  *
  * Takes an href (full or relative) and pulls out the various
@@ -22153,7 +22181,7 @@ const keys_js_1 = require("../keys.js");
  *
  * Ex1:
  * ```js
- * unfURL("http://localhost:1234/about?get=some#today")
+ * unFURL("http://localhost:1234/about?get=some#today")
  * ```
  * ```js
  * {
@@ -22168,7 +22196,7 @@ const keys_js_1 = require("../keys.js");
  *
  * Ex2:
  * ```js
- * unfURL("https://github.com/thi-ng/umbrella/#blog-posts")
+ * unFURL("https://github.com/thi-ng/umbrella/#blog-posts")
  * ```
  * ```js
  * {
@@ -22183,7 +22211,7 @@ const keys_js_1 = require("../keys.js");
  *
  * Ex3:
  * ```js
- * unfURL("https://very-long-sub.dom.cloud.eu/site/my/happy/")
+ * unFURL("https://very-long-sub.dom.cloud.eu/site/my/happy/")
  * ```
  * ```js
  * {
@@ -22198,7 +22226,7 @@ const keys_js_1 = require("../keys.js");
  *
  * Ex4:
  * ```js
- * unfURL("https://api.census.gov/data?get=NAME&in=state:01&in=county:*")
+ * unFURL("https://api.census.gov/data?get=NAME&in=state:01&in=county:*")
  * ```
  * ```js
  * {
@@ -22213,7 +22241,7 @@ const keys_js_1 = require("../keys.js");
  *
  * Ex5:
  * ```js
- * unfURL("/data?get=NAME&in=state#indeed")
+ * unFURL("/data?get=NAME&in=state#indeed")
  * ```
  * ```js
  * {
@@ -22227,21 +22255,22 @@ const keys_js_1 = require("../keys.js");
  * ```
  *
  */
-exports.unfURL = (URL_full, prefixRGX) => {
+exports.parse = function (URL_full, prefixRGX) {
+    var _a;
     // console.log("parsing...")
-    let URL_subdomain = [];
-    let URL_domain = [];
-    let URL_path = [];
-    const splitRGX = /(?=\?)|(?=#)/g;
+    var URL_subdomain = [];
+    var URL_domain = [];
+    var URL_path = [];
+    var splitRGX = /(?=\?)|(?=#)/g;
     // split the path on any `?` and/or `#` chars (1-3 parts)
-    const parts = prefixRGX
+    var parts = prefixRGX
         ? URL_full.replace(prefixRGX, "").split(splitRGX)
         : URL_full.split(splitRGX);
     // take the first component of split: the core URL
-    const path_str = parts[0];
+    var path_str = parts[0];
     // split the path_str further into individual members and
     // remove the empty string between any adjacent slashes `//`
-    const full_path = path_str.split("/").filter(x => x !== "");
+    var full_path = path_str.split("/").filter(function (x) { return x !== ""; });
     if (/http/i.test(URL_full)) {
         // if the input URL is HTTP(S), partition into sub components
         // domain is the last two members of the 2nd component
@@ -22259,21 +22288,21 @@ exports.unfURL = (URL_full, prefixRGX) => {
         URL_path = full_path;
     }
     // pull out the query component as a string
-    const query_str = parts.filter(part => part.slice(0, 1) === "?")[0] || "";
+    var query_str = parts.filter(function (part) { return part.slice(0, 1) === "?"; })[0] || "";
     // pull out the hash component as a string
-    const hash_str = parts.filter(part => part.slice(0, 1) === "#")[0] || "";
+    var hash_str = parts.filter(function (part) { return part.slice(0, 1) === "#"; })[0] || "";
     // parse the query string into conventional parts using qs
-    const URL_query = querystring_1.default.parse(query_str.slice(1));
+    var URL_query = querystring_1.default.parse(query_str.slice(1));
     // remove the actual `#` hash character from the string
-    const URL_hash = hash_str.slice(1);
-    return {
-        [keys_js_1.URL_FULL]: URL_full,
-        [keys_js_1.URL_SUBD]: URL_subdomain,
-        [keys_js_1.URL_DOMN]: URL_domain,
-        [keys_js_1.URL_PATH]: URL_path,
-        [keys_js_1.URL_QERY]: URL_query,
-        [keys_js_1.URL_HASH]: URL_hash
-    };
+    var URL_hash = hash_str.slice(1);
+    return _a = {},
+        _a[keys_js_1.URL_FULL] = URL_full,
+        _a[keys_js_1.URL_SUBD] = URL_subdomain,
+        _a[keys_js_1.URL_DOMN] = URL_domain,
+        _a[keys_js_1.URL_PATH] = URL_path,
+        _a[keys_js_1.URL_QERY] = URL_query,
+        _a[keys_js_1.URL_HASH] = URL_hash,
+        _a;
 };
 /**
  *
@@ -22282,28 +22311,26 @@ exports.unfURL = (URL_full, prefixRGX) => {
  * construct URLs manually.
  *
  */
-exports.fURL = (parsed, isAbsolute = false) => {
+exports.unparse = function (parsed, isAbsolute) {
     // console.log("unparsing...")
-    const { [keys_js_1.URL_SUBD]: URL_subdomain, [keys_js_1.URL_DOMN]: URL_domain, [keys_js_1.URL_PATH]: URL_path, [keys_js_1.URL_QERY]: URL_query, [keys_js_1.URL_HASH]: URL_hash } = exports.unfURL(parsed[keys_js_1.URL_FULL] || window.location.href);
-    const { _URL_subdomain = URL_subdomain, _URL_domain = URL_domain, _URL_path = URL_path, _URL_query = URL_query, _URL_hash = URL_hash } = parsed;
-    const [protocol, rest] = keys_js_1.URL_FULL.split("//");
-    const [root] = rest.split("/");
-    const [part_one, ...other_parts] = root.split(".");
+    if (isAbsolute === void 0) { isAbsolute = false; }
+    var _a = exports.parse(parsed[keys_js_1.URL_FULL] || window.location.href), _b = keys_js_1.URL_SUBD, URL_subdomain = _a[_b], _c = keys_js_1.URL_DOMN, URL_domain = _a[_c], _d = keys_js_1.URL_PATH, URL_path = _a[_d], _e = keys_js_1.URL_QERY, URL_query = _a[_e], _f = keys_js_1.URL_HASH, URL_hash = _a[_f];
+    var _g = parsed._URL_subdomain, _URL_subdomain = _g === void 0 ? URL_subdomain : _g, _h = parsed._URL_domain, _URL_domain = _h === void 0 ? URL_domain : _h, _j = parsed._URL_path, _URL_path = _j === void 0 ? URL_path : _j, _k = parsed._URL_query, _URL_query = _k === void 0 ? URL_query : _k, _l = parsed._URL_hash, _URL_hash = _l === void 0 ? URL_hash : _l;
+    var _m = __read(keys_js_1.URL_FULL.split("//"), 2), protocol = _m[0], rest = _m[1];
+    var _o = __read(rest.split("/"), 1), root = _o[0];
+    var _p = __read(root.split(".")), part_one = _p[0], other_parts = _p.slice(1);
     // console.log({ part_one, other_parts })
-    const domain = _URL_subdomain && _URL_domain
-        ? [..._URL_subdomain, ..._URL_domain]
-        : _URL_subdomain && other_parts.length > 1
-            ? [..._URL_subdomain, ...other_parts]
-            : _URL_subdomain && other_parts.length === 1
-                ? [..._URL_subdomain, part_one, ...other_parts]
-                : [..._URL_subdomain, part_one];
-    const query_string = querystring_1.default.encode(_URL_query);
-    const rootRelative = `${_URL_path.length > 0 ? "/" + _URL_path.join("/") : ""}${_URL_hash ? "#" + _URL_hash : null}?${query_string}`;
+    var domain = _URL_subdomain && _URL_domain
+        ? __spread(_URL_subdomain, _URL_domain) : _URL_subdomain && other_parts.length > 1
+        ? __spread(_URL_subdomain, other_parts) : _URL_subdomain && other_parts.length === 1
+        ? __spread(_URL_subdomain, [part_one], other_parts) : __spread(_URL_subdomain, [part_one]);
+    var query_string = querystring_1.default.encode(_URL_query);
+    var rootRelative = "" + (_URL_path.length > 0 ? "/" + _URL_path.join("/") : "") + (_URL_hash ? "#" + _URL_hash : null) + "?" + query_string;
     // console.log({ domain })
     // console.log({ protocol, rest, root, domain, URL_domain })
     return !isAbsolute
         ? rootRelative
-        : `${protocol}//${domain.join(".")}${rootRelative}`;
+        : protocol + "//" + domain.join(".") + rootRelative;
 };
 // let test1 = {
 //   // URL: "https://api.census.gov",
@@ -22322,16 +22349,31 @@ exports.fURL = (parsed, isAbsolute = false) => {
 //   // },
 //   URL_hash: "scroll-to"
 // }
-// unfURL(test1, true) //?
-// fURL(
+// FURN(test1, true) //?
+// unFURL(
 //   "https://poop.bloop.gov/data/wipe#something?get=NAME,B101001_10E,group(B61010)&in=state:01&in=county:*&for=tract:*"
 // ) //?
-// fURL(
+// unFURL(
 //   "http://sub.swing.bloop.com/lens/path#scroll-to?GQL=query(%24name%3AString!)%7Bmovie(name%3A%24name)%7BreleaseDate%7D%7D&name=Back%20to%20the%20Future"
 // ) //?
 
-},{"querystring":"../../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel/node_modules/querystring-es3/index.js","../keys.js":"../../node_modules/spule/lib/keys.js"}],"../../node_modules/spule/lib/utils/xKey.js":[function(require,module,exports) {
+},{"querystring":"nGIe","../keys.js":"mxIA"}],"bIm6":[function(require,module,exports) {
 "use strict";
+/**
+ * @module utils/xKey
+ */
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Uses a JSON.stringify "replacer" function to preserve a
  * small (truncated) version of the function signature for
@@ -22339,24 +22381,28 @@ exports.fURL = (parsed, isAbsolute = false) => {
  *
  * @format
  */
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.stringify_w_functions = (x, indent) => JSON.stringify(x, (key, value) => {
-    if (typeof value === "function") {
-        return (value
-            .toString()
-            .replace(/\r?\n|\r/g, "")
-            .replace(/\s\s+/g, " ")
-            .slice(0, 12) + "...");
-    }
-    else {
-        return value;
-    }
-}, indent);
-exports.key_index_err = (c, i) => {
-    const idx_dict0 = Array.from(Array(19).keys()).reduce((a, idx) => (Object.assign(Object.assign({}, a), { [idx]: `${idx + 1}th` })), {});
-    const idx_dict = Object.assign(Object.assign({}, idx_dict0), { 0: "1st", 1: "2nd", 2: "3rd" });
-    const idx_str = idx_dict[i];
-    return `🔍 it was the ${idx_str} Command in a Task or ${idx_dict[i - 1]} in a Subtask.`;
+exports.stringify_w_functions = function (x, indent) {
+    return JSON.stringify(x, function (key, value) {
+        if (typeof value === "function") {
+            return (value
+                .toString()
+                .replace(/\r?\n|\r/g, "")
+                .replace(/\s\s+/g, " ")
+                .slice(0, 12) + "...");
+        }
+        else {
+            return value;
+        }
+    }, indent);
+};
+exports.key_index_err = function (c, i) {
+    var idx_dict0 = Array.from(Array(19).keys()).reduce(function (a, idx) {
+        var _a;
+        return (__assign(__assign({}, a), (_a = {}, _a[idx] = idx + 1 + "th", _a)));
+    }, {});
+    var idx_dict = __assign(__assign({}, idx_dict0), { 0: "1st", 1: "2nd", 2: "3rd" });
+    var idx_str = idx_dict[i];
+    return "\uD83D\uDD0D it was the " + idx_str + " Command in a Task or " + idx_dict[i - 1] + " in a Subtask.";
 };
 // prettier-ignore
 /**
@@ -22366,73 +22412,16 @@ exports.key_index_err = (c, i) => {
  * Just a  little error for people defining commands
  * that makes sure their keys don't contain typos
  */
-exports.xKeyError = (str, c, unknown, sub$, index) => {
-    const { source$ } = c;
-    const count = Object.entries(c).length;
-    return `
-
-  🔥 ${str} ERROR:
-  
-  🔥 Unrecognized Command Key(s)
-  
-  FAULTY sub$: "${sub$}" 
-  ${Object.keys(unknown)[0][0]
-        ? `
-  ${index ? exports.key_index_err(c, index) : ""}
-
-  The problematic entry/entries: 
-
-  🤔 ${!index && count > 3 && !source$ ? `${Object.entries(unknown)[0][0]}: <Stream>` : exports.stringify_w_functions(unknown, 2)}`
-        : ""} 🤔
-
-  ACCEPTABLE ENTRY KEYS ${index ? "WITHIN A COMMAND" : "DURING REGISTRATION"}: 
-
-  'sub$' 
-    - optional 
-    - topic key for for registering & targeting Commands 
-    - signatures:
-      - "X"    : String: Topic key
-      - XX$    : Stream: for dispatching args to custom stream
-
-  'args' 
-    - required 
-    - payload or accumulator reshaping payload function (Promises OK)
-    - signatures:
-      - PRI    : primitive: static payload -> is NOT accumulated
-      - {?}    : object: static payload -> is accumulated 
-      - (+) => : function (non-nullary): dispatch payload from 
-                values accumulated from prior Command payloads
-      - (0) => : thunk (nullary): dispatch to custom stream
-      - {P}    : Promise or (#) => {P} Promise returning function
-      
-  'reso' 
-    - required for Promise handling 
-    - converts resolved Promise payloads to Command args
-    - signature:
-      - ({A: accumulator}, {P: resolved Promise}) =>  
-
-  'erro' 
-    - recommended for Promise rejections 
-    - handles rejected Promise payloads
-    - signature:
-      - ({A: accumulator}, {E: error object}) =>  
-  ${index ? ``
-        : `
-  'handler' 
-    - required 
-    - function that is called on payload's arrival
-    - signature: 
-      - (#) => : function instruments actual side-effects/work 
-  
-  'source$' 
-    - advanced/optional 
-    - source stream (see http://thi.ng/rstream)`}
-
-  Hope that helps!
-  `;
+exports.xKeyError = function (str, c, unknown, sub$, index) {
+    var source$ = c.source$;
+    var count = Object.entries(c).length;
+    return "\n\n  \uD83D\uDD25 " + str + " ERROR:\n  \n  \uD83D\uDD25 Unrecognized Command Key(s)\n  \n  FAULTY sub$: \"" + sub$ + "\" \n  " + (Object.keys(unknown)[0][0]
+        ? "\n  " + (index ? exports.key_index_err(c, index) : "") + "\n\n  The problematic entry/entries: \n\n  \uD83E\uDD14 " + (!index && count > 3 && !source$ ? Object.entries(unknown)[0][0] + ": <Stream>" : exports.stringify_w_functions(unknown, 2))
+        : "") + " \uD83E\uDD14\n\n  ACCEPTABLE ENTRY KEYS " + (index ? "WITHIN A COMMAND" : "DURING REGISTRATION") + ": \n\n  'sub$' \n    - optional \n    - topic key for for registering & targeting Commands \n    - signatures:\n      - \"X\"    : String: Topic key\n      - XX$    : Stream: for dispatching args to custom stream\n\n  'args' \n    - required \n    - payload or accumulator reshaping payload function (Promises OK)\n    - signatures:\n      - PRI    : primitive: static payload -> is NOT accumulated\n      - {?}    : object: static payload -> is accumulated \n      - (+) => : function (non-nullary): dispatch payload from \n                values accumulated from prior Command payloads\n      - (0) => : thunk (nullary): dispatch to custom stream\n      - {P}    : Promise or (#) => {P} Promise returning function\n      \n  'reso' \n    - required for Promise handling \n    - converts resolved Promise payloads to Command args\n    - signature:\n      - ({A: accumulator}, {P: resolved Promise}) =>  \n\n  'erro' \n    - recommended for Promise rejections \n    - handles rejected Promise payloads\n    - signature:\n      - ({A: accumulator}, {E: error object}) =>  \n  " + (index ? ""
+        : "\n  'handler' \n    - required \n    - function that is called on payload's arrival\n    - signature: \n      - (#) => : function instruments actual side-effects/work \n  \n  'source$' \n    - advanced/optional \n    - source stream (see http://thi.ng/rstream)") + "\n\n  Hope that helps!\n  ";
 };
 
-},{}],"../../node_modules/spule/lib/utils/index.js":[function(require,module,exports) {
+},{}],"HyAd":[function(require,module,exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var taskDelay_js_1 = require("./taskDelay.js");
@@ -22444,37 +22433,62 @@ exports.stringify_type = stringify_type_js_1.stringify_type;
 var trace__js_1 = require("./trace$.js");
 exports.trace$ = trace__js_1.trace$;
 var URL_js_1 = require("./URL.js");
-exports.fURL = URL_js_1.fURL;
-exports.unfURL = URL_js_1.unfURL;
+exports.unparse = URL_js_1.unparse;
+exports.parse = URL_js_1.parse;
 var xKey_js_1 = require("./xKey.js");
 exports.key_index_err = xKey_js_1.key_index_err;
 exports.stringify_w_functions = xKey_js_1.stringify_w_functions;
 exports.xKeyError = xKey_js_1.xKeyError;
 
-},{"./taskDelay.js":"../../node_modules/spule/lib/utils/taskDelay.js","./diff_keys.js":"../../node_modules/spule/lib/utils/diff_keys.js","./stringify_type.js":"../../node_modules/spule/lib/utils/stringify_type.js","./trace$.js":"../../node_modules/spule/lib/utils/trace$.js","./URL.js":"../../node_modules/spule/lib/utils/URL.js","./xKey.js":"../../node_modules/spule/lib/utils/xKey.js"}],"../../node_modules/spule/lib/commands/register.js":[function(require,module,exports) {
+},{"./taskDelay.js":"YpyK","./diff_keys.js":"QipV","./stringify_type.js":"ClUY","./trace$.js":"xZgE","./URL.js":"FGH7","./xKey.js":"bIm6"}],"r0tB":[function(require,module,exports) {
 "use strict";
 /**
- * @module Registration
- * @format
+ * @module commands/register
  */
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
+var __spread = (this && this.__spread) || function () {
+    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
+    return ar;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const associative_1 = require("@thi.ng/associative");
-const transducers_1 = require("@thi.ng/transducers");
-const checks_1 = require("@thi.ng/checks");
-const keys_js_1 = require("../keys.js");
-const stream__js_1 = require("../core/stream$.js");
-const utils_1 = require("../utils");
-const feedCMD$fromSource$ = cmd => {
-    const sub$ = cmd[keys_js_1.CMD_SUB$];
-    const args = cmd[keys_js_1.CMD_ARGS];
-    const isFn = checks_1.isFunction(args);
-    const deliver = x => ({ [keys_js_1.CMD_SUB$]: sub$, [keys_js_1.CMD_ARGS]: args(x) });
-    const delivery = { [keys_js_1.CMD_SUB$]: sub$, [keys_js_1.CMD_ARGS]: args };
-    const feed = $ => isFn ? transducers_1.map(x => $.next(deliver(x))) : transducers_1.map(() => $.next(delivery));
+var associative_1 = require("@thi.ng/associative");
+var transducers_1 = require("@thi.ng/transducers");
+var checks_1 = require("@thi.ng/checks");
+var keys_js_1 = require("../keys.js");
+var stream__js_1 = require("../core/stream$.js");
+var utils_1 = require("../utils");
+var feedCMD$fromSource$ = function (cmd) {
+    var _a;
+    var sub$ = cmd[keys_js_1.CMD_SUB$];
+    var args = cmd[keys_js_1.CMD_ARGS];
+    var isFn = checks_1.isFunction(args);
+    var deliver = function (x) {
+        var _a;
+        return (_a = {}, _a[keys_js_1.CMD_SUB$] = sub$, _a[keys_js_1.CMD_ARGS] = args(x), _a);
+    };
+    var delivery = (_a = {}, _a[keys_js_1.CMD_SUB$] = sub$, _a[keys_js_1.CMD_ARGS] = args, _a);
+    var feed = function ($) {
+        return isFn ? transducers_1.map(function (x) { return $.next(deliver(x)); }) : transducers_1.map(function () { return $.next(delivery); });
+    };
     return cmd[keys_js_1.CMD_SRC$].subscribe(feed(stream__js_1.command$));
 };
-let registered = new associative_1.EquivMap();
-const err_str = "command Registration `registerCMD`";
+var registered = new associative_1.EquivMap();
+var err_str = "command Registration `registerCMD`";
 /**
  *
  *
@@ -22504,21 +22518,15 @@ const err_str = "command Registration `registerCMD`";
  *
  */
 function registerCMD(command) {
-    const sub$ = command[keys_js_1.CMD_SUB$];
-    const args = command[keys_js_1.CMD_ARGS];
-    const erro = command[keys_js_1.CMD_ERRO];
-    const reso = command[keys_js_1.CMD_RESO];
-    const src$ = command[keys_js_1.CMD_SRC$];
-    const work = command[keys_js_1.CMD_WORK];
-    const knowns = [
-        keys_js_1.CMD_SUB$,
-        keys_js_1.CMD_ARGS,
-        keys_js_1.CMD_RESO,
-        keys_js_1.CMD_ERRO,
-        keys_js_1.CMD_SRC$,
-        keys_js_1.CMD_WORK
-    ];
-    const [unknowns] = utils_1.diff_keys(knowns, command);
+    var _a, _b;
+    var sub$ = command[keys_js_1.CMD_SUB$];
+    var args = command[keys_js_1.CMD_ARGS];
+    var erro = command[keys_js_1.CMD_ERRO];
+    var reso = command[keys_js_1.CMD_RESO];
+    var src$ = command[keys_js_1.CMD_SRC$];
+    var work = command[keys_js_1.CMD_WORK];
+    var knowns = [keys_js_1.CMD_SUB$, keys_js_1.CMD_ARGS, keys_js_1.CMD_RESO, keys_js_1.CMD_ERRO, keys_js_1.CMD_SRC$, keys_js_1.CMD_WORK];
+    var _c = __read(utils_1.diff_keys(knowns, command), 1), unknowns = _c[0];
     // console.log({ knowns, unknowns })
     if (unknowns.length > 0) {
         throw new Error(utils_1.xKeyError(err_str, command, unknowns, sub$, undefined));
@@ -22526,30 +22534,18 @@ function registerCMD(command) {
     if (src$)
         feedCMD$fromSource$(command);
     // @ts-ignore
-    stream__js_1.out$.subscribeTopic(sub$, { next: work, error: console.warn }, transducers_1.map(puck => puck[keys_js_1.CMD_ARGS]));
-    const CMD = reso
-        ? {
-            [keys_js_1.CMD_SUB$]: sub$,
-            [keys_js_1.CMD_ARGS]: args,
-            [keys_js_1.CMD_RESO]: reso,
-            [keys_js_1.CMD_ERRO]: erro
-        }
-        : { [keys_js_1.CMD_SUB$]: sub$, [keys_js_1.CMD_ARGS]: args };
+    stream__js_1.out$.subscribeTopic(sub$, { next: work, error: console.warn }, transducers_1.map(function (puck) { return puck[keys_js_1.CMD_ARGS]; }));
+    var CMD = reso
+        ? (_a = {},
+            _a[keys_js_1.CMD_SUB$] = sub$,
+            _a[keys_js_1.CMD_ARGS] = args,
+            _a[keys_js_1.CMD_RESO] = reso,
+            _a[keys_js_1.CMD_ERRO] = erro,
+            _a) : (_b = {}, _b[keys_js_1.CMD_SUB$] = sub$, _b[keys_js_1.CMD_ARGS] = args, _b);
     // Set.add not supported by IE
     if (registered.set) {
         if (registered.has(sub$)) {
-            throw new Error(`
-
-🔥 duplicate \`sub$\` value detected in Command:
-${utils_1.stringify_w_functions(CMD)}
-existing registered Commands:
-${JSON.stringify([...registered.keys()], null, 2)}
-🔥 Please use a different/unique Command \`sub$\` string
-
-🔎 Inspect existing Commands using js Map API \`registerCMD.all\`
-🔎 (\`registerCMD.all.entries()\`, \`registerCMD.all.has("X")\`, etc.)
-
-        `);
+            throw new Error("\n\n  \uD83D\uDD25 duplicate `sub$` value detected in Command:\n  " + utils_1.stringify_w_functions(CMD) + "\n  existing registered Commands:\n  " + JSON.stringify(__spread(registered.keys()), null, 2) + "\n  \uD83D\uDD25 Please use a different/unique Command `sub$` string\n\n  \uD83D\uDD0E Inspect existing Commands using js Map API `registerCMD.all`\n  \uD83D\uDD0E (`registerCMD.all.entries()`, `registerCMD.all.has(\"X\")`, etc.)\n\n        ");
         }
         registered.set(sub$, CMD);
     }
@@ -22563,68 +22559,72 @@ exports.registerCMD = registerCMD;
  */
 registerCMD.all = registered;
 
-},{"@thi.ng/associative":"../../node_modules/@thi.ng/associative/index.js","@thi.ng/transducers":"../../node_modules/@thi.ng/transducers/index.js","@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","../keys.js":"../../node_modules/spule/lib/keys.js","../core/stream$.js":"../../node_modules/spule/lib/core/stream$.js","../utils":"../../node_modules/spule/lib/utils/index.js"}],"../../node_modules/spule/lib/commands/FLIP.js":[function(require,module,exports) {
+},{"@thi.ng/associative":"GmJl","@thi.ng/transducers":"GbKR","@thi.ng/checks":"XYpc","../keys.js":"mxIA","../core/stream$.js":"k8Vj","../utils":"HyAd"}],"Xd9b":[function(require,module,exports) {
 "use strict";
 /**
- * @module FLIP
- * @format
+ * @module commands/FLIP
  */
+var _a, _b;
 Object.defineProperty(exports, "__esModule", { value: true });
-const atom_1 = require("@thi.ng/atom");
-const paths_1 = require("@thi.ng/paths");
-const keys_js_1 = require("../keys.js");
-const register_js_1 = require("./register.js");
+var atom_1 = require("@thi.ng/atom");
+var paths_1 = require("@thi.ng/paths");
+var keys_js_1 = require("../keys.js");
+var register_js_1 = require("./register.js");
 function getRect(element, frame) {
-    const { top, bottom, left, right, width, height } = element.getBoundingClientRect();
-    const parent = frame ? frame.getBoundingClientRect() : null;
+    var _a = element.getBoundingClientRect(), top = _a.top, bottom = _a.bottom, left = _a.left, right = _a.right, width = _a.width, height = _a.height;
+    var parent = frame ? frame.getBoundingClientRect() : null;
     return {
         top: top - (parent ? parent.top : 0),
-        bottom,
+        bottom: bottom,
         left: left - (parent ? parent.left : 0),
-        right,
-        width,
-        height
+        right: right,
+        width: width,
+        height: height
     };
 }
-const S_path = "FLIP_shuffle";
-const shuffle_paths = uid => ({
+var S_path = "FLIP_shuffle";
+var shuffle_paths = function (uid) { return ({
     rects: [S_path, "rects", uid],
     elems: [S_path, "elems", uid]
-});
-const FLIP_all = (el, state, uid, frameDOMel = null) => {
-    const { rects } = shuffle_paths(uid);
+}); };
+var FLIP_all = function (el, state, uid, frameDOMel) {
+    if (frameDOMel === void 0) { frameDOMel = null; }
+    var rects = shuffle_paths(uid).rects;
     if (!paths_1.getIn(state.deref(), rects))
         return state.resetIn(rects, getRect(el, frameDOMel));
-    const F_flip_map = paths_1.getIn(state.deref(), rects);
-    const L_flip_map = getRect(el, frameDOMel);
+    var F_flip_map = paths_1.getIn(state.deref(), rects);
+    var L_flip_map = getRect(el, frameDOMel);
     // console.log({ F_flip_map, L_flip_map })
-    const Tx = F_flip_map.left - L_flip_map.left;
-    const Ty = F_flip_map.top - L_flip_map.top;
-    const Sx = F_flip_map.width / L_flip_map.width;
-    const Sy = F_flip_map.height / L_flip_map.height;
+    var Tx = F_flip_map.left - L_flip_map.left;
+    var Ty = F_flip_map.top - L_flip_map.top;
+    var Sx = F_flip_map.width / L_flip_map.width;
+    var Sy = F_flip_map.height / L_flip_map.height;
     el.style.transformOrigin = "0 0";
     el.style.transition = "";
-    const trans = `translate(${Tx}px, ${Ty}px) scale(${Sx}, ${Sy})`;
+    var trans = "translate(" + Tx + "px, " + Ty + "px) scale(" + Sx + ", " + Sy + ")";
     el.style.transform = trans;
     state.resetIn(rects, L_flip_map);
-    requestAnimationFrame(() => {
+    requestAnimationFrame(function () {
         el.style.transition = "all .4s cubic-bezier(.54,-0.29,.17,1.11)";
         el.style.transform = "none";
     });
 };
-const Z_path = "FLIP_zoom";
-const zoom_paths = uid => ({
+var Z_path = "FLIP_zoom";
+var zoom_paths = function (uid) { return ({
     rects: [Z_path, "rects", uid],
     elems: [Z_path, "elems", uid],
     clicks: [Z_path, "clicks", uid],
     scrolls: [Z_path, "scroll", uid]
-});
+}); };
 /**
  *
- * order: normalizeTree -> render -> diff -> init -> release
- *                        | hdom |         | dom  | post-dom
+ * `FLIPFirst`
  *
- * have to think backwards:
+ * ```
+ * order: normalizeTree -> render -> diff -> init -> release
+ *                        | hdom |         | dom | unmounted
+ * ```
+ *
  * 1. el mounted (init): look for existing flip map for id
  *  - if exists, Play anim and store new flip map rect (for
  *    navs)
@@ -22636,13 +22636,13 @@ const zoom_paths = uid => ({
  *  - if first === last, no change (on nav e.g.)
  *  - if first !== last, nav change (store rect for id)
  *
- *
  */
-const FLIPFirst = ({ state, id, target }) => {
+var FLIPFirst = function (_a) {
     // 📌 TODO: GOOD PLACE FOR AN `onStart` hook animation/callback
-    const { rects, clicks, scrolls } = zoom_paths(id);
+    var state = _a.state, id = _a.id, target = _a.target;
+    var _b = zoom_paths(id), rects = _b.rects, clicks = _b.clicks, scrolls = _b.scrolls;
     // sets the rect in state for next el init to sniff
-    const flip_map = getRect(target);
+    var flip_map = getRect(target);
     state.resetIn(rects, flip_map);
     // registers component as having been clicked (focused)
     state.resetIn(clicks, true);
@@ -22651,7 +22651,7 @@ const FLIPFirst = ({ state, id, target }) => {
 /**
  * https://coder-coder.com/z-index-isnt-working/
  */
-const zIndex = (el, idx) => (el.style.zIndex = idx);
+var zIndex = function (el, idx) { return (el.style.zIndex = idx); };
 /**
  * 1. if it has been clicked that means the last thing
  *    that happened was a click that triggered this init
@@ -22671,12 +22671,15 @@ const zIndex = (el, idx) => (el.style.zIndex = idx);
  * - PLAY
  *
  */
-const FLIPLastInvertPlay = ({ element, state, id, 
-// just baffle them with https://cubic-bezier.com/
-transition = "all .3s cubic-bezier(.54,-0.29,.17,1.11)" }) => {
+var FLIPLastInvertPlay = function (_a) {
+    var element = _a.element, state = _a.state, id = _a.id, 
+    // just baffle them with https://cubic-bezier.com/
+    _b = _a.transition, 
+    // just baffle them with https://cubic-bezier.com/
+    transition = _b === void 0 ? "all .3s cubic-bezier(.54,-0.29,.17,1.11)" : _b;
     element.setAttribute("flip", id);
-    const { rects, clicks, scrolls } = zoom_paths(id);
-    const F_flip_map = paths_1.getIn(state.deref(), rects) || null;
+    var _c = zoom_paths(id), rects = _c.rects, clicks = _c.clicks, scrolls = _c.scrolls;
+    var F_flip_map = paths_1.getIn(state.deref(), rects) || null;
     // NO RECT => NOT CLICKED
     if (!F_flip_map)
         return;
@@ -22690,27 +22693,27 @@ transition = "all .3s cubic-bezier(.54,-0.29,.17,1.11)" }) => {
      *
      */
     // 🕞 calculate location and size
-    let L_flip_map = getRect(element);
+    var L_flip_map = getRect(element);
     // recalc rect if out of initial view after scrolling into view
     if (Math.abs(F_flip_map.top - L_flip_map.top) > window.innerHeight) {
         element.scrollIntoView();
         L_flip_map = getRect(element);
     }
-    const Tx = F_flip_map.left - L_flip_map.left;
-    const Ty = F_flip_map.top - L_flip_map.top;
-    const Sx = F_flip_map.width / L_flip_map.width;
-    const Sy = F_flip_map.height / L_flip_map.height;
+    var Tx = F_flip_map.left - L_flip_map.left;
+    var Ty = F_flip_map.top - L_flip_map.top;
+    var Sx = F_flip_map.width / L_flip_map.width;
+    var Sy = F_flip_map.height / L_flip_map.height;
     // 🕕 just before "Last", scroll element to middle of page
     // const top = L_flip_map.top + window.pageYOffset
-    const { x, y } = paths_1.getIn(state.deref(), scrolls); // top - window.innerHeight / 2
+    var _d = paths_1.getIn(state.deref(), scrolls), x = _d.x, y = _d.y; // top - window.innerHeight / 2
     window.scrollTo(x, y);
     // console.log({ Tx, Ty, Sx, Sy })
     element.style.transformOrigin = "top left";
     element.style.transition = "";
-    const trans = `translate(${Tx}px, ${Ty}px) scale(${Sx}, ${Sy})`;
+    var trans = "translate(" + Tx + "px, " + Ty + "px) scale(" + Sx + ", " + Sy + ")";
     element.style.transform = trans;
     // PLAY
-    requestAnimationFrame(() => {
+    requestAnimationFrame(function () {
         // 🕤 just before animating, scroll to new location
         window.scrollTo(x, y);
         // element.style.transformOrigin = "top left"
@@ -22718,12 +22721,12 @@ transition = "all .3s cubic-bezier(.54,-0.29,.17,1.11)" }) => {
         element.style.transform = "none";
         // 💩 hack for removing zIndex after animation is complete
         // 📌 TODO:    🔻 GOOD PLACE FOR AN `onComplete` hook animation/callback
-        setTimeout(() => zIndex(element, 0), 200);
+        setTimeout(function () { return zIndex(element, 0); }, 200);
     });
     // move element to front
     zIndex(element, 1);
     // 🔍 consider exposing in the API
-    const clicked = paths_1.getIn(state.deref(), clicks) || null;
+    var clicked = paths_1.getIn(state.deref(), clicks) || null;
     if (!clicked) {
         // console.log(uid, "FLIP'ed on navigated")
         state.resetIn(rects, null);
@@ -22735,29 +22738,51 @@ transition = "all .3s cubic-bezier(.54,-0.29,.17,1.11)" }) => {
     // remove click frame
     state.resetIn(clicks, null);
 };
-const state = new atom_1.Atom({});
-exports.FLIP_FIRST = register_js_1.registerCMD({
-    [keys_js_1.CMD_SUB$]: "_FLIP_FIRST",
-    [keys_js_1.CMD_ARGS]: x => x,
-    [keys_js_1.CMD_WORK]: ({ id, target }) => FLIPFirst({ id, target, state })
-});
-exports.FLIP_LAST_INVERSE_PLAY = register_js_1.registerCMD({
-    [keys_js_1.CMD_SUB$]: "_FLIP_LAST_INVERSE_PLAY",
-    [keys_js_1.CMD_ARGS]: x => x,
-    [keys_js_1.CMD_WORK]: ({ id, element }) => FLIPLastInvertPlay({ id, element, state })
-});
+var state = new atom_1.Atom({});
+exports.FLIP_FIRST = register_js_1.registerCMD((_a = {},
+    _a[keys_js_1.CMD_SUB$] = "_FLIP_FIRST",
+    _a[keys_js_1.CMD_ARGS] = function (x) { return x; },
+    _a[keys_js_1.CMD_WORK] = function (_a) {
+        var id = _a.id, target = _a.target;
+        return FLIPFirst({ id: id, target: target, state: state });
+    },
+    _a));
+exports.FLIP_LAST_INVERSE_PLAY = register_js_1.registerCMD((_b = {},
+    _b[keys_js_1.CMD_SUB$] = "_FLIP_LAST_INVERSE_PLAY",
+    _b[keys_js_1.CMD_ARGS] = function (x) { return x; },
+    _b[keys_js_1.CMD_WORK] = function (_a) {
+        var id = _a.id, element = _a.element;
+        return FLIPLastInvertPlay({ id: id, element: element, state: state });
+    },
+    _b));
 
-},{"@thi.ng/atom":"../../node_modules/@thi.ng/atom/index.js","@thi.ng/paths":"../../node_modules/@thi.ng/paths/index.js","../keys.js":"../../node_modules/spule/lib/keys.js","./register.js":"../../node_modules/spule/lib/commands/register.js"}],"../../node_modules/spule/lib/commands/head.js":[function(require,module,exports) {
+},{"@thi.ng/atom":"GVpA","@thi.ng/paths":"jkaf","../keys.js":"mxIA","./register.js":"r0tB"}],"huf9":[function(require,module,exports) {
 "use strict";
-/**
- * @module INJECT_HEAD
- * @format
- */
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-const keys_js_1 = require("../keys.js");
-const register_js_1 = require("./register.js");
-const setFavicon = href => {
-    let link = document.querySelector("link[rel*='icon']") ||
+/**
+ * @module commands/head
+ */
+var keys_js_1 = require("../keys.js");
+var register_js_1 = require("./register.js");
+var setFavicon = function (href) {
+    var link = document.querySelector("link[rel*='icon']") ||
         document.createElement("link");
     link.type = "image/x-icon";
     link.rel = "shortcut icon";
@@ -22765,7 +22790,7 @@ const setFavicon = href => {
     document.getElementsByTagName("head")[0].appendChild(link);
 };
 // TODO currently throws CORS warning
-const defalt_cfg = {
+var defalt_cfg = {
     meta: {
         "og:title": "My thi.ng",
         "og:image": "https://github.com/loganpowell/ac/raw/master/assets/thing400x400.png",
@@ -22777,19 +22802,22 @@ const defalt_cfg = {
     title: "My thi.ng",
     favicon: "https://github.com/loganpowell/ac/raw/master/assets/favicon.ico"
 };
-const replaceMeta = (obj = defalt_cfg) => {
-    Object.entries(obj).forEach(([key, val]) => {
+var replaceMeta = function (obj) {
+    if (obj === void 0) { obj = defalt_cfg; }
+    Object.entries(obj).forEach(function (_a) {
+        var _b = __read(_a, 2), key = _b[0], val = _b[1];
         try {
             return {
-                HEAD_title: () => {
+                HEAD_title: function () {
                     document.title = val;
                 },
-                HEAD_meta: () => {
-                    Object.entries(val).forEach(([prop, content]) => {
-                        document.head.querySelector(`meta[property="${prop}"]`).content = content;
+                HEAD_meta: function () {
+                    Object.entries(val).forEach(function (_a) {
+                        var _b = __read(_a, 2), prop = _b[0], content = _b[1];
+                        document.head.querySelector("meta[property=\"" + prop + "\"]").content = content;
                     });
                 },
-                HEAD_favicon: () => setFavicon(val)
+                HEAD_favicon: function () { return setFavicon(val); }
             }[key]();
         }
         catch (e) {
@@ -22797,41 +22825,50 @@ const replaceMeta = (obj = defalt_cfg) => {
         }
     });
 };
-const conformToHead = ({ title = defalt_cfg.title, description = defalt_cfg.meta["og:description"], image: { url = defalt_cfg.meta["og:image"], height = defalt_cfg.meta["og:image:height"], width = defalt_cfg.meta["og:image:width"] }, favicon = defalt_cfg.favicon, type = defalt_cfg.meta["og:type"] }) => ({
-    HEAD_meta: {
-        /**
-         * og:url can tell scrapers to ignore the page and
-         * scrape this instead. Would save scraping the whole
-         * page and might be friendlier for `jsdom`
-         */
-        // "og:url": history.state.URL,
-        "og:title": title,
-        "og:type": type,
-        "og:description": description,
-        "og:image:width": width,
-        "og:image:height": height,
-        "og:image": url
+var conformToHead = function (_a) {
+    var _b = _a.title, title = _b === void 0 ? defalt_cfg.title : _b, _c = _a.description, description = _c === void 0 ? defalt_cfg.meta["og:description"] : _c, _d = _a.image, _e = _d.url, url = _e === void 0 ? defalt_cfg.meta["og:image"] : _e, _f = _d.height, height = _f === void 0 ? defalt_cfg.meta["og:image:height"] : _f, _g = _d.width, width = _g === void 0 ? defalt_cfg.meta["og:image:width"] : _g, _h = _a.favicon, favicon = _h === void 0 ? defalt_cfg.favicon : _h, _j = _a.type, type = _j === void 0 ? defalt_cfg.meta["og:type"] : _j;
+    return ({
+        HEAD_meta: {
+            /**
+             * og:url can tell scrapers to ignore the page and
+             * scrape this instead. Would save scraping the whole
+             * page and might be friendlier for `jsdom`
+             */
+            // "og:url": history.state.URL,
+            "og:title": title,
+            "og:type": type,
+            "og:description": description,
+            "og:image:width": width,
+            "og:image:height": height,
+            "og:image": url
+        },
+        HEAD_title: title,
+        HEAD_favicon: favicon
+    });
+};
+exports.INJECT_HEAD = register_js_1.registerCMD((_a = {},
+    _a[keys_js_1.CMD_SUB$] = "_INJECT_HEAD",
+    _a[keys_js_1.CMD_ARGS] = function (acc) {
+        var _a;
+        return (_a = {}, _a[keys_js_1.URL_DATA] = acc[keys_js_1.URL_DATA], _a);
     },
-    HEAD_title: title,
-    HEAD_favicon: favicon
-});
-exports.INJECT_HEAD = register_js_1.registerCMD({
-    [keys_js_1.CMD_SUB$]: "_INJECT_HEAD",
-    [keys_js_1.CMD_ARGS]: acc => ({ [keys_js_1.URL_DATA]: acc[keys_js_1.URL_DATA] }),
-    [keys_js_1.CMD_WORK]: ({ [keys_js_1.URL_DATA]: { [keys_js_1.DOM_HEAD]: { title, description, image, favicon, type } } }) => replaceMeta(conformToHead({ title, description, image, favicon, type }))
-});
+    _a[keys_js_1.CMD_WORK] = function (_a) {
+        var _b = keys_js_1.URL_DATA, _c = keys_js_1.DOM_HEAD, _d = _a[_b][_c], title = _d.title, description = _d.description, image = _d.image, favicon = _d.favicon, type = _d.type;
+        return replaceMeta(conformToHead({ title: title, description: description, image: image, favicon: favicon, type: type }));
+    },
+    _a));
 
-},{"../keys.js":"../../node_modules/spule/lib/keys.js","./register.js":"../../node_modules/spule/lib/commands/register.js"}],"../../node_modules/spule/lib/commands/routing.js":[function(require,module,exports) {
+},{"../keys.js":"mxIA","./register.js":"r0tB"}],"fc7l":[function(require,module,exports) {
 "use strict";
+var _a, _b, _c, _d;
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
- * @module Routing
- * @format
+ * @module commands/routing
  */
-const utils_1 = require("../utils");
-const stream__js_1 = require("../core/stream$.js");
-const keys_js_1 = require("../keys.js");
-const register_js_1 = require("./register.js");
+var utils_1 = require("../utils");
+var stream__js_1 = require("../core/stream$.js");
+var keys_js_1 = require("../keys.js");
+var register_js_1 = require("./register.js");
 /**
  * Click handler that mimics DOM navigation by transforming
  * a click event payload to align with the object structure
@@ -22839,29 +22876,31 @@ const register_js_1 = require("./register.js");
  * 'DOMContentLoaded') payloads, so they can be consumed by
  * the `navigated$` stream
  */
-exports.HURLer = ev => {
+exports.HURLer = function (ev) {
     // ev.preventDefault()
     // console.log({ e })
-    const href = ev.target.href;
-    const w_href = window.location.href;
-    const parsed = utils_1.unfURL(w_href);
-    const w_path = `/${parsed[keys_js_1.URL_PATH].join("/")}`;
+    var href = ev.target.href;
+    var w_href = window.location.href;
+    var parsed = utils_1.parse(w_href);
+    var w_path = "/" + parsed[keys_js_1.URL_PATH].join("/");
     // handle both absolute and root relative paths
     if (href === w_href || href === w_path)
         return;
     stream__js_1.DOMnavigated$.next({
-        target: { location: { href } },
+        target: { location: { href: href } },
         currentTarget: ev.currentTarget
     });
     return ev;
 };
-exports.HURL = register_js_1.registerCMD({
-    [keys_js_1.CMD_SUB$]: "_HURL",
-    [keys_js_1.CMD_ARGS]: ev => ev,
-    [keys_js_1.CMD_WORK]: exports.HURLer
-});
-const setLinkAttrs = target => {
-    document.body.querySelectorAll("a[visited]").forEach((el) => {
+exports.HURL = register_js_1.registerCMD((_a = {},
+    _a[keys_js_1.CMD_SUB$] = "_HURL",
+    _a[keys_js_1.CMD_ARGS] = function (ev) { return ev; },
+    _a[keys_js_1.CMD_WORK] = exports.HURLer,
+    _a));
+var setLinkAttrs = function (target) {
+    document.body
+        .querySelectorAll("a[visited]")
+        .forEach(function (el) {
         if (el.href === window.location.href)
             el.setAttribute("active", "");
         else
@@ -22890,11 +22929,14 @@ const setLinkAttrs = target => {
  * function
  *
  */
-exports.SET_LINK_ATTRS_DOM = register_js_1.registerCMD({
-    [keys_js_1.CMD_SUB$]: "_SET_LINK_ATTRS_DOM",
-    [keys_js_1.CMD_ARGS]: acc => ({ [keys_js_1.DOM_NODE]: acc[keys_js_1.DOM_NODE] }),
-    [keys_js_1.CMD_WORK]: args => setLinkAttrs(args[keys_js_1.DOM_NODE])
-});
+exports.SET_LINK_ATTRS_DOM = register_js_1.registerCMD((_b = {},
+    _b[keys_js_1.CMD_SUB$] = "_SET_LINK_ATTRS_DOM",
+    _b[keys_js_1.CMD_ARGS] = function (acc) {
+        var _a;
+        return (_a = {}, _a[keys_js_1.DOM_NODE] = acc[keys_js_1.DOM_NODE], _a);
+    },
+    _b[keys_js_1.CMD_WORK] = function (args) { return setLinkAttrs(args[keys_js_1.DOM_NODE]); },
+    _b));
 /**
  *
  * Routing Command: DOM-specific
@@ -22917,13 +22959,18 @@ exports.SET_LINK_ATTRS_DOM = register_js_1.registerCMD({
  *
  *
  */
-exports.HREF_PUSHSTATE_DOM = register_js_1.registerCMD({
-    [keys_js_1.CMD_SUB$]: "_HREF_PUSHSTATE_DOM",
-    [keys_js_1.CMD_ARGS]: acc => ({ [keys_js_1.URL_FULL]: acc[keys_js_1.URL_FULL], [keys_js_1.DOM_NODE]: acc[keys_js_1.DOM_NODE] }),
-    [keys_js_1.CMD_WORK]: args => !args[keys_js_1.DOM_NODE].document
-        ? history.pushState(utils_1.unfURL(args[keys_js_1.URL_FULL]), null, args[keys_js_1.URL_FULL])
-        : null
-});
+exports.HREF_PUSHSTATE_DOM = register_js_1.registerCMD((_c = {},
+    _c[keys_js_1.CMD_SUB$] = "_HREF_PUSHSTATE_DOM",
+    _c[keys_js_1.CMD_ARGS] = function (acc) {
+        var _a;
+        return (_a = {}, _a[keys_js_1.URL_FULL] = acc[keys_js_1.URL_FULL], _a[keys_js_1.DOM_NODE] = acc[keys_js_1.DOM_NODE], _a);
+    },
+    _c[keys_js_1.CMD_WORK] = function (args) {
+        return !args[keys_js_1.DOM_NODE].document
+            ? history.pushState(utils_1.parse(args[keys_js_1.URL_FULL]), null, args[keys_js_1.URL_FULL])
+            : null;
+    },
+    _c));
 /**
  *
  * ### args: static
@@ -22947,25 +22994,35 @@ exports.HREF_PUSHSTATE_DOM = register_js_1.registerCMD({
  *
  *
  */
-exports.NOTIFY_PRERENDER_DOM = register_js_1.registerCMD({
-    [keys_js_1.CMD_SUB$]: "_NOTIFY_PRERENDER_DOM",
-    [keys_js_1.CMD_ARGS]: true,
+exports.NOTIFY_PRERENDER_DOM = register_js_1.registerCMD((_d = {},
+    _d[keys_js_1.CMD_SUB$] = "_NOTIFY_PRERENDER_DOM",
+    _d[keys_js_1.CMD_ARGS] = true,
     //👀 for prerenderer,
-    [keys_js_1.CMD_WORK]: () => document.dispatchEvent(new Event("rendered"))
-});
+    _d[keys_js_1.CMD_WORK] = function () { return document.dispatchEvent(new Event("rendered")); },
+    _d));
 
-},{"../utils":"../../node_modules/spule/lib/utils/index.js","../core/stream$.js":"../../node_modules/spule/lib/core/stream$.js","../keys.js":"../../node_modules/spule/lib/keys.js","./register.js":"../../node_modules/spule/lib/commands/register.js"}],"../../node_modules/spule/lib/store/state.js":[function(require,module,exports) {
+},{"../utils":"HyAd","../core/stream$.js":"k8Vj","../keys.js":"mxIA","./register.js":"r0tB"}],"ZhqH":[function(require,module,exports) {
 "use strict";
 /**
- * @module set$$tate
- * @format
+ * @module store/state
  */
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const atom_1 = require("@thi.ng/atom");
-const checks_1 = require("@thi.ng/checks");
-const keys_js_1 = require("../keys.js");
+var atom_1 = require("@thi.ng/atom");
+var checks_1 = require("@thi.ng/checks");
+var keys_js_1 = require("../keys.js");
 // Global $store$ Container from [@thi.ng/atom](http://thi.ng/atom)
-exports.$store$ = new atom_1.Atom(keys_js_1.DEFAULT_CFG);
+exports.$store$ = new atom_1.Atom(keys_js_1.$$_DEFAULT);
 /**
  *
  * Swaps the current value at the given path/lens into the
@@ -22973,40 +23030,48 @@ exports.$store$ = new atom_1.Atom(keys_js_1.DEFAULT_CFG);
  * if that value should be either spread into an existing
  * object or a complete replacement
  */
-exports.set$$tate = (path, val, store = exports.$store$) => store.swapIn(path, (x) => !path.length && !checks_1.isPlainObject(val)
-    ? Object.assign(Object.assign({}, x), { [Object.keys(val)[0]]: val }) : checks_1.isPlainObject(x) && checks_1.isPlainObject(val)
-    ? Object.assign(Object.assign({}, x), val) : val);
+exports.set$$tate = function (path, val, store) {
+    if (store === void 0) { store = exports.$store$; }
+    return store.swapIn(path, function (x) {
+        var _a;
+        return !path.length && !checks_1.isPlainObject(val)
+            ? __assign(__assign({}, x), (_a = {}, _a[Object.keys(val)[0]] = val, _a)) : checks_1.isPlainObject(x) && checks_1.isPlainObject(val)
+            ? __assign(__assign({}, x), val) : val;
+    });
+};
 
-},{"@thi.ng/atom":"../../node_modules/@thi.ng/atom/index.js","@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","../keys.js":"../../node_modules/spule/lib/keys.js"}],"../../node_modules/spule/lib/store/index.js":[function(require,module,exports) {
+},{"@thi.ng/atom":"GVpA","@thi.ng/checks":"XYpc","../keys.js":"mxIA"}],"nhWS":[function(require,module,exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var state_js_1 = require("./state.js");
 exports.$store$ = state_js_1.$store$;
 exports.set$$tate = state_js_1.set$$tate;
 
-},{"./state.js":"../../node_modules/spule/lib/store/state.js"}],"../../node_modules/spule/lib/commands/state.js":[function(require,module,exports) {
+},{"./state.js":"ZhqH"}],"m5bB":[function(require,module,exports) {
 "use strict";
-/**
- * @module SET_STATE
- * @format
- */
 Object.defineProperty(exports, "__esModule", { value: true });
-const keys_js_1 = require("../keys.js");
-const store_1 = require("../store");
-const register_js_1 = require("./register.js");
+/**
+ * @module commands/state
+ */
+var keys_js_1 = require("../keys.js");
+var store_1 = require("../store");
+var register_js_1 = require("./register.js");
 /**
  *
  * Higher-order function that takes a `@thi.ng/Atom` state
  * container and returns a Command object for setting that
  * Atom's state by the provided path
  */
-exports.createSetStateCMD = store => register_js_1.registerCMD({
-    [keys_js_1.CMD_SUB$]: "_SET_STATE",
-    [keys_js_1.CMD_ARGS]: x => x,
-    [keys_js_1.CMD_WORK]: args => store_1.set$$tate(args[keys_js_1.STATE_PATH], args[keys_js_1.STATE_DATA], store)
-});
+exports.createSetStateCMD = function (store) {
+    var _a;
+    return register_js_1.registerCMD((_a = {},
+        _a[keys_js_1.CMD_SUB$] = "_SET_STATE",
+        _a[keys_js_1.CMD_ARGS] = function (x) { return x; },
+        _a[keys_js_1.CMD_WORK] = function (args) { return store_1.set$$tate(args[keys_js_1.STATE_PATH], args[keys_js_1.STATE_DATA], store); },
+        _a));
+};
 
-},{"../keys.js":"../../node_modules/spule/lib/keys.js","../store":"../../node_modules/spule/lib/store/index.js","./register.js":"../../node_modules/spule/lib/commands/register.js"}],"../../node_modules/spule/lib/commands/index.js":[function(require,module,exports) {
+},{"../keys.js":"mxIA","../store":"nhWS","./register.js":"r0tB"}],"FoiB":[function(require,module,exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var FLIP_js_1 = require("./FLIP.js");
@@ -23014,18 +23079,18 @@ exports.FLIP_FIRST = FLIP_js_1.FLIP_FIRST;
 exports.FLIP_LAST_INVERSE_PLAY = FLIP_js_1.FLIP_LAST_INVERSE_PLAY;
 var head_js_1 = require("./head.js");
 exports.INJECT_HEAD = head_js_1.INJECT_HEAD;
+var register_js_1 = require("./register.js");
+exports.registerCMD = register_js_1.registerCMD;
 var routing_js_1 = require("./routing.js");
+exports.HREF_PUSHSTATE_DOM = routing_js_1.HREF_PUSHSTATE_DOM;
 exports.HURL = routing_js_1.HURL;
 exports.HURLer = routing_js_1.HURLer;
-exports.HREF_PUSHSTATE_DOM = routing_js_1.HREF_PUSHSTATE_DOM;
 exports.NOTIFY_PRERENDER_DOM = routing_js_1.NOTIFY_PRERENDER_DOM;
 exports.SET_LINK_ATTRS_DOM = routing_js_1.SET_LINK_ATTRS_DOM;
 var state_js_1 = require("./state.js");
 exports.createSetStateCMD = state_js_1.createSetStateCMD;
-var register_js_1 = require("./register.js");
-exports.registerCMD = register_js_1.registerCMD;
 
-},{"./FLIP.js":"../../node_modules/spule/lib/commands/FLIP.js","./head.js":"../../node_modules/spule/lib/commands/head.js","./routing.js":"../../node_modules/spule/lib/commands/routing.js","./state.js":"../../node_modules/spule/lib/commands/state.js","./register.js":"../../node_modules/spule/lib/commands/register.js"}],"../../node_modules/@thi.ng/hdom/api.js":[function(require,module,exports) {
+},{"./FLIP.js":"Xd9b","./head.js":"huf9","./register.js":"r0tB","./routing.js":"fc7l","./state.js":"m5bB"}],"sx3Q":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -23041,7 +23106,7 @@ exports.LOGGER = LOGGER;
 const setLogger = logger => exports.LOGGER = LOGGER = logger;
 
 exports.setLogger = setLogger;
-},{"@thi.ng/api":"../../node_modules/@thi.ng/api/index.js"}],"../../node_modules/@thi.ng/diff/api.js":[function(require,module,exports) {
+},{"@thi.ng/api":"MOSf"}],"gimq":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -23057,7 +23122,7 @@ exports.DiffMode = DiffMode;
   DiffMode[DiffMode["ONLY_DISTANCE_LINEAR_ONLY_CHANGES"] = 2] = "ONLY_DISTANCE_LINEAR_ONLY_CHANGES";
   DiffMode[DiffMode["FULL"] = 3] = "FULL";
 })(DiffMode || (exports.DiffMode = DiffMode = {}));
-},{}],"../../node_modules/@thi.ng/diff/array.js":[function(require,module,exports) {
+},{}],"s5qO":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -23315,7 +23380,7 @@ const buildLinearLog = (epc, pathPos, state, a, b, reverse, inclConst) => {
     }
   }
 };
-},{"@thi.ng/equiv":"../../node_modules/@thi.ng/equiv/index.js"}],"../../node_modules/@thi.ng/diff/object.js":[function(require,module,exports) {
+},{"@thi.ng/equiv":"U8cl"}],"D8na":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -23388,7 +23453,7 @@ const diffObjectFull = (a, b, _equiv) => {
     edits
   };
 };
-},{"@thi.ng/equiv":"../../node_modules/@thi.ng/equiv/index.js"}],"../../node_modules/@thi.ng/diff/index.js":[function(require,module,exports) {
+},{"@thi.ng/equiv":"U8cl"}],"xpOK":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -23430,7 +23495,7 @@ Object.keys(_object).forEach(function (key) {
     }
   });
 });
-},{"./api":"../../node_modules/@thi.ng/diff/api.js","./array":"../../node_modules/@thi.ng/diff/array.js","./object":"../../node_modules/@thi.ng/diff/object.js"}],"../../node_modules/@thi.ng/hdom/diff.js":[function(require,module,exports) {
+},{"./api":"gimq","./array":"s5qO","./object":"D8na"}],"p4eH":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -23782,7 +23847,7 @@ const equiv = (a, b) => {
 };
 
 exports.equiv = equiv;
-},{"@thi.ng/api":"../../node_modules/@thi.ng/api/index.js","@thi.ng/diff":"../../node_modules/@thi.ng/diff/index.js","@thi.ng/equiv":"../../node_modules/@thi.ng/equiv/index.js"}],"../../node_modules/@thi.ng/hiccup/api.js":[function(require,module,exports) {
+},{"@thi.ng/api":"MOSf","@thi.ng/diff":"xpOK","@thi.ng/equiv":"U8cl"}],"paoD":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -23849,7 +23914,7 @@ const SVG_TAGS = tagMap("animate animateColor animateMotion animateTransform cir
 exports.SVG_TAGS = SVG_TAGS;
 const VOID_TAGS = tagMap("area base br circle col command ellipse embed hr img input keygen line link meta param path polygon polyline rect source stop track use wbr ?xml");
 exports.VOID_TAGS = VOID_TAGS;
-},{}],"../../node_modules/@thi.ng/hiccup/css.js":[function(require,module,exports) {
+},{}],"MnEL":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -23877,7 +23942,7 @@ const css = rules => {
 };
 
 exports.css = css;
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js"}],"../../node_modules/@thi.ng/hiccup/deref.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc"}],"yqXH":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -23911,7 +23976,7 @@ const derefContext = (ctx, keys) => {
 };
 
 exports.derefContext = derefContext;
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js"}],"../../node_modules/@thi.ng/hiccup/escape.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc"}],"kHIx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -23924,7 +23989,7 @@ var _api = require("./api");
 const escape = x => x.replace(_api.RE_ENTITY, y => _api.ENTITIES[y]);
 
 exports.escape = escape;
-},{"./api":"../../node_modules/@thi.ng/hiccup/api.js"}],"../../node_modules/@thi.ng/hiccup/normalize.js":[function(require,module,exports) {
+},{"./api":"paoD"}],"WaCX":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -23986,7 +24051,7 @@ const normalize = tag => {
 };
 
 exports.normalize = normalize;
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","@thi.ng/errors":"../../node_modules/@thi.ng/errors/index.js","./api":"../../node_modules/@thi.ng/hiccup/api.js","./css":"../../node_modules/@thi.ng/hiccup/css.js"}],"../../node_modules/@thi.ng/hiccup/serialize.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc","@thi.ng/errors":"j3Rf","./api":"paoD","./css":"MnEL"}],"m9wu":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -24259,7 +24324,7 @@ const serializeIter = (iter, ctx, esc, span, keys, path) => {
 
   return res.join("");
 };
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","@thi.ng/errors":"../../node_modules/@thi.ng/errors/index.js","./api":"../../node_modules/@thi.ng/hiccup/api.js","./escape":"../../node_modules/@thi.ng/hiccup/escape.js","./normalize":"../../node_modules/@thi.ng/hiccup/normalize.js"}],"../../node_modules/@thi.ng/hiccup/index.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc","@thi.ng/errors":"j3Rf","./api":"paoD","./escape":"kHIx","./normalize":"WaCX"}],"t26P":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -24337,7 +24402,7 @@ Object.keys(_serialize).forEach(function (key) {
     }
   });
 });
-},{"./api":"../../node_modules/@thi.ng/hiccup/api.js","./css":"../../node_modules/@thi.ng/hiccup/css.js","./deref":"../../node_modules/@thi.ng/hiccup/deref.js","./escape":"../../node_modules/@thi.ng/hiccup/escape.js","./normalize":"../../node_modules/@thi.ng/hiccup/normalize.js","./serialize":"../../node_modules/@thi.ng/hiccup/serialize.js"}],"../../node_modules/@thi.ng/hdom/dom.js":[function(require,module,exports) {
+},{"./api":"paoD","./css":"MnEL","./deref":"yqXH","./escape":"kHIx","./normalize":"WaCX","./serialize":"m9wu"}],"sRTa":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -24685,7 +24750,7 @@ const removeChild = (parent, childIdx) => {
 };
 
 exports.removeChild = removeChild;
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","@thi.ng/hiccup":"../../node_modules/@thi.ng/hiccup/index.js"}],"../../node_modules/@thi.ng/hdom/normalize.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc","@thi.ng/hiccup":"t26P"}],"p6KX":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -24892,7 +24957,7 @@ const _normalizeTree = (tree, opts, ctx, path, keys, span) => {
     key: path.join("-")
   } : {}, tree.toString()] : tree.toString();
 };
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","@thi.ng/errors":"../../node_modules/@thi.ng/errors/index.js","@thi.ng/hiccup":"../../node_modules/@thi.ng/hiccup/index.js"}],"../../node_modules/@thi.ng/hdom/default.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc","@thi.ng/errors":"j3Rf","@thi.ng/hiccup":"t26P"}],"NgEa":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -24942,7 +25007,7 @@ const DEFAULT_IMPL = {
   setAttrib: _dom.setAttrib
 };
 exports.DEFAULT_IMPL = DEFAULT_IMPL;
-},{"./diff":"../../node_modules/@thi.ng/hdom/diff.js","./dom":"../../node_modules/@thi.ng/hdom/dom.js","./normalize":"../../node_modules/@thi.ng/hdom/normalize.js"}],"../../node_modules/@thi.ng/hdom/utils.js":[function(require,module,exports) {
+},{"./diff":"p4eH","./dom":"sRTa","./normalize":"p6KX"}],"Fj0P":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -24955,7 +25020,7 @@ var _checks = require("@thi.ng/checks");
 const resolveRoot = (root, impl) => (0, _checks.isString)(root) ? impl.getElementById(root) : root;
 
 exports.resolveRoot = resolveRoot;
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js"}],"../../node_modules/@thi.ng/hdom/render-once.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc"}],"NSDr":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -24991,7 +25056,7 @@ const renderOnce = (tree, opts = {}, impl = _default.DEFAULT_IMPL) => {
 };
 
 exports.renderOnce = renderOnce;
-},{"@thi.ng/hiccup":"../../node_modules/@thi.ng/hiccup/index.js","./default":"../../node_modules/@thi.ng/hdom/default.js","./utils":"../../node_modules/@thi.ng/hdom/utils.js"}],"../../node_modules/@thi.ng/hdom/start.js":[function(require,module,exports) {
+},{"@thi.ng/hiccup":"t26P","./default":"NgEa","./utils":"Fj0P"}],"mPAr":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25084,7 +25149,7 @@ const start = (tree, opts = {}, impl = _default.DEFAULT_IMPL) => {
 };
 
 exports.start = start;
-},{"@thi.ng/hiccup":"../../node_modules/@thi.ng/hiccup/index.js","./default":"../../node_modules/@thi.ng/hdom/default.js","./utils":"../../node_modules/@thi.ng/hdom/utils.js"}],"../../node_modules/@thi.ng/hdom/index.js":[function(require,module,exports) {
+},{"@thi.ng/hiccup":"t26P","./default":"NgEa","./utils":"Fj0P"}],"RaP4":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25186,7 +25251,7 @@ Object.keys(_utils).forEach(function (key) {
     }
   });
 });
-},{"./api":"../../node_modules/@thi.ng/hdom/api.js","./default":"../../node_modules/@thi.ng/hdom/default.js","./diff":"../../node_modules/@thi.ng/hdom/diff.js","./dom":"../../node_modules/@thi.ng/hdom/dom.js","./normalize":"../../node_modules/@thi.ng/hdom/normalize.js","./render-once":"../../node_modules/@thi.ng/hdom/render-once.js","./start":"../../node_modules/@thi.ng/hdom/start.js","./utils":"../../node_modules/@thi.ng/hdom/utils.js"}],"../../node_modules/@thi.ng/transducers-hdom/index.js":[function(require,module,exports) {
+},{"./api":"sx3Q","./default":"NgEa","./diff":"p4eH","./dom":"sRTa","./normalize":"p6KX","./render-once":"NSDr","./start":"mPAr","./utils":"Fj0P"}],"fEFP":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25262,19 +25327,49 @@ const updateDOM = (opts = {}, impl = _hdom.DEFAULT_IMPL) => {
 };
 
 exports.updateDOM = updateDOM;
-},{"@thi.ng/hdom":"../../node_modules/@thi.ng/hdom/index.js","@thi.ng/hiccup":"../../node_modules/@thi.ng/hiccup/index.js","@thi.ng/transducers":"../../node_modules/@thi.ng/transducers/index.js"}],"../../node_modules/spule/lib/tasks/routing.js":[function(require,module,exports) {
+},{"@thi.ng/hdom":"RaP4","@thi.ng/hiccup":"t26P","@thi.ng/transducers":"GbKR"}],"wUee":[function(require,module,exports) {
 "use strict";
 /**
- * @module Routing
- * @format
+ * @module tasks/routing
  */
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
+var __spread = (this && this.__spread) || function () {
+    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
+    return ar;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const checks_1 = require("@thi.ng/checks");
-const store_1 = require("../store");
-const commands_1 = require("../commands");
-const keys_js_1 = require("../keys.js");
-const utils_1 = require("../utils");
-const SET_STATE = commands_1.createSetStateCMD(store_1.$store$);
+var checks_1 = require("@thi.ng/checks");
+var store_1 = require("../store");
+var commands_1 = require("../commands");
+var keys_js_1 = require("../keys.js");
+var utils_1 = require("../utils");
+var SET_STATE = commands_1.createSetStateCMD(store_1.$store$);
 /**
  *
  * Universal router (cross-platform) Subtask.
@@ -25301,15 +25396,15 @@ const SET_STATE = commands_1.createSetStateCMD(store_1.$store$);
  *  - `URL`
  *  - `DOM`
  */
-exports.URL__ROUTE = CFG => {
-    let router, preroute, postroute, prefix;
+exports.URL__ROUTE = function (CFG) {
+    var router, preroute, postroute, prefix;
     if (checks_1.isObject(CFG)) {
-        const ruts = CFG[keys_js_1.CFG_RUTR];
-        const prep = CFG[keys_js_1.ROUTER_PREP];
-        const post = CFG[keys_js_1.ROUTER_POST];
-        const prfx = CFG[keys_js_1.ROUTER_PRFX] || null;
-        const escRGX = /[-/\\^$*+?.()|[\]{}]/g;
-        const escaped = string => string.replace(escRGX, "\\$&");
+        var ruts = CFG[keys_js_1.CFG_RUTR];
+        var prep = CFG[keys_js_1.ROUTER_PREP];
+        var post = CFG[keys_js_1.ROUTER_POST];
+        var prfx = CFG[keys_js_1.ROUTER_PRFX] || null;
+        var escRGX_1 = /[-/\\^$*+?.()|[\]{}]/g;
+        var escaped = function (string) { return string.replace(escRGX_1, "\\$&"); };
         // console.log({ router, pre, post })
         router = ruts;
         preroute = checks_1.isObject(prep) ? [prep] : prep || [];
@@ -25322,41 +25417,36 @@ exports.URL__ROUTE = CFG => {
         postroute = [];
         prefix = null;
     }
-    return acc => [
-        ...preroute,
-        /**
-         * ## `_SET_ROUTER_LOADING_STATE`cod
-         *
-         * Routing Command: Universal
-         *
-         * ### Payload: static
-         * default payload `args` signature:
-         * ```
-         * args: true,
-         * ```
-         * Simple true or false payload to alert handler
-         *
-         * ### Handler: side-effecting
-         * Sets `route_loading` path in global Atom to true || false
-         *
-         */
-        {
-            [keys_js_1.CMD_ARGS]: prefix
-                ? router(acc[keys_js_1.URL_FULL].replace(prefix, ""))
-                : router(acc[keys_js_1.URL_FULL]),
-            [keys_js_1.CMD_RESO]: (_acc, _res) => ({
-                [keys_js_1.URL_PAGE]: _res[keys_js_1.URL_PAGE],
-                [keys_js_1.URL_DATA]: _res[keys_js_1.URL_DATA]
-            }),
-            [keys_js_1.CMD_ERRO]: (_acc, _err) => console.warn("Error in __URL__ROUTE:", _err, "constructed:", _acc)
-        },
-        { [keys_js_1.CMD_ARGS]: prefix ? utils_1.unfURL(acc[keys_js_1.URL_FULL], prefix) : utils_1.unfURL(acc[keys_js_1.URL_FULL]) },
-        Object.assign(Object.assign({}, SET_STATE), { [keys_js_1.CMD_ARGS]: _acc => ({
-                [keys_js_1.STATE_DATA]: _acc[keys_js_1.URL_PATH],
-                [keys_js_1.STATE_PATH]: [keys_js_1.ROUTE_PATH]
-            }) }),
-        ...postroute
-    ];
+    return function (acc) {
+        var _a, _b, _c;
+        return __spread(preroute, [
+            (_a = {},
+                _a[keys_js_1.CMD_ARGS] = prefix
+                    ? router(acc[keys_js_1.URL_FULL].replace(prefix, ""))
+                    : router(acc[keys_js_1.URL_FULL]),
+                _a[keys_js_1.CMD_RESO] = function (_acc, _res) {
+                    var _a;
+                    return (_a = {},
+                        _a[keys_js_1.URL_PAGE] = _res[keys_js_1.URL_PAGE],
+                        _a[keys_js_1.URL_DATA] = _res[keys_js_1.URL_DATA],
+                        _a);
+                },
+                _a[keys_js_1.CMD_ERRO] = function (_acc, _err) {
+                    return console.warn("Error in URL__ROUTE:", _err, "constructed:", _acc);
+                },
+                _a),
+            (_b = {},
+                _b[keys_js_1.CMD_ARGS] = prefix ? utils_1.parse(acc[keys_js_1.URL_FULL], prefix) : utils_1.parse(acc[keys_js_1.URL_FULL]),
+                _b),
+            __assign(__assign({}, SET_STATE), (_c = {}, _c[keys_js_1.CMD_ARGS] = function (_acc) {
+                var _a;
+                return (_a = {},
+                    _a[keys_js_1.STATE_DATA] = _acc[keys_js_1.URL_PATH],
+                    _a[keys_js_1.STATE_PATH] = [keys_js_1.$$_PATH],
+                    _a);
+            }, _c))
+        ], postroute);
+    };
 };
 /**
  *
@@ -25384,44 +25474,67 @@ exports.URL__ROUTE = CFG => {
  *  - `URL_path`
  *  - `URL_data`
  */
-exports.URL_DOM__ROUTE = CFG => {
+exports.URL_DOM__ROUTE = function (CFG) {
     // instantiate router
-    const match = exports.URL__ROUTE(CFG);
-    return acc => [
-        Object.assign(Object.assign({}, SET_STATE), { [keys_js_1.CMD_ARGS]: {
-                [keys_js_1.STATE_PATH]: [keys_js_1.ROUTE_LOAD],
-                [keys_js_1.STATE_DATA]: true
-            } }),
-        Object.assign(Object.assign({}, commands_1.HREF_PUSHSTATE_DOM), { [keys_js_1.CMD_ARGS]: { [keys_js_1.URL_FULL]: acc[keys_js_1.URL_FULL], [keys_js_1.DOM_NODE]: acc[keys_js_1.DOM_NODE] } }),
-        // example Subtask injection
-        ACC => match({ [keys_js_1.URL_FULL]: ACC[keys_js_1.URL_FULL] }),
-        Object.assign(Object.assign({}, SET_STATE), { [keys_js_1.CMD_ARGS]: _acc => ({
-                [keys_js_1.STATE_PATH]: [keys_js_1.ROUTE_VIEW],
-                [keys_js_1.STATE_DATA]: _acc[keys_js_1.URL_PAGE]
-            }) }),
-        Object.assign(Object.assign({}, SET_STATE), { [keys_js_1.CMD_ARGS]: _acc => ({
-                [keys_js_1.STATE_PATH]: _acc[keys_js_1.URL_PATH],
-                [keys_js_1.STATE_DATA]: _acc[keys_js_1.URL_DATA][keys_js_1.DOM_BODY] || _acc[keys_js_1.URL_DATA]
-            }) }),
-        // example ad-hoc stream injection
-        // { sub$: log$, args: () => ({ DOM }) },
-        commands_1.SET_LINK_ATTRS_DOM,
-        Object.assign(Object.assign({}, SET_STATE), { 
-            // wait on pending promise(s) w/a non-nullary fn (+)=>
-            [keys_js_1.CMD_ARGS]: _ => ({
-                [keys_js_1.STATE_PATH]: [keys_js_1.ROUTE_LOAD],
-                [keys_js_1.STATE_DATA]: false
-            }) }),
-        commands_1.NOTIFY_PRERENDER_DOM
-    ];
+    var match = exports.URL__ROUTE(CFG);
+    return function (acc) {
+        var _a, _b, _c, _d, _e, _f, _g;
+        return [
+            __assign(__assign({}, SET_STATE), (_a = {}, _a[keys_js_1.CMD_ARGS] = (_b = {},
+                _b[keys_js_1.STATE_PATH] = [keys_js_1.$$_LOAD],
+                _b[keys_js_1.STATE_DATA] = true,
+                _b), _a)),
+            __assign(__assign({}, commands_1.HREF_PUSHSTATE_DOM), (_c = {}, _c[keys_js_1.CMD_ARGS] = (_d = {}, _d[keys_js_1.URL_FULL] = acc[keys_js_1.URL_FULL], _d[keys_js_1.DOM_NODE] = acc[keys_js_1.DOM_NODE], _d), _c)),
+            // example Subtask injection
+            function (ACC) {
+                var _a;
+                return match((_a = {}, _a[keys_js_1.URL_FULL] = ACC[keys_js_1.URL_FULL], _a));
+            },
+            __assign(__assign({}, SET_STATE), (_e = {}, _e[keys_js_1.CMD_ARGS] = function (_acc) {
+                var _a;
+                return (_a = {},
+                    _a[keys_js_1.STATE_PATH] = [keys_js_1.$$_VIEW],
+                    _a[keys_js_1.STATE_DATA] = _acc[keys_js_1.URL_PAGE],
+                    _a);
+            }, _e)),
+            __assign(__assign({}, SET_STATE), (_f = {}, _f[keys_js_1.CMD_ARGS] = function (_acc) {
+                var _a;
+                return (_a = {},
+                    _a[keys_js_1.STATE_PATH] = _acc[keys_js_1.URL_PATH],
+                    _a[keys_js_1.STATE_DATA] = _acc[keys_js_1.URL_DATA][keys_js_1.DOM_BODY] || _acc[keys_js_1.URL_DATA],
+                    _a);
+            }, _f)),
+            // example ad-hoc stream injection
+            // { sub$: log$, args: () => ({ DOM }) },
+            commands_1.SET_LINK_ATTRS_DOM,
+            __assign(__assign({}, SET_STATE), (_g = {}, _g[keys_js_1.CMD_ARGS] = function (_) {
+                var _a;
+                return (_a = {},
+                    _a[keys_js_1.STATE_PATH] = [keys_js_1.$$_LOAD],
+                    _a[keys_js_1.STATE_DATA] = false,
+                    _a);
+            }, _g)),
+            commands_1.NOTIFY_PRERENDER_DOM
+        ];
+    };
 };
 
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","../store":"../../node_modules/spule/lib/store/index.js","../commands":"../../node_modules/spule/lib/commands/index.js","../keys.js":"../../node_modules/spule/lib/keys.js","../utils":"../../node_modules/spule/lib/utils/index.js"}],"../../node_modules/spule/lib/core/multiplex.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc","../store":"nhWS","../commands":"FoiB","../keys.js":"mxIA","../utils":"HyAd"}],"idkx":[function(require,module,exports) {
 "use strict";
 /**
- * @module multiplex
- * @format
+ * @module core/multiplex
  */
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -25431,91 +25544,63 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const checks_1 = require("@thi.ng/checks");
-const keys_js_1 = require("../keys.js");
-const utils_1 = require("../utils");
-const stream__js_1 = require("./stream$.js");
-const err_str = "Spooling Interupted"; // <- add doc link to error strings
-const nosub$_err = (c, i) => console.warn(`
-  🔥 No sub$ included for a Command with a primitive for 'args'. 
-  🔥 Ergo, nothing was done with this Command: 
-  
-  ${JSON.stringify(c)}
-  
-  ${utils_1.key_index_err(c, i)}
-  
-  Hope that helps!
-  `);
+var checks_1 = require("@thi.ng/checks");
+var keys_js_1 = require("../keys.js");
+var utils_1 = require("../utils");
+var stream__js_1 = require("./stream$.js");
+var err_str = "Spooling Interupted"; // <- add doc link to error strings
+var nosub$_err = function (c, i) {
+    return console.warn("\n  \uD83D\uDD25 No sub$ included for a Command with a primitive for 'args'. \n  \uD83D\uDD25 Ergo, nothing was done with this Command: \n  \n  " + JSON.stringify(c) + "\n  \n  " + utils_1.key_index_err(c, i) + "\n  \n  Hope that helps!\n  ");
+};
 /**
- *
- *
- * ### TL;DR:
  *
  * Handles Collections (array) of Commands ("Tasks") which
  * require _ordered_ choreography and/or have a dependency
  * on some (a)sync data produced by a user interaction.
- *
- * ### Synopsis:
- *
- * - Async `reduce` function, that passes an accumulator
- *   (`acc`) as a local state container between Command
- *   invocations.
- * - Commands are composed in-situ in userland (Ad hoc)
- * - spools a collection of Commands as a Task
- * - resolves any promises contained within a Command
- * - passes an accumulator (acc) to subsequent Commands in a
- *   Task
- *
- * ### Type checks on function signatures
- *
- * There are two valid forms for Task entries:
- * 1. a Unary function returning an array of Commands:
- *    referred to as "Subtasks"
- * 2. A Command object: dispatch to registered handlers
- *
- * ## Recognized Keys
- *
- * There are 4 recognized keys for a Command object:
- *
- * ### Primary keys
- *
- * ##### `sub$` key
- *
- * - Topic identifier: used for registering handlers hooked
- *    onto the Command stream.
- *
- * ##### `args` key
- *
- * - __primary control structure__ with three recognized
- *   forms that do different things in the context of a
- *   Task:
- * - non-function `args` (primitives, objects) send the args
- *   as-is to the Command handler
- * - nullary fns (`(0)=>` ) send the args_ as a Command to
- *   a `sub$` _stream_ of your choosing (ADVANCED: see
- *   Ad-hoc Stream Injection below)
- * - unary fns (`(1)=>`) are passed the inter-Task
- *   accumulated value, called and the resulting value is
- *   passed to registered Command handler
- * - Promises (and those returned from `(1)=>`) are resolved
- *   and their values sent to the handler
- * - new vals (Objects) are merged with accumulated object
- *   from preceding Task results(dupe keys overwritten)
- *
- * ### Promise-specific keys -> binary (as in two parameter,
- *   not boolean) functions:
- *
- * ##### `reso` key
- *
- * - (resolving) function `(2)=>` = handle resolved
- *   promises: MUST be a binary fn `(acc, resolved Promise)
- *   =>`
- *
- * ##### `erro` key
- *
- * - `(2)=>` = handle rejected promises: MUST be
- *   a binary fn `(acc, Promise rejection) =>`
  *
  * ### Subtasks:
  *
@@ -25552,25 +25637,8 @@ const nosub$_err = (c, i) => console.warn(`
  *  acc => subtask1(acc), // subtask reference
  *  { sub$: "FLIP" , args: "done" }
  * ]
- *
- *
- * ### Ad-hoc stream injection
- *
- * ADVANCED USE ONLY 👽
- *
- * HURL tries to hide the stream implentation from the user
- * as much as possible, but allows you to go further down
- * the rabbit hole if so desired. You may send Commands to a
- * separate stream of your own creation during a Task by
- * using a nullary ("thunk") `(0)=>` function signature as
- * the `args` value of a Command. If this is the case, the
- * spool assumes the `sub$` key references a stream and
- * sends the return value of the thunk to that stream
- *
- * > Note: if you need to pass the accumulator to your
- * thunk, put it in a subtask, where you can
- * access/destructure the data from the acc passed into the
- * subtask function
+ * ```
+ * ### Ad-hoc stream injection Example
  *
  * ```js
  * import { stream } from "@thi.ng/rstream"
@@ -25603,125 +25671,150 @@ const nosub$_err = (c, i) => console.warn(`
  * ```
  *
  **/
-exports.multiplex = task_array => task_array.reduce((a, c, i) => __awaiter(void 0, void 0, void 0, function* () {
-    const acc = yield a;
-    // console.log("ACCUMULATOR =>", acc)
-    if (checks_1.isFunction(c)) {
-        try {
-            const recur = c(acc);
-            // ensures accumulator is preserved between stacks
-            recur.unshift({ [keys_js_1.CMD_ARGS]: acc });
-            return exports.multiplex(recur);
-        }
-        catch (e) {
-            console.warn(err_str, e);
-            return;
-        }
-    }
-    const sub$ = c[keys_js_1.CMD_SUB$];
-    const args = c[keys_js_1.CMD_ARGS];
-    const erro = c[keys_js_1.CMD_ERRO];
-    const reso = c[keys_js_1.CMD_RESO];
-    // const _source$ = c[source$]
-    // const _handler = c[handler]
-    const knowns = [keys_js_1.CMD_SUB$, keys_js_1.CMD_ARGS, keys_js_1.CMD_RESO, keys_js_1.CMD_ERRO, keys_js_1.CMD_SRC$, keys_js_1.CMD_WORK];
-    const [unknowns] = utils_1.diff_keys(knowns, c);
-    if (unknowns.length > 0)
-        throw new Error(utils_1.xKeyError(err_str, c, unknowns, sub$, i));
-    const arg_type = utils_1.stringify_type(args);
-    let result = args;
-    /* RESOLVING ARGS */
-    if (arg_type !== "PROMISE" && reso) {
-        /**
-         * If some signature needs to deal with both Promises
-         * and non-Promises, non-Promises are wrapped in a
-         * Promise to "lift" them into the proper context for
-         * handling
-         */
-        result = Promise.resolve(args);
-    }
-    if (args !== Object(args) && !sub$) {
-        nosub$_err(c, i);
-        return acc;
-    }
-    if (arg_type === "PROMISE") {
-        // result = await discardable(args).catch(e => e)
-        result = yield args.catch(e => e);
-    }
-    if (arg_type === "THUNK") {
-        // if thunk, dispatch to ad-hoc stream, return acc
-        // as-is ⚠ this command will not be waited on
-        result = args();
-        console.log(`dispatching to ad-hoc stream: ${sub$.id}`);
-        sub$.next(result);
-        return acc;
-    }
-    // if function, call it with acc and resolve any Promises
-    if (arg_type === "FUNCTION") {
-        let temp = args(acc);
-        result = checks_1.isPromise(temp) ? yield temp.catch(e => e) : temp;
-    }
-    // if object, send the Command as-is and spread into acc
-    if (arg_type === "OBJECT") {
-        if (!sub$)
-            return Object.assign(Object.assign({}, acc), args);
-        stream__js_1.command$.next(c);
-        return Object.assign(Object.assign({}, acc), args);
-    }
-    /* RESULT HANDLERS */
-    if (reso) {
-        // promise rejection handler
-        if (erro && (result instanceof Error)) {
-            let error = erro(acc, result);
-            if (error.sub$)
-                return stream__js_1.command$.next(error);
-            console.warn(err_str, "[ Promise rejected ]:", result);
-            result = error;
-        }
-        // resovled promise handler
-        if (!(result instanceof Error)) {
-            let resolved = reso(acc, result);
-            // resolved promise with no sub$ key -> spread
-            // resolved value into acc
-            if (resolved.sub$)
-                stream__js_1.command$.next(resolved);
-            else if (!sub$)
-                return Object.assign(Object.assign({}, acc), resolved);
-            result = resolved;
-        }
-        console.warn(`no 'erro' (Error handler) set for ${c}`);
-    }
-    // no sub$ key & not a promise -> just spread into acc
-    if (!reso && !sub$)
-        return Object.assign(Object.assign({}, acc), result);
-    // error, but no error handler
-    if (result instanceof Error) {
-        console.warn(err_str, result);
-        return acc;
-    }
-    if (result !== Object(result)) {
-        if (!sub$) {
-            nosub$_err(c, i);
-            return acc;
-        }
-        // if the final result is primitive, you can't refer
-        // to this value in proceeding Commands -> send the
-        // Command as-is, return acc as-is.
-        stream__js_1.command$.next({ [keys_js_1.CMD_SUB$]: sub$, [keys_js_1.CMD_ARGS]: result });
-        return acc;
-    }
-    // if the result has made it this far, send it along
-    // console.log(`${sub$} made it through`)
-    stream__js_1.command$.next({ [keys_js_1.CMD_SUB$]: sub$, [keys_js_1.CMD_ARGS]: result });
-    return Object.assign(Object.assign({}, acc), result);
-}), Promise.resolve({}));
+exports.multiplex = function (task_array) {
+    return task_array.reduce(function (a, c, i) { return __awaiter(void 0, void 0, void 0, function () {
+        var acc, recur, sub$, args, erro, reso, knowns, _a, unknowns, arg_type, result, temp, _b, error, resolved;
+        var _c, _d, _e;
+        return __generator(this, function (_f) {
+            switch (_f.label) {
+                case 0: return [4 /*yield*/, a
+                    // console.log("ACCUMULATOR =>", acc)
+                ];
+                case 1:
+                    acc = _f.sent();
+                    // console.log("ACCUMULATOR =>", acc)
+                    if (checks_1.isFunction(c)) {
+                        try {
+                            recur = c(acc);
+                            // ensures accumulator is preserved between stacks
+                            recur.unshift((_c = {}, _c[keys_js_1.CMD_ARGS] = acc, _c));
+                            return [2 /*return*/, exports.multiplex(recur)];
+                        }
+                        catch (e) {
+                            console.warn(err_str, e);
+                            return [2 /*return*/];
+                        }
+                    }
+                    sub$ = c[keys_js_1.CMD_SUB$];
+                    args = c[keys_js_1.CMD_ARGS];
+                    erro = c[keys_js_1.CMD_ERRO];
+                    reso = c[keys_js_1.CMD_RESO];
+                    knowns = [keys_js_1.CMD_SUB$, keys_js_1.CMD_ARGS, keys_js_1.CMD_RESO, keys_js_1.CMD_ERRO, keys_js_1.CMD_SRC$, keys_js_1.CMD_WORK];
+                    _a = __read(utils_1.diff_keys(knowns, c), 1), unknowns = _a[0];
+                    if (unknowns.length > 0)
+                        throw new Error(utils_1.xKeyError(err_str, c, unknowns, sub$, i));
+                    arg_type = utils_1.stringify_type(args);
+                    result = args;
+                    /* RESOLVING ARGS */
+                    if (arg_type !== "PROMISE" && reso) {
+                        /**
+                         * If some signature needs to deal with both Promises
+                         * and non-Promises, non-Promises are wrapped in a
+                         * Promise to "lift" them into the proper context for
+                         * handling
+                         */
+                        result = Promise.resolve(args);
+                    }
+                    if (args !== Object(args) && !sub$) {
+                        nosub$_err(c, i);
+                        return [2 /*return*/, acc];
+                    }
+                    if (!(arg_type === "PROMISE")) return [3 /*break*/, 3];
+                    return [4 /*yield*/, args.catch(function (e) { return e; })];
+                case 2:
+                    // result = await discardable(args).catch(e => e)
+                    result = _f.sent();
+                    _f.label = 3;
+                case 3:
+                    if (arg_type === "THUNK") {
+                        // if thunk, dispatch to ad-hoc stream, return acc
+                        // as-is ⚠ this command will not be waited on
+                        result = args();
+                        console.log("dispatching to ad-hoc stream: " + sub$.id);
+                        sub$.next(result);
+                        return [2 /*return*/, acc];
+                    }
+                    if (!(arg_type === "FUNCTION")) return [3 /*break*/, 7];
+                    temp = args(acc);
+                    if (!checks_1.isPromise(temp)) return [3 /*break*/, 5];
+                    return [4 /*yield*/, temp.catch(function (e) { return e; })];
+                case 4:
+                    _b = _f.sent();
+                    return [3 /*break*/, 6];
+                case 5:
+                    _b = temp;
+                    _f.label = 6;
+                case 6:
+                    result = _b;
+                    _f.label = 7;
+                case 7:
+                    // if object, send the Command as-is and spread into acc
+                    if (arg_type === "OBJECT") {
+                        if (!sub$)
+                            return [2 /*return*/, __assign(__assign({}, acc), args)];
+                        stream__js_1.command$.next(c);
+                        return [2 /*return*/, __assign(__assign({}, acc), args)];
+                    }
+                    /* RESULT HANDLERS */
+                    if (reso) {
+                        // promise rejection handler
+                        if (erro && result instanceof Error) {
+                            error = erro(acc, result);
+                            if (error.sub$)
+                                return [2 /*return*/, stream__js_1.command$.next(error)];
+                            console.warn(err_str, "[ Promise rejected ]:", result);
+                            result = error;
+                        }
+                        // resovled promise handler
+                        if (!(result instanceof Error)) {
+                            resolved = reso(acc, result);
+                            // resolved promise with no sub$ key -> spread
+                            // resolved value into acc
+                            if (resolved.sub$)
+                                stream__js_1.command$.next(resolved);
+                            else if (!sub$)
+                                return [2 /*return*/, __assign(__assign({}, acc), resolved)];
+                            result = resolved;
+                        }
+                        console.warn("no 'erro' (Error handler) set for " + c);
+                    }
+                    // no sub$ key & not a promise -> just spread into acc
+                    if (!reso && !sub$)
+                        return [2 /*return*/, __assign(__assign({}, acc), result)];
+                    // error, but no error handler
+                    if (result instanceof Error) {
+                        console.warn(err_str, result);
+                        return [2 /*return*/, acc];
+                    }
+                    if (result !== Object(result)) {
+                        if (!sub$) {
+                            nosub$_err(c, i);
+                            return [2 /*return*/, acc];
+                        }
+                        // if the final result is primitive, you can't refer
+                        // to this value in proceeding Commands -> send the
+                        // Command as-is, return acc as-is.
+                        stream__js_1.command$.next((_d = {}, _d[keys_js_1.CMD_SUB$] = sub$, _d[keys_js_1.CMD_ARGS] = result, _d));
+                        return [2 /*return*/, acc];
+                    }
+                    // if the result has made it this far, send it along
+                    // console.log(`${sub$} made it through`)
+                    stream__js_1.command$.next((_e = {}, _e[keys_js_1.CMD_SUB$] = sub$, _e[keys_js_1.CMD_ARGS] = result, _e));
+                    return [2 /*return*/, __assign(__assign({}, acc), result)];
+            }
+        });
+    }); }, Promise.resolve({}));
+};
 
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","../keys.js":"../../node_modules/spule/lib/keys.js","../utils":"../../node_modules/spule/lib/utils/index.js","./stream$.js":"../../node_modules/spule/lib/core/stream$.js"}],"../../node_modules/spule/lib/tasks/task$.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc","../keys.js":"mxIA","../utils":"HyAd","./stream$.js":"k8Vj"}],"oiqP":[function(require,module,exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * @module tasks/task$
+ */
 // explicit imports = prevent circular deps
-const stream__js_1 = require("../core/stream$.js");
-const multiplex_js_1 = require("../core/multiplex.js");
+var stream__js_1 = require("../core/stream$.js");
+var multiplex_js_1 = require("../core/multiplex.js");
 /**
  *
  * Task stream that handles Arrays of Commands. Dispatches
@@ -25733,7 +25826,7 @@ exports.task$ = stream__js_1.run$.subscribeTopic(false, {
     error: console.warn
 }, { id: "task$_stream" });
 
-},{"../core/stream$.js":"../../node_modules/spule/lib/core/stream$.js","../core/multiplex.js":"../../node_modules/spule/lib/core/multiplex.js"}],"../../node_modules/spule/lib/tasks/index.js":[function(require,module,exports) {
+},{"../core/stream$.js":"k8Vj","../core/multiplex.js":"idkx"}],"AbdI":[function(require,module,exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var routing_js_1 = require("./routing.js");
@@ -25742,24 +25835,50 @@ exports.URL__ROUTE = routing_js_1.URL__ROUTE;
 var task__js_1 = require("./task$.js");
 exports.task$ = task__js_1.task$;
 
-},{"./routing.js":"../../node_modules/spule/lib/tasks/routing.js","./task$.js":"../../node_modules/spule/lib/tasks/task$.js"}],"../../node_modules/spule/lib/core/registers.js":[function(require,module,exports) {
+},{"./routing.js":"wUee","./task$.js":"oiqP"}],"FihC":[function(require,module,exports) {
 "use strict";
-/**
- * @module Registration
- * @format
- */
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const rstream_1 = require("@thi.ng/rstream");
-const arrays_1 = require("@thi.ng/arrays");
-const transducers_1 = require("@thi.ng/transducers");
-const transducers_hdom_1 = require("@thi.ng/transducers-hdom");
-const paths_1 = require("@thi.ng/paths");
-const keys_js_1 = require("../keys.js");
-const store_1 = require("../store");
-const register_js_1 = require("../commands/register.js");
-const tasks_1 = require("../tasks");
-const utils_1 = require("../utils");
-const stream__js_1 = require("./stream$.js");
+/**
+ * @module core/registers
+ */
+var rstream_1 = require("@thi.ng/rstream");
+var arrays_1 = require("@thi.ng/arrays");
+var transducers_1 = require("@thi.ng/transducers");
+var transducers_hdom_1 = require("@thi.ng/transducers-hdom");
+var paths_1 = require("@thi.ng/paths");
+var keys_js_1 = require("../keys.js");
+var store_1 = require("../store");
+var register_js_1 = require("../commands/register.js");
+var tasks_1 = require("../tasks");
+var utils_1 = require("../utils");
+var stream__js_1 = require("./stream$.js");
 /**
  *
  * expects payload of
@@ -25767,81 +25886,94 @@ const stream__js_1 = require("./stream$.js");
  * { target: { location: { href } }, currentTarget }
  * ```
  */
-exports.registerRouterDOM = router => {
+exports.registerRouterDOM = function (router) {
+    var _a;
     console.log("DOM Router Registered");
-    const taskFrom = tasks_1.URL_DOM__ROUTE(router);
-    return register_js_1.registerCMD({
-        [keys_js_1.CMD_SRC$]: stream__js_1.DOMnavigated$,
-        [keys_js_1.CMD_SUB$]: "_URL_NAVIGATED$_DOM",
-        [keys_js_1.CMD_ARGS]: x => x,
-        [keys_js_1.CMD_WORK]: args => stream__js_1.run$.next(taskFrom({ [keys_js_1.URL_FULL]: args[keys_js_1.URL_FULL], [keys_js_1.DOM_NODE]: args[keys_js_1.DOM_NODE] }))
-    });
+    var taskFrom = tasks_1.URL_DOM__ROUTE(router);
+    return register_js_1.registerCMD((_a = {},
+        _a[keys_js_1.CMD_SRC$] = stream__js_1.DOMnavigated$,
+        _a[keys_js_1.CMD_SUB$] = "_URL_NAVIGATED$_DOM",
+        _a[keys_js_1.CMD_ARGS] = function (x) { return x; },
+        _a[keys_js_1.CMD_WORK] = function (args) {
+            var _a;
+            return stream__js_1.run$.next(taskFrom((_a = {}, _a[keys_js_1.URL_FULL] = args[keys_js_1.URL_FULL], _a[keys_js_1.DOM_NODE] = args[keys_js_1.DOM_NODE], _a)));
+        },
+        _a));
 };
-exports.registerRouter = router => {
-    console.log("Router Registered");
-    const taskFrom = tasks_1.URL__ROUTE(router);
-    return register_js_1.registerCMD({
-        [keys_js_1.CMD_SUB$]: "_URL_NAVIGATED$",
-        // 📌 TODO: add source for API access/server source$
-        [keys_js_1.CMD_SRC$]: stream__js_1.DOMnavigated$,
-        [keys_js_1.CMD_ARGS]: x => x,
-        [keys_js_1.CMD_WORK]: args => stream__js_1.run$.next(taskFrom({ [keys_js_1.URL_FULL]: args[keys_js_1.URL_FULL], [keys_js_1.DOM_NODE]: args[keys_js_1.DOM_NODE] }))
-    });
-};
-const pre = (ctx, body) => (console.log(`no \`app\` component provided to \`${exports.boot.name}({${keys_js_1.CFG_VIEW}})\`. Rendering state by route path`),
-    ["pre", JSON.stringify(body[1], null, 2)]);
+// TODO: server router must be fed from `http` or something (req/res), not `DOMnavigated$`
+// export const registerRouter = router => {
+//   console.log("Router Registered")
+//   const taskFrom = URL__ROUTE(router)
+//   return registerCMD({
+//     [CMD_SUB$]: "_URL_NAVIGATED$",
+//     [CMD_SRC$]: DOMnavigated$,
+//     [CMD_ARGS]: x => x,
+//     [CMD_WORK]: args =>
+//       run$.next(taskFrom({ [URL_FULL]: args[URL_FULL], [DOM_NODE]: args[DOM_NODE] }))
+//   })
+// }
+var pre = function (ctx, body) { return (console.log("\n    no " + keys_js_1.CFG_VIEW + " component provided to boot({ CFG }). \n    Rendering state by route path\n    "),
+    ["pre", JSON.stringify(body[1], null, 2)]); };
+// prettier-ignore
 /**
  *
- *  Part I: Needs to be a functional component to accept the
- *  `ctx` object to pass it to children
+ * Options Object keys
+ * - root   : DOM mount node
+ * - app    : root application node
+ * - draft  : state scaffolding Object
+ * - router : url matching function or config Object
+ * - trace  : string triggers logs prepended with it
+ * - kick   : boolean triggers kickstart (for some sandboxes)
+ * - prefix : ignore a part of the URL (e.g., gitub.io/<prefix>)
  *
- *  Part II: Takes the root RAF stream and updates the shell
- *  on every global state mutation
- *
- *  Part III: Connects the app shell to the state stream,
- *  which is triggered by any updates to the global
- *  `$store$`
  */
-exports.boot = CFG => {
-    // console.log({ URL_page })
-    const root = CFG[keys_js_1.CFG_ROOT] || document.body;
-    const view = CFG[keys_js_1.CFG_VIEW] || pre;
-    const draft = CFG[keys_js_1.CFG_DRFT];
-    const router = CFG[keys_js_1.CFG_RUTR];
-    const log$ = CFG[keys_js_1.CFG_LOG$];
-    const knowns = [keys_js_1.CFG_ROOT, keys_js_1.CFG_VIEW, keys_js_1.CFG_DRFT, keys_js_1.CFG_RUTR, keys_js_1.CFG_LOG$];
-    const [, others] = utils_1.diff_keys(knowns, CFG);
-    const escRGX = /[-/\\^$*+?.()|[\]{}]/g;
-    const escaped = string => string.replace(escRGX, "\\$&");
-    const prfx = router[keys_js_1.ROUTER_PRFX] || null;
-    const RGX = prfx ? new RegExp(escaped(prfx || ""), "g") : null;
+exports.boot = function (CFG) {
+    var _a;
+    var root = CFG[keys_js_1.CFG_ROOT] || document.body;
+    var view = CFG[keys_js_1.CFG_VIEW] || pre;
+    var draft = CFG[keys_js_1.CFG_DRFT];
+    var router = CFG[keys_js_1.CFG_RUTR];
+    var log$ = CFG[keys_js_1.CFG_LOG$];
+    var kick = CFG[keys_js_1.CFG_KICK];
+    var knowns = [keys_js_1.CFG_ROOT, keys_js_1.CFG_VIEW, keys_js_1.CFG_DRFT, keys_js_1.CFG_RUTR, keys_js_1.CFG_LOG$];
+    var prfx = router[keys_js_1.ROUTER_PRFX] || null;
+    var _b = __read(utils_1.diff_keys(knowns, CFG), 2), others = _b[1];
+    var escRGX = /[-/\\^$*+?.()|[\]{}]/g;
+    var escaped = function (str) { return str.replace(escRGX, "\\$&"); };
+    var RGX = prfx ? new RegExp(escaped(prfx || ""), "g") : null;
     if (router)
         exports.registerRouterDOM(router);
-    const state$ = rstream_1.fromAtom(store_1.$store$);
-    const shell = state$ => (log$ ? console.log(log$, state$) : null,
-        state$[keys_js_1.ROUTE_LOAD]
+    var state$ = rstream_1.fromAtom(store_1.$store$);
+    var shell = function (state$) { return (log$ ? console.log(log$, state$) : null,
+        state$[keys_js_1.$$_LOAD]
             ? null
-            : [view, [state$[keys_js_1.ROUTE_VIEW], paths_1.getIn(state$, state$[keys_js_1.ROUTE_PATH])]]);
+            : [view, [state$[keys_js_1.$$_VIEW], paths_1.getIn(state$, state$[keys_js_1.$$_PATH])]]); };
     if (draft)
-        store_1.$store$.swap(x => (Object.assign(Object.assign({}, draft), x)));
-    store_1.$store$.resetIn(keys_js_1.ROUTE_ROOT, root);
+        store_1.$store$.swap(function (x) { return (__assign(__assign({}, draft), x)); });
+    store_1.$store$.resetIn(keys_js_1.$$_ROOT, root);
     state$.subscribe(rstream_1.sidechainPartition(rstream_1.fromRAF())).transform(transducers_1.map(arrays_1.peek), transducers_1.map(shell), transducers_hdom_1.updateDOM({
-        root,
+        root: root,
         span: false,
-        ctx: Object.assign({ [keys_js_1.CFG_RUN$]: x => stream__js_1.run$.next(x), [keys_js_1.CFG_STOR]: store_1.$store$, 
-            // remove any staging path components (e.g., gh-pages)
-            [keys_js_1.URL_PRSE]: () => 
-            // console.log({ fURL }),
-            utils_1.unfURL(window.location.href, RGX) }, others)
+        ctx: __assign((_a = {}, _a[keys_js_1.CFG_RUN$] = function (x) { return stream__js_1.run$.next(x); }, _a[keys_js_1.CFG_STOR] = store_1.$store$, _a[keys_js_1.URL_PRSE] = function () {
+            // console.log({ FURL }),
+            return utils_1.parse(window.location.href, RGX);
+        }, _a), others)
     }));
+    // Just a little kick in the pants for those stubborn sandboxes
+    if (kick) {
+        stream__js_1.DOMnavigated$.next({
+            target: document,
+            currentTarget: document
+        });
+    }
 };
 
-},{"@thi.ng/rstream":"../../node_modules/@thi.ng/rstream/index.js","@thi.ng/arrays":"../../node_modules/@thi.ng/arrays/index.js","@thi.ng/transducers":"../../node_modules/@thi.ng/transducers/index.js","@thi.ng/transducers-hdom":"../../node_modules/@thi.ng/transducers-hdom/index.js","@thi.ng/paths":"../../node_modules/@thi.ng/paths/index.js","../keys.js":"../../node_modules/spule/lib/keys.js","../store":"../../node_modules/spule/lib/store/index.js","../commands/register.js":"../../node_modules/spule/lib/commands/register.js","../tasks":"../../node_modules/spule/lib/tasks/index.js","../utils":"../../node_modules/spule/lib/utils/index.js","./stream$.js":"../../node_modules/spule/lib/core/stream$.js"}],"../../node_modules/spule/lib/core/index.js":[function(require,module,exports) {
+},{"@thi.ng/rstream":"RCxb","@thi.ng/arrays":"iKN7","@thi.ng/transducers":"GbKR","@thi.ng/transducers-hdom":"fEFP","@thi.ng/paths":"jkaf","../keys.js":"mxIA","../store":"nhWS","../commands/register.js":"r0tB","../tasks":"AbdI","../utils":"HyAd","./stream$.js":"k8Vj"}],"pQ7l":[function(require,module,exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var registers_js_1 = require("./registers.js");
 exports.boot = registers_js_1.boot;
-exports.registerRouter = registers_js_1.registerRouter;
+// , registerRouter
 exports.registerRouterDOM = registers_js_1.registerRouterDOM;
 var multiplex_js_1 = require("./multiplex.js");
 exports.multiplex = multiplex_js_1.multiplex;
@@ -25853,29 +25985,54 @@ exports.out$ = stream__js_1.out$;
 exports.popstate$ = stream__js_1.popstate$;
 exports.run$ = stream__js_1.run$;
 
-},{"./registers.js":"../../node_modules/spule/lib/core/registers.js","./multiplex.js":"../../node_modules/spule/lib/core/multiplex.js","./stream$.js":"../../node_modules/spule/lib/core/stream$.js"}],"../../node_modules/spule/lib/components/FLIPkid.js":[function(require,module,exports) {
+},{"./registers.js":"FihC","./multiplex.js":"idkx","./stream$.js":"k8Vj"}],"aR6u":[function(require,module,exports) {
 "use strict";
 /**
- * @module FLIP
- * @format
+ * @module components/FLIPkid
  */
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
+var __spread = (this && this.__spread) || function () {
+    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
+    return ar;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const commands_1 = require("../commands");
-const keys_js_1 = require("../keys.js");
-const err_str = prop => `
-  No '${prop}' property found on FLIPkid firstChild. 
-  Ensure you are providing FLIPkid a component with an 
-  attributes object as its second argument with a ${prop}
-  property for proper FLIP routing.
-`;
+var commands_1 = require("../commands");
+var keys_js_1 = require("../keys.js");
+var err_str = function (prop) { return "\n  No '" + prop + "' property found on FLIPkid firstChild. \n  Ensure you are providing FLIPkid a component with an \n  attributes object as its second argument with a " + prop + "\n  property for proper FLIP routing.\n"; };
 // const [tag, attrs, ..._args] = kid(ctx, ...args)
 // const { href } = attrs
-const sim_event = href => ({
+var sim_event = function (href) { return ({
     currentTarget: { document: null },
     target: {
-        href
+        href: href
     }
-});
+}); };
 /**
  * FLIP (First Last Invert Play) Animating component. Wraps
  * a component that has an `href` attribute and uses it to
@@ -25885,46 +26042,52 @@ const sim_event = href => ({
  *
  */
 exports.FLIPkid = Object.freeze({
-    render: (ctx, ...rest) => 
-    // console.log("FLIPkid"),
-    [
-        "div",
-        {
-            onclick: ev => {
-                ev.preventDefault();
-                const target = ev.target;
-                const href = target.getAttribute("href");
-                // console.log({ target, href })
-                if (!href)
-                    return new Error(err_str("href"));
-                ctx[keys_js_1.CFG_RUN$]([
-                    Object.assign(Object.assign({}, commands_1.HURL), { [keys_js_1.CMD_ARGS]: sim_event(href) }),
-                    Object.assign(Object.assign({}, commands_1.FLIP_FIRST), { [keys_js_1.CMD_ARGS]: { id: href, target } })
-                ]);
+    render: function (ctx) {
+        var rest = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            rest[_i - 1] = arguments[_i];
+        }
+        // console.log("FLIPkid"),
+        return __spread([
+            "div",
+            {
+                onclick: function (ev) {
+                    var _a, _b;
+                    ev.preventDefault();
+                    var target = ev.target;
+                    var href = target.getAttribute("href");
+                    // console.log({ target, href })
+                    if (!href)
+                        return new Error(err_str("href"));
+                    ctx[keys_js_1.CFG_RUN$]([
+                        __assign(__assign({}, commands_1.HURL), (_a = {}, _a[keys_js_1.CMD_ARGS] = sim_event(href), _a)),
+                        __assign(__assign({}, commands_1.FLIP_FIRST), (_b = {}, _b[keys_js_1.CMD_ARGS] = { id: href, target: target }, _b))
+                    ]);
+                }
             }
-        },
-        ...rest
-    ],
-    init: (el, ctx) => {
+        ], rest);
+    },
+    init: function (el, ctx) {
+        var _a;
         // console.log({
         //   el,
         //   firstChild: el.firstChild,
         //   id: el.firstChild.getAttribute("href")
         // }),
-        ctx[keys_js_1.CFG_RUN$](Object.assign(Object.assign({}, commands_1.FLIP_LAST_INVERSE_PLAY), { [keys_js_1.CMD_ARGS]: {
-                element: el.firstChild,
-                id: el.firstChild.getAttribute("href")
-            } }));
+        ctx[keys_js_1.CFG_RUN$](__assign(__assign({}, commands_1.FLIP_LAST_INVERSE_PLAY), (_a = {}, _a[keys_js_1.CMD_ARGS] = {
+            element: el.firstChild,
+            id: el.firstChild.getAttribute("href")
+        }, _a)));
     }
 });
 
-},{"../commands":"../../node_modules/spule/lib/commands/index.js","../keys.js":"../../node_modules/spule/lib/keys.js"}],"../../node_modules/spule/lib/components/index.js":[function(require,module,exports) {
+},{"../commands":"FoiB","../keys.js":"mxIA"}],"vqxy":[function(require,module,exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var FLIPkid_js_1 = require("./FLIPkid.js");
 exports.FLIPkid = FLIPkid_js_1.FLIPkid;
 
-},{"./FLIPkid.js":"../../node_modules/spule/lib/components/FLIPkid.js"}],"../../node_modules/spule/lib/index.js":[function(require,module,exports) {
+},{"./FLIPkid.js":"aR6u"}],"e053":[function(require,module,exports) {
 "use strict";
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
@@ -25945,7 +26108,7 @@ exports.createSetStateCMD = commands_1.createSetStateCMD;
 exports.registerCMD = commands_1.registerCMD;
 var core_1 = require("./core");
 exports.boot = core_1.boot;
-exports.registerRouter = core_1.registerRouter;
+// registerRouter,
 exports.registerRouterDOM = core_1.registerRouterDOM;
 exports.DOMnavigated$ = core_1.DOMnavigated$;
 exports.run$ = core_1.run$;
@@ -25960,14 +26123,14 @@ var tasks_1 = require("./tasks");
 exports.URL_DOM__ROUTE = tasks_1.URL_DOM__ROUTE;
 exports.URL__ROUTE = tasks_1.URL__ROUTE;
 exports.task$ = tasks_1.task$;
-const keys = __importStar(require("./keys.js"));
+var keys = __importStar(require("./keys.js"));
 exports.keys = keys;
 var utils_1 = require("./utils");
 exports.trace$ = utils_1.trace$;
-exports.fURL = utils_1.fURL;
-exports.unfURL = utils_1.unfURL;
+exports.unparse = utils_1.unparse;
+exports.parse = utils_1.parse;
 
-},{"./commands":"../../node_modules/spule/lib/commands/index.js","./core":"../../node_modules/spule/lib/core/index.js","./store":"../../node_modules/spule/lib/store/index.js","./components":"../../node_modules/spule/lib/components/index.js","./tasks":"../../node_modules/spule/lib/tasks/index.js","./keys.js":"../../node_modules/spule/lib/keys.js","./utils":"../../node_modules/spule/lib/utils/index.js"}],"theme/uswds_theme.js":[function(require,module,exports) {
+},{"./commands":"FoiB","./core":"pQ7l","./store":"nhWS","./components":"vqxy","./tasks":"AbdI","./keys.js":"mxIA","./utils":"HyAd"}],"QcZX":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -26486,7 +26649,7 @@ const theme = {
 exports.theme = theme;
 var _default = theme;
 exports.default = _default;
-},{}],"../../node_modules/styled-system-hdom/node_modules/@thi.ng/paths/index.js":[function(require,module,exports) {
+},{}],"buUl":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -26975,7 +27138,7 @@ const mutInMany = (state, ...pairs) => {
 };
 
 exports.mutInMany = mutInMany;
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","@thi.ng/errors":"../../node_modules/@thi.ng/errors/index.js"}],"../../node_modules/@styled-system/css/dist/index.esm.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc","@thi.ng/errors":"j3Rf"}],"HS8T":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27201,7 +27364,7 @@ var css = function css(args) {
 exports.css = css;
 var _default = css;
 exports.default = _default;
-},{}],"../../node_modules/decamelize/index.js":[function(require,module,exports) {
+},{}],"FV5p":[function(require,module,exports) {
 'use strict';
 
 module.exports = function (str, sep) {
@@ -27212,7 +27375,7 @@ module.exports = function (str, sep) {
   sep = typeof sep === 'undefined' ? '_' : sep;
   return str.replace(/([a-z\d])([A-Z])/g, '$1' + sep + '$2').replace(/([A-Z]+)([A-Z][a-z\d]+)/g, '$1' + sep + '$2').toLowerCase();
 };
-},{}],"../../node_modules/map-obj/index.js":[function(require,module,exports) {
+},{}],"tCQj":[function(require,module,exports) {
 'use strict';
 
 module.exports = function (obj, cb) {
@@ -27227,7 +27390,7 @@ module.exports = function (obj, cb) {
 
   return ret;
 };
-},{}],"../../node_modules/decamelize-keys-deep/index.js":[function(require,module,exports) {
+},{}],"bGVb":[function(require,module,exports) {
 var decamelize = require("decamelize");
 var mapObj = require("map-obj");
 
@@ -27260,7 +27423,7 @@ module.exports = function decamelizeKeysDeep(obj, options) {
   return obj;
 }
 
-},{"decamelize":"../../node_modules/decamelize/index.js","map-obj":"../../node_modules/map-obj/index.js"}],"../../node_modules/@thi.ng/hiccup-css/api.js":[function(require,module,exports) {
+},{"decamelize":"FV5p","map-obj":"tCQj"}],"AxCm":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27302,7 +27465,7 @@ const PRETTY = {
   comments: true
 };
 exports.PRETTY = PRETTY;
-},{}],"../../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel/node_modules/process/browser.js":[function(require,module,exports) {
+},{}],"XXZp":[function(require,module,exports) {
 
 // shim for using process in browser
 var process = module.exports = {}; // cached from whatever global is present so that test runners that stub it
@@ -27511,7 +27674,7 @@ process.chdir = function (dir) {
 process.umask = function () {
   return 0;
 };
-},{}],"../../node_modules/@thi.ng/hiccup-css/impl.js":[function(require,module,exports) {
+},{}],"Reur":[function(require,module,exports) {
 var process = require("process");
 "use strict";
 
@@ -27627,7 +27790,7 @@ exports.formatDecls = formatDecls;
 const indent = (opts, d = opts.depth) => d > 1 ? [...(0, _transducers.repeat)(opts.format.indent, d)].join("") : d > 0 ? opts.format.indent : "";
 
 exports.indent = indent;
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","@thi.ng/errors":"../../node_modules/@thi.ng/errors/index.js","@thi.ng/transducers":"../../node_modules/@thi.ng/transducers/index.js","process":"../../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel/node_modules/process/browser.js"}],"../../node_modules/@thi.ng/hiccup-css/units.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc","@thi.ng/errors":"j3Rf","@thi.ng/transducers":"GbKR","process":"XXZp"}],"MnM7":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27682,7 +27845,7 @@ exports.rad = rad;
 const turn = x => `${x}turn`;
 
 exports.turn = turn;
-},{}],"../../node_modules/@thi.ng/hiccup-css/keyframes.js":[function(require,module,exports) {
+},{}],"CbOE":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27716,7 +27879,7 @@ function at_keyframes(id, ...args) {
     return acc;
   };
 }
-},{"./impl":"../../node_modules/@thi.ng/hiccup-css/impl.js","./units":"../../node_modules/@thi.ng/hiccup-css/units.js"}],"../../node_modules/@thi.ng/hiccup-css/animation.js":[function(require,module,exports) {
+},{"./impl":"Reur","./units":"MnM7"}],"Xoss":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27773,7 +27936,7 @@ const animation = (id, opts, ...keyframes) => {
 };
 
 exports.animation = animation;
-},{"./keyframes":"../../node_modules/@thi.ng/hiccup-css/keyframes.js"}],"../../node_modules/@thi.ng/hiccup-css/attribs.js":[function(require,module,exports) {
+},{"./keyframes":"CbOE"}],"YdP4":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27841,7 +28004,7 @@ const attribSuffix = $("$");
 exports.attribSuffix = attribSuffix;
 const attribMatches = $("*");
 exports.attribMatches = attribMatches;
-},{}],"../../node_modules/@thi.ng/hiccup-css/comment.js":[function(require,module,exports) {
+},{}],"Qpy9":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27863,7 +28026,7 @@ const comment = (body, force = false) => (acc, opts) => {
 };
 
 exports.comment = comment;
-},{"./impl":"../../node_modules/@thi.ng/hiccup-css/impl.js"}],"../../node_modules/@thi.ng/hiccup-css/conditional.js":[function(require,module,exports) {
+},{"./impl":"Reur"}],"BO29":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27914,7 +28077,7 @@ const formatCond = cond => {
 
   return acc.join(" and ");
 };
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","./impl":"../../node_modules/@thi.ng/hiccup-css/impl.js"}],"../../node_modules/@thi.ng/hiccup-css/css.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc","./impl":"Reur"}],"M08m":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27958,7 +28121,7 @@ const css = (rules, opts) => {
 };
 
 exports.css = css;
-},{"@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","./api":"../../node_modules/@thi.ng/hiccup-css/api.js","./impl":"../../node_modules/@thi.ng/hiccup-css/impl.js"}],"../../node_modules/@thi.ng/hiccup-css/import.js":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc","./api":"AxCm","./impl":"Reur"}],"uYdA":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27969,7 +28132,7 @@ exports.at_import = void 0;
 const at_import = (url, ...queries) => (acc, opts) => (acc.push(queries.length ? `@import url(${url}) ${queries.join(opts.format.ruleSep)};` : `@import url(${url});`), acc);
 
 exports.at_import = at_import;
-},{}],"../../node_modules/@thi.ng/hiccup-css/inject.js":[function(require,module,exports) {
+},{}],"wueV":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28009,7 +28172,7 @@ const injectStyleSheet = (css, first = false) => {
 };
 
 exports.injectStyleSheet = injectStyleSheet;
-},{}],"../../node_modules/@thi.ng/hiccup-css/media.js":[function(require,module,exports) {
+},{}],"pE13":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28022,7 +28185,7 @@ var _conditional = require("./conditional");
 const at_media = (cond, rules) => (0, _conditional.conditional)("@media", cond, rules);
 
 exports.at_media = at_media;
-},{"./conditional":"../../node_modules/@thi.ng/hiccup-css/conditional.js"}],"../../node_modules/@thi.ng/hiccup-css/namespace.js":[function(require,module,exports) {
+},{"./conditional":"BO29"}],"BreG":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28033,7 +28196,7 @@ exports.at_namespace = at_namespace;
 function at_namespace(...args) {
   return (acc, _) => (acc.push(args.length > 1 ? `@namespace ${args[0]} url(${args[1]});` : `@namespace url(${args[0]});`), acc);
 }
-},{}],"../../node_modules/@thi.ng/hiccup-css/supports.js":[function(require,module,exports) {
+},{}],"rzYy":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28046,7 +28209,7 @@ var _conditional = require("./conditional");
 const at_supports = (cond, rules) => (0, _conditional.conditional)("@supports", cond, rules);
 
 exports.at_supports = at_supports;
-},{"./conditional":"../../node_modules/@thi.ng/hiccup-css/conditional.js"}],"../../node_modules/@thi.ng/hiccup-css/quoted-functions.js":[function(require,module,exports) {
+},{"./conditional":"BO29"}],"udVy":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28076,7 +28239,7 @@ const QUOTED_FNS = {
   "@supports": _supports.at_supports
 };
 exports.QUOTED_FNS = QUOTED_FNS;
-},{"./comment":"../../node_modules/@thi.ng/hiccup-css/comment.js","./import":"../../node_modules/@thi.ng/hiccup-css/import.js","./keyframes":"../../node_modules/@thi.ng/hiccup-css/keyframes.js","./media":"../../node_modules/@thi.ng/hiccup-css/media.js","./namespace":"../../node_modules/@thi.ng/hiccup-css/namespace.js","./supports":"../../node_modules/@thi.ng/hiccup-css/supports.js"}],"../../node_modules/@thi.ng/hiccup-css/index.js":[function(require,module,exports) {
+},{"./comment":"Qpy9","./import":"uYdA","./keyframes":"CbOE","./media":"pE13","./namespace":"BreG","./supports":"rzYy"}],"ggHL":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28250,7 +28413,7 @@ Object.keys(_units).forEach(function (key) {
     }
   });
 });
-},{"./api":"../../node_modules/@thi.ng/hiccup-css/api.js","./animation":"../../node_modules/@thi.ng/hiccup-css/animation.js","./attribs":"../../node_modules/@thi.ng/hiccup-css/attribs.js","./comment":"../../node_modules/@thi.ng/hiccup-css/comment.js","./conditional":"../../node_modules/@thi.ng/hiccup-css/conditional.js","./css":"../../node_modules/@thi.ng/hiccup-css/css.js","./import":"../../node_modules/@thi.ng/hiccup-css/import.js","./inject":"../../node_modules/@thi.ng/hiccup-css/inject.js","./keyframes":"../../node_modules/@thi.ng/hiccup-css/keyframes.js","./media":"../../node_modules/@thi.ng/hiccup-css/media.js","./namespace":"../../node_modules/@thi.ng/hiccup-css/namespace.js","./quoted-functions":"../../node_modules/@thi.ng/hiccup-css/quoted-functions.js","./supports":"../../node_modules/@thi.ng/hiccup-css/supports.js","./units":"../../node_modules/@thi.ng/hiccup-css/units.js"}],"../../node_modules/styled-system-hdom/index.js":[function(require,module,exports) {
+},{"./api":"AxCm","./animation":"Xoss","./attribs":"YdP4","./comment":"Qpy9","./conditional":"BO29","./css":"M08m","./import":"uYdA","./inject":"wueV","./keyframes":"CbOE","./media":"pE13","./namespace":"BreG","./quoted-functions":"udVy","./supports":"rzYy","./units":"MnM7"}],"wHaB":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28485,7 +28648,7 @@ const dereference = (atom, opts) => {
 
 var _default = themer;
 exports.default = _default;
-const opts = "development" !== "production" ? {
+const opts = "production" !== "production" ? {
   format: _hiccupCss.PRETTY
 } : null;
 /**
@@ -28497,7 +28660,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const formatted_styles = dereference(global_atom, opts);
   (0, _hiccupCss.injectStyleSheet)(formatted_styles);
 });
-},{"@thi.ng/random":"../../node_modules/@thi.ng/random/index.js","@thi.ng/atom":"../../node_modules/@thi.ng/atom/index.js","@thi.ng/paths":"../../node_modules/styled-system-hdom/node_modules/@thi.ng/paths/index.js","@styled-system/css":"../../node_modules/@styled-system/css/dist/index.esm.js","decamelize-keys-deep":"../../node_modules/decamelize-keys-deep/index.js","@thi.ng/hiccup-css":"../../node_modules/@thi.ng/hiccup-css/index.js"}],"theme/index.js":[function(require,module,exports) {
+},{"@thi.ng/random":"C0Vh","@thi.ng/atom":"GVpA","@thi.ng/paths":"buUl","@styled-system/css":"HS8T","decamelize-keys-deep":"bGVb","@thi.ng/hiccup-css":"ggHL"}],"ndBe":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28512,7 +28675,7 @@ var _styledSystemHdom = require("styled-system-hdom");
 const [theme_styler, THEME] = (0, _styledSystemHdom.themer)(_uswds_theme.theme);
 exports.THEME = THEME;
 exports.theme_styler = theme_styler;
-},{"./uswds_theme":"theme/uswds_theme.js","styled-system-hdom":"../../node_modules/styled-system-hdom/index.js"}],"index.js":[function(require,module,exports) {
+},{"./uswds_theme":"QcZX","styled-system-hdom":"wHaB"}],"Focm":[function(require,module,exports) {
 "use strict";
 
 var _paths = require("@thi.ng/paths");
@@ -28525,7 +28688,6 @@ var _spule = require("spule");
 
 var _theme = require("./theme");
 
-// import "regenerator-runtime"
 // import scrolly from "@mapbox/scroll-restorer"
 // scrolly.start()
 // ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
@@ -28548,9 +28710,9 @@ var _theme = require("./theme");
 //  888  "88_-~  Cb      \_88P
 //                Y8""8D
 //
-const log = console.log;
-(0, _spule.trace$)("run$ ->", _spule.run$); // trace$("command$ ->", command$)
-// trace$("out$ ->", out$)
+const log = console.log; // trace$("run$ ->", run$)
+
+(0, _spule.trace$)("command$ ->", _spule.command$); // trace$("out$ ->", out$)
 //
 //        888             d8
 //   e88~\888   /~~~8e  _d88__   /~~~8e
@@ -28665,7 +28827,7 @@ const getSomeJSON = async (path, uid) => {
 
 
 const routerCfg = async url => {
-  let match = (0, _spule.unfURL)(url); // let {
+  let match = (0, _spule.parse)(url); // let {
   // URL,
   // URL_subdomain, // array
   // URL_domain, // array
@@ -28677,28 +28839,28 @@ const routerCfg = async url => {
   let path = match[_spule.keys.URL.PATH];
   let [, p_b] = path;
   let RES = new _associative.EquivMap([[{ ...match,
-    URL_path: ["todos"]
+    [_spule.keys.URL.PATH]: ["todos"]
   }, {
     [_spule.keys.URL.DATA]: () => getSomeJSON("todos"),
     [_spule.keys.URL.PAGE]: set
   }], [{ ...match,
-    URL_path: ["todos", p_b]
+    [_spule.keys.URL.PATH]: ["todos", p_b]
   }, {
     [_spule.keys.URL.DATA]: () => getSomeJSON("todos", p_b),
     [_spule.keys.URL.PAGE]: single
   }], [{ ...match,
-    URL_path: ["users"]
+    [_spule.keys.URL.PATH]: ["users"]
   }, {
     [_spule.keys.URL.DATA]: () => getSomeJSON("users"),
     [_spule.keys.URL.PAGE]: set
   }], [{ ...match,
-    URL_path: ["users", p_b]
+    [_spule.keys.URL.PATH]: ["users", p_b]
   }, {
     [_spule.keys.URL.DATA]: () => getSomeJSON("users", p_b),
     [_spule.keys.URL.PAGE]: single
   }], // home page (empty path)
   [{ ...match,
-    URL_path: []
+    [_spule.keys.URL.PATH]: []
   }, {
     [_spule.keys.URL.DATA]: () => getSomeJSON("users", 1),
     [_spule.keys.URL.PAGE]: single
@@ -28860,209 +29022,5 @@ const w_config = {
 
 console.log("registered Commands:", _spule.registerCMD.all.entries());
 console.log("starting...");
-},{"@thi.ng/paths":"../../node_modules/@thi.ng/paths/index.js","@thi.ng/checks":"../../node_modules/@thi.ng/checks/index.js","@thi.ng/associative":"../../node_modules/@thi.ng/associative/index.js","spule":"../../node_modules/spule/lib/index.js","./theme":"theme/index.js"}],"../../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
-var global = arguments[3];
-var OVERLAY_ID = '__parcel__error__overlay__';
-var OldModule = module.bundle.Module;
-
-function Module(moduleName) {
-  OldModule.call(this, moduleName);
-  this.hot = {
-    data: module.bundle.hotData,
-    _acceptCallbacks: [],
-    _disposeCallbacks: [],
-    accept: function (fn) {
-      this._acceptCallbacks.push(fn || function () {});
-    },
-    dispose: function (fn) {
-      this._disposeCallbacks.push(fn);
-    }
-  };
-  module.bundle.hotData = null;
-}
-
-module.bundle.Module = Module;
-var checkedAssets, assetsToAccept;
-var parent = module.bundle.parent;
-
-if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
-  var hostname = "" || location.hostname;
-  var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60454" + '/');
-
-  ws.onmessage = function (event) {
-    checkedAssets = {};
-    assetsToAccept = [];
-    var data = JSON.parse(event.data);
-
-    if (data.type === 'update') {
-      var handled = false;
-      data.assets.forEach(function (asset) {
-        if (!asset.isNew) {
-          var didAccept = hmrAcceptCheck(global.parcelRequire, asset.id);
-
-          if (didAccept) {
-            handled = true;
-          }
-        }
-      }); // Enable HMR for CSS by default.
-
-      handled = handled || data.assets.every(function (asset) {
-        return asset.type === 'css' && asset.generated.js;
-      });
-
-      if (handled) {
-        console.clear();
-        data.assets.forEach(function (asset) {
-          hmrApply(global.parcelRequire, asset);
-        });
-        assetsToAccept.forEach(function (v) {
-          hmrAcceptRun(v[0], v[1]);
-        });
-      } else if (location.reload) {
-        // `location` global exists in a web worker context but lacks `.reload()` function.
-        location.reload();
-      }
-    }
-
-    if (data.type === 'reload') {
-      ws.close();
-
-      ws.onclose = function () {
-        location.reload();
-      };
-    }
-
-    if (data.type === 'error-resolved') {
-      console.log('[parcel] ✨ Error resolved');
-      removeErrorOverlay();
-    }
-
-    if (data.type === 'error') {
-      console.error('[parcel] 🚨  ' + data.error.message + '\n' + data.error.stack);
-      removeErrorOverlay();
-      var overlay = createErrorOverlay(data);
-      document.body.appendChild(overlay);
-    }
-  };
-}
-
-function removeErrorOverlay() {
-  var overlay = document.getElementById(OVERLAY_ID);
-
-  if (overlay) {
-    overlay.remove();
-  }
-}
-
-function createErrorOverlay(data) {
-  var overlay = document.createElement('div');
-  overlay.id = OVERLAY_ID; // html encode message and stack trace
-
-  var message = document.createElement('div');
-  var stackTrace = document.createElement('pre');
-  message.innerText = data.error.message;
-  stackTrace.innerText = data.error.stack;
-  overlay.innerHTML = '<div style="background: black; font-size: 16px; color: white; position: fixed; height: 100%; width: 100%; top: 0px; left: 0px; padding: 30px; opacity: 0.85; font-family: Menlo, Consolas, monospace; z-index: 9999;">' + '<span style="background: red; padding: 2px 4px; border-radius: 2px;">ERROR</span>' + '<span style="top: 2px; margin-left: 5px; position: relative;">🚨</span>' + '<div style="font-size: 18px; font-weight: bold; margin-top: 20px;">' + message.innerHTML + '</div>' + '<pre>' + stackTrace.innerHTML + '</pre>' + '</div>';
-  return overlay;
-}
-
-function getParents(bundle, id) {
-  var modules = bundle.modules;
-
-  if (!modules) {
-    return [];
-  }
-
-  var parents = [];
-  var k, d, dep;
-
-  for (k in modules) {
-    for (d in modules[k][1]) {
-      dep = modules[k][1][d];
-
-      if (dep === id || Array.isArray(dep) && dep[dep.length - 1] === id) {
-        parents.push(k);
-      }
-    }
-  }
-
-  if (bundle.parent) {
-    parents = parents.concat(getParents(bundle.parent, id));
-  }
-
-  return parents;
-}
-
-function hmrApply(bundle, asset) {
-  var modules = bundle.modules;
-
-  if (!modules) {
-    return;
-  }
-
-  if (modules[asset.id] || !bundle.parent) {
-    var fn = new Function('require', 'module', 'exports', asset.generated.js);
-    asset.isNew = !modules[asset.id];
-    modules[asset.id] = [fn, asset.deps];
-  } else if (bundle.parent) {
-    hmrApply(bundle.parent, asset);
-  }
-}
-
-function hmrAcceptCheck(bundle, id) {
-  var modules = bundle.modules;
-
-  if (!modules) {
-    return;
-  }
-
-  if (!modules[id] && bundle.parent) {
-    return hmrAcceptCheck(bundle.parent, id);
-  }
-
-  if (checkedAssets[id]) {
-    return;
-  }
-
-  checkedAssets[id] = true;
-  var cached = bundle.cache[id];
-  assetsToAccept.push([bundle, id]);
-
-  if (cached && cached.hot && cached.hot._acceptCallbacks.length) {
-    return true;
-  }
-
-  return getParents(global.parcelRequire, id).some(function (id) {
-    return hmrAcceptCheck(global.parcelRequire, id);
-  });
-}
-
-function hmrAcceptRun(bundle, id) {
-  var cached = bundle.cache[id];
-  bundle.hotData = {};
-
-  if (cached) {
-    cached.hot.data = bundle.hotData;
-  }
-
-  if (cached && cached.hot && cached.hot._disposeCallbacks.length) {
-    cached.hot._disposeCallbacks.forEach(function (cb) {
-      cb(bundle.hotData);
-    });
-  }
-
-  delete bundle.cache[id];
-  bundle(id);
-  cached = bundle.cache[id];
-
-  if (cached && cached.hot && cached.hot._acceptCallbacks.length) {
-    cached.hot._acceptCallbacks.forEach(function (cb) {
-      cb();
-    });
-
-    return true;
-  }
-}
-},{}]},{},["../../../../AppData/Local/nvs/node/10.16.2/x64/node_modules/parcel/src/builtins/hmr-runtime.js","index.js"], null)
-//# sourceMappingURL=/streaming_API.e31bb0bc.js.map
+},{"@thi.ng/paths":"jkaf","@thi.ng/checks":"XYpc","@thi.ng/associative":"GmJl","spule":"e053","./theme":"ndBe"}]},{},["Focm"], null)
+//# sourceMappingURL=streaming_API.166945dd.js.map
