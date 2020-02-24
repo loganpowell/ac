@@ -18624,92 +18624,120 @@ Object.keys(_view).forEach(function (key) {
     }
   });
 });
-},{"./atom":"MkkA","./cursor":"Xraa","./history":"Vh1i","./transacted":"JIcZ","./view":"LPQS"}],"DFXy":[function(require,module,exports) {
+},{"./atom":"MkkA","./cursor":"Xraa","./history":"Vh1i","./transacted":"JIcZ","./view":"LPQS"}],"mxIA":[function(require,module,exports) {
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.DEFAULT_CFG = exports.ROOT_ = exports.PAGE_TEMPLATE_ = exports.ROUTE_LOADING_ = exports.ROUTE_PATH_ = exports.trace_ = exports.draft_ = exports.app_ = exports.root_ = exports.state_ = exports.run_ = exports.source$_ = exports.handler_ = exports.erro_ = exports.reso_ = exports.args_ = exports.sub$_ = exports.STATE_ = exports.PATH_ = exports.router_ = exports.prefix_ = exports.post_ = exports.prep_ = exports.HEAD_ = exports.BODY_ = exports.URL_page_ = exports.URL_hash_ = exports.URL_query_ = exports.URL_subdomain_ = exports.URL_domain_ = exports.URL_data_ = exports.URL_path_ = exports.URL_ = exports.DOM_ = void 0;
-const DOM_ = "DOM";
-exports.DOM_ = DOM_;
-const URL_ = "URL";
-exports.URL_ = URL_;
-const URL_path_ = "URL_path";
-exports.URL_path_ = URL_path_;
-const URL_data_ = "URL_data";
-exports.URL_data_ = URL_data_;
-const URL_domain_ = "URL_domain";
-exports.URL_domain_ = URL_domain_;
-const URL_subdomain_ = "URL_subdomain";
-exports.URL_subdomain_ = URL_subdomain_;
-const URL_query_ = "URL_query";
-exports.URL_query_ = URL_query_;
-const URL_hash_ = "URL_hash";
-exports.URL_hash_ = URL_hash_;
-const URL_page_ = "URL_page"; // userland router metadata constants
-
-exports.URL_page_ = URL_page_;
-const BODY_ = "BODY";
-exports.BODY_ = BODY_;
-const HEAD_ = "HEAD";
-exports.HEAD_ = HEAD_;
-const prep_ = "prep";
-exports.prep_ = prep_;
-const post_ = "post";
-exports.post_ = post_;
-const prefix_ = "prefix";
-exports.prefix_ = prefix_;
-const router_ = "router"; // set$$tate constants
-
-exports.router_ = router_;
-const PATH_ = "PATH";
-exports.PATH_ = PATH_;
-const STATE_ = "STATE"; // state setting Command constants
-
-exports.STATE_ = STATE_;
-const sub$_ = "sub$";
-exports.sub$_ = sub$_;
-const args_ = "args";
-exports.args_ = args_;
-const reso_ = "reso";
-exports.reso_ = reso_;
-const erro_ = "erro";
-exports.erro_ = erro_;
-const handler_ = "handler";
-exports.handler_ = handler_;
-const source$_ = "source$"; // boot config constants
-
-exports.source$_ = source$_;
-const run_ = "run";
-exports.run_ = run_;
-const state_ = "state";
-exports.state_ = state_;
-const root_ = "root";
-exports.root_ = root_;
-const app_ = "app";
-exports.app_ = app_;
-const draft_ = "draft";
-exports.draft_ = draft_;
-const trace_ = "trace"; // Global state keys/constants
-
-exports.trace_ = trace_;
-const ROUTE_PATH_ = "_ROUTE_PATH";
-exports.ROUTE_PATH_ = ROUTE_PATH_;
-const ROUTE_LOADING_ = "_ROUTE_LOADING";
-exports.ROUTE_LOADING_ = ROUTE_LOADING_;
-const PAGE_TEMPLATE_ = "_PAGE_TEMPLATE";
-exports.PAGE_TEMPLATE_ = PAGE_TEMPLATE_;
-const ROOT_ = "_ROOT";
-exports.ROOT_ = ROOT_;
-const DEFAULT_CFG = {
-  [ROUTE_PATH_]: null,
-  // home page / defaults to empty path
-  [ROUTE_LOADING_]: true,
-  [PAGE_TEMPLATE_]: null,
-  [ROOT_]: null
+/**
+ * @module keys
+ */
+var _a;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.URL_FULL = "URL";
+exports.URL_PATH = "URL_path";
+exports.URL_DATA = "URL_data";
+exports.URL_DOMN = "URL_domain";
+exports.URL_SUBD = "URL_subdomain";
+exports.URL_QERY = "URL_query";
+exports.URL_HASH = "URL_hash";
+exports.URL_PAGE = "URL_page";
+exports.URL_PRSE = "parse";
+exports.URL_NPRS = "unparse";
+// public
+exports.URL = {
+    FULL: exports.URL_FULL,
+    PATH: exports.URL_PATH,
+    DATA: exports.URL_DATA,
+    DOMN: exports.URL_DOMN,
+    SUBD: exports.URL_SUBD,
+    QERY: exports.URL_QERY,
+    HASH: exports.URL_HASH,
+    PAGE: exports.URL_PAGE,
+    PRSE: exports.URL_PRSE,
+    NPRS: exports.URL_NPRS
 };
-exports.DEFAULT_CFG = DEFAULT_CFG;
+// userland router metadata constants
+exports.DOM_NODE = "NODE";
+exports.DOM_BODY = "BODY";
+exports.DOM_HEAD = "HEAD";
+// public
+exports.DOM = {
+    NODE: exports.DOM_NODE,
+    BODY: exports.DOM_BODY,
+    HEAD: exports.DOM_HEAD
+};
+// set$$tate constants
+exports.STATE_PATH = "PATH";
+exports.STATE_DATA = "DATA";
+// public
+exports.STATE = {
+    PATH: exports.STATE_PATH,
+    DATA: exports.STATE_DATA
+};
+// state setting Command constants
+exports.CMD_SUB$ = "sub$";
+exports.CMD_ARGS = "args";
+exports.CMD_RESO = "reso";
+exports.CMD_ERRO = "erro";
+exports.CMD_WORK = "work";
+exports.CMD_SRC$ = "src$";
+// public
+exports.CMD = {
+    SUB$: exports.CMD_SUB$,
+    ARGS: exports.CMD_ARGS,
+    RESO: exports.CMD_RESO,
+    ERRO: exports.CMD_ERRO,
+    WORK: exports.CMD_WORK,
+    SRC$: exports.CMD_SRC$
+};
+// boot config constants
+exports.CFG_RUN$ = "run";
+exports.CFG_STOR = "state";
+exports.CFG_ROOT = "root";
+exports.CFG_VIEW = "app";
+exports.CFG_DRFT = "draft";
+exports.CFG_LOG$ = "trace";
+exports.CFG_RUTR = "router";
+exports.CFG_KICK = "kick";
+// public
+exports.CFG = {
+    RUN$: exports.CFG_RUN$,
+    STOR: exports.CFG_STOR,
+    ROOT: exports.CFG_ROOT,
+    VIEW: exports.CFG_VIEW,
+    DRFT: exports.CFG_DRFT,
+    LOG$: exports.CFG_LOG$,
+    RUTR: exports.CFG_RUTR,
+    KICK: exports.CFG_KICK
+};
+// ROUTER
+exports.ROUTER_PREP = "prep";
+exports.ROUTER_POST = "post";
+exports.ROUTER_PRFX = "prefix";
+// public
+exports.ROUTER = {
+    PREP: exports.ROUTER_PREP,
+    POST: exports.ROUTER_POST,
+    PRFX: exports.ROUTER_PRFX,
+    RUTR: exports.CFG_RUTR
+};
+// Global state keys/constants
+exports.$$_PATH = "_ROUTE_PATH";
+exports.$$_LOAD = "_ROUTE_LOADING";
+exports.$$_VIEW = "_PAGE_TEMPLATE";
+exports.$$_ROOT = "_ROOT";
+// public
+exports.$$ = {
+    PATH: exports.$$_PATH,
+    LOAD: exports.$$_LOAD,
+    VIEW: exports.$$_VIEW,
+    ROOT: exports.$$_ROOT
+};
+exports.$$_DEFAULT = (_a = {},
+    _a[exports.$$_PATH] = null,
+    _a[exports.$$_LOAD] = true,
+    _a[exports.$$_VIEW] = null,
+    _a[exports.$$_ROOT] = null,
+    _a);
+
 },{}],"mjlp":[function(require,module,exports) {
 "use strict";
 
@@ -21724,129 +21752,60 @@ Object.keys(_worker2).forEach(function (key) {
     }
   });
 });
-},{"./api":"mjlp","./forkjoin":"SMpR","./metastream":"jreL","./pubsub":"RoOF","./stream":"B10I","./stream-merge":"napU","./stream-sync":"cdxq","./subscription":"kQ3j","./trigger":"mcGq","./tween":"hAFn","./from/atom":"VCXn","./from/event":"BKGr","./from/interval":"M2dW","./from/iterable":"gm8K","./from/promise":"jaYB","./from/promises":"oREN","./from/raf":"c4wU","./from/view":"TBRw","./from/worker":"biHq","./subs/bisect":"jF4T","./subs/post-worker":"sK4n","./subs/resolve":"JzJ5","./subs/sidechain-partition":"unsB","./subs/sidechain-toggle":"Q8oA","./subs/timeout":"GuAA","./subs/trace":"lDjW","./subs/transduce":"NKOk","./subs/tunnel":"e0wi","./utils/idgen":"KTbf","./utils/worker":"s9XI"}],"hI2k":[function(require,module,exports) {
+},{"./api":"mjlp","./forkjoin":"SMpR","./metastream":"jreL","./pubsub":"RoOF","./stream":"B10I","./stream-merge":"napU","./stream-sync":"cdxq","./subscription":"kQ3j","./trigger":"mcGq","./tween":"hAFn","./from/atom":"VCXn","./from/event":"BKGr","./from/interval":"M2dW","./from/iterable":"gm8K","./from/promise":"jaYB","./from/promises":"oREN","./from/raf":"c4wU","./from/view":"TBRw","./from/worker":"biHq","./subs/bisect":"jF4T","./subs/post-worker":"sK4n","./subs/resolve":"JzJ5","./subs/sidechain-partition":"unsB","./subs/sidechain-toggle":"Q8oA","./subs/timeout":"GuAA","./subs/trace":"lDjW","./subs/transduce":"NKOk","./subs/tunnel":"e0wi","./utils/idgen":"KTbf","./utils/worker":"s9XI"}],"k8Vj":[function(require,module,exports) {
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.DOMnavigated$ = exports.DOMContentLoaded$ = exports.popstate$ = exports.command$ = exports.out$ = exports.run$ = void 0;
-
-var _rstream = require("@thi.ng/rstream");
-
-var _transducers = require("@thi.ng/transducers");
-
-var _constants = require("../constants.js");
-
 /**
- * @module streams
- * @format
+ * @module core/stream$
  */
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var rstream_1 = require("@thi.ng/rstream");
+var transducers_1 = require("@thi.ng/transducers");
+var keys_js_1 = require("../keys.js");
 /**
- * # Stream Architecture:
- *
- * `run$` is the primary event stream exposed to the user
- * via the `ctx` object injected into every `hdom` component
- * the command stream is the only way the user changes
- * anything in `hurl`
- *
- * ## Marble Diagram
- *
- * ```
- * 0>- |------c-----------c--[~a~b~a~]-a----c-> : calls
- * 1>- |ps|---1-----------1----------0-1----1-> : run$
- * 2>- |t0|---------a~~b~~~~~~~~~~~a~*--------> : task$
- * 3>- |t1|---c-----------c------------a----c-> : command$
- * 4>- ---|ps|c-----a--b--c--------a---a----c-> : out$
- * Handlers
- * a>- ---|ta|------*--------------*---*------> : registerCMD
- * b>- ---|tb|---------*----------------------> : registerCMD
- * c>- ---|tc|*-----------*-----------------*-> : registerCMD
- * ```
- *
- * ## Streams
- *
- * - `0>-`: `ctx.run$.next(x)` userland dispatches
- * - `1>-`: `pubsub({ topic: x => x.length === 0 })` `run$`
- *   stream
- * - `2>-`: pubsub = `false` ? -> `task$` stream
- * - `3>-`: pubsub = `true` ? ->`command$` stream
- * - `4>-`: `pubsub({ topic: x => x.sub$ })`: `out$` stream
- *   -> `register_command`
- *
- * ## Handlers
- *
- * `4>-` this is the stream to which the user (and
- * framework) attaches handlers. Handlers receive events
- * they subscribe to as topics based on a `sub$` key in a
- * Command object.
- *
- * ### Handlers (framework provided):
- * - "state": Global state mutations
- * - "route": Routing
- * - "FLIP" :
- *   [F.L.I.P.](https://aerotwist.com/blog/flip-your-animations/)
- *   animations
- *
- * TODO:
- * - add __Examples__
- * - add `beforeunload` event handler within #4 (orphan):
- *    SEE https://youtu.be/QQukWZcIptM
- * - enable ctx.run.cancel() via external or internal events
- *    (e.g., popstate / { sub$:  "cancel" })
- *
- * ## `run$`
- *
  * User-land event dispatch stream
  *
- * This stream is directly exposed to users via `ctx` Any
- * one-off Commands `next`ed into this stream are sent to
- * the `command$` stream. Arrays of Commands (Tasks) are
- * sent to the `task$` stream.
+ * This stream is directly exposed to users. Any one-off
+ * Commands `next`ed into this stream are sent to the
+ * `command$` stream. Arrays of Commands (Tasks) are sent to
+ * the `task$` stream.
+ *
+ * TODO: add examples,`beforeunload` event handler within #4
+ *    (orphan): SEE https://youtu.be/QQukWZcIptM and enable
+ *    ctx.run.cancel() via external or internal events
+ *    (e.g., popstate / { sub$:  "cancel" })
  *
  */
-const run$ = (0, _rstream.pubsub)({
-  topic: x => !!x.sub$,
-  id: "run$_stream",
-  equiv: (x, y) => x === y || y === "_TRACE_STREAM"
+exports.run$ = rstream_1.pubsub({
+    topic: function (x) { return !!x[keys_js_1.CMD_SUB$]; },
+    id: "run$_stream",
+    equiv: function (x, y) { return x === y || y === "_TRACE_STREAM"; }
 });
 /**
- * ## `out$`
  *
  * Primary user-land _READ_ stream. For attaching handlers
  * for responding to emmitted Commands
- *
  */
-
-exports.run$ = run$;
-const out$ = (0, _rstream.pubsub)({
-  topic: x => x.sub$,
-  id: "out$_stream",
-  equiv: (x, y) => x === y || y === "_TRACE_STREAM"
+exports.out$ = rstream_1.pubsub({
+    topic: function (x) { return x[keys_js_1.CMD_SUB$]; },
+    id: "out$_stream",
+    equiv: function (x, y) { return x === y || y === "_TRACE_STREAM"; }
 });
 /**
- * ## `command$`
  *
  * Primary fork/bisect stream for indivual commands.
  * attached to a `pubsub` stemming from this stream. The
  * `topic` function used to alert downstream handlers is a
  * simple lookup of the `sub$` key of the command
- *
  */
-
-exports.out$ = out$;
-const command$ = run$.subscribeTopic(true, {
-  next: x => out$.next(x),
-  error: console.warn
-}, {
-  id: "command$_stream"
-});
-exports.command$ = command$;
-const popstate$ = (0, _rstream.fromDOMEvent)(window, "popstate");
-exports.popstate$ = popstate$;
-const DOMContentLoaded$ = (0, _rstream.fromDOMEvent)(window, "DOMContentLoaded"); // example of custom stream dispatch (logging)
-
+exports.command$ = exports.run$.subscribeTopic(true, {
+    next: function (x) { return exports.out$.next(x); },
+    error: console.warn
+}, { id: "command$_stream" });
+// @ts-ignore
+exports.popstate$ = rstream_1.fromDOMEvent(window, "popstate");
+// @ts-ignore
+exports.DOMContentLoaded$ = rstream_1.fromDOMEvent(window, "DOMContentLoaded");
+// example of custom stream dispatch (logging)
 /**
  *
  * There are three types of navigation we need to handle:
@@ -21869,113 +21828,137 @@ const DOMContentLoaded$ = (0, _rstream.fromDOMEvent)(window, "DOMContentLoaded")
  * see _HURL in `/commands/routing.js` for ad-hoc stream
  * injection example
  */
+exports.DOMnavigated$ = rstream_1.merge({
+    src: [exports.popstate$, exports.DOMContentLoaded$]
+}).transform(transducers_1.map(function (x) {
+    var _a;
+    return (_a = {},
+        _a[keys_js_1.URL_FULL] = x.target.location.href,
+        _a[keys_js_1.DOM_NODE] = x.currentTarget,
+        _a);
+}));
 
-exports.DOMContentLoaded$ = DOMContentLoaded$;
-const DOMnavigated$ = (0, _rstream.merge)({
-  src: [popstate$, DOMContentLoaded$]
-}).transform((0, _transducers.map)(x => ({
-  [_constants.URL_]: x.target.location.href,
-  [_constants.DOM_]: x.currentTarget
-})));
-exports.DOMnavigated$ = DOMnavigated$;
-},{"@thi.ng/rstream":"RCxb","@thi.ng/transducers":"GbKR","../constants.js":"DFXy"}],"WyOZ":[function(require,module,exports) {
+},{"@thi.ng/rstream":"RCxb","@thi.ng/transducers":"GbKR","../keys.js":"mxIA"}],"YpyK":[function(require,module,exports) {
 "use strict";
+/**
+ * @module utils/taskDelay
+ */
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ *
+ * Helper Promise wrapper to inject a delay into a Task
+ */
+exports.msTaskPromiseDelay = function (ms) {
+    return new Promise(function (resolve) { return setTimeout(resolve, ms); });
+};
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.msTaskPromiseDelay = void 0;
-
-const msTaskPromiseDelay = t => new Promise(resolve => setTimeout(resolve, t));
-
-exports.msTaskPromiseDelay = msTaskPromiseDelay;
-},{}],"wlvZ":[function(require,module,exports) {
+},{}],"QipV":[function(require,module,exports) {
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+/**
+ * @module utils/diff_keys
+ */
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ *
+ * @example
+ * diff_keys(["a", "b"], { a: 1, b: 2, c: 3, d: 4 })
+ * //=> [ [ 'c', 'd' ], { c: 3, d: 4 } ]
+ */
+function diff_keys(nKeys, nObj) {
+    if (nKeys === void 0) { nKeys = []; }
+    if (nObj === void 0) { nObj = {}; }
+    var all = Object.keys(nObj);
+    var xKeys = all.filter(function (key) { return !nKeys.includes(key); });
+    var xObj = Object.entries(nObj).reduce(function (a, _a) {
+        var _b;
+        var _c = __read(_a, 2), k = _c[0], v = _c[1];
+        if (!nKeys.includes(k))
+            return __assign(__assign({}, a), (_b = {}, _b[k] = v, _b));
+        else
+            return a;
+    }, {});
+    return [xKeys, xObj];
+}
 exports.diff_keys = diff_keys;
 
-/** @format */
-function diff_keys(nKeys = [], nObj = {}) {
-  const all = Object.keys(nObj);
-  const xKeys = all.filter(key => !nKeys.includes(key));
-  const xObj = Object.entries(nObj).reduce((a, [k, v]) => {
-    if (!nKeys.includes(k)) return { ...a,
-      [k]: v
-    };else return a;
-  }, {});
-  return [xKeys, xObj];
-}
-
-diff_keys(["a", "b"], {
-  a: 1,
-  b: 2,
-  c: 3,
-  d: 4
-}); //?
-
-diff_keys([1, 2, 3]); //?
-},{}],"itCy":[function(require,module,exports) {
+},{}],"ClUY":[function(require,module,exports) {
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.stringify_type = void 0;
-
-var _checks = require("@thi.ng/checks");
-
-/** @format */
+/**
+ * @module utils/stringify_type
+ */
+Object.defineProperty(exports, "__esModule", { value: true });
+var checks_1 = require("@thi.ng/checks");
 // prettier-ignore
-
 /**
  * ### `stringify_type`
  *
- * just a little convenience function
- * takes some value and returns a string representation of its type
- * this makes it easier to create a switch statement using types
+ * just a little convenience function takes some value and
+ * returns a string representation of its type this makes it
+ * easier to create a switch statement using types
  *
  * powered by [@thi.ng/checks](http://thi.ng/checks)
  *
  */
-const stringify_type = x => {
-  if ((0, _checks.isFunction)(x) && x.length === 0) return "THUNK";
-  if ((0, _checks.isFunction)(x) && x.length > 0) return "FUNCTION";
-  if ((0, _checks.isPromise)(x)) return "PROMISE";
-  if ((0, _checks.isObject)(x)) return "OBJECT";
-  return "type_str NOT FOUND";
+exports.stringify_type = function (x) {
+    if (checks_1.isFunction(x) && x.length === 0)
+        return "THUNK";
+    if (checks_1.isFunction(x) && x.length > 0)
+        return "FUNCTION";
+    if (checks_1.isPromise(x))
+        return "PROMISE";
+    if (checks_1.isObject(x))
+        return "OBJECT";
+    return "type_str NOT FOUND";
 };
 
-exports.stringify_type = stringify_type;
-},{"@thi.ng/checks":"XYpc"}],"CBID":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc"}],"xZgE":[function(require,module,exports) {
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.trace$ = void 0;
-
-var _rstream = require("@thi.ng/rstream");
-
-/** @format */
-
+/**
+ * @module utils/trace$
+ */
+Object.defineProperty(exports, "__esModule", { value: true });
+var rstream_1 = require("@thi.ng/rstream");
 /**
  * ## `trace_stream`
  *
- * simple ad-hoc tracer to log one of the streams emmissions
- * @param {string} log_prefix A string that is prepended to
- *                  console.log's of emissions from the
- *                  stream
- * @param {stream}
+ * allows for logging emissions to a provided stream
  * */
-const trace$ = (log_prefix, stream) => stream.subscribeTopic ? stream.subscribeTopic("_TRACE_STREAM", {
-  next: x => console.log(log_prefix, x),
-  error: console.warn
-}) : stream.subscribe((0, _rstream.trace)(log_prefix));
+exports.trace$ = function (log_prefix, stream) {
+    return stream.subscribeTopic
+        ? stream.subscribeTopic("_TRACE_STREAM", {
+            next: function (x) { return console.log(log_prefix, x); },
+            error: console.warn
+        })
+        : stream.subscribe(rstream_1.trace(log_prefix));
+};
 
-exports.trace$ = trace$;
 },{"@thi.ng/rstream":"RCxb"}],"ZsgN":[function(require,module,exports) {
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -22156,25 +22139,39 @@ var objectKeys = Object.keys || function (obj) {
 
 exports.decode = exports.parse = require('./decode');
 exports.encode = exports.stringify = require('./encode');
-},{"./decode":"ZsgN","./encode":"LpfZ"}],"DgSw":[function(require,module,exports) {
+},{"./decode":"ZsgN","./encode":"LpfZ"}],"FGH7":[function(require,module,exports) {
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.unfURL = exports.fURL = void 0;
-
-var _querystring = _interopRequireDefault(require("querystring"));
-
-var _constants = require("../constants.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/** @format */
-// import gql from "nanographql"
-
 /**
- * # HREF/URL Parser
+ * @module utils/URL
+ */
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
+var __spread = (this && this.__spread) || function () {
+    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
+    return ar;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var querystring_1 = __importDefault(require("querystring"));
+// import gql from "nanographql"
+var keys_js_1 = require("../keys.js");
+/**
  *
  * Takes an href (full or relative) and pulls out the various
  * components to be used for instrumentation of various
@@ -22184,7 +22181,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  * Ex1:
  * ```js
- * parse_href("http://localhost:1234/about?get=some#today")
+ * unFURL("http://localhost:1234/about?get=some#today")
  * ```
  * ```js
  * {
@@ -22199,7 +22196,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  * Ex2:
  * ```js
- * parse_href("https://github.com/thi-ng/umbrella/#blog-posts")
+ * unFURL("https://github.com/thi-ng/umbrella/#blog-posts")
  * ```
  * ```js
  * {
@@ -22214,7 +22211,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  * Ex3:
  * ```js
- * parse_href("https://very-long-sub.dom.cloud.eu/site/my/happy/")
+ * unFURL("https://very-long-sub.dom.cloud.eu/site/my/happy/")
  * ```
  * ```js
  * {
@@ -22229,7 +22226,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  * Ex4:
  * ```js
- * parse_href("https://api.census.gov/data?get=NAME&in=state:01&in=county:*")
+ * unFURL("https://api.census.gov/data?get=NAME&in=state:01&in=county:*")
  * ```
  * ```js
  * {
@@ -22244,7 +22241,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  * Ex5:
  * ```js
- * parse_href("/data?get=NAME&in=state#indeed")
+ * unFURL("/data?get=NAME&in=state#indeed")
  * ```
  * ```js
  * {
@@ -22257,143 +22254,126 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * }
  * ```
  *
- * @param {string} URL - full or partial URL/href
- *
- * */
-const fURL = (_URL, prefixRGX) => {
-  // console.log("parsing...")
-  let URL_subdomain = [];
-  let URL_domain = [];
-  let URL_path = [];
-  const splitRGX = /(?=\?)|(?=#)/g; // split the path on any `?` and/or `#` chars (1-3 parts)
-
-  const parts = prefixRGX ? _URL.replace(prefixRGX, "").split(splitRGX) : _URL.split(splitRGX); // take the first component of split: the core URL
-
-  const path_str = parts[0]; // split the path_str further into individual members and
-  // remove the empty string between any adjacent slashes `//`
-
-  const full_path = path_str.split("/").filter(x => x !== "");
-
-  if (/http/i.test(_URL)) {
-    // if the input URL is HTTP(S), partition into sub components
-    // domain is the last two members of the 2nd component
-    URL_domain = full_path[1].split(".").slice(-2); // subdomain is anything before the domain
-    // see https://stackoverflow.com/a/56921347
-    // for mocking subdomain on localhost
-
-    URL_subdomain = full_path[1].split(".").slice(0, -2); // path is the last component in the
-
-    URL_path = full_path.slice(2);
-  } else {
-    // in the case of a relative URL `<a href="/about">
-    // the relative path is the full path
-    URL_path = full_path;
-  } // pull out the query component as a string
-
-
-  const query_str = parts.filter(part => part.slice(0, 1) === "?")[0] || ""; // pull out the hash component as a string
-
-  const hash_str = parts.filter(part => part.slice(0, 1) === "#")[0] || ""; // parse the query string into conventional parts using qs
-
-  const URL_query = _querystring.default.parse(query_str.slice(1)); // remove the actual `#` hash character from the string
-
-
-  const URL_hash = hash_str.slice(1);
-  return {
-    [_constants.URL_]: _URL,
-    [_constants.URL_subdomain_]: URL_subdomain,
-    [_constants.URL_domain_]: URL_domain,
-    [_constants.URL_path_]: URL_path,
-    [_constants.URL_query_]: URL_query,
-    [_constants.URL_hash_]: URL_hash
-  };
+ */
+exports.parse = function (URL_full, prefixRGX) {
+    var _a;
+    // console.log("parsing...")
+    var URL_subdomain = [];
+    var URL_domain = [];
+    var URL_path = [];
+    var splitRGX = /(?=\?)|(?=#)/g;
+    // split the path on any `?` and/or `#` chars (1-3 parts)
+    var parts = prefixRGX
+        ? URL_full.replace(prefixRGX, "").split(splitRGX)
+        : URL_full.split(splitRGX);
+    // take the first component of split: the core URL
+    var path_str = parts[0];
+    // split the path_str further into individual members and
+    // remove the empty string between any adjacent slashes `//`
+    var full_path = path_str.split("/").filter(function (x) { return x !== ""; });
+    if (/http/i.test(URL_full)) {
+        // if the input URL is HTTP(S), partition into sub components
+        // domain is the last two members of the 2nd component
+        URL_domain = full_path[1].split(".").slice(-2);
+        // subdomain is anything before the domain
+        // see https://stackoverflow.com/a/56921347
+        // for mocking subdomain on localhost
+        URL_subdomain = full_path[1].split(".").slice(0, -2);
+        // path is the last component in the
+        URL_path = full_path.slice(2);
+    }
+    else {
+        // in the case of a relative URL `<a href="/about">
+        // the relative path is the full path
+        URL_path = full_path;
+    }
+    // pull out the query component as a string
+    var query_str = parts.filter(function (part) { return part.slice(0, 1) === "?"; })[0] || "";
+    // pull out the hash component as a string
+    var hash_str = parts.filter(function (part) { return part.slice(0, 1) === "#"; })[0] || "";
+    // parse the query string into conventional parts using qs
+    var URL_query = querystring_1.default.parse(query_str.slice(1));
+    // remove the actual `#` hash character from the string
+    var URL_hash = hash_str.slice(1);
+    return _a = {},
+        _a[keys_js_1.URL_FULL] = URL_full,
+        _a[keys_js_1.URL_SUBD] = URL_subdomain,
+        _a[keys_js_1.URL_DOMN] = URL_domain,
+        _a[keys_js_1.URL_PATH] = URL_path,
+        _a[keys_js_1.URL_QERY] = URL_query,
+        _a[keys_js_1.URL_HASH] = URL_hash,
+        _a;
 };
 /**
  *
- * `unparse_URL`
- *
- * The reverse of `parse_URL` that enables talking to the
+ * The reverse of `unFURL` that enables talking to the
  * router with a friendlier API than having to always
  * construct URLs manually.
  *
- * TODO: testing for `unparse_URL`
- *
  */
-
-
-exports.fURL = fURL;
-
-const unfURL = (parsed, isAbsolute = false) => {
-  // console.log("unparsing...")
-  const {
-    [_constants.URL_subdomain_]: URL_subdomain,
-    [_constants.URL_domain_]: URL_domain,
-    [_constants.URL_path_]: URL_path,
-    [_constants.URL_query_]: URL_query,
-    [_constants.URL_hash_]: URL_hash
-  } = fURL(parsed[_constants.URL_] || window.location.href);
-  const {
-    _URL_subdomain = URL_subdomain,
-    _URL_domain = URL_domain,
-    _URL_path = URL_path,
-    _URL_query = URL_query,
-    _URL_hash = URL_hash
-  } = parsed;
-
-  const [protocol, rest] = _constants.URL_.split("//");
-
-  const [root] = rest.split("/");
-  const [part_one, ...other_parts] = root.split("."); // console.log({ part_one, other_parts })
-
-  const domain = _URL_subdomain && _URL_domain ? [..._URL_subdomain, ..._URL_domain] : _URL_subdomain && other_parts.length > 1 ? [..._URL_subdomain, ...other_parts] : _URL_subdomain && other_parts.length === 1 ? [..._URL_subdomain, part_one, ...other_parts] : [..._URL_subdomain, part_one];
-
-  const query_string = _querystring.default.encode(_URL_query);
-
-  const rootRelative = `${_URL_path.length > 0 ? "/" + _URL_path.join("/") : ""}${_URL_hash ? "#" + _URL_hash : null}?${query_string}`; // console.log({ domain })
-  // console.log({ protocol, rest, root, domain, URL_domain })
-
-  return !isAbsolute ? rootRelative : `${protocol}//${domain.join(".")}${rootRelative}`;
+exports.unparse = function (parsed, isAbsolute) {
+    // console.log("unparsing...")
+    if (isAbsolute === void 0) { isAbsolute = false; }
+    var _a = exports.parse(parsed[keys_js_1.URL_FULL] || window.location.href), _b = keys_js_1.URL_SUBD, URL_subdomain = _a[_b], _c = keys_js_1.URL_DOMN, URL_domain = _a[_c], _d = keys_js_1.URL_PATH, URL_path = _a[_d], _e = keys_js_1.URL_QERY, URL_query = _a[_e], _f = keys_js_1.URL_HASH, URL_hash = _a[_f];
+    var _g = parsed._URL_subdomain, _URL_subdomain = _g === void 0 ? URL_subdomain : _g, _h = parsed._URL_domain, _URL_domain = _h === void 0 ? URL_domain : _h, _j = parsed._URL_path, _URL_path = _j === void 0 ? URL_path : _j, _k = parsed._URL_query, _URL_query = _k === void 0 ? URL_query : _k, _l = parsed._URL_hash, _URL_hash = _l === void 0 ? URL_hash : _l;
+    var _m = __read(keys_js_1.URL_FULL.split("//"), 2), protocol = _m[0], rest = _m[1];
+    var _o = __read(rest.split("/"), 1), root = _o[0];
+    var _p = __read(root.split(".")), part_one = _p[0], other_parts = _p.slice(1);
+    // console.log({ part_one, other_parts })
+    var domain = _URL_subdomain && _URL_domain
+        ? __spread(_URL_subdomain, _URL_domain) : _URL_subdomain && other_parts.length > 1
+        ? __spread(_URL_subdomain, other_parts) : _URL_subdomain && other_parts.length === 1
+        ? __spread(_URL_subdomain, [part_one], other_parts) : __spread(_URL_subdomain, [part_one]);
+    var query_string = querystring_1.default.encode(_URL_query);
+    var rootRelative = "" + (_URL_path.length > 0 ? "/" + _URL_path.join("/") : "") + (_URL_hash ? "#" + _URL_hash : null) + "?" + query_string;
+    // console.log({ domain })
+    // console.log({ protocol, rest, root, domain, URL_domain })
+    return !isAbsolute
+        ? rootRelative
+        : protocol + "//" + domain.join(".") + rootRelative;
 };
-/*
-let test1 = {
-  // URL: "https://api.census.gov",
-  // URL_subdomain: ["sub"],
-  // URL_domain: ["swing", "bloop", "com"],
-  URL_path: ["lens", "path"],
-  // URL_query: {
-  //   GQL: `
-  //       query($name: String!) {
-  //         movie(name: $name) {
-  //           releaseDate
-  //         }
-  //       }
-  //     `.replace(/ |\n/g, ""),
-  //   name: "Back to the Future"
-  // },
-  URL_hash: "scroll-to"
-}
-unparse_URL(test1, true) //?
+// let test1 = {
+//   // URL: "https://api.census.gov",
+//   // URL_subdomain: ["sub"],
+//   // URL_domain: ["swing", "bloop", "com"],
+//   URL_path: ["lens", "path"],
+//   // URL_query: {
+//   //   GQL: `
+//   //       query($name: String!) {
+//   //         movie(name: $name) {
+//   //           releaseDate
+//   //         }
+//   //       }
+//   //     `.replace(/ |\n/g, ""),
+//   //   name: "Back to the Future"
+//   // },
+//   URL_hash: "scroll-to"
+// }
+// FURN(test1, true) //?
+// unFURL(
+//   "https://poop.bloop.gov/data/wipe#something?get=NAME,B101001_10E,group(B61010)&in=state:01&in=county:*&for=tract:*"
+// ) //?
+// unFURL(
+//   "http://sub.swing.bloop.com/lens/path#scroll-to?GQL=query(%24name%3AString!)%7Bmovie(name%3A%24name)%7BreleaseDate%7D%7D&name=Back%20to%20the%20Future"
+// ) //?
 
-parse_URL(
-  "https://poop.bloop.gov/data/wipe#something?get=NAME,B101001_10E,group(B61010)&in=state:01&in=county:*&for=tract:*"
-)
-
-parse_URL(
-  "http://sub.swing.bloop.com/lens/path#scroll-to?GQL=query(%24name%3AString!)%7Bmovie(name%3A%24name)%7BreleaseDate%7D%7D&name=Back%20to%20the%20Future"
-) //?
-
-*/
-
-
-exports.unfURL = unfURL;
-},{"querystring":"nGIe","../constants.js":"DFXy"}],"lEyc":[function(require,module,exports) {
+},{"querystring":"nGIe","../keys.js":"mxIA"}],"bIm6":[function(require,module,exports) {
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.x_key_ERR = exports.key_index_err = exports.stringify_w_functions = void 0;
-
+/**
+ * @module utils/xKey
+ */
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Uses a JSON.stringify "replacer" function to preserve a
  * small (truncated) version of the function signature for
@@ -22401,29 +22381,30 @@ exports.x_key_ERR = exports.key_index_err = exports.stringify_w_functions = void
  *
  * @format
  */
-const stringify_w_functions = (x, indent) => JSON.stringify(x, (key, value) => {
-  if (typeof value === "function") {
-    return value.toString().replace(/\r?\n|\r/g, "").replace(/\s\s+/g, " ").slice(0, 12) + "...";
-  } else {
-    return value;
-  }
-}, indent);
-
-exports.stringify_w_functions = stringify_w_functions;
-
-const key_index_err = (c, i) => {
-  const idx_dict0 = Array.from(Array(19).keys()).reduce((a, idx) => ({ ...a,
-    [idx]: `${idx + 1}th`
-  }), {});
-  const idx_dict = { ...idx_dict0,
-    0: "1st",
-    1: "2nd",
-    2: "3rd"
-  };
-  const idx_str = idx_dict[i];
-  return `🔍 it was the ${idx_str} Command in a Task or ${idx_dict[i - 1]} in a Subtask.`;
-}; // prettier-ignore
-
+exports.stringify_w_functions = function (x, indent) {
+    return JSON.stringify(x, function (key, value) {
+        if (typeof value === "function") {
+            return (value
+                .toString()
+                .replace(/\r?\n|\r/g, "")
+                .replace(/\s\s+/g, " ")
+                .slice(0, 12) + "...");
+        }
+        else {
+            return value;
+        }
+    }, indent);
+};
+exports.key_index_err = function (c, i) {
+    var idx_dict0 = Array.from(Array(19).keys()).reduce(function (a, idx) {
+        var _a;
+        return (__assign(__assign({}, a), (_a = {}, _a[idx] = idx + 1 + "th", _a)));
+    }, {});
+    var idx_dict = __assign(__assign({}, idx_dict0), { 0: "1st", 1: "2nd", 2: "3rd" });
+    var idx_str = idx_dict[i];
+    return "\uD83D\uDD0D it was the " + idx_str + " Command in a Task or " + idx_dict[i - 1] + " in a Subtask.";
+};
+// prettier-ignore
 /**
  *
  * `uknown_key_ERR`
@@ -22431,501 +22412,246 @@ const key_index_err = (c, i) => {
  * Just a  little error for people defining commands
  * that makes sure their keys don't contain typos
  */
-
-
-exports.key_index_err = key_index_err;
-
-const x_key_ERR = (str, c, unknown, sub$, index) => {
-  const {
-    source$
-  } = c;
-  const count = Object.entries(c).length;
-  return `
-
-  🔥 ${str} ERROR:
-  
-  🔥 Unrecognized Command Key(s)
-  
-  FAULTY sub$: "${sub$}" 
-  ${Object.keys(unknown)[0][0] ? `
-  ${index ? key_index_err(c, index) : ""}
-
-  The problematic entry/entries: 
-
-  🤔 ${!index && count > 3 && !source$ ? `${Object.entries(unknown)[0][0]}: <Stream>` : stringify_w_functions(unknown, 2)}` : ""} 🤔
-
-  ACCEPTABLE ENTRY KEYS ${index ? "WITHIN A COMMAND" : "DURING REGISTRATION"}: 
-
-  'sub$' 
-    - optional 
-    - topic key for for registering & targeting Commands 
-    - signatures:
-      - "X"    : String: Topic key
-      - XX$    : Stream: for dispatching args to custom stream
-
-  'args' 
-    - required 
-    - payload or accumulator reshaping payload function (Promises OK)
-    - signatures:
-      - PRI    : primitive: static payload -> is NOT accumulated
-      - {?}    : object: static payload -> is accumulated 
-      - (+) => : function (non-nullary): dispatch payload from 
-                values accumulated from prior Command payloads
-      - (0) => : thunk (nullary): dispatch to custom stream
-      - {P}    : Promise or (#) => {P} Promise returning function
-      
-  'reso' 
-    - required for Promise handling 
-    - converts resolved Promise payloads to Command args
-    - signature:
-      - ({A: accumulator}, {P: resolved Promise}) =>  
-
-  'erro' 
-    - recommended for Promise rejections 
-    - handles rejected Promise payloads
-    - signature:
-      - ({A: accumulator}, {E: error object}) =>  
-  ${index ? `` : `
-  'handler' 
-    - required 
-    - function that is called on payload's arrival
-    - signature: 
-      - (#) => : function instruments actual side-effects/work 
-  
-  'source$' 
-    - advanced/optional 
-    - source stream (see http://thi.ng/rstream)`}
-
-  Hope that helps!
-  `;
+exports.xKeyError = function (str, c, unknown, sub$, index) {
+    var source$ = c.source$;
+    var count = Object.entries(c).length;
+    return "\n\n  \uD83D\uDD25 " + str + " ERROR:\n  \n  \uD83D\uDD25 Unrecognized Command Key(s)\n  \n  FAULTY sub$: \"" + sub$ + "\" \n  " + (Object.keys(unknown)[0][0]
+        ? "\n  " + (index ? exports.key_index_err(c, index) : "") + "\n\n  The problematic entry/entries: \n\n  \uD83E\uDD14 " + (!index && count > 3 && !source$ ? Object.entries(unknown)[0][0] + ": <Stream>" : exports.stringify_w_functions(unknown, 2))
+        : "") + " \uD83E\uDD14\n\n  ACCEPTABLE ENTRY KEYS " + (index ? "WITHIN A COMMAND" : "DURING REGISTRATION") + ": \n\n  'sub$' \n    - optional \n    - topic key for for registering & targeting Commands \n    - signatures:\n      - \"X\"    : String: Topic key\n      - XX$    : Stream: for dispatching args to custom stream\n\n  'args' \n    - required \n    - payload or accumulator reshaping payload function (Promises OK)\n    - signatures:\n      - PRI    : primitive: static payload -> is NOT accumulated\n      - {?}    : object: static payload -> is accumulated \n      - (+) => : function (non-nullary): dispatch payload from \n                values accumulated from prior Command payloads\n      - (0) => : thunk (nullary): dispatch to custom stream\n      - {P}    : Promise or (#) => {P} Promise returning function\n      \n  'reso' \n    - required for Promise handling \n    - converts resolved Promise payloads to Command args\n    - signature:\n      - ({A: accumulator}, {P: resolved Promise}) =>  \n\n  'erro' \n    - recommended for Promise rejections \n    - handles rejected Promise payloads\n    - signature:\n      - ({A: accumulator}, {E: error object}) =>  \n  " + (index ? ""
+        : "\n  'handler' \n    - required \n    - function that is called on payload's arrival\n    - signature: \n      - (#) => : function instruments actual side-effects/work \n  \n  'source$' \n    - advanced/optional \n    - source stream (see http://thi.ng/rstream)") + "\n\n  Hope that helps!\n  ";
 };
 
-exports.x_key_ERR = x_key_ERR;
-},{}],"BNjd":[function(require,module,exports) {
+},{}],"HyAd":[function(require,module,exports) {
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var taskDelay_js_1 = require("./taskDelay.js");
+exports.msTaskPromiseDelay = taskDelay_js_1.msTaskPromiseDelay;
+var diff_keys_js_1 = require("./diff_keys.js");
+exports.diff_keys = diff_keys_js_1.diff_keys;
+var stringify_type_js_1 = require("./stringify_type.js");
+exports.stringify_type = stringify_type_js_1.stringify_type;
+var trace__js_1 = require("./trace$.js");
+exports.trace$ = trace__js_1.trace$;
+var URL_js_1 = require("./URL.js");
+exports.unparse = URL_js_1.unparse;
+exports.parse = URL_js_1.parse;
+var xKey_js_1 = require("./xKey.js");
+exports.key_index_err = xKey_js_1.key_index_err;
+exports.stringify_w_functions = xKey_js_1.stringify_w_functions;
+exports.xKeyError = xKey_js_1.xKeyError;
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "msTaskPromiseDelay", {
-  enumerable: true,
-  get: function () {
-    return _taskDelay.msTaskPromiseDelay;
-  }
-});
-Object.defineProperty(exports, "diff_keys", {
-  enumerable: true,
-  get: function () {
-    return _diff_keys.diff_keys;
-  }
-});
-Object.defineProperty(exports, "stringify_type", {
-  enumerable: true,
-  get: function () {
-    return _strinigify_type.stringify_type;
-  }
-});
-Object.defineProperty(exports, "trace$", {
-  enumerable: true,
-  get: function () {
-    return _trace$.trace$;
-  }
-});
-Object.defineProperty(exports, "fURL", {
-  enumerable: true,
-  get: function () {
-    return _URL.fURL;
-  }
-});
-Object.defineProperty(exports, "unfURL", {
-  enumerable: true,
-  get: function () {
-    return _URL.unfURL;
-  }
-});
-Object.defineProperty(exports, "key_index_err", {
-  enumerable: true,
-  get: function () {
-    return _xKey.key_index_err;
-  }
-});
-Object.defineProperty(exports, "stringify_w_functions", {
-  enumerable: true,
-  get: function () {
-    return _xKey.stringify_w_functions;
-  }
-});
-Object.defineProperty(exports, "x_key_ERR", {
-  enumerable: true,
-  get: function () {
-    return _xKey.x_key_ERR;
-  }
-});
-
-var _taskDelay = require("./taskDelay");
-
-var _diff_keys = require("./diff_keys.js");
-
-var _strinigify_type = require("./strinigify_type.js");
-
-var _trace$ = require("./trace$.js");
-
-var _URL = require("./URL.js");
-
-var _xKey = require("./xKey.js");
-},{"./taskDelay":"WyOZ","./diff_keys.js":"wlvZ","./strinigify_type.js":"itCy","./trace$.js":"CBID","./URL.js":"DgSw","./xKey.js":"lEyc"}],"liNl":[function(require,module,exports) {
+},{"./taskDelay.js":"YpyK","./diff_keys.js":"QipV","./stringify_type.js":"ClUY","./trace$.js":"xZgE","./URL.js":"FGH7","./xKey.js":"bIm6"}],"r0tB":[function(require,module,exports) {
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.registerCMD = registerCMD;
-
-var _associative = require("@thi.ng/associative");
-
-var _transducers = require("@thi.ng/transducers");
-
-var _checks = require("@thi.ng/checks");
-
-var _constants = require("../constants.js");
-
-var _stream$ = require("../core/stream$.js");
-
-var _utils = require("../utils");
-
 /**
- * @module Registration
- * @format
+ * @module commands/register
  */
-const err_str = "command Registration `registerCMD`";
-
-const feedCMD$fromSource$ = cmd => {
-  const _sub$ = cmd[_constants.sub$_];
-  const _args = cmd[_constants.args_];
-  const args_is_fn = (0, _checks.isFunction)(_args);
-
-  const deliver = x => ({
-    [_constants.sub$_]: _sub$,
-    [_constants.args_]: _args(x)
-  });
-
-  const delivery = {
-    [_constants.sub$_]: _sub$,
-    [_constants.args_]: _args
-  };
-
-  const feed = $ => args_is_fn ? (0, _transducers.map)(x => $.next(deliver(x))) : (0, _transducers.map)(() => $.next(delivery)); // looks for the `sub$` key to determine if its a command
-
-
-  return cmd[_constants.source$_].subscribe(feed(_stream$.command$));
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
 };
+var __spread = (this && this.__spread) || function () {
+    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
+    return ar;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var associative_1 = require("@thi.ng/associative");
+var transducers_1 = require("@thi.ng/transducers");
+var checks_1 = require("@thi.ng/checks");
+var keys_js_1 = require("../keys.js");
+var stream__js_1 = require("../core/stream$.js");
+var utils_1 = require("../utils");
+var feedCMD$fromSource$ = function (cmd) {
+    var _a;
+    var sub$ = cmd[keys_js_1.CMD_SUB$];
+    var args = cmd[keys_js_1.CMD_ARGS];
+    var isFn = checks_1.isFunction(args);
+    var deliver = function (x) {
+        var _a;
+        return (_a = {}, _a[keys_js_1.CMD_SUB$] = sub$, _a[keys_js_1.CMD_ARGS] = args(x), _a);
+    };
+    var delivery = (_a = {}, _a[keys_js_1.CMD_SUB$] = sub$, _a[keys_js_1.CMD_ARGS] = args, _a);
+    var feed = function ($) {
+        return isFn ? transducers_1.map(function (x) { return $.next(deliver(x)); }) : transducers_1.map(function () { return $.next(delivery); });
+    };
+    return cmd[keys_js_1.CMD_SRC$].subscribe(feed(stream__js_1.command$));
+};
+var registered = new associative_1.EquivMap();
+var err_str = "command Registration `registerCMD`";
 /**
  *
- * ## `registerCMD`
  *
  * Takes a Command object with some additional information
- * and returns a Command usable in a Task or as-is. This
- * also serves the additional benefit of giving the user a
- * constant to use instead of making any typos in keys
- * during use.
- *
- * ### Destructuring Behavior
- *
- * During a `sub$` registration, the keys in the Command
- * object are used to determine the signature of incoming
- * Commands. In order to reduce the amount of boilerplate
- * for Commands that only contain the `sub$` and `args` key,
- * the `args` key is
- * [pluck](https://github.com/thi-ng/umbrella/blob/master/packages/transducers/src/xform/pluck.ts)ed
- * from the incoming Commands. This pulls the `args` value
- * out from the incoming Command objects to be used directly
- * (without the need for dstructuring).
+ * and returns a Command `run`able in a Task or as-is.
  *
  * ### Example
  *
  * ```js
- * import { registerCMD, run$ } from "🍎"
- *
- * const cmd_pathless = {
- *   sub$: "PATHLESS",
- *   args: { static: "payload" }
+ * const genie = {
+ *   sub$: "GENIE",
+ *   args: "your wish"
+ *   work: x => console.log("🧞 says:", x, "is my command")
  * }
  *
- * const pathless_handler = x => console.log("pathless ->", x)
+ * const GENIE = registerCMD(genie)
  *
- * const CMD_PATHLESS = registerCMD(cmd_pathless, pathless_handler)
- *
- * run$.next(CMD_PATHLESS) // 🏃
- * // pathless -> { static: 'payload' }
- *
- * const cmd_path = {
- *   sub$: "PATH",
- *   args: { static: "payload" },
- *   path: ["default", "path"]
- * }
- *
- * const path_handler = x => console.log("path ->", x)
- *
- * const CMD_PATH = registerCMD(cmd_path, path_handler)
- *
- * run$.next(CMD_PATH) // 🏃
- * // path -> { args: { static: 'payload' }, path: [ 'default', 'path' ] }
- *
- * const test_pathless = {
- *   sub$: "PATHLESS",
- *   args: "🔥"
- * }
- *
- * run$.next(test_pathless) // 🏃
- * // pathless -> "🔥"
- * // as you can see, the Command args have been plucked out
- *
- * const test_path = {
- *   sub$: "PATH",
- *   args: "🌊",
- *   path: ["new", "path"]
- * }
- *
- * run$.next(test_path) // 🏃
- * // path -> { args: '🌊', path: [ 'new', 'path' ] }
- * // only the sub$ entry has been removed leaving the rest
- *
- * // NOW: Let's stick these into a Task
- * let TASK_1 = [
- *   { ...CMD_PATH, path: "overwritten" },
- *   CMD_PATHLESS,
- *   { ...test_path, args: "🍝" }
- * ]
- * run$.next(TASK_1)
- * // path -> { args: { static: 'payload' }, path: 'overwritten' }
- * // pathless -> { static: 'payload' }
- * // path -> { args: '🍝', path: [ 'new', 'path' ] }
- *
+ * run(GENIE)
+ * // 🧞 says: your wish is my command
  * ```
  *
- * @param {Command} command an object with four keys:
+ * A Command object can have four keys:
  *  1. `sub$` (required)
- *  2. `handler` (required)
- *  3. `args` (optional, sets default) during registration
- *  4. `source$` (optional, enables stream to feed Command)
+ *  2. `args` (optional, sets default) during registration
+ *  3. `work` (required)
+ *  4. `src$` (optional, enables stream to feed Command)
  *
  */
-
-
-let registered = new _associative.EquivMap();
-
 function registerCMD(command) {
-  // 📌 TODO: register factory function
-  const _sub$ = command[_constants.sub$_];
-  const _args = command[_constants.args_];
-  const _erro = command[_constants.erro_];
-  const _reso = command[_constants.reso_];
-  const _source$ = command[_constants.source$_];
-  const _handler = command[_constants.handler_];
-  const knowns = [_constants.sub$_, _constants.args_, _constants.reso_, _constants.erro_, _constants.source$_, _constants.handler_];
-  const [unknowns] = (0, _utils.diff_keys)(knowns, command); // console.log({ knowns, unknowns })
-
-  /**
-   * destructure the args component out of the emissions
-   * to save the user from having to do that PITA everytime
-   */
-
-  if (unknowns.length > 0) {
-    throw new Error((0, _utils.x_key_ERR)(err_str, command, unknowns, _sub$, undefined));
-  }
-
-  if (_source$) feedCMD$fromSource$(command); // more: https://github.com/thi-ng/umbrella/blob/develop/examples/rstream-event-loop/src/events.ts
-
-  _stream$.out$.subscribeTopic(_sub$, {
-    next: _handler,
-    error: console.warn
-  }, (0, _transducers.map)(emissions => emissions[_constants.args_]));
-
-  const CMD = _reso ? {
-    [_constants.sub$_]: _sub$,
-    [_constants.args_]: _args,
-    [_constants.reso_]: _reso,
-    [_constants.erro_]: _erro
-  } : {
-    [_constants.sub$_]: _sub$,
-    [_constants.args_]: _args
-  }; // Set.add not supported by IE
-
-  if (registered.set) {
-    if (registered.has(_sub$)) {
-      throw new Error(`
-
-🔥 duplicate \`sub$\` value detected in Command:
-${(0, _utils.stringify_w_functions)(CMD)}
-existing registered Commands:
-${JSON.stringify([...registered.keys()], null, 2)}
-🔥 Please use a different/unique Command \`sub$\` string
-
-🔎 Inspect existing Commands using js Map API \`registerCMD.all\`
-🔎 (\`registerCMD.all.entries()\`, \`registerCMD.all.has("X")\`, etc.)
-
-        `);
+    var _a, _b;
+    var sub$ = command[keys_js_1.CMD_SUB$];
+    var args = command[keys_js_1.CMD_ARGS];
+    var erro = command[keys_js_1.CMD_ERRO];
+    var reso = command[keys_js_1.CMD_RESO];
+    var src$ = command[keys_js_1.CMD_SRC$];
+    var work = command[keys_js_1.CMD_WORK];
+    var knowns = [keys_js_1.CMD_SUB$, keys_js_1.CMD_ARGS, keys_js_1.CMD_RESO, keys_js_1.CMD_ERRO, keys_js_1.CMD_SRC$, keys_js_1.CMD_WORK];
+    var _c = __read(utils_1.diff_keys(knowns, command), 1), unknowns = _c[0];
+    // console.log({ knowns, unknowns })
+    if (unknowns.length > 0) {
+        throw new Error(utils_1.xKeyError(err_str, command, unknowns, sub$, undefined));
     }
-
-    registered.set(_sub$, CMD);
-  }
-
-  return CMD;
+    if (src$)
+        feedCMD$fromSource$(command);
+    // @ts-ignore
+    stream__js_1.out$.subscribeTopic(sub$, { next: work, error: console.warn }, transducers_1.map(function (puck) { return puck[keys_js_1.CMD_ARGS]; }));
+    var CMD = reso
+        ? (_a = {},
+            _a[keys_js_1.CMD_SUB$] = sub$,
+            _a[keys_js_1.CMD_ARGS] = args,
+            _a[keys_js_1.CMD_RESO] = reso,
+            _a[keys_js_1.CMD_ERRO] = erro,
+            _a) : (_b = {}, _b[keys_js_1.CMD_SUB$] = sub$, _b[keys_js_1.CMD_ARGS] = args, _b);
+    // Set.add not supported by IE
+    if (registered.set) {
+        if (registered.has(sub$)) {
+            throw new Error("\n\n  \uD83D\uDD25 duplicate `sub$` value detected in Command:\n  " + utils_1.stringify_w_functions(CMD) + "\n  existing registered Commands:\n  " + JSON.stringify(__spread(registered.keys()), null, 2) + "\n  \uD83D\uDD25 Please use a different/unique Command `sub$` string\n\n  \uD83D\uDD0E Inspect existing Commands using js Map API `registerCMD.all`\n  \uD83D\uDD0E (`registerCMD.all.entries()`, `registerCMD.all.has(\"X\")`, etc.)\n\n        ");
+        }
+        registered.set(sub$, CMD);
+    }
+    return CMD;
 }
+exports.registerCMD = registerCMD;
 /**
  * enables inspection of the existing Command registrations
  * if using Chrome, there's an additional advantage of being
- * able to find the `[[FunctionLocation]]` of the Command,
- * @example
- * registerCMD.all.entries()
- * // => ⬇ [[Entries]]
- * //      ⬇ 0: {"HURL_CMD" => Object}
- * //          key: "HURL_CMD"
- * //        ⬇ value:
- * //            sub$: "HURL_CMD"
- * //          ⬇ args: ev => ev
- * //              arguments: (...)
- * //              caller: (...)
- * //              length: 1
- * //              name: "args"
- * //            ➡ __proto__: ƒ ()
- * //              [[FunctionLocation]]: routing.js:32 (♻ Chrome)
- * //            ➡ [[Scopes]]: Scopes[2]
+ * able to find the `[[FunctionLocation]]` of the Command
  */
-
-
 registerCMD.all = registered;
-},{"@thi.ng/associative":"GmJl","@thi.ng/transducers":"GbKR","@thi.ng/checks":"XYpc","../constants.js":"DFXy","../core/stream$.js":"hI2k","../utils":"BNjd"}],"LyFD":[function(require,module,exports) {
+
+},{"@thi.ng/associative":"GmJl","@thi.ng/transducers":"GbKR","@thi.ng/checks":"XYpc","../keys.js":"mxIA","../core/stream$.js":"k8Vj","../utils":"HyAd"}],"Xd9b":[function(require,module,exports) {
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.FLIP_LAST_INVERSE_PLAY = exports.FLIP_FIRST = void 0;
-
-var _atom = require("@thi.ng/atom");
-
-var _paths = require("@thi.ng/paths");
-
-var _constants = require("../constants.js");
-
-var _register = require("./register.js");
-
 /**
- * @module FLIP
- * @format
+ * @module commands/FLIP
  */
-//
-//    d8                  888
-//  _d88__  e88~-_   e88~\888  e88~-_
-//   888   d888   i d888  888 d888   i
-//   888   8888   | 8888  888 8888   |
-//   888   Y888   ' Y888  888 Y888   '
-//   "88_/  "88_-~   "88_/888  "88_-~
-//
-//
-// add before/after transition hooks for support animations
+var _a, _b;
+Object.defineProperty(exports, "__esModule", { value: true });
+var atom_1 = require("@thi.ng/atom");
+var paths_1 = require("@thi.ng/paths");
+var keys_js_1 = require("../keys.js");
+var register_js_1 = require("./register.js");
 function getRect(element, frame) {
-  const {
-    top,
-    bottom,
-    left,
-    right,
-    width,
-    height
-  } = element.getBoundingClientRect();
-  const parent = frame ? frame.getBoundingClientRect() : null;
-  return {
-    top: top - (parent ? parent.top : 0),
-    bottom,
-    left: left - (parent ? parent.left : 0),
-    right,
-    width,
-    height
-  };
+    var _a = element.getBoundingClientRect(), top = _a.top, bottom = _a.bottom, left = _a.left, right = _a.right, width = _a.width, height = _a.height;
+    var parent = frame ? frame.getBoundingClientRect() : null;
+    return {
+        top: top - (parent ? parent.top : 0),
+        bottom: bottom,
+        left: left - (parent ? parent.left : 0),
+        right: right,
+        width: width,
+        height: height
+    };
 }
-
-const shuffle_paths = uid => ({
-  rects: ["_FLIP_shuffle", "rects", uid],
-  elems: ["_FLIP_shuffle", "elems", uid]
-});
-
-const FLIP_all = (el, state, uid, frameDOMel = null) => {
-  const {
-    rects
-  } = shuffle_paths(uid);
-  if (!(0, _paths.getIn)(state.deref(), rects)) return state.resetIn(rects, getRect(el, frameDOMel));
-  const F_flip_map = (0, _paths.getIn)(state.deref(), rects);
-  const L_flip_map = getRect(el, frameDOMel); // console.log({ F_flip_map, L_flip_map })
-
-  const Tx = F_flip_map.left - L_flip_map.left;
-  const Ty = F_flip_map.top - L_flip_map.top;
-  const Sx = F_flip_map.width / L_flip_map.width;
-  const Sy = F_flip_map.height / L_flip_map.height;
-  el.style.transformOrigin = "0 0";
-  el.style.transition = "";
-  const trans = `translate(${Tx}px, ${Ty}px) scale(${Sx}, ${Sy})`;
-  el.style.transform = trans;
-  state.resetIn(rects, L_flip_map);
-  requestAnimationFrame(() => {
-    el.style.transition = "all .4s cubic-bezier(.54,-0.29,.17,1.11)";
-    el.style.transform = "none";
-  });
+var S_path = "FLIP_shuffle";
+var shuffle_paths = function (uid) { return ({
+    rects: [S_path, "rects", uid],
+    elems: [S_path, "elems", uid]
+}); };
+var FLIP_all = function (el, state, uid, frameDOMel) {
+    if (frameDOMel === void 0) { frameDOMel = null; }
+    var rects = shuffle_paths(uid).rects;
+    if (!paths_1.getIn(state.deref(), rects))
+        return state.resetIn(rects, getRect(el, frameDOMel));
+    var F_flip_map = paths_1.getIn(state.deref(), rects);
+    var L_flip_map = getRect(el, frameDOMel);
+    // console.log({ F_flip_map, L_flip_map })
+    var Tx = F_flip_map.left - L_flip_map.left;
+    var Ty = F_flip_map.top - L_flip_map.top;
+    var Sx = F_flip_map.width / L_flip_map.width;
+    var Sy = F_flip_map.height / L_flip_map.height;
+    el.style.transformOrigin = "0 0";
+    el.style.transition = "";
+    var trans = "translate(" + Tx + "px, " + Ty + "px) scale(" + Sx + ", " + Sy + ")";
+    el.style.transform = trans;
+    state.resetIn(rects, L_flip_map);
+    requestAnimationFrame(function () {
+        el.style.transition = "all .4s cubic-bezier(.54,-0.29,.17,1.11)";
+        el.style.transform = "none";
+    });
 };
-
-const zoom_paths = uid => ({
-  rects: ["_FLIP_zoom", "rects", uid],
-  elems: ["_FLIP_zoom", "elems", uid],
-  clicks: ["_FLIP_zoom", "clicks", uid],
-  scrolls: ["_FLIP_zoom", "scroll", uid]
-});
+var Z_path = "FLIP_zoom";
+var zoom_paths = function (uid) { return ({
+    rects: [Z_path, "rects", uid],
+    elems: [Z_path, "elems", uid],
+    clicks: [Z_path, "clicks", uid],
+    scrolls: [Z_path, "scroll", uid]
+}); };
 /**
  *
- * order:
- * normalizeTree -> render -> diff -> init -> release
- *                 | hdom |         | dom  | post-dom
+ * `FLIPFirst`
  *
- * have to think backwards:
+ * ```
+ * order: normalizeTree -> render -> diff -> init -> release
+ *                        | hdom |         | dom | unmounted
+ * ```
+ *
  * 1. el mounted (init): look for existing flip map for id
- *  - if exists, Play anim and store new flip map rect (for navs)
+ *  - if exists, Play anim and store new flip map rect (for
+ *    navs)
  *  - if doesn't, nada
- * 2. el clicked (render.attrs.onclick): measure and store flip map for id
- * 3. el released: if clicked, calc flip rect and lookup for id:
+ * 2. el clicked (render.attrs.onclick): measure and store
+ *    flip map for id
+ * 3. el released: if clicked, calc flip rect and lookup for
+ *    id:
  *  - if first === last, no change (on nav e.g.)
  *  - if first !== last, nav change (store rect for id)
- * @example
- * FLIPFirst({ state: "bloop"})
  *
  */
-
-
-const FLIPFirst = ({
-  state,
-  id,
-  target
-}) => {
-  // 📌 TODO: GOOD PLACE FOR AN `onStart` hook animation/callback
-  const {
-    rects,
-    clicks,
-    scrolls
-  } = zoom_paths(id); // sets the rect in state for next el init to sniff
-
-  const flip_map = getRect(target);
-  state.resetIn(rects, flip_map); // registers component as having been clicked (focused)
-
-  state.resetIn(clicks, true);
-  state.resetIn(scrolls, {
-    y: window.scrollY,
-    x: window.scrollX
-  });
+var FLIPFirst = function (_a) {
+    // 📌 TODO: GOOD PLACE FOR AN `onStart` hook animation/callback
+    var state = _a.state, id = _a.id, target = _a.target;
+    var _b = zoom_paths(id), rects = _b.rects, clicks = _b.clicks, scrolls = _b.scrolls;
+    // sets the rect in state for next el init to sniff
+    var flip_map = getRect(target);
+    state.resetIn(rects, flip_map);
+    // registers component as having been clicked (focused)
+    state.resetIn(clicks, true);
+    state.resetIn(scrolls, { y: window.scrollY, x: window.scrollX });
 };
 /**
  * https://coder-coder.com/z-index-isnt-working/
  */
-
-
-const zIndex = (el, idx) => el.style.zIndex = idx;
+var zIndex = function (el, idx) { return (el.style.zIndex = idx); };
 /**
  * 1. if it has been clicked that means the last thing
  *    that happened was a click that triggered this init
@@ -22933,88 +22659,7 @@ const zIndex = (el, idx) => el.style.zIndex = idx;
  *
  * 2. if a back/nav (no frame) event was what triggered
  *    the init do the calcs with no frame
- */
-
-
-const FLIPLastInvertPlay = ({
-  element,
-  state,
-  id,
-  // just baffle them with https://cubic-bezier.com/
-  transition = "all .3s cubic-bezier(.54,-0.29,.17,1.11)"
-}) => {
-  element.setAttribute("flip", id);
-  const {
-    rects,
-    clicks,
-    scrolls
-  } = zoom_paths(id);
-  const F_flip_map = (0, _paths.getIn)(state.deref(), rects) || null; // NO RECT => NOT CLICKED
-
-  if (!F_flip_map) return; // 🕛 if flip active, scroll element on init
-  // element.scrollIntoView()
-
-  /**
-   * 🔥 this may cause issues for parrallel anims append this
-   * to a specific target using:
-   * Array.from(el.querySelectorAll("[flip]")).forEach(x=>
-   * if i last... el.scrollIntoView())
-   *
-   */
-  // 🕞 calculate location and size
-
-  let L_flip_map = getRect(element); // recalc rect if out of initial view after scrolling into view
-
-  if (Math.abs(F_flip_map.top - L_flip_map.top) > window.innerHeight) {
-    element.scrollIntoView();
-    L_flip_map = getRect(element);
-  }
-
-  const Tx = F_flip_map.left - L_flip_map.left;
-  const Ty = F_flip_map.top - L_flip_map.top;
-  const Sx = F_flip_map.width / L_flip_map.width;
-  const Sy = F_flip_map.height / L_flip_map.height; // 🕕 just before "Last", scroll element to middle of page
-  // const top = L_flip_map.top + window.pageYOffset
-
-  const {
-    x,
-    y
-  } = (0, _paths.getIn)(state.deref(), scrolls); // top - window.innerHeight / 2
-
-  window.scrollTo(x, y); // console.log({ Tx, Ty, Sx, Sy })
-
-  element.style.transformOrigin = "top left";
-  element.style.transition = "";
-  const trans = `translate(${Tx}px, ${Ty}px) scale(${Sx}, ${Sy})`;
-  element.style.transform = trans; // PLAY
-
-  requestAnimationFrame(() => {
-    // 🕤 just before animating, scroll to new location
-    window.scrollTo(x, y); // element.style.transformOrigin = "top left"
-
-    element.style.transition = transition;
-    element.style.transform = "none"; // 💩 hack for removing zIndex after animation is complete
-    // 📌 TODO:    🔻 GOOD PLACE FOR AN `onComplete` hook animation/callback
-
-    setTimeout(() => zIndex(element, 0), 200);
-  }); // move element to front
-
-  zIndex(element, 1); // 🔍 consider exposing in the API
-
-  const clicked = (0, _paths.getIn)(state.deref(), clicks) || null;
-
-  if (!clicked) {
-    // console.log(uid, "FLIP'ed on navigated")
-    state.resetIn(rects, null);
-  } else {
-    // console.log(uid, "FLIP'ed on click! 👆")
-    state.resetIn(rects, L_flip_map);
-  } // remove click frame
-
-
-  state.resetIn(clicks, null);
-};
-/**
+ *
  * What's happening:
  * - on first click (render)
  * - rect registered
@@ -23024,217 +22669,249 @@ const FLIPLastInvertPlay = ({
  * - checks for rect & frame
  * - uses rect & frame to calc diff
  * - PLAY
+ *
  */
-
-
-const state = new _atom.Atom({});
-const FLIP_FIRST = (0, _register.registerCMD)({
-  [_constants.sub$_]: "FLIP_FIRST",
-  [_constants.args_]: x => x,
-  [_constants.handler_]: ({
-    id,
-    target
-  }) => FLIPFirst({
-    id,
-    target,
-    state
-  })
-});
-exports.FLIP_FIRST = FLIP_FIRST;
-const FLIP_LAST_INVERSE_PLAY = (0, _register.registerCMD)({
-  [_constants.sub$_]: "FLIP_LAST_INVERSE_PLAY",
-  [_constants.args_]: x => x,
-  [_constants.handler_]: ({
-    id,
-    element
-  }) => FLIPLastInvertPlay({
-    id,
-    element,
-    state
-  })
-});
-exports.FLIP_LAST_INVERSE_PLAY = FLIP_LAST_INVERSE_PLAY;
-},{"@thi.ng/atom":"GVpA","@thi.ng/paths":"jkaf","../constants.js":"DFXy","./register.js":"liNl"}],"NVrH":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.INJECT_HEAD = void 0;
-
-var _constants = require("../constants.js");
-
-var _register = require("./register.js");
-
-/**
- * @module INJECT_HEAD
- * @format
- */
-const setFavicon = href => {
-  let link = document.querySelector("link[rel*='icon']") || document.createElement("link");
-  link.type = "image/x-icon";
-  link.rel = "shortcut icon";
-  link.href = href;
-  document.getElementsByTagName("head")[0].appendChild(link);
-};
-
-const replaceMeta = (obj = defalt_cfg) => {
-  Object.entries(obj).forEach(([key, val]) => {
-    try {
-      return {
-        HEAD_title: () => {
-          document.title = val;
-        },
-        HEAD_meta: () => {
-          Object.entries(val).forEach(([prop, content]) => {
-            document.head.querySelector(`meta[property="${prop}"]`).content = content;
-          });
-        },
-        HEAD_favicon: () => setFavicon(val)
-      }[key]();
-    } catch (e) {
-      console.warn(e);
-    }
-  });
-};
-
-const defalt_cfg = {
-  meta: {
-    "og:title": "My thi.ng",
-    "og:image": "https://github.com/loganpowell/ac/raw/master/assets/thing400x400.png",
-    "og:image:width": 400,
-    "og:image:height": 400,
-    "og:description": "web app",
-    "og:type": "website"
-  },
-  title: "My thi.ng",
-  favicon: "https://github.com/loganpowell/ac/raw/master/assets/favicon.ico"
-};
-
-const conform_head = ({
-  title = defalt_cfg.meta.title,
-  description = defalt_cfg.meta["og:description"],
-  image: {
-    url = defalt_cfg.meta["og:image"],
-    height = defalt_cfg.meta["og:image:height"],
-    width = defalt_cfg.meta["og:image:width"]
-  },
-  favicon = defalt_cfg.favicon,
-  type = defalt_cfg.meta["og:type"]
-}) => ({
-  HEAD_meta: {
+var FLIPLastInvertPlay = function (_a) {
+    var element = _a.element, state = _a.state, id = _a.id, 
+    // just baffle them with https://cubic-bezier.com/
+    _b = _a.transition, 
+    // just baffle them with https://cubic-bezier.com/
+    transition = _b === void 0 ? "all .3s cubic-bezier(.54,-0.29,.17,1.11)" : _b;
+    element.setAttribute("flip", id);
+    var _c = zoom_paths(id), rects = _c.rects, clicks = _c.clicks, scrolls = _c.scrolls;
+    var F_flip_map = paths_1.getIn(state.deref(), rects) || null;
+    // NO RECT => NOT CLICKED
+    if (!F_flip_map)
+        return;
+    // 🕛 if flip active, scroll element on init
+    // element.scrollIntoView()
     /**
-     * og:url can tell scrapers to ignore the page and
-     * scrape this instead. Would save scraping the whole
-     * page and might be friendlier for `jsdom`
+     * 🔥 this may cause issues for parrallel anims append this
+     * to a specific target using:
+     * Array.from(el.querySelectorAll("[flip]")).forEach(x=>
+     * if i last... el.scrollIntoView())
+     *
      */
-    // "og:url": history.state.URL,
-    "og:title": title,
-    "og:type": type,
-    "og:description": description,
-    "og:image:width": width,
-    "og:image:height": height,
-    "og:image": url
-  },
-  HEAD_title: title,
-  HEAD_favicon: favicon
-});
-
-const INJECT_HEAD = (0, _register.registerCMD)({
-  // source$: DOMnavigated$,
-  [_constants.sub$_]: "INJECT_HEAD",
-  [_constants.args_]: acc => ({
-    [_constants.URL_data_]: acc[_constants.URL_data_]
-  }),
-  [_constants.handler_]: ({
-    [_constants.URL_data_]: {
-      [_constants.HEAD_]: {
-        title,
-        description,
-        image,
-        favicon,
-        type
-      }
+    // 🕞 calculate location and size
+    var L_flip_map = getRect(element);
+    // recalc rect if out of initial view after scrolling into view
+    if (Math.abs(F_flip_map.top - L_flip_map.top) > window.innerHeight) {
+        element.scrollIntoView();
+        L_flip_map = getRect(element);
     }
-  }) => replaceMeta(conform_head({
-    title,
-    description,
-    image,
-    favicon,
-    type
-  }))
-});
-exports.INJECT_HEAD = INJECT_HEAD;
-},{"../constants.js":"DFXy","./register.js":"liNl"}],"gXtp":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.__NOTIFY_PRERENDER_DOM = exports.__HREF_PUSHSTATE_DOM = exports.__SET_LINK_ATTRS_DOM = exports.HURL = exports.HURLer = void 0;
-
-var _utils = require("../utils");
-
-var _stream$ = require("../core/stream$.js");
-
-var _constants = require("../constants.js");
-
-var _register = require("./register.js");
-
-/**
- * @module Routing
- * @format
- */
-
-/**
- * we need to transform the payload to align with the
- * object structure of the native DOM events ('popstate'
- * and 'DOMContentLoaded') payloads, so they're
- * transformed correctly by the `navigated$` stream
- * transforms
- */
-const HURLer = ev => {
-  // ev.preventDefault()
-  // console.log({ e })
-  let href = ev.target.href;
-  let w_href = window.location.href;
-  let parsed = (0, _utils.fURL)(w_href);
-  let w_path = `/${parsed[_constants.URL_path_].join("/")}`; // handle both absolute and root relative paths
-
-  if (href === w_href || href === w_path) return;
-
-  _stream$.DOMnavigated$.next({
-    target: {
-      location: {
-        href
-      }
+    var Tx = F_flip_map.left - L_flip_map.left;
+    var Ty = F_flip_map.top - L_flip_map.top;
+    var Sx = F_flip_map.width / L_flip_map.width;
+    var Sy = F_flip_map.height / L_flip_map.height;
+    // 🕕 just before "Last", scroll element to middle of page
+    // const top = L_flip_map.top + window.pageYOffset
+    var _d = paths_1.getIn(state.deref(), scrolls), x = _d.x, y = _d.y; // top - window.innerHeight / 2
+    window.scrollTo(x, y);
+    // console.log({ Tx, Ty, Sx, Sy })
+    element.style.transformOrigin = "top left";
+    element.style.transition = "";
+    var trans = "translate(" + Tx + "px, " + Ty + "px) scale(" + Sx + ", " + Sy + ")";
+    element.style.transform = trans;
+    // PLAY
+    requestAnimationFrame(function () {
+        // 🕤 just before animating, scroll to new location
+        window.scrollTo(x, y);
+        // element.style.transformOrigin = "top left"
+        element.style.transition = transition;
+        element.style.transform = "none";
+        // 💩 hack for removing zIndex after animation is complete
+        // 📌 TODO:    🔻 GOOD PLACE FOR AN `onComplete` hook animation/callback
+        setTimeout(function () { return zIndex(element, 0); }, 200);
+    });
+    // move element to front
+    zIndex(element, 1);
+    // 🔍 consider exposing in the API
+    var clicked = paths_1.getIn(state.deref(), clicks) || null;
+    if (!clicked) {
+        // console.log(uid, "FLIP'ed on navigated")
+        state.resetIn(rects, null);
+    }
+    else {
+        // console.log(uid, "FLIP'ed on click! 👆")
+        state.resetIn(rects, L_flip_map);
+    }
+    // remove click frame
+    state.resetIn(clicks, null);
+};
+var state = new atom_1.Atom({});
+exports.FLIP_FIRST = register_js_1.registerCMD((_a = {},
+    _a[keys_js_1.CMD_SUB$] = "_FLIP_FIRST",
+    _a[keys_js_1.CMD_ARGS] = function (x) { return x; },
+    _a[keys_js_1.CMD_WORK] = function (_a) {
+        var id = _a.id, target = _a.target;
+        return FLIPFirst({ id: id, target: target, state: state });
     },
-    currentTarget: ev.currentTarget
-  });
+    _a));
+exports.FLIP_LAST_INVERSE_PLAY = register_js_1.registerCMD((_b = {},
+    _b[keys_js_1.CMD_SUB$] = "_FLIP_LAST_INVERSE_PLAY",
+    _b[keys_js_1.CMD_ARGS] = function (x) { return x; },
+    _b[keys_js_1.CMD_WORK] = function (_a) {
+        var id = _a.id, element = _a.element;
+        return FLIPLastInvertPlay({ id: id, element: element, state: state });
+    },
+    _b));
 
-  return ev;
+},{"@thi.ng/atom":"GVpA","@thi.ng/paths":"jkaf","../keys.js":"mxIA","./register.js":"r0tB"}],"huf9":[function(require,module,exports) {
+"use strict";
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
 };
+var _a;
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * @module commands/head
+ */
+var keys_js_1 = require("../keys.js");
+var register_js_1 = require("./register.js");
+var setFavicon = function (href) {
+    var link = document.querySelector("link[rel*='icon']") ||
+        document.createElement("link");
+    link.type = "image/x-icon";
+    link.rel = "shortcut icon";
+    link.href = href;
+    document.getElementsByTagName("head")[0].appendChild(link);
+};
+// TODO currently throws CORS warning
+var defalt_cfg = {
+    meta: {
+        "og:title": "My thi.ng",
+        "og:image": "https://github.com/loganpowell/ac/raw/master/assets/thing400x400.png",
+        "og:image:width": 400,
+        "og:image:height": 400,
+        "og:description": "web app",
+        "og:type": "website"
+    },
+    title: "My thi.ng",
+    favicon: "https://github.com/loganpowell/ac/raw/master/assets/favicon.ico"
+};
+var replaceMeta = function (obj) {
+    if (obj === void 0) { obj = defalt_cfg; }
+    Object.entries(obj).forEach(function (_a) {
+        var _b = __read(_a, 2), key = _b[0], val = _b[1];
+        try {
+            return {
+                HEAD_title: function () {
+                    document.title = val;
+                },
+                HEAD_meta: function () {
+                    Object.entries(val).forEach(function (_a) {
+                        var _b = __read(_a, 2), prop = _b[0], content = _b[1];
+                        document.head.querySelector("meta[property=\"" + prop + "\"]").content = content;
+                    });
+                },
+                HEAD_favicon: function () { return setFavicon(val); }
+            }[key]();
+        }
+        catch (e) {
+            console.warn(e);
+        }
+    });
+};
+var conformToHead = function (_a) {
+    var _b = _a.title, title = _b === void 0 ? defalt_cfg.title : _b, _c = _a.description, description = _c === void 0 ? defalt_cfg.meta["og:description"] : _c, _d = _a.image, _e = _d.url, url = _e === void 0 ? defalt_cfg.meta["og:image"] : _e, _f = _d.height, height = _f === void 0 ? defalt_cfg.meta["og:image:height"] : _f, _g = _d.width, width = _g === void 0 ? defalt_cfg.meta["og:image:width"] : _g, _h = _a.favicon, favicon = _h === void 0 ? defalt_cfg.favicon : _h, _j = _a.type, type = _j === void 0 ? defalt_cfg.meta["og:type"] : _j;
+    return ({
+        HEAD_meta: {
+            /**
+             * og:url can tell scrapers to ignore the page and
+             * scrape this instead. Would save scraping the whole
+             * page and might be friendlier for `jsdom`
+             */
+            // "og:url": history.state.URL,
+            "og:title": title,
+            "og:type": type,
+            "og:description": description,
+            "og:image:width": width,
+            "og:image:height": height,
+            "og:image": url
+        },
+        HEAD_title: title,
+        HEAD_favicon: favicon
+    });
+};
+exports.INJECT_HEAD = register_js_1.registerCMD((_a = {},
+    _a[keys_js_1.CMD_SUB$] = "_INJECT_HEAD",
+    _a[keys_js_1.CMD_ARGS] = function (acc) {
+        var _a;
+        return (_a = {}, _a[keys_js_1.URL_DATA] = acc[keys_js_1.URL_DATA], _a);
+    },
+    _a[keys_js_1.CMD_WORK] = function (_a) {
+        var _b = keys_js_1.URL_DATA, _c = keys_js_1.DOM_HEAD, _d = _a[_b][_c], title = _d.title, description = _d.description, image = _d.image, favicon = _d.favicon, type = _d.type;
+        return replaceMeta(conformToHead({ title: title, description: description, image: image, favicon: favicon, type: type }));
+    },
+    _a));
 
-exports.HURLer = HURLer;
-const HURL = (0, _register.registerCMD)({
-  [_constants.sub$_]: "HURL",
-  [_constants.args_]: ev => ev,
-  [_constants.handler_]: HURLer
-});
-exports.HURL = HURL;
-
-const setLinkAttrs = target => {
-  document.body.querySelectorAll("a[visited]").forEach(el => {
-    if (el.href === window.location.href) el.setAttribute("active", "");else el.removeAttribute("active");
-  });
-
-  if (target.setAttribute) {
-    target.setAttribute("visited", "");
-    target.setAttribute("active", "");
-  }
+},{"../keys.js":"mxIA","./register.js":"r0tB"}],"fc7l":[function(require,module,exports) {
+"use strict";
+var _a, _b, _c, _d;
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * @module commands/routing
+ */
+var utils_1 = require("../utils");
+var stream__js_1 = require("../core/stream$.js");
+var keys_js_1 = require("../keys.js");
+var register_js_1 = require("./register.js");
+/**
+ * Click handler that mimics DOM navigation by transforming
+ * a click event payload to align with the object structure
+ * of the native DOM navigation events ('popstate' and
+ * 'DOMContentLoaded') payloads, so they can be consumed by
+ * the `navigated$` stream
+ */
+exports.HURLer = function (ev) {
+    // ev.preventDefault()
+    // console.log({ e })
+    var href = ev.target.href;
+    var w_href = window.location.href;
+    var parsed = utils_1.parse(w_href);
+    var w_path = "/" + parsed[keys_js_1.URL_PATH].join("/");
+    // handle both absolute and root relative paths
+    if (href === w_href || href === w_path)
+        return;
+    stream__js_1.DOMnavigated$.next({
+        target: { location: { href: href } },
+        currentTarget: ev.currentTarget
+    });
+    return ev;
+};
+exports.HURL = register_js_1.registerCMD((_a = {},
+    _a[keys_js_1.CMD_SUB$] = "_HURL",
+    _a[keys_js_1.CMD_ARGS] = function (ev) { return ev; },
+    _a[keys_js_1.CMD_WORK] = exports.HURLer,
+    _a));
+var setLinkAttrs = function (target) {
+    document.body
+        .querySelectorAll("a[visited]")
+        .forEach(function (el) {
+        if (el.href === window.location.href)
+            el.setAttribute("active", "");
+        else
+            el.removeAttribute("active");
+    });
+    if (target.setAttribute) {
+        target.setAttribute("visited", "");
+        target.setAttribute("active", "");
+    }
 };
 /**
- * ## `_SET_LINK_ATTRS_DOM`
  *
  * Routing Command: DOM-specific
  *
@@ -23252,17 +22929,15 @@ const setLinkAttrs = target => {
  * function
  *
  */
-
-
-const __SET_LINK_ATTRS_DOM = (0, _register.registerCMD)({
-  [_constants.sub$_]: "__SET_LINK_ATTRS_DOM",
-  [_constants.args_]: acc => ({
-    [_constants.DOM_]: acc[_constants.DOM_]
-  }),
-  [_constants.handler_]: args => setLinkAttrs(args[_constants.DOM_])
-});
+exports.SET_LINK_ATTRS_DOM = register_js_1.registerCMD((_b = {},
+    _b[keys_js_1.CMD_SUB$] = "_SET_LINK_ATTRS_DOM",
+    _b[keys_js_1.CMD_ARGS] = function (acc) {
+        var _a;
+        return (_a = {}, _a[keys_js_1.DOM_NODE] = acc[keys_js_1.DOM_NODE], _a);
+    },
+    _b[keys_js_1.CMD_WORK] = function (args) { return setLinkAttrs(args[keys_js_1.DOM_NODE]); },
+    _b));
 /**
- * ## `_HREF_PUSHSTATE_DOM`
  *
  * Routing Command: DOM-specific
  *
@@ -23284,30 +22959,26 @@ const __SET_LINK_ATTRS_DOM = (0, _register.registerCMD)({
  *
  *
  */
-
-
-exports.__SET_LINK_ATTRS_DOM = __SET_LINK_ATTRS_DOM;
-
-const __HREF_PUSHSTATE_DOM = (0, _register.registerCMD)({
-  [_constants.sub$_]: "__HREF_PUSHSTATE_DOM",
-  [_constants.args_]: acc => ({
-    [_constants.URL_]: acc[_constants.URL_],
-    [_constants.DOM_]: acc[_constants.DOM_]
-  }),
-  [_constants.handler_]: args => !args[_constants.DOM_].document ? history.pushState((0, _utils.fURL)(args[_constants.URL_]), null, args[_constants.URL_]) : null
-});
+exports.HREF_PUSHSTATE_DOM = register_js_1.registerCMD((_c = {},
+    _c[keys_js_1.CMD_SUB$] = "_HREF_PUSHSTATE_DOM",
+    _c[keys_js_1.CMD_ARGS] = function (acc) {
+        var _a;
+        return (_a = {}, _a[keys_js_1.URL_FULL] = acc[keys_js_1.URL_FULL], _a[keys_js_1.DOM_NODE] = acc[keys_js_1.DOM_NODE], _a);
+    },
+    _c[keys_js_1.CMD_WORK] = function (args) {
+        return !args[keys_js_1.DOM_NODE].document
+            ? history.pushState(utils_1.parse(args[keys_js_1.URL_FULL]), null, args[keys_js_1.URL_FULL])
+            : null;
+    },
+    _c));
 /**
- * ## `_NOTIFY_PRERENDER_DOM`
  *
- * ### Payload: static
- * default payload `args` signature
- * ```
- * args: true,
- * ```
- * ### Handler: side-effecting
+ * ### args: static
+ *
+ * ### work: side-effecting
+ *
  * Routing Command: DOM-specific (used for manually
- * triggering `rendertron` prerenderer for bots/web-crawlers
- *
+ * triggering a prerendering server for bots/web-crawlers
  *
  * TODO: `jsdom` prerender testing
  *
@@ -23317,189 +22988,109 @@ const __HREF_PUSHSTATE_DOM = (0, _register.registerCMD)({
  * import { JSDOM } from "jsdom"
  *
  * const document = (new JSDOM(...)).window.document
- * document.addEventListener("rendered", () => {...scrape
- * stuff here...
- * })
+ * document.addEventListener("rendered",
+ *  () => {...scrape stuff here... }
+ * )
  *
  *
  */
+exports.NOTIFY_PRERENDER_DOM = register_js_1.registerCMD((_d = {},
+    _d[keys_js_1.CMD_SUB$] = "_NOTIFY_PRERENDER_DOM",
+    _d[keys_js_1.CMD_ARGS] = true,
+    //👀 for prerenderer,
+    _d[keys_js_1.CMD_WORK] = function () { return document.dispatchEvent(new Event("rendered")); },
+    _d));
 
-
-exports.__HREF_PUSHSTATE_DOM = __HREF_PUSHSTATE_DOM;
-
-const __NOTIFY_PRERENDER_DOM = (0, _register.registerCMD)({
-  [_constants.sub$_]: "__NOTIFY_PRERENDER_DOM",
-  [_constants.args_]: true,
-  //👀 for prerenderer,
-  [_constants.handler_]: () => document.dispatchEvent(new Event("rendered"))
-});
-
-exports.__NOTIFY_PRERENDER_DOM = __NOTIFY_PRERENDER_DOM;
-},{"../utils":"BNjd","../core/stream$.js":"hI2k","../constants.js":"DFXy","./register.js":"liNl"}],"oN56":[function(require,module,exports) {
+},{"../utils":"HyAd","../core/stream$.js":"k8Vj","../keys.js":"mxIA","./register.js":"r0tB"}],"ZhqH":[function(require,module,exports) {
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.set$$tate = exports.$store$ = void 0;
-
-var _atom = require("@thi.ng/atom");
-
-var _checks = require("@thi.ng/checks");
-
-var _constants = require("../constants.js");
-
 /**
- * @module set$$tate
- * @format
+ * @module store/state
  */
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var atom_1 = require("@thi.ng/atom");
+var checks_1 = require("@thi.ng/checks");
+var keys_js_1 = require("../keys.js");
 // Global $store$ Container from [@thi.ng/atom](http://thi.ng/atom)
-const $store$ = new _atom.Atom(_constants.DEFAULT_CFG);
+exports.$store$ = new atom_1.Atom(keys_js_1.$$_DEFAULT);
 /**
- *
- * ## `set$$tate`
  *
  * Swaps the current value at the given path/lens into the
  * global store with that of the given value. Checks to see
  * if that value should be either spread into an existing
  * object or a complete replacement
- *
  */
+exports.set$$tate = function (path, val, store) {
+    if (store === void 0) { store = exports.$store$; }
+    return store.swapIn(path, function (x) {
+        var _a;
+        return !path.length && !checks_1.isPlainObject(val)
+            ? __assign(__assign({}, x), (_a = {}, _a[Object.keys(val)[0]] = val, _a)) : checks_1.isPlainObject(x) && checks_1.isPlainObject(val)
+            ? __assign(__assign({}, x), val) : val;
+    });
+};
 
-exports.$store$ = $store$;
-
-const set$$tate = (path, val) => $store$.swapIn(path, x => !path.length && !(0, _checks.isPlainObject)(val) ? { ...x,
-  [Object.keys(val)[0]]: val
-} : (0, _checks.isPlainObject)(x) && (0, _checks.isPlainObject)(val) ? { ...x,
-  ...val
-} : val); // $store$.resetIn(path, val)
-
-
-exports.set$$tate = set$$tate;
-},{"@thi.ng/atom":"GVpA","@thi.ng/checks":"XYpc","../constants.js":"DFXy"}],"si7o":[function(require,module,exports) {
+},{"@thi.ng/atom":"GVpA","@thi.ng/checks":"XYpc","../keys.js":"mxIA"}],"nhWS":[function(require,module,exports) {
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var state_js_1 = require("./state.js");
+exports.$store$ = state_js_1.$store$;
+exports.set$$tate = state_js_1.set$$tate;
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "$store$", {
-  enumerable: true,
-  get: function () {
-    return _state.$store$;
-  }
-});
-Object.defineProperty(exports, "set$$tate", {
-  enumerable: true,
-  get: function () {
-    return _state.set$$tate;
-  }
-});
-
-var _state = require("./state.js");
-},{"./state.js":"oN56"}],"hwx7":[function(require,module,exports) {
+},{"./state.js":"ZhqH"}],"m5bB":[function(require,module,exports) {
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.SET_STATE = void 0;
-
-var _constants = require("../constants.js");
-
-var _store = require("../store");
-
-var _register = require("./register.js");
-
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
- * @module SET_STATE
- * @format
+ * @module commands/state
  */
-const SET_STATE = (0, _register.registerCMD)({
-  [_constants.sub$_]: "SET_STATE",
-  [_constants.args_]: x => x,
-  [_constants.handler_]: ({
-    STATE,
-    PATH
-  }) => (0, _store.set$$tate)(PATH, STATE)
-});
-exports.SET_STATE = SET_STATE;
-},{"../constants.js":"DFXy","../store":"si7o","./register.js":"liNl"}],"j2Dl":[function(require,module,exports) {
+var keys_js_1 = require("../keys.js");
+var store_1 = require("../store");
+var register_js_1 = require("./register.js");
+/**
+ *
+ * Higher-order function that takes a `@thi.ng/Atom` state
+ * container and returns a Command object for setting that
+ * Atom's state by the provided path
+ */
+exports.createSetStateCMD = function (store) {
+    var _a;
+    return register_js_1.registerCMD((_a = {},
+        _a[keys_js_1.CMD_SUB$] = "_SET_STATE",
+        _a[keys_js_1.CMD_ARGS] = function (x) { return x; },
+        _a[keys_js_1.CMD_WORK] = function (args) { return store_1.set$$tate(args[keys_js_1.STATE_PATH], args[keys_js_1.STATE_DATA], store); },
+        _a));
+};
+
+},{"../keys.js":"mxIA","../store":"nhWS","./register.js":"r0tB"}],"FoiB":[function(require,module,exports) {
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var FLIP_js_1 = require("./FLIP.js");
+exports.FLIP_FIRST = FLIP_js_1.FLIP_FIRST;
+exports.FLIP_LAST_INVERSE_PLAY = FLIP_js_1.FLIP_LAST_INVERSE_PLAY;
+var head_js_1 = require("./head.js");
+exports.INJECT_HEAD = head_js_1.INJECT_HEAD;
+var register_js_1 = require("./register.js");
+exports.registerCMD = register_js_1.registerCMD;
+var routing_js_1 = require("./routing.js");
+exports.HREF_PUSHSTATE_DOM = routing_js_1.HREF_PUSHSTATE_DOM;
+exports.HURL = routing_js_1.HURL;
+exports.HURLer = routing_js_1.HURLer;
+exports.NOTIFY_PRERENDER_DOM = routing_js_1.NOTIFY_PRERENDER_DOM;
+exports.SET_LINK_ATTRS_DOM = routing_js_1.SET_LINK_ATTRS_DOM;
+var state_js_1 = require("./state.js");
+exports.createSetStateCMD = state_js_1.createSetStateCMD;
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "FLIP_FIRST", {
-  enumerable: true,
-  get: function () {
-    return _FLIP.FLIP_FIRST;
-  }
-});
-Object.defineProperty(exports, "FLIP_LAST_INVERSE_PLAY", {
-  enumerable: true,
-  get: function () {
-    return _FLIP.FLIP_LAST_INVERSE_PLAY;
-  }
-});
-Object.defineProperty(exports, "INJECT_HEAD", {
-  enumerable: true,
-  get: function () {
-    return _head.INJECT_HEAD;
-  }
-});
-Object.defineProperty(exports, "HURL", {
-  enumerable: true,
-  get: function () {
-    return _routing.HURL;
-  }
-});
-Object.defineProperty(exports, "HURLer", {
-  enumerable: true,
-  get: function () {
-    return _routing.HURLer;
-  }
-});
-Object.defineProperty(exports, "__HREF_PUSHSTATE_DOM", {
-  enumerable: true,
-  get: function () {
-    return _routing.__HREF_PUSHSTATE_DOM;
-  }
-});
-Object.defineProperty(exports, "__NOTIFY_PRERENDER_DOM", {
-  enumerable: true,
-  get: function () {
-    return _routing.__NOTIFY_PRERENDER_DOM;
-  }
-});
-Object.defineProperty(exports, "__SET_LINK_ATTRS_DOM", {
-  enumerable: true,
-  get: function () {
-    return _routing.__SET_LINK_ATTRS_DOM;
-  }
-});
-Object.defineProperty(exports, "SET_STATE", {
-  enumerable: true,
-  get: function () {
-    return _state.SET_STATE;
-  }
-});
-Object.defineProperty(exports, "registerCMD", {
-  enumerable: true,
-  get: function () {
-    return _register.registerCMD;
-  }
-});
-
-var _FLIP = require("./FLIP.js");
-
-var _head = require("./head.js");
-
-var _routing = require("./routing.js");
-
-var _state = require("./state.js");
-
-var _register = require("./register.js");
-},{"./FLIP.js":"LyFD","./head.js":"NVrH","./routing.js":"gXtp","./state.js":"hwx7","./register.js":"liNl"}],"sx3Q":[function(require,module,exports) {
+},{"./FLIP.js":"Xd9b","./head.js":"huf9","./register.js":"r0tB","./routing.js":"fc7l","./state.js":"m5bB"}],"sx3Q":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25736,30 +25327,50 @@ const updateDOM = (opts = {}, impl = _hdom.DEFAULT_IMPL) => {
 };
 
 exports.updateDOM = updateDOM;
-},{"@thi.ng/hdom":"RaP4","@thi.ng/hiccup":"t26P","@thi.ng/transducers":"GbKR"}],"dTfx":[function(require,module,exports) {
+},{"@thi.ng/hdom":"RaP4","@thi.ng/hiccup":"t26P","@thi.ng/transducers":"GbKR"}],"wUee":[function(require,module,exports) {
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.__URL_DOM__ROUTE = exports.__URL__ROUTE = void 0;
-
-var _checks = require("@thi.ng/checks");
-
-var _commands = require("../commands");
-
-var _constants = require("../constants.js");
-
-var _utils = require("../utils");
-
 /**
- * @module Routing
- * @format
+ * @module tasks/routing
  */
-
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
+var __spread = (this && this.__spread) || function () {
+    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
+    return ar;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var checks_1 = require("@thi.ng/checks");
+var store_1 = require("../store");
+var commands_1 = require("../commands");
+var keys_js_1 = require("../keys.js");
+var utils_1 = require("../utils");
+var SET_STATE = commands_1.createSetStateCMD(store_1.$store$);
 /**
- *
- * `_URL__ROUTE`
  *
  * Universal router (cross-platform) Subtask.
  *
@@ -25770,108 +25381,76 @@ var _utils = require("../utils");
  * Pseudo
  * ```
  * ( router ) => ({ URL }) => [
- * - set `router_loading` path in global atom to `true`
- * - call provided `router` with the `URL` and await payload
- * - `parse_URL(URL)` for `URL_*` components
- * - set `route_path` in global store/atom to current `URL_path`
- * - set page state (data, path & page component name) in store
- * - once promise(s) resolved, set `router_loading` to `false`
+ *  - set `router_loading` path in global atom to `true`
+ *  - call provided `router` with the `URL` and await payload
+ *  - `parse_URL(URL)` for `URL_*` components
+ *  - set `route_path` in global store/atom to current `URL_path`
+ *  - set page state (data, path & page component name) in store
+ *  - once promise(s) resolved, set `router_loading` to `false`
  * ]
  * ```
  * reserved Command keys:
- * - `URL_page`
- * - `URL_data`
- * - `URL_path`
- * - `URL`
- * - `DOM`
+ *  - `URL_page`
+ *  - `URL_data`
+ *  - `URL_path`
+ *  - `URL`
+ *  - `DOM`
  */
-const __URL__ROUTE = CFG => {
-  let __router, __pre, __post, __prefix;
-
-  if ((0, _checks.isObject)(CFG)) {
-    const _router = CFG[_constants.router_];
-    const _pre = CFG[_constants.prep_];
-    const _post = CFG[_constants.post_];
-
-    const _prefix = CFG[_constants.prefix_] || null;
-
-    const escRGX = /[-/\\^$*+?.()|[\]{}]/g;
-
-    const escaped = string => string.replace(escRGX, "\\$&");
-
-    const RGX = _prefix ? new RegExp(escaped(_prefix), "g") : null; // console.log({ router, pre, post })
-
-    __router = _router;
-    __pre = (0, _checks.isObject)(_pre) ? [_pre] : _pre || [];
-    __post = (0, _checks.isObject)(_post) ? [_post] : _post || [];
-    __prefix = RGX;
-  } else {
-    __router = CFG;
-    __pre = [];
-    __post = [];
-    __prefix = null;
-  }
-
-  return acc => [...__pre, // 📌 enable progress observation
-
-  /**
-   * ## `_SET_ROUTER_LOADING_STATE`cod
-   *
-   * Routing Command: Universal
-   *
-   * ### Payload: static
-   * default payload `args` signature:
-   * ```
-   * args: true,
-   * ```
-   * Simple true or false payload to alert handler
-   *
-   * ### Handler: side-effecting
-   * Sets `route_loading` path in global Atom to true || false
-   *
-   */
-  {
-    [_constants.args_]: __prefix ? __router(acc[_constants.URL_].replace(__prefix, "")) : __router(acc[_constants.URL_]),
-    [_constants.reso_]: (_acc, _res) => ({
-      [_constants.URL_page_]: _res[_constants.URL_page_],
-      [_constants.URL_data_]: _res[_constants.URL_data_]
-    }),
-    [_constants.erro_]: (_acc, _err) => console.warn("Error in __URL__ROUTE:", _err, "constructed:", _acc)
-  }, {
-    [_constants.args_]: __prefix ? (0, _utils.fURL)(acc[_constants.URL_], __prefix) : (0, _utils.fURL)(acc[_constants.URL_])
-  },
-  /**
-   * ## `_SET_ROUTER_PATH`
-   *
-   * Routing Command: Universal
-   *
-   * ### Payload: function
-   * default payload `args` signature:
-   * ```
-   * args: ({ URL_path }) => ({ URL_path }),
-   * ```
-   * Consumes the `URL_path` property from a `parse_URL`
-   * object, handed off from a prior Command
-   *
-   * ### Handler: side-effecting
-   * Sets the current/loading router's `route_path` in the
-   * global Atom
-   *
-   */
-  { ..._commands.SET_STATE,
-    [_constants.args_]: _acc => ({
-      [_constants.STATE_]: _acc[_constants.URL_path_],
-      [_constants.PATH_]: [_constants.ROUTE_PATH_]
-    })
-  }, ...__post];
+exports.URL__ROUTE = function (CFG) {
+    var router, preroute, postroute, prefix;
+    if (checks_1.isObject(CFG)) {
+        var ruts = CFG[keys_js_1.CFG_RUTR];
+        var prep = CFG[keys_js_1.ROUTER_PREP];
+        var post = CFG[keys_js_1.ROUTER_POST];
+        var prfx = CFG[keys_js_1.ROUTER_PRFX] || null;
+        var escRGX_1 = /[-/\\^$*+?.()|[\]{}]/g;
+        var escaped = function (string) { return string.replace(escRGX_1, "\\$&"); };
+        // console.log({ router, pre, post })
+        router = ruts;
+        preroute = checks_1.isObject(prep) ? [prep] : prep || [];
+        postroute = checks_1.isObject(post) ? [post] : post || [];
+        prefix = prfx ? new RegExp(escaped(prfx), "g") : null;
+    }
+    else {
+        router = CFG;
+        preroute = [];
+        postroute = [];
+        prefix = null;
+    }
+    return function (acc) {
+        var _a, _b, _c;
+        return __spread(preroute, [
+            (_a = {},
+                _a[keys_js_1.CMD_ARGS] = prefix
+                    ? router(acc[keys_js_1.URL_FULL].replace(prefix, ""))
+                    : router(acc[keys_js_1.URL_FULL]),
+                _a[keys_js_1.CMD_RESO] = function (_acc, _res) {
+                    var _a;
+                    return (_a = {},
+                        _a[keys_js_1.URL_PAGE] = _res[keys_js_1.URL_PAGE],
+                        _a[keys_js_1.URL_DATA] = _res[keys_js_1.URL_DATA],
+                        _a);
+                },
+                _a[keys_js_1.CMD_ERRO] = function (_acc, _err) {
+                    return console.warn("Error in URL__ROUTE:", _err, "constructed:", _acc);
+                },
+                _a),
+            (_b = {},
+                _b[keys_js_1.CMD_ARGS] = prefix ? utils_1.parse(acc[keys_js_1.URL_FULL], prefix) : utils_1.parse(acc[keys_js_1.URL_FULL]),
+                _b),
+            __assign(__assign({}, SET_STATE), (_c = {}, _c[keys_js_1.CMD_ARGS] = function (_acc) {
+                var _a;
+                return (_a = {},
+                    _a[keys_js_1.STATE_DATA] = _acc[keys_js_1.URL_PATH],
+                    _a[keys_js_1.STATE_PATH] = [keys_js_1.$$_PATH],
+                    _a);
+            }, _c))
+        ], postroute);
+    };
 };
 /**
  *
- * `_URL__ROUTE_DOM`
- *
  * DOM Router that contains a cross-platform routing Subtask
- * `_URL__ROUTE`
- *
  *
  * Subtask HOF for router registration. Takes a
  * `@thi.ng/associative` `EquivMap` route matching function,
@@ -25881,325 +25460,147 @@ const __URL__ROUTE = CFG => {
  * Pseudo
  * ```
  * ( router ) => ({ URL, DOM event }) => [
- * - if href, push to `history.pushState`
- * - SUBTASK: _URL__ROUTE (universal router)
- * - remove `active` attribute from visited links except current
- * - notify rendertron (TBD) of new page
+ *  - if href, push to `history.pushState`
+ *  - SUBTASK: _URL__ROUTE (universal router)
+ *  - remove `active` attribute from visited links except current
+ *  - notify rendertron (TBD) of new page
  * ]
  * ```
  *
  * reserved Command keys:
- * - `URL`
- * - `DOM`
- * - `URL_page`
- * - `URL_path`
- * - `URL_data`
+ *  - `URL`
+ *  - `DOM`
+ *  - `URL_page`
+ *  - `URL_path`
+ *  - `URL_data`
  */
-
-
-exports.__URL__ROUTE = __URL__ROUTE;
-
-const __URL_DOM__ROUTE = CFG => {
-  // autoscroll view into position
-  // scrolly.start()
-  // instantiate router
-  const match = __URL__ROUTE(CFG);
-
-  return acc => [{ ..._commands.SET_STATE,
-    [_constants.args_]: {
-      [_constants.PATH_]: [_constants.ROUTE_LOADING_],
-      [_constants.STATE_]: true
-    }
-  }, { ..._commands.__HREF_PUSHSTATE_DOM,
-    [_constants.args_]: {
-      [_constants.URL_]: acc[_constants.URL_],
-      [_constants.DOM_]: acc[_constants.DOM_]
-    }
-  }, // example Subtask injection
-  _acc => match({
-    [_constants.URL_]: _acc[_constants.URL_]
-  }), // { args: msTaskDelay(2000) },
-
-  /**
-   * takes the result from two sources: the user-provided
-   * `router` ([@thi.ng/associative:
-   * EquivMap](http://thi.ng/associative)) and the `URL_path`
-   * from `parse_URL(URL)`
-   *
-   * ### Handler: side-effecting
-   * Hydrates the page state as well as the name of the active
-   * page in the global store
-   *
-   */
-  { ..._commands.SET_STATE,
-    [_constants.args_]: _acc => ({
-      [_constants.PATH_]: [_constants.PAGE_TEMPLATE_],
-      [_constants.STATE_]: _acc[_constants.URL_page_]
-    })
-  }, { ..._commands.SET_STATE,
-    [_constants.args_]: _acc => ({
-      [_constants.PATH_]: _acc[_constants.URL_path_],
-      [_constants.STATE_]: _acc[_constants.URL_data_][_constants.BODY_] || _acc[_constants.URL_data_]
-    })
-  }, // wait on pending promise(s) w/a non-nullary fn (+)=>
-  // { ...__SET_ROUTER_LOADING_STATE, args: _ => false },
-  // example ad-hoc stream injection
-  // { sub$: log$, args: () => ({ DOM }) },
-  _commands.__SET_LINK_ATTRS_DOM, { ..._commands.SET_STATE,
-    [_constants.args_]: _ => ({
-      [_constants.PATH_]: [_constants.ROUTE_LOADING_],
-      [_constants.STATE_]: false
-    })
-  }, _commands.__NOTIFY_PRERENDER_DOM];
+exports.URL_DOM__ROUTE = function (CFG) {
+    // instantiate router
+    var match = exports.URL__ROUTE(CFG);
+    return function (acc) {
+        var _a, _b, _c, _d, _e, _f, _g;
+        return [
+            __assign(__assign({}, SET_STATE), (_a = {}, _a[keys_js_1.CMD_ARGS] = (_b = {},
+                _b[keys_js_1.STATE_PATH] = [keys_js_1.$$_LOAD],
+                _b[keys_js_1.STATE_DATA] = true,
+                _b), _a)),
+            __assign(__assign({}, commands_1.HREF_PUSHSTATE_DOM), (_c = {}, _c[keys_js_1.CMD_ARGS] = (_d = {}, _d[keys_js_1.URL_FULL] = acc[keys_js_1.URL_FULL], _d[keys_js_1.DOM_NODE] = acc[keys_js_1.DOM_NODE], _d), _c)),
+            // example Subtask injection
+            function (ACC) {
+                var _a;
+                return match((_a = {}, _a[keys_js_1.URL_FULL] = ACC[keys_js_1.URL_FULL], _a));
+            },
+            __assign(__assign({}, SET_STATE), (_e = {}, _e[keys_js_1.CMD_ARGS] = function (_acc) {
+                var _a;
+                return (_a = {},
+                    _a[keys_js_1.STATE_PATH] = [keys_js_1.$$_VIEW],
+                    _a[keys_js_1.STATE_DATA] = _acc[keys_js_1.URL_PAGE],
+                    _a);
+            }, _e)),
+            __assign(__assign({}, SET_STATE), (_f = {}, _f[keys_js_1.CMD_ARGS] = function (_acc) {
+                var _a;
+                return (_a = {},
+                    _a[keys_js_1.STATE_PATH] = _acc[keys_js_1.URL_PATH],
+                    _a[keys_js_1.STATE_DATA] = _acc[keys_js_1.URL_DATA][keys_js_1.DOM_BODY] || _acc[keys_js_1.URL_DATA],
+                    _a);
+            }, _f)),
+            // example ad-hoc stream injection
+            // { sub$: log$, args: () => ({ DOM }) },
+            commands_1.SET_LINK_ATTRS_DOM,
+            __assign(__assign({}, SET_STATE), (_g = {}, _g[keys_js_1.CMD_ARGS] = function (_) {
+                var _a;
+                return (_a = {},
+                    _a[keys_js_1.STATE_PATH] = [keys_js_1.$$_LOAD],
+                    _a[keys_js_1.STATE_DATA] = false,
+                    _a);
+            }, _g)),
+            commands_1.NOTIFY_PRERENDER_DOM
+        ];
+    };
 };
 
-exports.__URL_DOM__ROUTE = __URL_DOM__ROUTE;
-},{"@thi.ng/checks":"XYpc","../commands":"j2Dl","../constants.js":"DFXy","../utils":"BNjd"}],"bbvI":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc","../store":"nhWS","../commands":"FoiB","../keys.js":"mxIA","../utils":"HyAd"}],"idkx":[function(require,module,exports) {
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.boot = exports.registerRouter = exports.registerRouterDOM = void 0;
-
-var _rstream = require("@thi.ng/rstream");
-
-var _arrays = require("@thi.ng/arrays");
-
-var _transducers = require("@thi.ng/transducers");
-
-var _transducersHdom = require("@thi.ng/transducers-hdom");
-
-var _paths = require("@thi.ng/paths");
-
-var _constants = require("../constants.js");
-
-var _store = require("../store");
-
-var _commands = require("../commands");
-
-var _routing = require("../tasks/routing.js");
-
-var _utils = require("../utils");
-
-var _stream$ = require("./stream$.js");
-
 /**
- * @module Registration
- * @format
+ * @module core/multiplex
  */
-
-/**
- *
- * expects payload of
- * ```
- * { target: { location: { href } }, currentTarget }
- * ```
- */
-const registerRouterDOM = router => {
-  console.log("DOM Router Registered");
-  const taskFrom = (0, _routing.__URL_DOM__ROUTE)(router);
-  return (0, _commands.registerCMD)({
-    [_constants.source$_]: _stream$.DOMnavigated$,
-    [_constants.sub$_]: "_URL_NAVIGATED$_DOM",
-    [_constants.args_]: x => x,
-    [_constants.handler_]: args => _stream$.run$.next(taskFrom({
-      [_constants.URL_]: args[_constants.URL_],
-      [_constants.DOM_]: args[_constants.DOM_]
-    }))
-  });
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
 };
-
-exports.registerRouterDOM = registerRouterDOM;
-
-const registerRouter = router => {
-  console.log("Router Registered");
-  const taskFrom = (0, _routing.__URL__ROUTE)(router);
-  return (0, _commands.registerCMD)({
-    [_constants.sub$_]: "_URL_NAVIGATED$",
-    // 📌 TODO: add source for API access/server source$
-    [_constants.source$_]: _stream$.DOMnavigated$,
-    [_constants.args_]: x => x,
-    [_constants.handler_]: args => _stream$.run$.next(taskFrom({
-      [_constants.URL_]: args[_constants.URL_],
-      [_constants.DOM_]: args[_constants.DOM_]
-    }))
-  });
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
 };
-
-exports.registerRouter = registerRouter;
-
-const pre = (ctx, body) => (console.log(`no \`app\` component provided to \`${boot.name}({${_constants.app_}})\`. Rendering state by route path`), ["pre", JSON.stringify(body[1], null, 2)]);
-/**
- *
- *  Part I: Needs to be a functional component to accept the
- *  `ctx` object to pass it to children
- *
- *  Part II: Takes the root RAF stream and updates the shell
- *  on every global state mutation
- *
- *  Part III: Connects the app shell to the state stream,
- *  which is triggered by any updates to the global
- *  `$store$`
- */
-
-/* ({
-  root = document.body,
-  app = pre,
-  draft,
-  router,
-  trace,
-  ...others
-}) */
-
-
-const boot = async CFG => {
-  // console.log({ URL_page })
-  const _root = CFG[_constants.root_] || document.body;
-
-  const _app = CFG[_constants.app_] || pre;
-
-  const _draft = CFG[_constants.draft_];
-  const _router = CFG[_constants.router_];
-  const _trace = CFG[_constants.trace_];
-  const knowns = [_constants.root_, _constants.app_, _constants.draft_, _constants.router_, _constants.trace_];
-  const [, others] = (0, _utils.diff_keys)(knowns, CFG);
-  const escRGX = /[-/\\^$*+?.()|[\]{}]/g;
-
-  const escaped = string => string.replace(escRGX, "\\$&");
-
-  const _prefix = _router[_constants.prefix_] || null;
-
-  const RGX = _prefix ? new RegExp(escaped(_prefix || ""), "g") : null;
-  if (_router) registerRouterDOM(_router);
-  const state$ = (0, _rstream.fromAtom)(_store.$store$);
-
-  const shell = state$ => (_trace ? console.log(_trace, state$) : null, state$[_constants.ROUTE_LOADING_] ? null : [_app, [state$[_constants.PAGE_TEMPLATE_], (0, _paths.getIn)(state$, state$[_constants.ROUTE_PATH_])]]);
-
-  if (_draft) _store.$store$.swap(x => ({ ..._draft,
-    ...x
-  }));
-
-  _store.$store$.resetIn(_constants.ROOT_, _root);
-
-  state$.subscribe((0, _rstream.sidechainPartition)((0, _rstream.fromRAF)())).transform((0, _transducers.map)(_arrays.peek), (0, _transducers.map)(shell), (0, _transducersHdom.updateDOM)({
-    root: _root,
-    span: false,
-    ctx: {
-      [_constants.run_]: x => _stream$.run$.next(x),
-      [_constants.state_]: _store.$store$,
-      // remove any staging path components (e.g., gh-pages)
-      [_utils.fURL.name]: () => // console.log({ fURL }),
-      (0, _utils.fURL)(window.location.href, RGX),
-      // <- 🔍
-      ...others
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
-  }));
 };
-
-exports.boot = boot;
-},{"@thi.ng/rstream":"RCxb","@thi.ng/arrays":"iKN7","@thi.ng/transducers":"GbKR","@thi.ng/transducers-hdom":"fEFP","@thi.ng/paths":"jkaf","../constants.js":"DFXy","../store":"si7o","../commands":"j2Dl","../tasks/routing.js":"dTfx","../utils":"BNjd","./stream$.js":"hI2k"}],"rgLt":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.multiplex = void 0;
-
-var _checks = require("@thi.ng/checks");
-
-var _constants = require("../constants.js");
-
-var _utils = require("../utils");
-
-var _stream$ = require("./stream$.js");
-
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var checks_1 = require("@thi.ng/checks");
+var keys_js_1 = require("../keys.js");
+var utils_1 = require("../utils");
+var stream__js_1 = require("./stream$.js");
+var err_str = "Spooling Interupted"; // <- add doc link to error strings
+var nosub$_err = function (c, i) {
+    return console.warn("\n  \uD83D\uDD25 No sub$ included for a Command with a primitive for 'args'. \n  \uD83D\uDD25 Ergo, nothing was done with this Command: \n  \n  " + JSON.stringify(c) + "\n  \n  " + utils_1.key_index_err(c, i) + "\n  \n  Hope that helps!\n  ");
+};
 /**
- * @module multiplex
- * @format
- */
-const err_str = "Spooling Interupted"; // <- add doc link to error strings
-
-const nosub$_err = (c, i) => console.warn(`
-  🔥 No sub$ included for a Command with a primitive for 'args'. 
-  🔥 Ergo, nothing was done with this Command: 
-  
-  ${JSON.stringify(c)}
-  
-  ${(0, _utils.key_index_err)(c, i)}
-  
-  Hope that helps!
-  `);
-/**
- *
- * ## `multiplex`
- *
- * ### TL;DR:
  *
  * Handles Collections (array) of Commands ("Tasks") which
  * require _ordered_ choreography and/or have a dependency
  * on some (a)sync data produced by a user interaction.
- *
- * ### Synopsis:
- *
- * - Async `reduce` function, that passes an accumulator
- *   (`acc`) as a local state container between Command
- *   invocations.
- * - Commands are composed in-situ in userland (Ad hoc)
- * - spools a collection of Commands as a Task
- * - resolves any promises contained within a Command
- * - passes an accumulator (acc) to subsequent Commands in a
- *   Task
- *
- * ### Type checks on function signatures
- *
- * There are two valid forms for Task entries:
- * 1. a Unary function returning an array of Commands:
- *    referred to as "Subtasks"
- * 2. A Command object: dispatch to registered handlers
- *
- * ## Recognized Keys
- *
- * There are 4 recognized keys for a Command object:
- *
- * ### Primary keys
- *
- * ##### `sub$` key
- *
- * - Topic identifier: used for registering handlers hooked
- *    onto the Command stream.
- *
- * ##### `args` key
- *
- * - __primary control structure__ with three recognized
- *   forms that do different things in the context of a
- *   Task:
- * - non-function `args` (primitives, objects) send the args
- *   as-is to the Command handler
- * - nullary fns (`(0)=>` ) send the args_ as a Command to
- *   a `sub$` _stream_ of your choosing (ADVANCED: see
- *   Ad-hoc Stream Injection below)
- * - unary fns (`(1)=>`) are passed the inter-Task
- *   accumulated value, called and the resulting value is
- *   passed to registered Command handler
- * - Promises (and those returned from `(1)=>`) are resolved
- *   and their values sent to the handler
- * - new vals (Objects) are merged with accumulated object
- *   from preceding Task results(dupe keys overwritten)
- *
- * ### Promise-specific keys -> binary (as in two parameter,
- *   not boolean) functions:
- *
- * ##### `reso` key
- *
- * - (resolving) function `(2)=>` = handle resolved
- *   promises: MUST be a binary fn `(acc, resolved Promise)
- *   =>`
- *
- * ##### `erro` key
- *
- * - `(2)=>` = handle rejected promises: MUST be
- *   a binary fn `(acc, Promise rejection) =>`
  *
  * ### Subtasks:
  *
@@ -26236,45 +25637,29 @@ const nosub$_err = (c, i) => console.warn(`
  *  acc => subtask1(acc), // subtask reference
  *  { sub$: "FLIP" , args: "done" }
  * ]
- *
  * ```
- *
- * #### Use:
- * ```js
- * import { run$ } from "hurl"
- *
- * export const run = e => run$.next(e);
- *
- * //... 📌 TODO...
- * ```
- *
- * ### Ad-hoc stream injection
- *
- * ADVANCED USE ONLY 👽
- *
- * HURL tries to hide the stream implentation from the user
- * as much as possible, but allows you to go further down
- * the rabbit hole if so desired. You may send Commands to a
- * separate stream of your own creation during a Task by
- * using a nullary ("thunk") `(0)=>` function signature as
- * the `args` value of a Command. If this is the case, the
- * spool assumes the `sub$` key references a stream and
- * sends the return value of the thunk to that stream
- *
- * > Note: if you need to pass the accumulator to your
- * thunk, put it in a subtask, where you can
- * access/destructure the data from the acc passed into the
- * subtask function
+ * ### Ad-hoc stream injection Example
  *
  * ```js
- * import { stream, trace } from "@thi.ng/rstream"
+ * import { stream } from "@thi.ng/rstream"
+ * import { map, comp } from "@thi.ng/transducers"
  *
  * // ad-hoc stream
- * let login = stream().subscribe(trace("login ->"))
+ * let login = stream().subscribe(comp(
+ *  map(x => console.log("login ->", x)),
+ *  map(({ token }) => loginToMyAuth(token))
+ * ))
+ *
+ * // subtask
+ * let subtask_login = ({ token }) => [
+ *  { sub$: login // <- stream
+ *  , args: () => ({ token }) } // <- use acc
+ * ]
  *
  * // task
  * let task = [
- *  { args: { href: "https://my.io/auth" } }, // <- no sub$, just pass data
+ *  // no sub$, just pass data
+ *  { args: { href: "https://my.io/auth" } },
  *  { sub$: login , args: () => "logging in..." },
  *  { sub$: "AUTH"
  *  , args: ({ href }) => fetch(href).then(r => r.json())
@@ -26283,747 +25668,469 @@ const nosub$_err = (c, i) => console.warn(`
  *  acc => subtask_login(acc),
  *  { sub$: login , args: () => "log in success" }
  * ]
- *
- * // subtask
- * let subtask_login = ({ token }) => [
- *  { sub$: login // <- stream
- *  , args: () => ({ token }) } // <- use acc
- * ]
  * ```
  *
  **/
+exports.multiplex = function (task_array) {
+    return task_array.reduce(function (a, c, i) { return __awaiter(void 0, void 0, void 0, function () {
+        var acc, recur, sub$, args, erro, reso, knowns, _a, unknowns, arg_type, result, temp, _b, error, resolved;
+        var _c, _d, _e;
+        return __generator(this, function (_f) {
+            switch (_f.label) {
+                case 0: return [4 /*yield*/, a
+                    // console.log("ACCUMULATOR =>", acc)
+                ];
+                case 1:
+                    acc = _f.sent();
+                    // console.log("ACCUMULATOR =>", acc)
+                    if (checks_1.isFunction(c)) {
+                        try {
+                            recur = c(acc);
+                            // ensures accumulator is preserved between stacks
+                            recur.unshift((_c = {}, _c[keys_js_1.CMD_ARGS] = acc, _c));
+                            return [2 /*return*/, exports.multiplex(recur)];
+                        }
+                        catch (e) {
+                            console.warn(err_str, e);
+                            return [2 /*return*/];
+                        }
+                    }
+                    sub$ = c[keys_js_1.CMD_SUB$];
+                    args = c[keys_js_1.CMD_ARGS];
+                    erro = c[keys_js_1.CMD_ERRO];
+                    reso = c[keys_js_1.CMD_RESO];
+                    knowns = [keys_js_1.CMD_SUB$, keys_js_1.CMD_ARGS, keys_js_1.CMD_RESO, keys_js_1.CMD_ERRO, keys_js_1.CMD_SRC$, keys_js_1.CMD_WORK];
+                    _a = __read(utils_1.diff_keys(knowns, c), 1), unknowns = _a[0];
+                    if (unknowns.length > 0)
+                        throw new Error(utils_1.xKeyError(err_str, c, unknowns, sub$, i));
+                    arg_type = utils_1.stringify_type(args);
+                    result = args;
+                    /* RESOLVING ARGS */
+                    if (arg_type !== "PROMISE" && reso) {
+                        /**
+                         * If some signature needs to deal with both Promises
+                         * and non-Promises, non-Promises are wrapped in a
+                         * Promise to "lift" them into the proper context for
+                         * handling
+                         */
+                        result = Promise.resolve(args);
+                    }
+                    if (args !== Object(args) && !sub$) {
+                        nosub$_err(c, i);
+                        return [2 /*return*/, acc];
+                    }
+                    if (!(arg_type === "PROMISE")) return [3 /*break*/, 3];
+                    return [4 /*yield*/, args.catch(function (e) { return e; })];
+                case 2:
+                    // result = await discardable(args).catch(e => e)
+                    result = _f.sent();
+                    _f.label = 3;
+                case 3:
+                    if (arg_type === "THUNK") {
+                        // if thunk, dispatch to ad-hoc stream, return acc
+                        // as-is ⚠ this command will not be waited on
+                        result = args();
+                        console.log("dispatching to ad-hoc stream: " + sub$.id);
+                        sub$.next(result);
+                        return [2 /*return*/, acc];
+                    }
+                    if (!(arg_type === "FUNCTION")) return [3 /*break*/, 7];
+                    temp = args(acc);
+                    if (!checks_1.isPromise(temp)) return [3 /*break*/, 5];
+                    return [4 /*yield*/, temp.catch(function (e) { return e; })];
+                case 4:
+                    _b = _f.sent();
+                    return [3 /*break*/, 6];
+                case 5:
+                    _b = temp;
+                    _f.label = 6;
+                case 6:
+                    result = _b;
+                    _f.label = 7;
+                case 7:
+                    // if object, send the Command as-is and spread into acc
+                    if (arg_type === "OBJECT") {
+                        if (!sub$)
+                            return [2 /*return*/, __assign(__assign({}, acc), args)];
+                        stream__js_1.command$.next(c);
+                        return [2 /*return*/, __assign(__assign({}, acc), args)];
+                    }
+                    /* RESULT HANDLERS */
+                    if (reso) {
+                        // promise rejection handler
+                        if (erro && result instanceof Error) {
+                            error = erro(acc, result);
+                            if (error.sub$)
+                                return [2 /*return*/, stream__js_1.command$.next(error)];
+                            console.warn(err_str, "[ Promise rejected ]:", result);
+                            result = error;
+                        }
+                        // resovled promise handler
+                        if (!(result instanceof Error)) {
+                            resolved = reso(acc, result);
+                            // resolved promise with no sub$ key -> spread
+                            // resolved value into acc
+                            if (resolved.sub$)
+                                stream__js_1.command$.next(resolved);
+                            else if (!sub$)
+                                return [2 /*return*/, __assign(__assign({}, acc), resolved)];
+                            result = resolved;
+                        }
+                        console.warn("no 'erro' (Error handler) set for " + c);
+                    }
+                    // no sub$ key & not a promise -> just spread into acc
+                    if (!reso && !sub$)
+                        return [2 /*return*/, __assign(__assign({}, acc), result)];
+                    // error, but no error handler
+                    if (result instanceof Error) {
+                        console.warn(err_str, result);
+                        return [2 /*return*/, acc];
+                    }
+                    if (result !== Object(result)) {
+                        if (!sub$) {
+                            nosub$_err(c, i);
+                            return [2 /*return*/, acc];
+                        }
+                        // if the final result is primitive, you can't refer
+                        // to this value in proceeding Commands -> send the
+                        // Command as-is, return acc as-is.
+                        stream__js_1.command$.next((_d = {}, _d[keys_js_1.CMD_SUB$] = sub$, _d[keys_js_1.CMD_ARGS] = result, _d));
+                        return [2 /*return*/, acc];
+                    }
+                    // if the result has made it this far, send it along
+                    // console.log(`${sub$} made it through`)
+                    stream__js_1.command$.next((_e = {}, _e[keys_js_1.CMD_SUB$] = sub$, _e[keys_js_1.CMD_ARGS] = result, _e));
+                    return [2 /*return*/, __assign(__assign({}, acc), result)];
+            }
+        });
+    }); }, Promise.resolve({}));
+};
 
-
-const multiplex = task_array => task_array.reduce(async (a, c, i) => {
-  const acc = await a; // console.log("ACCUMULATOR =>", acc)
-
-  if ((0, _checks.isFunction)(c)) {
-    try {
-      const recur = c(acc); // this ensures the accumulator is preserved between
-      // stacks
-
-      recur.unshift({
-        [_constants.args_]: acc
-      });
-      return multiplex(recur);
-    } catch (e) {
-      console.warn(err_str, e);
-      return;
-    }
-  }
-
-  const sub$ = c[_constants.sub$_];
-  const args = c[_constants.args_];
-  const erro = c[_constants.erro_];
-  const reso = c[_constants.reso_]; // const _source$ = c[source$]
-  // const _handler = c[handler]
-
-  const knowns = [_constants.sub$_, _constants.args_, _constants.reso_, _constants.erro_, _constants.source$_, _constants.handler_];
-  const [unknowns] = (0, _utils.diff_keys)(knowns, c);
-  if (unknowns.length > 0) throw new Error((0, _utils.x_key_ERR)(err_str, c, unknowns, sub$, i));
-  const arg_type = (0, _utils.stringify_type)(args);
-  let result = args;
-  /* RESOLVING ARGS */
-
-  if (arg_type !== "PROMISE" && reso) {
-    // if some signature needs to deal with both promises
-    // and non-promises, non-promises are wrapped in a
-    // Promise to "lift" them into the proper context for
-    // handling
-    result = Promise.resolve(args);
-  }
-
-  if (args !== Object(args) && !sub$) {
-    nosub$_err(c, i);
-    return acc;
-  }
-
-  if (arg_type === "PROMISE") {
-    // result = await discardable(args).catch(e => e)
-    result = await args.catch(e => e);
-  }
-
-  if (arg_type === "THUNK") {
-    // if thunk, dispatch to ad-hoc stream, return acc
-    // as-is ⚠ this command will not be waited on
-    result = args();
-    console.log(`dispatching to ad-hoc stream: ${sub$.id}`);
-    sub$.next(result); // 💃
-
-    return acc;
-  }
-
-  if (arg_type === "FUNCTION") {
-    // if function, call it with acc and resolve any
-    // promises
-    let temp = args(acc); // result = isPromise(temp) ? await discardable(temp).catch(e => e) : temp
-
-    result = (0, _checks.isPromise)(temp) ? await temp.catch(e => e) : temp;
-  }
-
-  if (arg_type === "OBJECT") {
-    // if object, send the Command as-is and spread into
-    // acc
-    if (!sub$) return { ...acc,
-      ...args
-    };
-
-    _stream$.command$.next(c);
-
-    return { ...acc,
-      ...args
-    };
-  }
-  /* RESULT HANDLERS */
-
-
-  if (reso) {
-    // promise rejection handler
-    if (erro & result instanceof Error) {
-      let error = (0, _constants.erro_)(acc, result);
-      if (error.sub$) return _stream$.command$.next(error);
-      console.warn(err_str, "[ Promise rejected ]:", result);
-      result = error;
-    } // resovled promise handler
-
-
-    if (!(result instanceof Error)) {
-      let resolved = reso(acc, result);
-      if (resolved.sub$) _stream$.command$.next(resolved); // resolved promise with no sub$ key -> spread
-      // resolved value into acc
-      else if (!sub$) return { ...acc,
-          ...resolved
-        };
-      result = resolved;
-    }
-
-    console.warn(`no 'erro' (Error handler) set for ${c}`);
-  } // no sub$ key & not a promise -> just spread into acc
-
-
-  if (!reso && !sub$) return { ...acc,
-    ...result
-  }; // error, but no error handler
-
-  if (result instanceof Error) {
-    console.warn(err_str, result);
-    return acc;
-  }
-
-  if (result !== Object(result)) {
-    if (!sub$) {
-      nosub$_err(c, i);
-      return acc;
-    } // if the final result is primitive, you can't refer
-    // to this value in proceeding Commands -> send the
-    // Command as-is, return acc as-is.
-
-
-    _stream$.command$.next({
-      [_constants.sub$_]: sub$,
-      [_constants.args_]: result
-    });
-
-    return acc;
-  } // if the result has made it this far, send it along
-  // console.log(`${sub$} made it through`)
-
-
-  _stream$.command$.next({
-    [_constants.sub$_]: sub$,
-    [_constants.args_]: result
-  });
-
-  return { ...acc,
-    ...result
-  };
-}, Promise.resolve({}));
-
-exports.multiplex = multiplex;
-},{"@thi.ng/checks":"XYpc","../constants.js":"DFXy","../utils":"BNjd","./stream$.js":"hI2k"}],"P12t":[function(require,module,exports) {
+},{"@thi.ng/checks":"XYpc","../keys.js":"mxIA","../utils":"HyAd","./stream$.js":"k8Vj"}],"oiqP":[function(require,module,exports) {
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "boot", {
-  enumerable: true,
-  get: function () {
-    return _registers.boot;
-  }
-});
-Object.defineProperty(exports, "registerCMD", {
-  enumerable: true,
-  get: function () {
-    return _registers.registerCMD;
-  }
-});
-Object.defineProperty(exports, "registerRouter", {
-  enumerable: true,
-  get: function () {
-    return _registers.registerRouter;
-  }
-});
-Object.defineProperty(exports, "registerRouterDOM", {
-  enumerable: true,
-  get: function () {
-    return _registers.registerRouterDOM;
-  }
-});
-Object.defineProperty(exports, "multiplex", {
-  enumerable: true,
-  get: function () {
-    return _multiplex.multiplex;
-  }
-});
-Object.defineProperty(exports, "DOMnavigated$", {
-  enumerable: true,
-  get: function () {
-    return _stream$.DOMnavigated$;
-  }
-});
-Object.defineProperty(exports, "DOMContentLoaded$", {
-  enumerable: true,
-  get: function () {
-    return _stream$.DOMContentLoaded$;
-  }
-});
-Object.defineProperty(exports, "command$", {
-  enumerable: true,
-  get: function () {
-    return _stream$.command$;
-  }
-});
-Object.defineProperty(exports, "out$", {
-  enumerable: true,
-  get: function () {
-    return _stream$.out$;
-  }
-});
-Object.defineProperty(exports, "popstate$", {
-  enumerable: true,
-  get: function () {
-    return _stream$.popstate$;
-  }
-});
-Object.defineProperty(exports, "run$", {
-  enumerable: true,
-  get: function () {
-    return _stream$.run$;
-  }
-});
-
-var _registers = require("./registers.js");
-
-var _multiplex = require("./multiplex.js");
-
-var _stream$ = require("./stream$.js");
-},{"./registers.js":"bbvI","./multiplex.js":"rgLt","./stream$.js":"hI2k"}],"GVGW":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.FLIPkid = void 0;
-
-var _commands = require("../commands");
-
-var _constants = require("../constants.js");
-
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
- * @module FLIP
- * @format
+ * @module tasks/task$
  */
-
+// explicit imports = prevent circular deps
+var stream__js_1 = require("../core/stream$.js");
+var multiplex_js_1 = require("../core/multiplex.js");
 /**
- * There're only 3 lifecycle hooks. render is called for
- * every update and is just providing the actual hiccup for
- * that component. if that component is used the first time,
- * the order is normalizeTree -> render -> diff -> init.
- * The actual DOM element is only known when init is called,
- * NEVER during render (though you could cache it as local
- * component state). If during diffing it turns out the
- * component is not used anymore, then release will be
- * called
  *
- * if the object identity of your life cycle component
- * changes with every update then that count as full
- * replacement and would trigger init each time:
- *
- * https://github.com/thi-ng/umbrella/wiki/Higher-order-components
- *
- * init is called in so called "post-order", i.e. when it
- * executes all children are already present in the DOM (and
- * might have had their init hooks called) first time = 1st
- * frame the component appears in the DOM
+ * Task stream that handles Arrays of Commands. Dispatches
+ * to `multiplex`er (the heart of `spule`)
  *
  */
-const err_str = prop => `
-  No '${prop}' property found on FLIPkid firstChild. 
-  Ensure you are providing FLIPkid a component with an 
-  attributes object as its second argument with a ${prop}
-  property for proper FLIP routing.
-`; // const [tag, attrs, ..._args] = kid(ctx, ...args)
-// const { href } = attrs
+exports.task$ = stream__js_1.run$.subscribeTopic(false, {
+    next: multiplex_js_1.multiplex,
+    error: console.warn
+}, { id: "task$_stream" });
 
+},{"../core/stream$.js":"k8Vj","../core/multiplex.js":"idkx"}],"AbdI":[function(require,module,exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var routing_js_1 = require("./routing.js");
+exports.URL_DOM__ROUTE = routing_js_1.URL_DOM__ROUTE;
+exports.URL__ROUTE = routing_js_1.URL__ROUTE;
+var task__js_1 = require("./task$.js");
+exports.task$ = task__js_1.task$;
 
-const sim_event = href => ({
-  currentTarget: {
-    document: null
-  },
-  target: {
-    href
-  }
-});
-
-const FLIPkid = Object.freeze({
-  render: (ctx, ...rest) => // console.log("FLIPkid"),
-  ["div", {
-    onclick: ev => {
-      ev.preventDefault();
-      const target = ev.target;
-      const href = target.getAttribute("href"); // console.log({ target, href })
-
-      if (!href) return new Error(err_str("href"));
-
-      ctx[_constants.run_]([{ ..._commands.HURL,
-        [_constants.args_]: sim_event(href)
-      }, { ..._commands.FLIP_FIRST,
-        [_constants.args_]: {
-          id: href,
-          target
+},{"./routing.js":"wUee","./task$.js":"oiqP"}],"FihC":[function(require,module,exports) {
+"use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
         }
-      }]);
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
     }
-  }, ...rest],
-  init: (el, ctx) => {
-    // console.log({
-    //   el,
-    //   firstChild: el.firstChild,
-    //   id: el.firstChild.getAttribute("href")
-    // }),
-    ctx[_constants.run_]({ ..._commands.FLIP_LAST_INVERSE_PLAY,
-      [_constants.args_]: {
-        element: el.firstChild,
-        id: el.firstChild.getAttribute("href")
-      }
-    });
-  }
-});
-exports.FLIPkid = FLIPkid;
-},{"../commands":"j2Dl","../constants.js":"DFXy"}],"Kr4k":[function(require,module,exports) {
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * @module core/registers
+ */
+var rstream_1 = require("@thi.ng/rstream");
+var arrays_1 = require("@thi.ng/arrays");
+var transducers_1 = require("@thi.ng/transducers");
+var transducers_hdom_1 = require("@thi.ng/transducers-hdom");
+var paths_1 = require("@thi.ng/paths");
+var keys_js_1 = require("../keys.js");
+var store_1 = require("../store");
+var register_js_1 = require("../commands/register.js");
+var tasks_1 = require("../tasks");
+var utils_1 = require("../utils");
+var stream__js_1 = require("./stream$.js");
+/**
+ *
+ * expects payload of
+ * ```
+ * { target: { location: { href } }, currentTarget }
+ * ```
+ */
+exports.registerRouterDOM = function (router) {
+    var _a;
+    console.log("DOM Router Registered");
+    var taskFrom = tasks_1.URL_DOM__ROUTE(router);
+    return register_js_1.registerCMD((_a = {},
+        _a[keys_js_1.CMD_SRC$] = stream__js_1.DOMnavigated$,
+        _a[keys_js_1.CMD_SUB$] = "_URL_NAVIGATED$_DOM",
+        _a[keys_js_1.CMD_ARGS] = function (x) { return x; },
+        _a[keys_js_1.CMD_WORK] = function (args) {
+            var _a;
+            return stream__js_1.run$.next(taskFrom((_a = {}, _a[keys_js_1.URL_FULL] = args[keys_js_1.URL_FULL], _a[keys_js_1.DOM_NODE] = args[keys_js_1.DOM_NODE], _a)));
+        },
+        _a));
+};
+// TODO: server router must be fed from `http` or something (req/res), not `DOMnavigated$`
+// export const registerRouter = router => {
+//   console.log("Router Registered")
+//   const taskFrom = URL__ROUTE(router)
+//   return registerCMD({
+//     [CMD_SUB$]: "_URL_NAVIGATED$",
+//     [CMD_SRC$]: DOMnavigated$,
+//     [CMD_ARGS]: x => x,
+//     [CMD_WORK]: args =>
+//       run$.next(taskFrom({ [URL_FULL]: args[URL_FULL], [DOM_NODE]: args[DOM_NODE] }))
+//   })
+// }
+var pre = function (ctx, body) { return (console.log("\n    no " + keys_js_1.CFG_VIEW + " component provided to boot({ CFG }). \n    Rendering state by route path\n    "),
+    ["pre", JSON.stringify(body[1], null, 2)]); };
+// prettier-ignore
+/**
+ *
+ * Options Object keys
+ * - root   : DOM mount node
+ * - app    : root application node
+ * - draft  : state scaffolding Object
+ * - router : url matching function or config Object
+ * - trace  : string triggers logs prepended with it
+ * - kick   : boolean triggers kickstart (for some sandboxes)
+ * - prefix : ignore a part of the URL (e.g., gitub.io/<prefix>)
+ *
+ */
+exports.boot = function (CFG) {
+    var _a;
+    var root = CFG[keys_js_1.CFG_ROOT] || document.body;
+    var view = CFG[keys_js_1.CFG_VIEW] || pre;
+    var draft = CFG[keys_js_1.CFG_DRFT];
+    var router = CFG[keys_js_1.CFG_RUTR];
+    var log$ = CFG[keys_js_1.CFG_LOG$];
+    var kick = CFG[keys_js_1.CFG_KICK];
+    var knowns = [keys_js_1.CFG_ROOT, keys_js_1.CFG_VIEW, keys_js_1.CFG_DRFT, keys_js_1.CFG_RUTR, keys_js_1.CFG_LOG$];
+    var prfx = router[keys_js_1.ROUTER_PRFX] || null;
+    var _b = __read(utils_1.diff_keys(knowns, CFG), 2), others = _b[1];
+    var escRGX = /[-/\\^$*+?.()|[\]{}]/g;
+    var escaped = function (str) { return str.replace(escRGX, "\\$&"); };
+    var RGX = prfx ? new RegExp(escaped(prfx || ""), "g") : null;
+    if (router)
+        exports.registerRouterDOM(router);
+    var state$ = rstream_1.fromAtom(store_1.$store$);
+    var shell = function (state$) { return (log$ ? console.log(log$, state$) : null,
+        state$[keys_js_1.$$_LOAD]
+            ? null
+            : [view, [state$[keys_js_1.$$_VIEW], paths_1.getIn(state$, state$[keys_js_1.$$_PATH])]]); };
+    if (draft)
+        store_1.$store$.swap(function (x) { return (__assign(__assign({}, draft), x)); });
+    store_1.$store$.resetIn(keys_js_1.$$_ROOT, root);
+    state$.subscribe(rstream_1.sidechainPartition(rstream_1.fromRAF())).transform(transducers_1.map(arrays_1.peek), transducers_1.map(shell), transducers_hdom_1.updateDOM({
+        root: root,
+        span: false,
+        ctx: __assign((_a = {}, _a[keys_js_1.CFG_RUN$] = function (x) { return stream__js_1.run$.next(x); }, _a[keys_js_1.CFG_STOR] = store_1.$store$, _a[keys_js_1.URL_PRSE] = function () {
+            // console.log({ FURL }),
+            return utils_1.parse(window.location.href, RGX);
+        }, _a), others)
+    }));
+    // Just a little kick in the pants for those stubborn sandboxes
+    if (kick) {
+        stream__js_1.DOMnavigated$.next({
+            target: document,
+            currentTarget: document
+        });
+    }
+};
+
+},{"@thi.ng/rstream":"RCxb","@thi.ng/arrays":"iKN7","@thi.ng/transducers":"GbKR","@thi.ng/transducers-hdom":"fEFP","@thi.ng/paths":"jkaf","../keys.js":"mxIA","../store":"nhWS","../commands/register.js":"r0tB","../tasks":"AbdI","../utils":"HyAd","./stream$.js":"k8Vj"}],"pQ7l":[function(require,module,exports) {
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var registers_js_1 = require("./registers.js");
+exports.boot = registers_js_1.boot;
+// , registerRouter
+exports.registerRouterDOM = registers_js_1.registerRouterDOM;
+var multiplex_js_1 = require("./multiplex.js");
+exports.multiplex = multiplex_js_1.multiplex;
+var stream__js_1 = require("./stream$.js");
+exports.DOMnavigated$ = stream__js_1.DOMnavigated$;
+exports.DOMContentLoaded$ = stream__js_1.DOMContentLoaded$;
+exports.command$ = stream__js_1.command$;
+exports.out$ = stream__js_1.out$;
+exports.popstate$ = stream__js_1.popstate$;
+exports.run$ = stream__js_1.run$;
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "FLIPkid", {
-  enumerable: true,
-  get: function () {
-    return _FLIPkid.FLIPkid;
-  }
-});
-
-var _FLIPkid = require("./FLIPkid.js");
-},{"./FLIPkid.js":"GVGW"}],"q9Vk":[function(require,module,exports) {
+},{"./registers.js":"FihC","./multiplex.js":"idkx","./stream$.js":"k8Vj"}],"aR6u":[function(require,module,exports) {
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
+/**
+ * @module components/FLIPkid
+ */
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
+var __spread = (this && this.__spread) || function () {
+    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
+    return ar;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var commands_1 = require("../commands");
+var keys_js_1 = require("../keys.js");
+var err_str = function (prop) { return "\n  No '" + prop + "' property found on FLIPkid firstChild. \n  Ensure you are providing FLIPkid a component with an \n  attributes object as its second argument with a " + prop + "\n  property for proper FLIP routing.\n"; };
+// const [tag, attrs, ..._args] = kid(ctx, ...args)
+// const { href } = attrs
+var sim_event = function (href) { return ({
+    currentTarget: { document: null },
+    target: {
+        href: href
+    }
+}); };
+/**
+ * FLIP (First Last Invert Play) Animating component. Wraps
+ * a component that has an `href` attribute and uses it to
+ * trigger a routing event and FLIP animation between
+ * instances on separate routes (provides a "magic
+ * move"-like UX)
+ *
+ */
+exports.FLIPkid = Object.freeze({
+    render: function (ctx) {
+        var rest = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            rest[_i - 1] = arguments[_i];
+        }
+        // console.log("FLIPkid"),
+        return __spread([
+            "div",
+            {
+                onclick: function (ev) {
+                    var _a, _b;
+                    ev.preventDefault();
+                    var target = ev.target;
+                    var href = target.getAttribute("href");
+                    // console.log({ target, href })
+                    if (!href)
+                        return new Error(err_str("href"));
+                    ctx[keys_js_1.CFG_RUN$]([
+                        __assign(__assign({}, commands_1.HURL), (_a = {}, _a[keys_js_1.CMD_ARGS] = sim_event(href), _a)),
+                        __assign(__assign({}, commands_1.FLIP_FIRST), (_b = {}, _b[keys_js_1.CMD_ARGS] = { id: href, target: target }, _b))
+                    ]);
+                }
+            }
+        ], rest);
+    },
+    init: function (el, ctx) {
+        var _a;
+        // console.log({
+        //   el,
+        //   firstChild: el.firstChild,
+        //   id: el.firstChild.getAttribute("href")
+        // }),
+        ctx[keys_js_1.CFG_RUN$](__assign(__assign({}, commands_1.FLIP_LAST_INVERSE_PLAY), (_a = {}, _a[keys_js_1.CMD_ARGS] = {
+            element: el.firstChild,
+            id: el.firstChild.getAttribute("href")
+        }, _a)));
+    }
 });
-exports.task$ = void 0;
 
-var _stream$ = require("../core/stream$.js");
-
-var _multiplex = require("../core/multiplex.js");
-
-const task$ = _stream$.run$.subscribeTopic(false, {
-  next: _multiplex.multiplex,
-  error: console.warn
-}, {
-  id: "task$_stream"
-});
-
-exports.task$ = task$;
-},{"../core/stream$.js":"hI2k","../core/multiplex.js":"rgLt"}],"B1Dx":[function(require,module,exports) {
+},{"../commands":"FoiB","../keys.js":"mxIA"}],"vqxy":[function(require,module,exports) {
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var FLIPkid_js_1 = require("./FLIPkid.js");
+exports.FLIPkid = FLIPkid_js_1.FLIPkid;
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "__URL_DOM__ROUTE", {
-  enumerable: true,
-  get: function () {
-    return _routing.__URL_DOM__ROUTE;
-  }
-});
-Object.defineProperty(exports, "__URL__ROUTE", {
-  enumerable: true,
-  get: function () {
-    return _routing.__URL__ROUTE;
-  }
-});
-Object.defineProperty(exports, "task$", {
-  enumerable: true,
-  get: function () {
-    return _task$.task$;
-  }
-});
-
-var _routing = require("./routing.js");
-
-var _task$ = require("./task$.js");
-},{"./routing.js":"dTfx","./task$.js":"q9Vk"}],"K6of":[function(require,module,exports) {
+},{"./FLIPkid.js":"aR6u"}],"e053":[function(require,module,exports) {
 "use strict";
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+/** @format */
+var commands_1 = require("./commands");
+exports.FLIP_FIRST = commands_1.FLIP_FIRST;
+exports.FLIP_LAST_INVERSE_PLAY = commands_1.FLIP_LAST_INVERSE_PLAY;
+exports.INJECT_HEAD = commands_1.INJECT_HEAD;
+exports.HURL = commands_1.HURL;
+exports.HURLer = commands_1.HURLer;
+exports.createSetStateCMD = commands_1.createSetStateCMD;
+exports.registerCMD = commands_1.registerCMD;
+var core_1 = require("./core");
+exports.boot = core_1.boot;
+// registerRouter,
+exports.registerRouterDOM = core_1.registerRouterDOM;
+exports.DOMnavigated$ = core_1.DOMnavigated$;
+exports.run$ = core_1.run$;
+exports.command$ = core_1.command$;
+exports.out$ = core_1.out$;
+var store_1 = require("./store");
+exports.$store$ = store_1.$store$;
+exports.set$$tate = store_1.set$$tate;
+var components_1 = require("./components");
+exports.FLIPkid = components_1.FLIPkid;
+var tasks_1 = require("./tasks");
+exports.URL_DOM__ROUTE = tasks_1.URL_DOM__ROUTE;
+exports.URL__ROUTE = tasks_1.URL__ROUTE;
+exports.task$ = tasks_1.task$;
+var keys = __importStar(require("./keys.js"));
+exports.keys = keys;
+var utils_1 = require("./utils");
+exports.trace$ = utils_1.trace$;
+exports.unparse = utils_1.unparse;
+exports.parse = utils_1.parse;
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "FLIP_FIRST", {
-  enumerable: true,
-  get: function () {
-    return _commands.FLIP_FIRST;
-  }
-});
-Object.defineProperty(exports, "FLIP_LAST_INVERSE_PLAY", {
-  enumerable: true,
-  get: function () {
-    return _commands.FLIP_LAST_INVERSE_PLAY;
-  }
-});
-Object.defineProperty(exports, "INJECT_HEAD", {
-  enumerable: true,
-  get: function () {
-    return _commands.INJECT_HEAD;
-  }
-});
-Object.defineProperty(exports, "HURL", {
-  enumerable: true,
-  get: function () {
-    return _commands.HURL;
-  }
-});
-Object.defineProperty(exports, "HURLer", {
-  enumerable: true,
-  get: function () {
-    return _commands.HURLer;
-  }
-});
-Object.defineProperty(exports, "SET_STATE", {
-  enumerable: true,
-  get: function () {
-    return _commands.SET_STATE;
-  }
-});
-Object.defineProperty(exports, "registerCMD", {
-  enumerable: true,
-  get: function () {
-    return _commands.registerCMD;
-  }
-});
-Object.defineProperty(exports, "boot", {
-  enumerable: true,
-  get: function () {
-    return _core.boot;
-  }
-});
-Object.defineProperty(exports, "registerRouter", {
-  enumerable: true,
-  get: function () {
-    return _core.registerRouter;
-  }
-});
-Object.defineProperty(exports, "registerRouterDOM", {
-  enumerable: true,
-  get: function () {
-    return _core.registerRouterDOM;
-  }
-});
-Object.defineProperty(exports, "DOMnavigated$", {
-  enumerable: true,
-  get: function () {
-    return _core.DOMnavigated$;
-  }
-});
-Object.defineProperty(exports, "run$", {
-  enumerable: true,
-  get: function () {
-    return _core.run$;
-  }
-});
-Object.defineProperty(exports, "command$", {
-  enumerable: true,
-  get: function () {
-    return _core.command$;
-  }
-});
-Object.defineProperty(exports, "out$", {
-  enumerable: true,
-  get: function () {
-    return _core.out$;
-  }
-});
-Object.defineProperty(exports, "$store$", {
-  enumerable: true,
-  get: function () {
-    return _store.$store$;
-  }
-});
-Object.defineProperty(exports, "set$$tate", {
-  enumerable: true,
-  get: function () {
-    return _store.set$$tate;
-  }
-});
-Object.defineProperty(exports, "FLIPkid", {
-  enumerable: true,
-  get: function () {
-    return _components.FLIPkid;
-  }
-});
-Object.defineProperty(exports, "__URL_DOM__ROUTE", {
-  enumerable: true,
-  get: function () {
-    return _tasks.__URL_DOM__ROUTE;
-  }
-});
-Object.defineProperty(exports, "__URL__ROUTE", {
-  enumerable: true,
-  get: function () {
-    return _tasks.__URL__ROUTE;
-  }
-});
-Object.defineProperty(exports, "task$", {
-  enumerable: true,
-  get: function () {
-    return _tasks.task$;
-  }
-});
-Object.defineProperty(exports, "BODY_", {
-  enumerable: true,
-  get: function () {
-    return _constants.BODY_;
-  }
-});
-Object.defineProperty(exports, "DEFAULT_CFG", {
-  enumerable: true,
-  get: function () {
-    return _constants.DEFAULT_CFG;
-  }
-});
-Object.defineProperty(exports, "DOM_", {
-  enumerable: true,
-  get: function () {
-    return _constants.DOM_;
-  }
-});
-Object.defineProperty(exports, "HEAD_", {
-  enumerable: true,
-  get: function () {
-    return _constants.HEAD_;
-  }
-});
-Object.defineProperty(exports, "PAGE_TEMPLATE_", {
-  enumerable: true,
-  get: function () {
-    return _constants.PAGE_TEMPLATE_;
-  }
-});
-Object.defineProperty(exports, "ROOT_", {
-  enumerable: true,
-  get: function () {
-    return _constants.ROOT_;
-  }
-});
-Object.defineProperty(exports, "ROUTE_LOADING_", {
-  enumerable: true,
-  get: function () {
-    return _constants.ROUTE_LOADING_;
-  }
-});
-Object.defineProperty(exports, "ROUTE_PATH_", {
-  enumerable: true,
-  get: function () {
-    return _constants.ROUTE_PATH_;
-  }
-});
-Object.defineProperty(exports, "URL_", {
-  enumerable: true,
-  get: function () {
-    return _constants.URL_;
-  }
-});
-Object.defineProperty(exports, "URL_data_", {
-  enumerable: true,
-  get: function () {
-    return _constants.URL_data_;
-  }
-});
-Object.defineProperty(exports, "URL_domain_", {
-  enumerable: true,
-  get: function () {
-    return _constants.URL_domain_;
-  }
-});
-Object.defineProperty(exports, "URL_hash_", {
-  enumerable: true,
-  get: function () {
-    return _constants.URL_hash_;
-  }
-});
-Object.defineProperty(exports, "URL_page_", {
-  enumerable: true,
-  get: function () {
-    return _constants.URL_page_;
-  }
-});
-Object.defineProperty(exports, "URL_path_", {
-  enumerable: true,
-  get: function () {
-    return _constants.URL_path_;
-  }
-});
-Object.defineProperty(exports, "URL_query_", {
-  enumerable: true,
-  get: function () {
-    return _constants.URL_query_;
-  }
-});
-Object.defineProperty(exports, "URL_subdomain_", {
-  enumerable: true,
-  get: function () {
-    return _constants.URL_subdomain_;
-  }
-});
-Object.defineProperty(exports, "app_", {
-  enumerable: true,
-  get: function () {
-    return _constants.app_;
-  }
-});
-Object.defineProperty(exports, "args_", {
-  enumerable: true,
-  get: function () {
-    return _constants.args_;
-  }
-});
-Object.defineProperty(exports, "draft_", {
-  enumerable: true,
-  get: function () {
-    return _constants.draft_;
-  }
-});
-Object.defineProperty(exports, "erro_", {
-  enumerable: true,
-  get: function () {
-    return _constants.erro_;
-  }
-});
-Object.defineProperty(exports, "handler_", {
-  enumerable: true,
-  get: function () {
-    return _constants.handler_;
-  }
-});
-Object.defineProperty(exports, "post_", {
-  enumerable: true,
-  get: function () {
-    return _constants.post_;
-  }
-});
-Object.defineProperty(exports, "prefix_", {
-  enumerable: true,
-  get: function () {
-    return _constants.prefix_;
-  }
-});
-Object.defineProperty(exports, "prep_", {
-  enumerable: true,
-  get: function () {
-    return _constants.prep_;
-  }
-});
-Object.defineProperty(exports, "reso_", {
-  enumerable: true,
-  get: function () {
-    return _constants.reso_;
-  }
-});
-Object.defineProperty(exports, "root_", {
-  enumerable: true,
-  get: function () {
-    return _constants.root_;
-  }
-});
-Object.defineProperty(exports, "router_", {
-  enumerable: true,
-  get: function () {
-    return _constants.router_;
-  }
-});
-Object.defineProperty(exports, "run_", {
-  enumerable: true,
-  get: function () {
-    return _constants.run_;
-  }
-});
-Object.defineProperty(exports, "source$_", {
-  enumerable: true,
-  get: function () {
-    return _constants.source$_;
-  }
-});
-Object.defineProperty(exports, "state_", {
-  enumerable: true,
-  get: function () {
-    return _constants.state_;
-  }
-});
-Object.defineProperty(exports, "sub$_", {
-  enumerable: true,
-  get: function () {
-    return _constants.sub$_;
-  }
-});
-Object.defineProperty(exports, "trace_", {
-  enumerable: true,
-  get: function () {
-    return _constants.trace_;
-  }
-});
-Object.defineProperty(exports, "trace$", {
-  enumerable: true,
-  get: function () {
-    return _utils.trace$;
-  }
-});
-Object.defineProperty(exports, "fURL", {
-  enumerable: true,
-  get: function () {
-    return _utils.fURL;
-  }
-});
-Object.defineProperty(exports, "unfURL", {
-  enumerable: true,
-  get: function () {
-    return _utils.unfURL;
-  }
-});
-
-var _commands = require("./commands");
-
-var _core = require("./core");
-
-var _store = require("./store");
-
-var _components = require("./components");
-
-var _tasks = require("./tasks");
-
-var _constants = require("./constants.js");
-
-var _utils = require("./utils");
-},{"./commands":"j2Dl","./core":"P12t","./store":"si7o","./components":"Kr4k","./tasks":"B1Dx","./constants.js":"DFXy","./utils":"BNjd"}],"QcZX":[function(require,module,exports) {
+},{"./commands":"FoiB","./core":"pQ7l","./store":"nhWS","./components":"vqxy","./tasks":"AbdI","./keys.js":"mxIA","./utils":"HyAd"}],"QcZX":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29581,7 +28688,6 @@ var _spule = require("spule");
 
 var _theme = require("./theme");
 
-// import "regenerator-runtime"
 // import scrolly from "@mapbox/scroll-restorer"
 // scrolly.start()
 // ⚠ <=> API SURFACE AREA TOO LARGE <=> ⚠ .
@@ -29605,8 +28711,8 @@ var _theme = require("./theme");
 //                Y8""8D
 //
 const log = console.log; // trace$("run$ ->", run$)
-// trace$("command$ ->", command$)
-// trace$("out$ ->", out$)
+
+(0, _spule.trace$)("command$ ->", _spule.command$); // trace$("out$ ->", out$)
 //
 //        888             d8
 //   e88~\888   /~~~8e  _d88__   /~~~8e
@@ -29652,14 +28758,14 @@ const getSomeJSON = async (path, uid) => {
       }
     } = detail;
     return {
-      HEAD: {
+      [_spule.keys.DOM.HEAD]: {
         title: `${name}'s Details`,
         description: `${name} handles ${catchPhrase}`,
         image: {
           url: img_base(uid, 600)
         }
       },
-      BODY: {
+      [_spule.keys.DOM.BODY]: {
         // lesson -> don't use the actual url as the uid (not flexible)
         img: img_base(uid, 600),
         // this needs fixin' 📌
@@ -29670,14 +28776,14 @@ const getSomeJSON = async (path, uid) => {
   })() : (async () => {
     let list = await fetch(`${text_base}${path}/`).then(r => r.json());
     return {
-      HEAD: {
+      [_spule.keys.DOM.HEAD]: {
         title: `${path.replace(/^\w/, c => c.toUpperCase())} list`,
         description: `List page for ${path}`,
         image: {
           url: img_base(222, 200)
         }
       },
-      BODY: list.map((c, i) => ({
+      [_spule.keys.DOM.BODY]: list.map((c, i) => ({
         img: img_base(i + 1, 200),
         text: c,
         uid: i + 1
@@ -29721,54 +28827,53 @@ const getSomeJSON = async (path, uid) => {
 
 
 const routerCfg = async url => {
-  let match = (0, _spule.fURL)(url);
-  let {
-    // URL,
-    // URL_subdomain, // array
-    // URL_domain, // array
-    // URL_query, // object
-    // URL_hash, // string
-    URL_path // array
+  let match = (0, _spule.parse)(url); // let {
+  // URL,
+  // URL_subdomain, // array
+  // URL_domain, // array
+  // URL_query, // object
+  // URL_hash, // string
+  // URL_path // array
+  // } = match
 
-  } = match;
-  let [, p_b] = URL_path;
-  let {
-    URL_data,
-    URL_page
-  } = new _associative.EquivMap([[{ ...match,
-    URL_path: ["todos"]
+  let path = match[_spule.keys.URL.PATH];
+  let [, p_b] = path;
+  let RES = new _associative.EquivMap([[{ ...match,
+    [_spule.keys.URL.PATH]: ["todos"]
   }, {
-    URL_data: () => getSomeJSON("todos"),
-    URL_page: set
+    [_spule.keys.URL.DATA]: () => getSomeJSON("todos"),
+    [_spule.keys.URL.PAGE]: set
   }], [{ ...match,
-    URL_path: ["todos", p_b]
+    [_spule.keys.URL.PATH]: ["todos", p_b]
   }, {
-    URL_data: () => getSomeJSON("todos", p_b),
-    URL_page: single
+    [_spule.keys.URL.DATA]: () => getSomeJSON("todos", p_b),
+    [_spule.keys.URL.PAGE]: single
   }], [{ ...match,
-    URL_path: ["users"]
+    [_spule.keys.URL.PATH]: ["users"]
   }, {
-    URL_data: () => getSomeJSON("users"),
-    URL_page: set
+    [_spule.keys.URL.DATA]: () => getSomeJSON("users"),
+    [_spule.keys.URL.PAGE]: set
   }], [{ ...match,
-    URL_path: ["users", p_b]
+    [_spule.keys.URL.PATH]: ["users", p_b]
   }, {
-    URL_data: () => getSomeJSON("users", p_b),
-    URL_page: single
+    [_spule.keys.URL.DATA]: () => getSomeJSON("users", p_b),
+    [_spule.keys.URL.PAGE]: single
   }], // home page (empty path)
   [{ ...match,
-    URL_path: []
+    [_spule.keys.URL.PATH]: []
   }, {
-    URL_data: () => getSomeJSON("users", 1),
-    URL_page: single
+    [_spule.keys.URL.DATA]: () => getSomeJSON("users", 1),
+    [_spule.keys.URL.PAGE]: single
   }] // get match || 404 data
   ]).get(match) || {
-    URL_data: () => getSomeJSON("users", 9),
-    URL_page: single
+    [_spule.keys.URL.DATA]: () => getSomeJSON("users", 9),
+    [_spule.keys.URL.PAGE]: single
   };
+  let data = RES[_spule.keys.URL.DATA];
+  let page = RES[_spule.keys.URL.PAGE];
   return {
-    URL_data: await URL_data(),
-    URL_page
+    [_spule.keys.URL.DATA]: await data(),
+    [_spule.keys.URL.PAGE]: page
   };
 }; //
 //  888            888
@@ -29794,7 +28899,7 @@ const child = (ctx, id, img, sz, ...args) => // log("child"),
     height: "600px",
     width: "600px"
   },
-  href: sz === "sm" ? `/${ctx.fURL().URL_path}/${id}` : `/${ctx.fURL().URL_path.join("/")}`
+  href: sz === "sm" ? `/${ctx[_spule.keys.URL.PRSE]()[_spule.keys.URL.PATH]}/${id}` : `/${ctx[_spule.keys.URL.PRSE]()[_spule.keys.URL.PATH].join("/")}`
 }, ...args];
 
 const zoomOnNav = (ctx, id, img, sz) => [_spule.FLIPkid, [child, id, img, sz]]; //////////////////// FLIP API 🔺  //////////////////////////
@@ -29837,7 +28942,7 @@ const pathLink = (ctx, uid, ...args) => // log("pathLink"),
 uid === 3 ? {
   disabled: true
 } : {
-  href: `/${ctx.fURL().URL_path}/${uid}`,
+  href: `/${ctx[_spule.keys.URL.PRSE]()[_spule.keys.URL.PATH]}/${uid}`,
   onclick: e => {
     e.preventDefault();
     ctx.run({ ..._spule.HURL,
@@ -29893,19 +28998,20 @@ page]; // TODO: add default / 404 page here (could help the ugly $page.deref() |
 
 
 const router = {
-  prefix: "ac/",
-  router: routerCfg,
-  post: _spule.INJECT_HEAD
+  [_spule.keys.ROUTER.RUTR]: routerCfg,
+  [_spule.keys.ROUTER.PRFX]: "ac/",
+  [_spule.keys.ROUTER.POST]: _spule.INJECT_HEAD
 }; // const router = routerCfg
 
 const w_config = {
-  app,
-  router,
-  root: document.getElementById("app"),
+  [_spule.keys.CFG.VIEW]: app,
+  [_spule.keys.CFG.RUTR]: router,
+  [_spule.keys.CFG.ROOT]: document.getElementById("app"),
   // <- 🔍
-  prefix: "ac/",
-  // draft: { users: [] },
-  // trace: "app stream ->",
+  [_spule.keys.CFG.DRFT]: {
+    users: []
+  },
+  [_spule.keys.CFG.LOG$]: "app stream ->",
   // arbitrary context k/v pairs...
   theme: _theme.THEME
 };
@@ -29916,5 +29022,5 @@ const w_config = {
 
 console.log("registered Commands:", _spule.registerCMD.all.entries());
 console.log("starting...");
-},{"@thi.ng/paths":"jkaf","@thi.ng/checks":"XYpc","@thi.ng/associative":"GmJl","spule":"K6of","./theme":"ndBe"}]},{},["Focm"], null)
-//# sourceMappingURL=streaming_API.6b3e0936.js.map
+},{"@thi.ng/paths":"jkaf","@thi.ng/checks":"XYpc","@thi.ng/associative":"GmJl","spule":"e053","./theme":"ndBe"}]},{},["Focm"], null)
+//# sourceMappingURL=streaming_API.166945dd.js.map
