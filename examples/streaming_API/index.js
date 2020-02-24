@@ -41,8 +41,8 @@ import { THEME } from "./theme"
 
 const log = console.log
 
-// trace$("run$ ->", run$)
-trace$("command$ ->", command$)
+trace$("run$ ->", run$)
+// trace$("command$ ->", command$)
 // trace$("out$ ->", out$)
 
 //
